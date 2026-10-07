@@ -1,8 +1,8 @@
-Go outside of this project and read petoria/docs/ai first!
+Go outside of this project and read ticketzy/docs/ai first!
 
-# Petoria Frontend Modification Instructions
+# Ticketzy Frontend Modification Instructions
 
-This client project is being migrated from nestar-next to petoria-next
+This client project is being migrated from nestar-next to ticketzy-next
 
 ## Rules
 
@@ -27,7 +27,7 @@ Before making any changes, read:
 3. Make small incremental changes.
 4. Run typecheck after each phase.
 5. Do not remove working logic unless replaced safely.
-6. Update petoria/docs/ai/COMPLETED_TASKS.md after major changes.
+6. Update ticketzy/docs/ai/COMPLETED_TASKS.md after major changes.
 
 ## Package Manager
 
