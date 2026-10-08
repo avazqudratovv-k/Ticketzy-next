@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { FormField, useErrorText } from './fields';
 import { StepProps } from './types';
 
-const StepVenue = ({ editor, readOnly }: StepProps) => {
+const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVenue?: () => void }) => {
 	const { t } = useTranslation('organizer');
 	const { locale } = useRouter();
 	const text = useErrorText();
@@ -36,7 +36,17 @@ const StepVenue = ({ editor, readOnly }: StepProps) => {
 				</p>
 			)}
 
-			<FormField label={t('form.venue.venue')} required error={text(errors.venueId)} hint={t('form.venue.createLater')}>
+			<FormField label={t('form.venue.venue')} required error={text(errors.venueId)} hint={
+					onCreateVenue && !locked ? (
+						<>
+							{t('form.venue.createLater')}{' '}
+							<button type="button" className="tz-link org-linkbtn" onClick={onCreateVenue}>
+								{t('form.venue.createLink')}
+							</button>
+						</>
+					) : undefined
+				}
+			>
 				<select
 					className="tz-input"
 					value={values.venueId}

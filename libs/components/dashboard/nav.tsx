@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Icon,
 	ChartBar,
+	MapPin,
 	CheckCircle,
 	CreditCard,
 	Calendar,
@@ -44,6 +45,7 @@ export const ORGANIZER_NAV: NavGroup[] = [
 		items: [
 			{ href: '/organizer', label: 'dashboard.nav.overview', icon: icon(SquaresFour), exact: true },
 			{ href: '/organizer/events', label: 'dashboard.nav.events', icon: icon(Calendar) },
+			{ href: '/organizer/venues', label: 'dashboard.nav.venues', icon: icon(MapPin) },
 			{ href: '/organizer/attendees', label: 'dashboard.nav.attendees', icon: icon(UsersThree) },
 			{ href: '/organizer/check-in', label: 'dashboard.nav.checkIn', icon: icon(Scan) },
 			{ href: '/organizer/payouts', label: 'dashboard.nav.payouts', icon: icon(CreditCard) },

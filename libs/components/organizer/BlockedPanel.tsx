@@ -11,7 +11,7 @@ import { OrganizerAccess } from '../../organizer/events';
  * Said instead of the page when the organizer cannot write yet. The backend refuses every organizer operation of a
  * PENDING, REJECTED or SUSPENDED account (ActiveOrganizerGuard), so the pages do not even try.
  */
-const BlockedPanel = ({ access, action }: { access: Exclude<OrganizerAccess, 'active'>; action: 'create' | 'events' }) => {
+const BlockedPanel = ({ access, action }: { access: Exclude<OrganizerAccess, 'active'>; action: 'create' | 'events' | 'venues' }) => {
 	const { t } = useTranslation('organizer');
 	const { user } = useAuth();
 	const Icon = access === 'pending' ? Clock : access === 'rejected' ? WarningCircle : Prohibit;

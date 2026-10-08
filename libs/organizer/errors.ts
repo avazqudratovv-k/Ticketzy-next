@@ -29,6 +29,14 @@ const KNOWN: Record<string, string> = {
 	'Upload failed!': 'uploadFailed',
 	'You are not authenticated, please login first!': 'notAuthenticated',
 	'Your account was not verified. Please contact support.': 'notVerified',
+	'The venue layout is not valid!': 'layoutInvalid',
+	'The venue layout needs at least one section!': 'layoutNoSections',
+	'Section keys in a venue layout must be unique!': 'layoutDuplicateKey',
+	'Rows and seats per row must be whole numbers between 1 and 100!': 'layoutBadGrid',
+	'A standing section needs a capacity of at least 1!': 'layoutCapacity',
+	'A seated section needs a tier key!': 'layoutTier',
+	'The venue timezone must be a valid IANA timezone!': 'badTimezone',
+	'The layout of this venue cannot change because an event that uses it already has seats!': 'layoutLocked',
 };
 
 const AI: Record<string, string> = {

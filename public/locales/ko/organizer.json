@@ -36,7 +36,15 @@
     "imageFormat": "JPG 또는 PNG 이미지를 사용해 주세요.",
     "uploadFailed": "업로드하지 못했어요. 다시 시도해 주세요.",
     "notAuthenticated": "세션이 종료되었어요. 다시 로그인해 주세요.",
-    "notVerified": "계정이 인증되지 않았어요. 고객 지원에 문의해 주세요."
+    "notVerified": "계정이 인증되지 않았어요. 고객 지원에 문의해 주세요.",
+    "layoutInvalid": "서버가 이 배치를 받아들이지 못했어요. 문제로 표시된 구역을 확인해 주세요.",
+    "layoutNoSections": "배치에 구역을 하나 이상 추가해 주세요.",
+    "layoutDuplicateKey": "두 구역이 같은 키를 쓰고 있어요. 키는 겹치면 안 돼요.",
+    "layoutBadGrid": "줄 수와 줄당 좌석 수는 1에서 100 사이의 정수여야 해요.",
+    "layoutCapacity": "스탠딩 구역의 수용 인원은 1 이상이어야 해요.",
+    "layoutTier": "모든 좌석 구역에는 가격 등급 키가 필요해요.",
+    "badTimezone": "올바른 시간대가 아니에요. 목록에서 선택해 주세요.",
+    "layoutLocked": "이 공연장을 쓰는 이벤트에 이미 좌석이 있어서 배치를 바꿀 수 없어요. 다른 변경 사항은 저장할 수 있어요."
   },
   "blocked": {
     "reason": "사유: {{reason}}",
@@ -45,19 +53,22 @@
       "title": "주최자 계정이 승인을 기다리고 있어요",
       "create": "관리자가 계정을 승인하면 이벤트를 만들고 게시할 수 있어요. 승인되는 즉시 알려 드릴게요.",
       "events": "관리자가 계정을 승인하면 여기에서 이벤트를 볼 수 있어요. 그때까지는 이벤트를 만들거나 게시할 수 없어요.",
-      "dashboard": "이벤트 만들기와 게시는 승인 후에 열려요."
+      "dashboard": "이벤트 만들기와 게시는 승인 후에 열려요.",
+      "venues": "관리자가 계정을 승인하면 공연장을 만들고 관리할 수 있어요. 승인되는 즉시 알려 드릴게요."
     },
     "rejected": {
       "title": "주최자 계정이 승인되지 않았어요",
       "create": "승인되지 않은 계정으로는 이벤트를 만들거나 게시할 수 없어요. 잘못된 결정이라고 생각되면 고객 지원에 문의해 주세요.",
       "events": "계정이 승인되지 않아 이벤트를 변경할 수 없어요. 잘못된 결정이라고 생각되면 고객 지원에 문의해 주세요.",
-      "dashboard": "계정이 승인될 때까지 이벤트를 만들거나 게시할 수 없어요."
+      "dashboard": "계정이 승인될 때까지 이벤트를 만들거나 게시할 수 없어요.",
+      "venues": "계정이 승인되지 않아 공연장을 만들거나 바꿀 수 없어요. 잘못된 결정이라고 생각되면 고객 지원에 문의해 주세요."
     },
     "suspended": {
       "title": "주최자 계정이 정지되었어요",
       "create": "계정이 정지된 동안에는 이벤트를 만들거나 게시할 수 없어요. 해제에 필요한 조건은 고객 지원에 문의해 주세요.",
       "events": "계정이 정지된 동안에는 이벤트를 변경할 수 없어요. 해제에 필요한 조건은 고객 지원에 문의해 주세요.",
-      "dashboard": "계정이 정지된 동안에는 이벤트를 만들거나 게시할 수 없어요."
+      "dashboard": "계정이 정지된 동안에는 이벤트를 만들거나 게시할 수 없어요.",
+      "venues": "계정이 정지된 동안에는 공연장을 만들거나 바꿀 수 없어요. 해제에 필요한 조건은 고객 지원에 문의해 주세요."
     }
   },
   "dashboard": {
@@ -202,7 +213,7 @@
       "placeholder": "공연장 선택",
       "loading": "공연장 불러오는 중…",
       "loadError": "공연장을 불러오지 못했어요.",
-      "createLater": "원하는 공연장이 없나요? 공연장 만들기는 다음 업데이트에서 제공돼요.",
+      "createLater": "원하는 공연장이 없나요?",
       "capacity": "수용 인원: {{formatted}}",
       "noCapacity": "수용 인원 미정",
       "tiers": "좌석 등급: {{count}}",
@@ -227,7 +238,8 @@
       "endTime": "종료 시간",
       "zone": "시간은 공연장 시간대 기준이에요: {{zone}}.",
       "zoneUnknown": "먼저 공연장을 선택해 주세요. 시간은 공연장의 시간대로 해석돼요.",
-      "sameDay": "같은 날 종료"
+      "sameDay": "같은 날 종료",
+      "createLink": "새 공연장 만들기"
     },
     "tickets": {
       "introGeneral": "가격별로 티켓 종류를 하나씩 추가하세요. 예: 일반, VIP. 관객은 수량을 고르고, 판매 가능한 수는 직접 정해요.",
@@ -414,6 +426,275 @@
     },
     "loadError": {
       "title": "이벤트를 불러오지 못했어요"
+    }
+  },
+  "venues": {
+    "leave": "이 공연장에 저장하지 않은 변경 사항이 있어요. 저장하지 않고 나갈까요?",
+    "defaults": {
+      "seated": "구역",
+      "standing": "스탠딩"
+    },
+    "types": {
+      "STADIUM": "경기장",
+      "THEATER": "극장",
+      "CLUB": "클럽",
+      "HALL": "홀",
+      "OPEN_AIR": "야외",
+      "ONLINE": "온라인"
+    },
+    "kind": {
+      "SEATED": "좌석",
+      "STANDING": "스탠딩"
+    },
+    "spacing": {
+      "COMPACT": "좁게",
+      "NORMAL": "보통",
+      "WIDE": "넓게"
+    },
+    "list": {
+      "title": "공연장",
+      "subtitle": "내가 만든 공연장이에요. 이벤트마다 이 중 하나를 골라 좌석을 정해요.",
+      "create": "공연장 만들기",
+      "search": "공연장 검색",
+      "searchPlaceholder": "이름, 도시, 주소로 검색",
+      "sorts": {
+        "newest": "최근 생성 순",
+        "name": "이름 순",
+        "capacity": "수용 인원 많은 순"
+      },
+      "loading": "공연장 불러오는 중",
+      "error": {
+        "title": "공연장을 불러오지 못했어요",
+        "text": "불러오는 중에 문제가 생겼어요. 다시 시도해 주세요."
+      },
+      "empty": {
+        "title": "아직 공연장이 없어요",
+        "text": "공연장을 만들고 좌석을 배치하거나, 준비된 템플릿으로 시작해 보세요. 지정석 이벤트를 만들려면 먼저 공연장이 있어야 해요."
+      },
+      "none": {
+        "title": "일치하는 공연장이 없어요",
+        "text": "다른 이름, 도시 또는 주소로 검색해 보세요.",
+        "clear": "검색 지우기"
+      },
+      "cols": {
+        "venue": "공연장",
+        "city": "도시",
+        "timezone": "시간대",
+        "capacity": "수용 인원",
+        "events": "이벤트",
+        "actions": "작업"
+      },
+      "edit": "편집",
+      "view": "보기",
+      "locked": "배치 잠김",
+      "lockedTip": "좌석이 생성된 이벤트가 이 공연장을 쓰고 있어서 배치를 바꿀 수 없어요.",
+      "showing": "{{total}}개 중 {{from}}–{{to}}번째",
+      "note": "‘이벤트’는 이 공연장을 쓰는 내 이벤트 수예요. 다른 주최자의 이벤트는 표시되지 않아요."
+    },
+    "form": {
+      "titleNew": "공연장 만들기",
+      "backToList": "공연장 목록으로",
+      "backToEvent": "이벤트로 돌아가기",
+      "save": "공연장 저장",
+      "create": "공연장 만들기",
+      "saving": "저장하는 중…",
+      "unsaved": "저장하지 않은 변경 사항",
+      "savedAt": "{{time}}에 저장됨",
+      "allSaved": "모든 변경 사항이 저장됐어요",
+      "notSavedYet": "아직 저장되지 않았어요",
+      "foreign": "읽기 전용: 다른 주최자의 공연장이에요",
+      "savedTitle": "공연장을 저장했어요.",
+      "savedText": "이 공연장을 쓰는 이벤트에도 변경 사항이 반영돼요.",
+      "createdTitle": "공연장을 만들었어요.",
+      "createdText": "배치를 계속 편집하거나 이벤트에서 사용할 수 있어요.",
+      "saveFailed": "공연장을 저장하지 못했어요.",
+      "fixFirst": "먼저 아래를 고쳐 주세요.",
+      "sectionsHaveErrors": "배치에 문제가 {{n}}건 있어요. 문제가 있는 구역은 목록에 표시돼요.",
+      "details": "공연장 정보",
+      "name": "공연장 이름",
+      "type": "공연장 유형",
+      "city": "도시",
+      "address": "주소",
+      "timezone": "시간대",
+      "timezoneSearch": "검색 (예: Seoul 또는 +9)",
+      "timezoneNone": "일치하는 시간대가 없어요.",
+      "timezoneMore": "{{n}}개 더 있어요. 더 입력해서 좁혀 보세요.",
+      "timezoneHint": "이 공연장의 이벤트 시간은 {{zone}} 기준으로 표시돼요.",
+      "timezoneDefault": "이 공연장의 이벤트 시간은 이 시간대로 표시돼요. 기본값은 Asia/Seoul이에요.",
+      "errors": {
+        "nameLength": "2~100자로 입력해 주세요.",
+        "cityLength": "2~100자로 입력해 주세요.",
+        "addressLength": "3~200자로 입력해 주세요.",
+        "timezone": "목록에서 시간대를 선택해 주세요."
+      }
+    },
+    "images": {
+      "title": "사진",
+      "none": "사진이 없어요.",
+      "rules": "PNG 또는 JPEG, 파일당 최대 {{size}}MB, 최대 {{max}}장.",
+      "choose": "사진 선택",
+      "max": "공연장 사진은 최대 {{max}}장까지 올릴 수 있어요.",
+      "listLabel": "공연장 사진",
+      "alt": "공연장 사진 {{number}}"
+    },
+    "layout": {
+      "title": "좌석 배치",
+      "intro": "{{width}} × {{height}} 캔버스에 구역을 배치해요. 구매자에게도 같은 모양으로 보여요.",
+      "view": "보기",
+      "edit": "지도 편집",
+      "preview": "구매자 미리보기",
+      "tools": "배치 도구",
+      "addSeated": "좌석 구역 추가",
+      "addStanding": "스탠딩 구역 추가",
+      "loadTemplate": "템플릿 불러오기",
+      "undo": "실행 취소",
+      "redo": "다시 실행",
+      "capacity": "전체 수용 인원:",
+      "seatsCount": "좌석: {{formatted}}",
+      "standingCount": "스탠딩: {{formatted}}",
+      "sectionsCount": "구역: {{n}}",
+      "empty": "아직 구역이 없어요. 좌석 구역이나 스탠딩 구역을 추가하거나 템플릿을 불러오세요.",
+      "previewNote": "구매자에게 보이는 지도예요. 모든 좌석이 선택 가능으로 표시돼요.",
+      "tiers": "이 배치의 가격 등급",
+      "tierSeats": "좌석 {{formatted}}석, 구역 {{sections}}개"
+    },
+    "canvas": {
+      "label": "공연장 배치 캔버스, {{size}}. 구역을 끌어서 옮기세요.",
+      "grid": "격자",
+      "snap": "{{size}} 단위로 맞춤",
+      "field": "필드"
+    },
+    "panel": {
+      "label": "구역 속성과 목록",
+      "none": "지도나 목록에서 구역을 선택하면 편집할 수 있어요.",
+      "previewOnly": "구역을 바꾸려면 ‘지도 편집’으로 전환해 주세요.",
+      "sections": "구역 ({{n}})",
+      "hasError": "문제 있음",
+      "hasWarning": "경고 있음",
+      "title": "구역: {{name}}",
+      "unnamed": "이름 없는 구역",
+      "sumSeated": "{{rows}}줄 × {{seats}}석 = {{total}}석",
+      "sumStanding": "스탠딩 {{total}}명",
+      "readOnly": "이 배치는 바꿀 수 없어요. 둘러보고 구역을 선택할 수는 있어요.",
+      "serverSays": "서버 응답: {{text}}",
+      "name": "구역 이름",
+      "key": "키",
+      "keyHint": "BALCONY처럼 짧고 고유한 코드예요. 좌석 이름에 쓰이니 자주 바꾸지 마세요.",
+      "kind": "유형",
+      "rows": "줄 수",
+      "seatsPerRow": "줄당 좌석 수",
+      "spacing": "좌석 간격",
+      "spacingHint": "좌석 크기가 아니라 좌석 사이 간격을 바꿔요.",
+      "tier": "가격 등급 키",
+      "tierHint": "키가 같은 좌석 구역은 이벤트에서 하나의 티켓 종류를 함께 써요.",
+      "capacity": "수용 인원",
+      "capacityHint": "입장할 수 있는 인원이에요. 스탠딩 구역에는 번호가 있는 좌석이 없어요.",
+      "rotation": "회전",
+      "rotateLeft": "왼쪽으로 15° 회전",
+      "rotateRight": "오른쪽으로 15° 회전",
+      "reset": "초기화",
+      "position": "위치 (중심)",
+      "positionHint": "{{width}} × {{height}} 캔버스 기준이에요.",
+      "duplicate": "복제",
+      "delete": "삭제",
+      "decrease": "줄이기: {{field}}",
+      "increase": "늘리기: {{field}}"
+    },
+    "issues": {
+      "keyRequired": "키를 입력해 주세요.",
+      "keyTooLong": "키는 최대 {{keyMax}}자예요.",
+      "keyDuplicate": "다른 구역이 이미 이 키를 쓰고 있어요.",
+      "nameRequired": "이름을 입력해 주세요.",
+      "nameTooLong": "이름은 최대 {{nameMax}}자예요.",
+      "rowsRange": "줄 수는 1에서 {{max}} 사이의 정수여야 해요.",
+      "seatsRange": "줄당 좌석 수는 1에서 {{max}} 사이의 정수여야 해요.",
+      "capacityRange": "수용 인원은 1 이상의 정수여야 해요.",
+      "tierRequired": "좌석 구역에는 가격 등급 키가 필요해요.",
+      "tierTooLong": "등급 키는 최대 {{tierMax}}자예요.",
+      "centerOutside": "중심은 {{width}} × {{height}} 캔버스 안에 있어야 해요.",
+      "notANumber": "위치와 회전에는 숫자를 입력해 주세요.",
+      "noSections": "구역을 하나 이상 추가해 주세요."
+    },
+    "warnings": {
+      "overlapWith": "‘{{name}}’과(와) 겹쳐요. 저장은 할 수 있지만 구매자가 지도를 읽기 어려울 수 있어요.",
+      "extends": "이 구역의 일부가 캔버스 밖에 있어요.",
+      "summary": "겹치거나 캔버스를 벗어난 구역: {{n}}. 그래도 저장할 수 있어요.",
+      "orphan": "‘{{tier}}’ 등급은 {{events}}의 티켓 종류에서 쓰이는데, 이제 이 키를 가진 좌석 구역이 없어요. 구역이 다시 이 키를 쓰거나 티켓 종류를 바꾸기 전에는 해당 이벤트를 승인받을 수 없어요."
+    },
+    "lock": {
+      "title": "배치가 잠겨 있어요.",
+      "text": "이 공연장에서 이미 좌석이 생성된 내 이벤트가 있어요(총 {{n}}개):",
+      "more": "외 {{n}}개.",
+      "rest": "이름, 주소, 사진, 시간대는 계속 바꿀 수 있어요.",
+      "foreign": "다른 주최자가 만든 공연장이에요. 볼 수만 있고 바꿀 수는 없어요.",
+      "serverOnly": "이 공연장에 이미 좌석이 생성된 이벤트가 있다고 서버가 알려 왔어요(다른 주최자의 이벤트일 수 있어요). 그래서 배치가 잠겼어요.",
+      "discard": "배치 변경 내용 버리기",
+      "usedNote": "내 이벤트 {{n}}개가 이 공연장을 쓰고 있어요. 좌석은 이벤트가 승인될 때 생성되고, 그 뒤에는 배치가 잠겨요."
+    },
+    "templates": {
+      "title": "템플릿 불러오기",
+      "intro": "준비된 배치로 시작해서 원하는 대로 바꿔 보세요.",
+      "replace": "캔버스의 구역 {{n}}개가 바뀌어요. 실행 취소로 되돌릴 수 있어요.",
+      "meta": "구역: {{sections}} · 수용 인원: {{capacity}}",
+      "use": "이 배치 사용",
+      "cancel": "취소",
+      "theater": {
+        "name": "소극장",
+        "text": "무대를 마주한 앞줄, 세 블록의 오케스트라석, 발코니석이에요.",
+        "sections": {
+          "FRONT": "앞줄",
+          "ORCH_C": "오케스트라 중앙",
+          "ORCH_L": "오케스트라 왼쪽",
+          "ORCH_R": "오케스트라 오른쪽",
+          "BALCONY": "발코니"
+        }
+      },
+      "stadium": {
+        "name": "스탠딩 플로어가 있는 경기장",
+        "text": "가운데는 스탠딩 필드, 사방에 좌석 스탠드가 있어요.",
+        "sections": {
+          "FLOOR": "스탠딩 플로어",
+          "NORTH": "북쪽 스탠드",
+          "SOUTH": "남쪽 스탠드",
+          "EAST": "동쪽 스탠드",
+          "WEST": "서쪽 스탠드"
+        }
+      },
+      "club": {
+        "name": "코미디 클럽 테이블",
+        "text": "테이블 두 줄과 뒤쪽 스탠딩 바예요.",
+        "sections": {
+          "TABLE": "테이블",
+          "BAR": "스탠딩 바"
+        }
+      }
+    },
+    "delete": {
+      "title": "‘{{name}}’을(를) 삭제할까요?",
+      "textSeated": "이 구역의 {{n}}석이 배치에서 사라져요.",
+      "textStanding": "스탠딩 구역이 배치에서 사라져요.",
+      "undo": "실행 취소로 되돌릴 수 있어요.",
+      "cancel": "유지",
+      "confirm": "구역 삭제"
+    },
+    "shortcuts": {
+      "title": "키보드와 터치",
+      "move": "구역을 끌어서 옮기고, 빈 캔버스를 끌어서 화면을 이동해요.",
+      "nudge": "방향키로 선택한 구역을 {{step}}씩 옮겨요. Shift를 누르면 {{big}}씩 옮겨요.",
+      "delete": "Delete 또는 Backspace로 선택한 구역을 삭제해요(확인 후).",
+      "undo": "Ctrl+Z(⌘Z)는 실행 취소, Ctrl+Shift+Z(⌘⇧Z) 또는 Ctrl+Y는 다시 실행이에요. 최근 100단계까지 돼요.",
+      "duplicate": "Ctrl+D(⌘D)로 선택한 구역을 복제해요.",
+      "zoom": "두 손가락으로 모으거나 벌리거나, Ctrl(⌘)을 누른 채 스크롤해서 확대·축소해요."
+    },
+    "edit": {
+      "loadError": {
+        "title": "공연장을 불러오지 못했어요",
+        "text": "불러오는 중에 문제가 생겼어요. 다시 시도해 주세요."
+      },
+      "notFound": {
+        "title": "공연장을 찾을 수 없어요",
+        "text": "삭제되었거나 링크가 잘못됐을 수 있어요."
+      }
     }
   }
 }

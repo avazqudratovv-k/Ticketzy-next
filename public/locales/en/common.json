@@ -86,7 +86,8 @@
       "refunds": "Refunds",
       "users": "Users",
       "catalog": "Categories and venues",
-      "settings": "Platform settings"
+      "settings": "Platform settings",
+      "venues": "Venues"
     },
     "overviewTitle": "Overview",
     "adminOverviewTitle": "Platform overview"

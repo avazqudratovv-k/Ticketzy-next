@@ -36,7 +36,15 @@
     "imageFormat": "JPG yoki PNG rasmdan foydalaning.",
     "uploadFailed": "Yuklash amalga oshmadi. Qayta urinib koʻring.",
     "notAuthenticated": "Seansingiz tugadi. Qaytadan kiring.",
-    "notVerified": "Akkauntingiz tasdiqlanmagan. Qoʻllab-quvvatlash xizmatiga murojaat qiling."
+    "notVerified": "Akkauntingiz tasdiqlanmagan. Qoʻllab-quvvatlash xizmatiga murojaat qiling.",
+    "layoutInvalid": "Server sxemani qabul qilmadi. Muammoli deb belgilangan seksiyalarni tekshiring.",
+    "layoutNoSections": "Sxemaga kamida bitta seksiya qoʻshing.",
+    "layoutDuplicateKey": "Ikkita seksiyaning kaliti bir xil. Kalitlar noyob boʻlishi kerak.",
+    "layoutBadGrid": "Qatorlar va qatordagi oʻrindiqlar soni 1 dan 100 gacha butun son boʻlishi kerak.",
+    "layoutCapacity": "Tik turish joyining sigʻimi kamida 1 boʻlishi kerak.",
+    "layoutTier": "Har bir oʻrindiqli seksiyaga narx toifasi kaliti kerak.",
+    "badTimezone": "Bunday vaqt mintaqasi yoʻq. Roʻyxatdan birini tanlang.",
+    "layoutLocked": "Sxemani oʻzgartirib boʻlmaydi: bu joydagi tadbirda oʻrindiqlar allaqachon bor. Boshqa oʻzgarishlarni saqlash mumkin."
   },
   "blocked": {
     "reason": "Koʻrsatilgan sabab: {{reason}}",
@@ -45,19 +53,22 @@
       "title": "Tashkilotchi akkauntingiz tasdiqlanishini kutmoqda",
       "create": "Administrator akkauntingizni tasdiqlagach, tadbir yaratish va e’lon qilish mumkin boʻladi. Tasdiqlanishi bilan sizga xabar beramiz.",
       "events": "Administrator akkauntingizni tasdiqlagach, tadbirlaringiz shu yerda koʻrinadi. Shu vaqtgacha tadbir yaratish va e’lon qilish mumkin emas.",
-      "dashboard": "Tadbir yaratish va e’lon qilish tasdiqlangandan keyin yoqiladi."
+      "dashboard": "Tadbir yaratish va e’lon qilish tasdiqlangandan keyin yoqiladi.",
+      "venues": "Administrator akkauntingizni tasdiqlagach, joylarni yaratish va boshqarish mumkin boʻladi. Tasdiqlanishi bilan sizga xabar beramiz."
     },
     "rejected": {
       "title": "Tashkilotchi akkauntingiz tasdiqlanmadi",
       "create": "Tasdiqlanmagan akkauntdan tadbir yaratish va e’lon qilish mumkin emas. Agar bu xato deb hisoblasangiz, qoʻllab-quvvatlash xizmatiga murojaat qiling.",
       "events": "Akkaunt tasdiqlanmagani uchun tadbirlaringizni oʻzgartirib boʻlmaydi. Agar bu xato deb hisoblasangiz, qoʻllab-quvvatlash xizmatiga murojaat qiling.",
-      "dashboard": "Akkaunt tasdiqlanmaguncha tadbir yaratish va e’lon qilish mumkin emas."
+      "dashboard": "Akkaunt tasdiqlanmaguncha tadbir yaratish va e’lon qilish mumkin emas.",
+      "venues": "Akkaunt tasdiqlanmagani uchun joy yaratib yoki oʻzgartirib boʻlmaydi. Agar bu xato deb hisoblasangiz, qoʻllab-quvvatlash xizmatiga murojaat qiling."
     },
     "suspended": {
       "title": "Tashkilotchi akkauntingiz toʻxtatilgan",
       "create": "Akkaunt toʻxtatilgan vaqtda tadbir yaratish va e’lon qilish mumkin emas. Cheklovni olib tashlash uchun nima kerakligini qoʻllab-quvvatlash xizmatidan soʻrang.",
       "events": "Akkaunt toʻxtatilgan vaqtda tadbirlarni oʻzgartirib boʻlmaydi. Cheklovni olib tashlash uchun nima kerakligini qoʻllab-quvvatlash xizmatidan soʻrang.",
-      "dashboard": "Akkaunt toʻxtatilgan vaqtda tadbir yaratish va e’lon qilish mumkin emas."
+      "dashboard": "Akkaunt toʻxtatilgan vaqtda tadbir yaratish va e’lon qilish mumkin emas.",
+      "venues": "Akkaunt toʻxtatilgan vaqtda joy yaratib yoki oʻzgartirib boʻlmaydi. Cheklovni olib tashlash uchun nima kerakligini qoʻllab-quvvatlash xizmatidan soʻrang."
     }
   },
   "dashboard": {
@@ -202,7 +213,7 @@
       "placeholder": "Joyni tanlang",
       "loading": "Joylar yuklanmoqda…",
       "loadError": "Joylarni yuklab boʻlmadi.",
-      "createLater": "Joyingizni topa olmayapsizmi? Joy yaratish keyingi yangilanishda qoʻshiladi.",
+      "createLater": "Joyingizni topa olmayapsizmi?",
       "capacity": "Sigʻimi: {{formatted}}",
       "noCapacity": "Sigʻimi koʻrsatilmagan",
       "tiers": "Oʻrindiq toifalari: {{count}}",
@@ -227,7 +238,8 @@
       "endTime": "Tugash vaqti",
       "zone": "Vaqt joyning vaqt zonasida koʻrsatiladi: {{zone}}.",
       "zoneUnknown": "Avval joyni tanlang: vaqt uning vaqt zonasida hisoblanadi.",
-      "sameDay": "Xuddi shu kuni tugasin"
+      "sameDay": "Xuddi shu kuni tugasin",
+      "createLink": "Yangi joy yaratish"
     },
     "tickets": {
       "introGeneral": "Har bir narx uchun bittadan chipta turini qoʻshing, masalan Standart va VIP. Mehmonlar miqdorni tanlaydi, nechta chipta mavjudligini esa siz belgilaysiz.",
@@ -414,6 +426,275 @@
     },
     "loadError": {
       "title": "Tadbirni yuklab boʻlmadi"
+    }
+  },
+  "venues": {
+    "leave": "Bu joyda saqlanmagan oʻzgarishlar bor. Saqlamasdan chiqasizmi?",
+    "defaults": {
+      "seated": "Seksiya",
+      "standing": "Tik turish"
+    },
+    "types": {
+      "STADIUM": "Stadion",
+      "THEATER": "Teatr",
+      "CLUB": "Klub",
+      "HALL": "Zal",
+      "OPEN_AIR": "Ochiq havo",
+      "ONLINE": "Onlayn"
+    },
+    "kind": {
+      "SEATED": "Oʻrindiqli",
+      "STANDING": "Tik turish"
+    },
+    "spacing": {
+      "COMPACT": "Zich",
+      "NORMAL": "Oddiy",
+      "WIDE": "Keng"
+    },
+    "list": {
+      "title": "Joylar",
+      "subtitle": "Siz yaratgan joylar. Har bir tadbir oʻrindiqlar uchun shulardan birini tanlaydi.",
+      "create": "Joy yaratish",
+      "search": "Joylarni qidirish",
+      "searchPlaceholder": "Nomi, shahri yoki manzili boʻyicha qidiring",
+      "sorts": {
+        "newest": "Yaqinda yaratilgan",
+        "name": "Nomi boʻyicha",
+        "capacity": "Sigʻimi boʻyicha: avval kattalari"
+      },
+      "loading": "Joylar yuklanmoqda",
+      "error": {
+        "title": "Joylaringizni yuklab boʻlmadi",
+        "text": "Yuklashda nimadir xato ketdi. Qayta urinib koʻring."
+      },
+      "empty": {
+        "title": "Hozircha joylar yoʻq",
+        "text": "Joy yarating va oʻrindiqlarini joylashtiring yoki tayyor shablondan boshlang. Oʻrindiqlari band qilinadigan tadbir yaratish uchun avval joy kerak."
+      },
+      "none": {
+        "title": "Mos joy topilmadi",
+        "text": "Boshqa nom, shahar yoki manzil bilan urinib koʻring.",
+        "clear": "Qidiruvni tozalash"
+      },
+      "cols": {
+        "venue": "Joy",
+        "city": "Shahar",
+        "timezone": "Vaqt mintaqasi",
+        "capacity": "Sigʻimi",
+        "events": "Tadbirlar",
+        "actions": "Amallar"
+      },
+      "edit": "Tahrirlash",
+      "view": "Koʻrish",
+      "locked": "Sxema qulflangan",
+      "lockedTip": "Bu joydan oʻrindiqlari yaratilgan tadbir foydalanmoqda, shuning uchun sxemani oʻzgartirib boʻlmaydi.",
+      "showing": "{{total}} tadan {{from}}–{{to}} koʻrsatilmoqda",
+      "note": "“Tadbirlar” ustunida bu joydagi faqat oʻzingizning tadbirlaringiz sanaladi. Boshqa tashkilotchilarning tadbirlari bu yerda koʻrsatilmaydi."
+    },
+    "form": {
+      "titleNew": "Joy yaratish",
+      "backToList": "Joylarga qaytish",
+      "backToEvent": "Tadbirga qaytish",
+      "save": "Joyni saqlash",
+      "create": "Joy yaratish",
+      "saving": "Saqlanmoqda…",
+      "unsaved": "Saqlanmagan oʻzgarishlar bor",
+      "savedAt": "Soat {{time}} da saqlandi",
+      "allSaved": "Barcha oʻzgarishlar saqlandi",
+      "notSavedYet": "Hali saqlanmagan",
+      "foreign": "Faqat koʻrish: bu joy boshqa tashkilotchiga tegishli",
+      "savedTitle": "Joy saqlandi.",
+      "savedText": "Bu joydagi tadbirlar oʻzgarishlarni koʻradi.",
+      "createdTitle": "Joy yaratildi.",
+      "createdText": "Sxemani tahrirlashda davom etishingiz yoki joyni tadbirda ishlatishingiz mumkin.",
+      "saveFailed": "Joy saqlanmadi.",
+      "fixFirst": "Avval xatolarni tuzating.",
+      "sectionsHaveErrors": "Sxemadagi muammolar: {{n}}. Muammoli seksiyalar roʻyxatda belgilangan.",
+      "details": "Joy maʼlumotlari",
+      "name": "Joy nomi",
+      "type": "Joy turi",
+      "city": "Shahar",
+      "address": "Manzil",
+      "timezone": "Vaqt mintaqasi",
+      "timezoneSearch": "Qidiring, masalan Seoul yoki +9",
+      "timezoneNone": "Mos vaqt mintaqasi topilmadi.",
+      "timezoneMore": "Yana {{n}} ta. Roʻyxatni qisqartirish uchun yozishda davom eting.",
+      "timezoneHint": "Bu joydagi tadbir vaqtlari {{zone}} boʻyicha koʻrsatiladi.",
+      "timezoneDefault": "Bu joydagi tadbir vaqtlari shu mintaqa boʻyicha koʻrsatiladi. Standart qiymat: Asia/Seoul.",
+      "errors": {
+        "nameLength": "2 dan 100 gacha belgi kiriting.",
+        "cityLength": "2 dan 100 gacha belgi kiriting.",
+        "addressLength": "3 dan 200 gacha belgi kiriting.",
+        "timezone": "Roʻyxatdan vaqt mintaqasini tanlang."
+      }
+    },
+    "images": {
+      "title": "Rasmlar",
+      "none": "Rasmlar yoʻq.",
+      "rules": "PNG yoki JPEG, har biri {{size}} MB gacha, koʻpi bilan {{max}} ta rasm.",
+      "choose": "Rasmlarni tanlash",
+      "max": "Joyda koʻpi bilan {{max}} ta rasm boʻlishi mumkin.",
+      "listLabel": "Joy rasmlari",
+      "alt": "Joy rasmi {{number}}"
+    },
+    "layout": {
+      "title": "Oʻrindiqlar sxemasi",
+      "intro": "Seksiyalarni {{width}} × {{height}} maydonga joylashtiring. Xaridorlar sxemani xuddi shunday koʻradi.",
+      "view": "Koʻrinish",
+      "edit": "Tahrirlash",
+      "preview": "Xaridor koʻrinishi",
+      "tools": "Sxema vositalari",
+      "addSeated": "Oʻrindiqli seksiya qoʻshish",
+      "addStanding": "Tik turish joyini qoʻshish",
+      "loadTemplate": "Shablonni yuklash",
+      "undo": "Bekor qilish",
+      "redo": "Qaytarish",
+      "capacity": "Umumiy sigʻim:",
+      "seatsCount": "Oʻrindiqlar: {{formatted}}",
+      "standingCount": "Tik turish: {{formatted}}",
+      "sectionsCount": "Seksiyalar: {{n}}",
+      "empty": "Hali seksiya yoʻq. Oʻrindiqli seksiya yoki tik turish joyini qoʻshing yoxud shablonni yuklang.",
+      "previewNote": "Xaridorlar sxemani shunday koʻradi. Barcha oʻrindiqlar boʻsh deb koʻrsatilgan.",
+      "tiers": "Sxemadagi narx toifalari",
+      "tierSeats": "Oʻrindiqlar: {{formatted}}, seksiyalar: {{sections}}"
+    },
+    "canvas": {
+      "label": "Joy sxemasi maydoni, {{size}}. Seksiyani koʻchirish uchun uni sudrang.",
+      "grid": "Toʻr",
+      "snap": "{{size}} ga moslash",
+      "field": "Maydon"
+    },
+    "panel": {
+      "label": "Seksiya xususiyatlari va roʻyxat",
+      "none": "Tahrirlash uchun sxemadan yoki roʻyxatdan seksiyani tanlang.",
+      "previewOnly": "Seksiyalarni oʻzgartirish uchun “Tahrirlash” koʻrinishiga oʻting.",
+      "sections": "Seksiyalar ({{n}})",
+      "hasError": "Xato bor",
+      "hasWarning": "Ogohlantirish bor",
+      "title": "Seksiya: {{name}}",
+      "unnamed": "Nomsiz seksiya",
+      "sumSeated": "{{rows}} qator × {{seats}} oʻrindiq = {{total}} oʻrindiq",
+      "sumStanding": "Tik turish joyi: {{total}}",
+      "readOnly": "Bu sxemani oʻzgartirib boʻlmaydi. Seksiyalarni koʻrish va tanlash mumkin.",
+      "serverSays": "Server javobi: {{text}}",
+      "name": "Seksiya nomi",
+      "key": "Kalit",
+      "keyHint": "Qisqa va noyob kod, masalan BALCONY. Oʻrindiqlar shu bilan nomlanadi, shuning uchun uni oʻzgartirmang.",
+      "kind": "Turi",
+      "rows": "Qatorlar",
+      "seatsPerRow": "Qatordagi oʻrindiqlar",
+      "spacing": "Oʻrindiqlar oraligʻi",
+      "spacingHint": "Oʻrindiqlarning oʻzini emas, ular orasidagi masofani oʻzgartiradi.",
+      "tier": "Narx toifasi kaliti",
+      "tierHint": "Kaliti bir xil oʻrindiqli seksiyalar tadbirda bitta chipta turini birga ishlatadi.",
+      "capacity": "Sigʻimi",
+      "capacityHint": "Necha kishi kirishi mumkin. Tik turish joyida raqamlangan oʻrindiqlar yoʻq.",
+      "rotation": "Burish",
+      "rotateLeft": "15° chapga burish",
+      "rotateRight": "15° oʻngga burish",
+      "reset": "Tiklash",
+      "position": "Joylashuv (markaz)",
+      "positionHint": "{{width}} × {{height}} maydonda.",
+      "duplicate": "Nusxalash",
+      "delete": "Oʻchirish",
+      "decrease": "Kamaytirish: {{field}}",
+      "increase": "Koʻpaytirish: {{field}}"
+    },
+    "issues": {
+      "keyRequired": "Kalitni kiriting.",
+      "keyTooLong": "Kalit koʻpi bilan {{keyMax}} belgidan iborat boʻlishi mumkin.",
+      "keyDuplicate": "Bu kalitni boshqa seksiya allaqachon ishlatmoqda.",
+      "nameRequired": "Nomni kiriting.",
+      "nameTooLong": "Nom koʻpi bilan {{nameMax}} belgidan iborat boʻlishi mumkin.",
+      "rowsRange": "Qatorlar soni 1 dan {{max}} gacha butun son boʻlishi kerak.",
+      "seatsRange": "Qatordagi oʻrindiqlar soni 1 dan {{max}} gacha butun son boʻlishi kerak.",
+      "capacityRange": "Sigʻim kamida 1 boʻlgan butun son boʻlishi kerak.",
+      "tierRequired": "Oʻrindiqli seksiyaga narx toifasi kaliti kerak.",
+      "tierTooLong": "Toifa kaliti koʻpi bilan {{tierMax}} belgidan iborat boʻlishi mumkin.",
+      "centerOutside": "Markaz {{width}} × {{height}} maydon ichida boʻlishi kerak.",
+      "notANumber": "Joylashuv va burish uchun raqam kiriting.",
+      "noSections": "Kamida bitta seksiya qoʻshing."
+    },
+    "warnings": {
+      "overlapWith": "“{{name}}” bilan ustma-ust tushadi. Baribir saqlash mumkin, lekin xaridorlarga sxemani oʻqish qiyin boʻlishi mumkin.",
+      "extends": "Seksiyaning bir qismi maydondan tashqarida.",
+      "summary": "Ustma-ust tushgan yoki maydondan chiqqan seksiyalar: {{n}}. Baribir saqlash mumkin.",
+      "orphan": "“{{tier}}” toifasini {{events}} tadbirlarining chipta turlari ishlatadi, lekin endi birorta oʻrindiqli seksiyada bu kalit yoʻq. Seksiya yana shu kalitni ishlatmaguncha yoki chipta turi oʻzgartirilmaguncha bu tadbirlar tasdiqlanmaydi."
+    },
+    "lock": {
+      "title": "Sxema qulflangan.",
+      "text": "Bu joydagi tadbirlar uchun oʻrindiqlar allaqachon yaratilgan (sizning tadbirlaringiz: {{n}}):",
+      "more": "va yana {{n}} ta.",
+      "rest": "Nom, manzil, rasmlar va vaqt mintaqasini oʻzgartirish mumkin.",
+      "foreign": "Bu joyni boshqa tashkilotchi yaratgan. Uni koʻrish mumkin, lekin oʻzgartirib boʻlmaydi.",
+      "serverOnly": "Server bu joydagi tadbirda oʻrindiqlar allaqachon borligini aytdi (bu boshqa tashkilotchining tadbiri boʻlishi mumkin), shuning uchun sxema qulflangan.",
+      "discard": "Sxemadagi oʻzgarishlarimni bekor qilish",
+      "usedNote": "Bu joydan tadbirlaringiz foydalanmoqda: {{n}}. Oʻrindiqlar tadbir tasdiqlanganda yaratiladi, shundan keyin sxema qulflanadi."
+    },
+    "templates": {
+      "title": "Shablonni yuklash",
+      "intro": "Tayyor sxemadan boshlang va uni xohlaganingizcha oʻzgartiring.",
+      "replace": "Maydondagi seksiyalar ({{n}}) almashtiriladi. Buni bekor qilish mumkin.",
+      "meta": "Seksiyalar: {{sections}} · Sigʻim: {{capacity}}",
+      "use": "Bu sxemani ishlatish",
+      "cancel": "Bekor qilish",
+      "theater": {
+        "name": "Kichik teatr",
+        "text": "Sahna roʻparasida oldingi qatorlar, uch blokli parter va balkon.",
+        "sections": {
+          "FRONT": "Oldingi qatorlar",
+          "ORCH_C": "Parter, markaz",
+          "ORCH_L": "Parter, chap",
+          "ORCH_R": "Parter, oʻng",
+          "BALCONY": "Balkon"
+        }
+      },
+      "stadium": {
+        "name": "Tik turish maydonli stadion",
+        "text": "Oʻrtada tik turish maydoni, toʻrt tomonda oʻrindiqli tribunalar.",
+        "sections": {
+          "FLOOR": "Tik turish maydoni",
+          "NORTH": "Shimoliy tribuna",
+          "SOUTH": "Janubiy tribuna",
+          "EAST": "Sharqiy tribuna",
+          "WEST": "Gʻarbiy tribuna"
+        }
+      },
+      "club": {
+        "name": "Komediya klubi stollari",
+        "text": "Ikki qator stollar va orqada tik turib foydalaniladigan bar.",
+        "sections": {
+          "TABLE": "Stol",
+          "BAR": "Tik turish bari"
+        }
+      }
+    },
+    "delete": {
+      "title": "“{{name}}” oʻchirilsinmi?",
+      "textSeated": "Uning {{n}} ta oʻrindigʻi sxemadan olib tashlanadi.",
+      "textStanding": "Tik turish joyi sxemadan olib tashlanadi.",
+      "undo": "Buni bekor qilish mumkin.",
+      "cancel": "Qoldirish",
+      "confirm": "Seksiyani oʻchirish"
+    },
+    "shortcuts": {
+      "title": "Klaviatura va sensor",
+      "move": "Seksiyani koʻchirish uchun sudrang. Koʻrinishni surish uchun boʻsh maydonni sudrang.",
+      "nudge": "Strelkalar tanlangan seksiyani {{step}} ga suradi, Shift bilan — {{big}} ga.",
+      "delete": "Delete yoki Backspace tanlangan seksiyani tasdiqlashdan keyin oʻchiradi.",
+      "undo": "Ctrl+Z (⌘Z) bekor qiladi, Ctrl+Shift+Z (⌘⇧Z) yoki Ctrl+Y qaytaradi; oxirgi 100 qadam saqlanadi.",
+      "duplicate": "Ctrl+D (⌘D) tanlangan seksiyadan nusxa oladi.",
+      "zoom": "Masshtab: ikki barmoq bilan torting yoki Ctrl (⌘) ni bosib turib aylantiring."
+    },
+    "edit": {
+      "loadError": {
+        "title": "Joyni yuklab boʻlmadi",
+        "text": "Yuklashda nimadir xato ketdi. Qayta urinib koʻring."
+      },
+      "notFound": {
+        "title": "Joy topilmadi",
+        "text": "U oʻchirilgan yoki havola notoʻgʻri boʻlishi mumkin."
+      }
     }
   }
 }

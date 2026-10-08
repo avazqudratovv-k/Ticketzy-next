@@ -172,3 +172,28 @@ Order and ticket queries now read `eventData.venueData`; `useVenues`, `venuesByI
   - Cancelling a test event: the backend has no organizer cancel (F96). The "In review" test event "QA Test Comedy Night" (Laugh Cellar Comedy Club, 20 Mar 2027) is left in the demo data; only an admin can reject or approve it.
   - Duplicate: no backend operation.
   - Saving changes of an APPROVED event (to avoid sending a live demo event back to review).
+
+## Prompt 6: organizer venues and the layout editor (2026-10-08)
+Goal: venues list, venue form and a 2D layout editor, with the lock rules of the backend. Not committed. Judgment calls are F111 to F124 in DECISIONS.md.
+
+### Schema
+`docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql`. Venue types are unchanged; `getMyEventOrders` and `cancelMyEvent` are new (not used here).
+
+### Operations used (exact names)
+`getVenues(input: VenuesInquiry)`, `getVenue(venueId)`, `createVenue(input: VenueInput)`, `updateVenue(input: VenueUpdate)`, `getMyEvents` (counts and locks), `getTicketTypes` (tier warning), `imageUploader(target: "venue")`. Documents in `apollo/organizer/venue.ts`.
+
+### Added
+- Pages `/organizer/venues`, `/organizer/venues/new`, `/organizer/venues/[id]`; sidebar item "Venues".
+- Libraries `libs/venues/` (model and validation, templates, undo history, time zones, server issue placement, data hooks, editor state), components `libs/components/organizer/venues/` (canvas, section panel, template dialog, time zone combobox, photos, editor), `scss/venues.scss`.
+- Event form: "Create a new venue" link with return and venue pre-selected.
+- i18n: `organizer.venues.*`, `serverErrors`, `blocked.*.venues`, `form.venue.createLink`, `common dashboard.nav.venues` in en, ko, ru, uz (key and placeholder parity checked by script).
+
+### Behaviour
+- List: own venues with name, city, time zone, capacity, number of own events, a "Layout locked" mark; search, sort, pagination (URL state), loading, empty, no-result and error states.
+- Form: name, type, city, address, time zone (search), photos, then the editor: SVG canvas 1000 x 700 with zoom (buttons, pinch, Ctrl+wheel), pan, grid and snap, add seated or standing section, drag, rotate, rename, key, rows, seats per row, spacing, tier key, capacity, X and Y, duplicate, delete with confirmation, live seats and capacity, buyer preview (the real `SeatMap`), three templates, undo and redo (100 steps), keyboard and touch, validation per section, warnings for overlap and off-canvas parts, save with dirty state and leave warning.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds (scratch copy with `node_modules` linked).
+- Browser on `http://localhost:3000` as `organizer@ticketzy.demo`: list (own 3 venues, counts, locked marks); new venue from the stadium template, drag, Ctrl+Z, Ctrl+Shift+Z, arrow nudge, save (capacity 1528 = 1000 + 288 + 240 checked on the API), redirect and reload; rows set to 0 (inline error, save blocked with a summary), duplicate, overlap warning, delete dialog and delete; locked venue "Harbor Sky Stadium" (read-only layout with the events named, details still editable); editor and buyer seat picker of the Harbor Cup event give identical section transforms, seat counts and seat sizes; event form to "Create a new venue" to a club template venue and back (typed title restored, new venue selected); light theme; 390 px (iframe: no horizontal overflow, canvas fits). Pages were seen in Russian (the browser's language), at 520 px and 1440 px.
+- **Not tested:** ko and uz pages visually (keys checked by script); real touch input (pinch, one-finger drag: written with pointer events, only mouse drag was exercised); server-side validation placement on sections (the client blocks first); `VENUE_LAYOUT_LOCKED` coming from the server; the tier-orphan warning with real events; photo upload (not exercised); the unsaved-changes confirm of in-app navigation on the venue page (the event form's browser prompt did appear); time zone combobox with the keyboard.
+- Test data left behind: venues "QA Test Arena" and "QA Comedy Cellar" (no delete operation exists) and no events.

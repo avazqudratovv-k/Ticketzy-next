@@ -36,7 +36,15 @@
     "imageFormat": "Use a JPG or PNG image.",
     "uploadFailed": "The upload failed. Try again.",
     "notAuthenticated": "Your session has ended. Sign in again.",
-    "notVerified": "Your account is not verified. Contact support."
+    "notVerified": "Your account is not verified. Contact support.",
+    "layoutInvalid": "The server could not accept the layout. Check the sections marked with a problem.",
+    "layoutNoSections": "Add at least one section to the layout.",
+    "layoutDuplicateKey": "Two sections use the same key. Keys must be unique.",
+    "layoutBadGrid": "Rows and seats per row must be whole numbers from 1 to 100.",
+    "layoutCapacity": "A standing area needs a capacity of at least 1.",
+    "layoutTier": "Every seated section needs a price tier key.",
+    "badTimezone": "That time zone isn’t valid. Choose one from the list.",
+    "layoutLocked": "The layout can’t change because an event that uses this venue already has seats. Your other changes can still be saved."
   },
   "blocked": {
     "reason": "Reason given: {{reason}}",
@@ -45,19 +53,22 @@
       "title": "Your organizer account is waiting for approval",
       "create": "You can create and publish events once an admin approves your account. We’ll notify you as soon as that happens.",
       "events": "You will see your events here once an admin approves your account. Until then you can’t create or publish events.",
-      "dashboard": "Creating and publishing events is switched on after approval."
+      "dashboard": "Creating and publishing events is switched on after approval.",
+      "venues": "You can create and manage venues once an admin approves your account. We’ll notify you as soon as that happens."
     },
     "rejected": {
       "title": "Your organizer account was not approved",
       "create": "Events can’t be created or published from an account that was not approved. Contact support if you think this is a mistake.",
       "events": "Your events can’t be changed because the account was not approved. Contact support if you think this is a mistake.",
-      "dashboard": "Events can’t be created or published until the account is approved."
+      "dashboard": "Events can’t be created or published until the account is approved.",
+      "venues": "Venues can’t be created or changed because the account was not approved. Contact support if you think this is a mistake."
     },
     "suspended": {
       "title": "Your organizer account is suspended",
       "create": "Events can’t be created or published while the account is suspended. Contact support to find out what is needed to lift it.",
       "events": "Your events can’t be changed while the account is suspended. Contact support to find out what is needed to lift it.",
-      "dashboard": "Events can’t be created or published while the account is suspended."
+      "dashboard": "Events can’t be created or published while the account is suspended.",
+      "venues": "Venues can’t be created or changed while the account is suspended. Contact support to find out what is needed to lift it."
     }
   },
   "dashboard": {
@@ -202,7 +213,7 @@
       "placeholder": "Choose a venue",
       "loading": "Loading venues…",
       "loadError": "We couldn’t load the venues.",
-      "createLater": "Can’t find your venue? Creating venues is coming in the next update.",
+      "createLater": "Can’t find your venue?",
       "capacity": "Capacity: {{formatted}}",
       "noCapacity": "Capacity not set",
       "tiers": "Seated price tiers: {{count}}",
@@ -227,7 +238,8 @@
       "endTime": "End time",
       "zone": "Times are in the venue’s time zone: {{zone}}.",
       "zoneUnknown": "Choose a venue first: times are read in the venue’s time zone.",
-      "sameDay": "End on the same day"
+      "sameDay": "End on the same day",
+      "createLink": "Create a new venue"
     },
     "tickets": {
       "introGeneral": "Add one ticket type per price: for example Standard and VIP. Guests choose a quantity, and you set how many are available.",
@@ -414,6 +426,275 @@
     },
     "loadError": {
       "title": "We couldn’t load this event"
+    }
+  },
+  "venues": {
+    "leave": "You have unsaved changes to this venue. Leave without saving?",
+    "defaults": {
+      "seated": "Section",
+      "standing": "Standing"
+    },
+    "types": {
+      "STADIUM": "Stadium",
+      "THEATER": "Theater",
+      "CLUB": "Club",
+      "HALL": "Hall",
+      "OPEN_AIR": "Open air",
+      "ONLINE": "Online"
+    },
+    "kind": {
+      "SEATED": "Seated",
+      "STANDING": "Standing"
+    },
+    "spacing": {
+      "COMPACT": "Compact",
+      "NORMAL": "Normal",
+      "WIDE": "Wide"
+    },
+    "list": {
+      "title": "Venues",
+      "subtitle": "The venues you created. Each event picks one of them for its seating.",
+      "create": "Create venue",
+      "search": "Search venues",
+      "searchPlaceholder": "Search by name, city or address",
+      "sorts": {
+        "newest": "Recently created",
+        "name": "Name, A to Z",
+        "capacity": "Capacity, largest first"
+      },
+      "loading": "Loading venues",
+      "error": {
+        "title": "Couldn’t load your venues",
+        "text": "Something went wrong while loading. Try again."
+      },
+      "empty": {
+        "title": "No venues yet",
+        "text": "Create a venue and lay out its seats, or start from a ready-made template. You need a venue before you can create an event with reserved seating."
+      },
+      "none": {
+        "title": "No venues match",
+        "text": "Try a different name, city or address.",
+        "clear": "Clear search"
+      },
+      "cols": {
+        "venue": "Venue",
+        "city": "City",
+        "timezone": "Time zone",
+        "capacity": "Capacity",
+        "events": "Events",
+        "actions": "Actions"
+      },
+      "edit": "Edit",
+      "view": "View",
+      "locked": "Layout locked",
+      "lockedTip": "An event with generated seats uses this venue, so its layout can’t change.",
+      "showing": "Showing {{from}}–{{to}} of {{total}}",
+      "note": "“Events” counts your own events at the venue. Events of other organizers are not shown here."
+    },
+    "form": {
+      "titleNew": "Create venue",
+      "backToList": "Back to venues",
+      "backToEvent": "Back to the event",
+      "save": "Save venue",
+      "create": "Create venue",
+      "saving": "Saving…",
+      "unsaved": "Unsaved changes",
+      "savedAt": "Saved at {{time}}",
+      "allSaved": "All changes saved",
+      "notSavedYet": "Not saved yet",
+      "foreign": "Read only: this venue belongs to another organizer",
+      "savedTitle": "Venue saved.",
+      "savedText": "Events that use this venue see your changes.",
+      "createdTitle": "Venue created.",
+      "createdText": "You can keep editing the layout, or use the venue in an event.",
+      "saveFailed": "The venue was not saved.",
+      "fixFirst": "Fix these first.",
+      "sectionsHaveErrors": "Problems in the layout: {{n}}. Sections with a problem are marked in the list.",
+      "details": "Venue details",
+      "name": "Venue name",
+      "type": "Venue type",
+      "city": "City",
+      "address": "Address",
+      "timezone": "Time zone",
+      "timezoneSearch": "Search, for example Seoul or +9",
+      "timezoneNone": "No time zone matches.",
+      "timezoneMore": "{{n}} more. Keep typing to narrow the list.",
+      "timezoneHint": "Event times at this venue are shown in {{zone}}.",
+      "timezoneDefault": "Event times at this venue are shown in this time zone. Asia/Seoul is the default.",
+      "errors": {
+        "nameLength": "Use 2 to 100 characters.",
+        "cityLength": "Use 2 to 100 characters.",
+        "addressLength": "Use 3 to 200 characters.",
+        "timezone": "Choose a time zone from the list."
+      }
+    },
+    "images": {
+      "title": "Photos",
+      "none": "No photos.",
+      "rules": "PNG or JPEG, up to {{size}} MB each, {{max}} photos at most.",
+      "choose": "Choose photos",
+      "max": "A venue can have {{max}} photos at most.",
+      "listLabel": "Venue photos",
+      "alt": "Venue photo {{number}}"
+    },
+    "layout": {
+      "title": "Seat layout",
+      "intro": "Place sections on a {{width}} × {{height}} canvas. Buyers see the map drawn the same way.",
+      "view": "View",
+      "edit": "Edit map",
+      "preview": "Buyer preview",
+      "tools": "Layout tools",
+      "addSeated": "Add seated section",
+      "addStanding": "Add standing area",
+      "loadTemplate": "Load template",
+      "undo": "Undo",
+      "redo": "Redo",
+      "capacity": "Total capacity:",
+      "seatsCount": "Seats: {{formatted}}",
+      "standingCount": "Standing: {{formatted}}",
+      "sectionsCount": "Sections: {{n}}",
+      "empty": "No sections yet. Add a seated section or a standing area, or load a template.",
+      "previewNote": "This is how buyers see the map. Every seat is shown as available.",
+      "tiers": "Price tiers in this layout",
+      "tierSeats": "{{formatted}} seats, sections: {{sections}}"
+    },
+    "canvas": {
+      "label": "Venue layout canvas, {{size}}. Drag a section to move it.",
+      "grid": "Grid",
+      "snap": "Snap to {{size}}",
+      "field": "Field"
+    },
+    "panel": {
+      "label": "Section properties and list",
+      "none": "Select a section on the map or in the list to edit it.",
+      "previewOnly": "Switch to Edit map to change sections.",
+      "sections": "Sections ({{n}})",
+      "hasError": "Has a problem",
+      "hasWarning": "Has a warning",
+      "title": "Section: {{name}}",
+      "unnamed": "Unnamed section",
+      "sumSeated": "{{rows}} rows × {{seats}} seats = {{total}} seats",
+      "sumStanding": "{{total}} standing places",
+      "readOnly": "This layout can’t be changed. You can still look around and select sections.",
+      "serverSays": "The server says: {{text}}",
+      "name": "Section name",
+      "key": "Key",
+      "keyHint": "A short unique code, for example BALCONY. Seats are named by it, so keep it stable.",
+      "kind": "Type",
+      "rows": "Rows",
+      "seatsPerRow": "Seats per row",
+      "spacing": "Seat spacing",
+      "spacingHint": "Changes the gap between seats, not the seats.",
+      "tier": "Price tier key",
+      "tierHint": "Seated sections with the same key share one ticket type in an event.",
+      "capacity": "Capacity",
+      "capacityHint": "How many people may enter. A standing area has no numbered seats.",
+      "rotation": "Rotation",
+      "rotateLeft": "Rotate 15° left",
+      "rotateRight": "Rotate 15° right",
+      "reset": "Reset",
+      "position": "Position (center)",
+      "positionHint": "On the {{width}} × {{height}} canvas.",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "decrease": "Decrease: {{field}}",
+      "increase": "Increase: {{field}}"
+    },
+    "issues": {
+      "keyRequired": "Enter a key.",
+      "keyTooLong": "The key can have {{keyMax}} characters at most.",
+      "keyDuplicate": "Another section already uses this key.",
+      "nameRequired": "Enter a name.",
+      "nameTooLong": "The name can have {{nameMax}} characters at most.",
+      "rowsRange": "Rows must be a whole number from 1 to {{max}}.",
+      "seatsRange": "Seats per row must be a whole number from 1 to {{max}}.",
+      "capacityRange": "Capacity must be a whole number of at least 1.",
+      "tierRequired": "A seated section needs a price tier key.",
+      "tierTooLong": "The tier key can have {{tierMax}} characters at most.",
+      "centerOutside": "The center must be on the {{width}} × {{height}} canvas.",
+      "notANumber": "Enter numbers for the position and rotation.",
+      "noSections": "Add at least one section."
+    },
+    "warnings": {
+      "overlapWith": "Overlaps “{{name}}”. You can still save, but buyers may find the map hard to read.",
+      "extends": "Part of this section is outside the canvas.",
+      "summary": "Overlapping or off-canvas sections: {{n}}. You can still save.",
+      "orphan": "Tier “{{tier}}” is used by ticket types of {{events}}, but no seated section has it any more. Those events can’t be approved until a section uses it again or the ticket type is changed."
+    },
+    "lock": {
+      "title": "The layout is locked.",
+      "text": "Seats were already generated for events at this venue (your events: {{n}}):",
+      "more": "and {{n}} more.",
+      "rest": "Name, address, photos and time zone can still be changed.",
+      "foreign": "This venue was created by another organizer. You can look at it but not change it.",
+      "serverOnly": "The server says an event already has seats at this venue (possibly another organizer’s event), so the layout is locked.",
+      "discard": "Discard my layout changes",
+      "usedNote": "{{n}} of your events use this venue. Seats are generated when an event is approved, and after that the layout is locked."
+    },
+    "templates": {
+      "title": "Load a template",
+      "intro": "Start from a ready-made layout and change it however you like.",
+      "replace": "This replaces the {{n}} section(s) on the canvas. You can undo it.",
+      "meta": "Sections: {{sections}} · Capacity: {{capacity}}",
+      "use": "Use this layout",
+      "cancel": "Cancel",
+      "theater": {
+        "name": "Small theater",
+        "text": "Front rows, an orchestra in three blocks and a balcony, facing a stage.",
+        "sections": {
+          "FRONT": "Front rows",
+          "ORCH_C": "Orchestra center",
+          "ORCH_L": "Orchestra left",
+          "ORCH_R": "Orchestra right",
+          "BALCONY": "Balcony"
+        }
+      },
+      "stadium": {
+        "name": "Stadium with a standing floor",
+        "text": "A standing pitch in the middle and seated stands on four sides.",
+        "sections": {
+          "FLOOR": "Standing floor",
+          "NORTH": "North stand",
+          "SOUTH": "South stand",
+          "EAST": "East stand",
+          "WEST": "West stand"
+        }
+      },
+      "club": {
+        "name": "Comedy club tables",
+        "text": "Two rows of tables and a standing bar at the back.",
+        "sections": {
+          "TABLE": "Table",
+          "BAR": "Standing bar"
+        }
+      }
+    },
+    "delete": {
+      "title": "Delete “{{name}}”?",
+      "textSeated": "Its {{n}} seats are removed from the layout.",
+      "textStanding": "The standing area is removed from the layout.",
+      "undo": "You can undo this.",
+      "cancel": "Keep it",
+      "confirm": "Delete section"
+    },
+    "shortcuts": {
+      "title": "Keyboard and touch",
+      "move": "Drag a section to move it. Drag the empty canvas to pan.",
+      "nudge": "Arrow keys move the selected section by {{step}}. Hold Shift for {{big}}.",
+      "delete": "Delete or Backspace removes the selected section, after a confirmation.",
+      "undo": "Ctrl+Z (⌘Z) undoes and Ctrl+Shift+Z (⌘⇧Z) or Ctrl+Y redoes, for the last 100 steps.",
+      "duplicate": "Ctrl+D (⌘D) duplicates the selected section.",
+      "zoom": "Pinch with two fingers, or hold Ctrl (⌘) and scroll, to zoom."
+    },
+    "edit": {
+      "loadError": {
+        "title": "Couldn’t load this venue",
+        "text": "Something went wrong while loading. Try again."
+      },
+      "notFound": {
+        "title": "Venue not found",
+        "text": "It may have been removed, or the link is wrong."
+      }
     }
   }
 }

@@ -34,7 +34,8 @@ const stateOf = (taken: TakenSeat | undefined, isSelected: boolean, locked: bool
 };
 export { stateOf as seatVisual };
 
-const SectionSeats = memo(function SectionSeats({ section, color, taken, selected, locked, active, showRows }: SectionProps) {
+/** Exported so the organizer's layout editor draws sections exactly as buyers see them. */
+export const SectionSeats = memo(function SectionSeats({ section, color, taken, selected, locked, active, showRows }: SectionProps) {
 	const { w, h } = sectionSize(section);
 	const pitch = pitchOf(section);
 	const size = pitch * SEAT_FILL;
@@ -335,7 +336,7 @@ const SeatMap = ({ sections, tiers, taken, selected, lockedTiers, activeSection,
 	);
 };
 
-const StandingArea = ({ section, label, sub }: { section: LayoutSection; label: string; sub: string }) => {
+export const StandingArea = ({ section, label, sub }: { section: LayoutSection; label: string; sub: string }) => {
 	const { w, h } = sectionSize(section);
 	return (
 		<g className="seatmap__standing" transform={`translate(${section.x} ${section.y}) rotate(${section.rotation})`}>

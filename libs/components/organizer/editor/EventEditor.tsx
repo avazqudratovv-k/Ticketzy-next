@@ -23,7 +23,7 @@ import {
 } from '../../../organizer/form';
 import { OrgEvent, OrgTicketType } from '../../../organizer/types';
 import { intlLocale } from '../../../format';
-import { eventUrl, organizerEventEditUrl, organizerEventsUrl } from '../../../routes';
+import { eventUrl, organizerEventEditUrl, organizerEventsUrl, organizerVenueNewUrl } from '../../../routes';
 import EventStatusBadge from '../EventStatusBadge';
 import SubmitDialog from '../SubmitDialog';
 import CancelDialog from '../CancelDialog';
@@ -128,6 +128,14 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 			if (!(await runSave(target))) return;
 		}
 		if (target) setStep(target);
+	};
+
+	/** To the venue form and back: what is typed so far is kept for the way back (see useEventEditor, `venueId` in the address). */
+	const goCreateVenue = () => {
+		const path = `${router.asPath.split('?')[0]}?step=venue`;
+		editor.stashDraft();
+		allowRoute.current();
+		void router.push(`${organizerVenueNewUrl}?returnTo=${encodeURIComponent(path)}`);
 	};
 
 	const checks = submitChecks(values, filled, venue);
@@ -262,7 +270,7 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 
 				{step === 'details' && <StepDetails editor={editor} readOnly={readOnly} />}
 				{step === 'images' && <StepImages editor={editor} readOnly={readOnly} />}
-				{step === 'venue' && <StepVenue editor={editor} readOnly={readOnly} />}
+				{step === 'venue' && <StepVenue editor={editor} readOnly={readOnly} onCreateVenue={readOnly ? undefined : goCreateVenue} />}
 				{step === 'tickets' && <StepTickets editor={editor} readOnly={readOnly} />}
 				{step === 'translations' && <StepTranslations editor={editor} readOnly={readOnly} />}
 				{step === 'review' && <StepReview editor={editor} readOnly={readOnly} onGo={setStep} />}

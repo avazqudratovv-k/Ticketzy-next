@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useApolloClient, useQuery } from '@apollo/client';
 import { CREATE_EVENT, CREATE_TICKET_TYPE, SUBMIT_EVENT_FOR_APPROVAL, UPDATE_EVENT, UPDATE_TICKET_TYPE } from '../../apollo/organizer/mutation';
 import { GET_EVENT_TICKET_TYPES, GET_VENUE_DETAIL, GET_VENUE_OPTIONS } from '../../apollo/organizer/query';
@@ -47,6 +48,8 @@ const rowsSignature = (rows: TicketRow[], seatingType: 'GENERAL' | 'RESERVED') =
 			.sort((a, b) => String(a.id ?? a.tierKey).localeCompare(String(b.id ?? b.tierKey))),
 	);
 
+const DRAFT_PREFIX = 'tz:event-draft:';
+
 export type SaveResult = { ok: true; event: OrgEvent } | { ok: false };
 
 interface Options {
@@ -76,6 +79,8 @@ export default function useEventEditor({ event: initialEvent = null, ticketTypes
 	const { data: venueData, loading: venuesLoading, error: venuesError, refetch: refetchVenues } = useQuery(GET_VENUE_OPTIONS, {
 		variables: { input: { page: 1, limit: 100, sort: 'venueName', direction: 'ASC', search: {} } },
 		errorPolicy: 'all',
+		// A venue made on the venue pages must show up when the organizer comes back
+		fetchPolicy: 'cache-and-network',
 	});
 	const venues: OrgVenue[] = useMemo(() => venueData?.getVenues?.list ?? [], [venueData]);
 	const listed = venues.find((venue) => venue._id === values.venueId);
@@ -88,6 +93,35 @@ export default function useEventEditor({ event: initialEvent = null, ticketTypes
 
 	const status = event?.eventStatus ?? 'DRAFT';
 	const mode = editModeOf(status);
+
+	// Back from "Create a new venue": the form comes back as it was, with the new venue chosen
+	const router = useRouter();
+	const pagePath = router.asPath.split('?')[0];
+	const stashDraft = useCallback(() => {
+		try {
+			window.sessionStorage.setItem(DRAFT_PREFIX + pagePath, JSON.stringify(values));
+		} catch {
+			/* private mode: the form simply starts over */
+		}
+	}, [pagePath, values]);
+	const pickedVenue = typeof router.query.venueId === 'string' ? router.query.venueId : '';
+	useEffect(() => {
+		if (!router.isReady || !pickedVenue) return;
+		let stored: FormValues | null = null;
+		try {
+			const raw = window.sessionStorage.getItem(DRAFT_PREFIX + pagePath);
+			window.sessionStorage.removeItem(DRAFT_PREFIX + pagePath);
+			stored = raw ? (JSON.parse(raw) as FormValues) : null;
+		} catch {
+			stored = null;
+		}
+		if (mode === 'full') setValues((current) => ({ ...(stored ?? current), venueId: pickedVenue }));
+		const { venueId: _picked, ...rest } = router.query;
+		void _picked;
+		void router.replace({ pathname: router.pathname, query: rest }, undefined, { shallow: true, scroll: false });
+		// Runs once per arrival with a venue in the address
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [router.isReady, pickedVenue]);
 
 	// Tier rows follow the venue and the seating type
 	useEffect(() => {
@@ -254,6 +288,7 @@ export default function useEventEditor({ event: initialEvent = null, ticketTypes
 		valuesDirty,
 		basicsDirty,
 		rowsDirty,
+		stashDraft,
 		venues,
 		venue,
 		venuesLoading,

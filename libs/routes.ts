@@ -44,3 +44,16 @@ export const ticketUrl = (id: string) => `/tickets/${id}`;
 export const organizerEventsUrl = '/organizer/events';
 export const organizerEventNewUrl = '/organizer/events/new';
 export const organizerEventEditUrl = (id: string) => `/organizer/events/${id}/edit`;
+
+export const organizerVenuesUrl = '/organizer/venues';
+export const organizerVenueNewUrl = '/organizer/venues/new';
+export const organizerVenueEditUrl = (id: string) => `/organizer/venues/${id}`;
+
+/** A page of the event form may send the organizer to the venue form and ask to be sent back: only organizer event pages are accepted. */
+export const safeEventReturn = (value: string | string[] | undefined): string | null => {
+	const path = safeReturnTo(value);
+	return path && /^\/organizer\/events\/(new|[^/?#]+\/edit)(\?[^#]*)?$/.test(path) ? path : null;
+};
+
+/** The return address with the chosen venue added, so the event form can pick it. */
+export const withVenue = (path: string, venueId: string) => `${path}${path.includes('?') ? '&' : '?'}venueId=${encodeURIComponent(venueId)}`;

@@ -86,7 +86,8 @@
       "refunds": "Возвраты",
       "users": "Пользователи",
       "catalog": "Категории и площадки",
-      "settings": "Настройки платформы"
+      "settings": "Настройки платформы",
+      "venues": "Площадки"
     },
     "overviewTitle": "Обзор",
     "adminOverviewTitle": "Обзор платформы"
