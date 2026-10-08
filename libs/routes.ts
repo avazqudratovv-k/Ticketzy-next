@@ -26,3 +26,7 @@ export const safeReturnTo = (value: string | string[] | undefined): string | nul
 
 export const loginUrl = (returnTo?: string) =>
 	returnTo ? `${ROUTES.login}?returnTo=${encodeURIComponent(returnTo)}` : ROUTES.login;
+
+export const eventUrl = (id: string) => `/events/${id}`;
+export const seatsUrl = (id: string) => `/events/${id}/seats`;
+export const organizerUrl = (id: string) => `/organizers/${id}`;

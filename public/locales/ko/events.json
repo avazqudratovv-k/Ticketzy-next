@@ -1,0 +1,200 @@
+{
+  "categories": {
+    "CONCERT": "콘서트",
+    "FOOTBALL": "축구",
+    "COMEDY": "코미디",
+    "SPORT": "스포츠",
+    "THEATER": "연극",
+    "CONFERENCE": "컨퍼런스",
+    "FESTIVAL": "페스티벌",
+    "OTHER": "기타"
+  },
+  "categoryPlural": {
+    "CONCERT": "콘서트",
+    "FOOTBALL": "축구",
+    "COMEDY": "코미디",
+    "SPORT": "스포츠",
+    "THEATER": "연극",
+    "CONFERENCE": "컨퍼런스",
+    "FESTIVAL": "페스티벌",
+    "OTHER": "기타"
+  },
+  "card": {
+    "from": "최저가"
+  },
+  "pagination": {
+    "label": "페이지 이동",
+    "previous": "이전 페이지",
+    "next": "다음 페이지",
+    "goTo": "{{page}}페이지",
+    "compact": "{{page}} / {{count}} 페이지"
+  },
+  "errors": {
+    "loadTitle": "이벤트를 불러오지 못했어요",
+    "loadText": "연결 상태를 확인하고 다시 시도해 주세요. 데이터는 그대로예요.",
+    "retry": "다시 시도"
+  },
+  "home": {
+    "getTickets": "티켓 구매",
+    "seoDescription": "콘서트, 축구, 코미디 티켓. 이벤트를 찾고 1분 만에 결제하고, QR 티켓을 한곳에 보관하세요.",
+    "emptyTitle": "아직 판매 중인 이벤트가 없어요",
+    "emptyText": "주최자가 이벤트를 공개하면 바로 여기에 표시돼요.",
+    "browse": "이벤트 둘러보기",
+    "categories": "카테고리별 보기",
+    "categoryText": {
+      "CONCERT": "투어, 페스티벌, 클럽 공연",
+      "FOOTBALL": "리그전과 컵 대회",
+      "COMEDY": "스탠드업과 즉흥 코미디",
+      "OTHER": "연극, 강연, 마켓"
+    },
+    "upcoming": "다가오는 이벤트",
+    "concerts": "콘서트",
+    "football": "축구",
+    "comedy": "코미디",
+    "seeAll": "전체 보기",
+    "organizers": "주최자",
+    "ctaTitle": "이벤트를 직접 열고 싶으신가요?",
+    "ctaText": "내 콘서트, 경기, 공연의 티켓을 직접 판매하세요. 첫 이벤트가 공개되기 전에 모든 주최자를 검토합니다.",
+    "ctaButton": "티켓 판매하기"
+  },
+  "list": {
+    "title": "이벤트 둘러보기",
+    "seoDescription": "날짜, 도시, 가격으로 콘서트, 축구 경기, 코미디 공연을 검색하고 필터링하세요.",
+    "search": "이벤트 검색",
+    "searchPlaceholder": "이벤트 제목으로 검색",
+    "noMatch": "조건에 맞는 이벤트가 없어요",
+    "noMatchQuery": "“{{query}}”에 맞는 이벤트가 없어요",
+    "noMatchText": "다른 날짜나 도시를 선택하거나 필터를 지워서 판매 중인 전체 이벤트를 확인해 보세요.",
+    "showing_other": "전체 {{total}}개 중 {{from}}–{{to}}번째 이벤트",
+    "tryCategory": "{{category}} 이벤트 모두 보기"
+  },
+  "filters": {
+    "title": "필터",
+    "category": "카테고리",
+    "allEvents": "전체 이벤트",
+    "date": "날짜",
+    "from": "시작일",
+    "to": "종료일",
+    "city": "도시",
+    "allCities": "모든 도시",
+    "price": "가격 범위 (₩)",
+    "min": "최소",
+    "max": "최대",
+    "any": "제한 없음",
+    "clear": "필터 초기화",
+    "sortBy": "정렬"
+  },
+  "sort": {
+    "date": "날짜 빠른 순",
+    "priceAsc": "가격 낮은 순",
+    "priceDesc": "가격 높은 순",
+    "popular": "조회 많은 순",
+    "newest": "최근 등록순"
+  },
+  "detail": {
+    "like": "이 이벤트 좋아요",
+    "unlike": "좋아요 취소",
+    "likeFailed": "좋아요를 저장하지 못했어요. 다시 시도해 주세요.",
+    "notFoundTitle": "이벤트를 찾을 수 없어요",
+    "notFoundText": "존재하지 않거나 더 이상 판매 중이 아닌 이벤트예요.",
+    "images": "이벤트 이미지",
+    "showImage": "{{n}}번 이미지 보기",
+    "allOf": "{{category}} 전체 보기",
+    "banner": {
+      "cancelled": {
+        "title": "취소된 이벤트예요",
+        "text": "주문은 자동으로 환불돼요.",
+        "reason": "사유: {{reason}}"
+      },
+      "ended": {
+        "title": "종료된 이벤트예요",
+        "text": "더 이상 티켓을 판매하지 않아요."
+      },
+      "soldOut": {
+        "title": "매진",
+        "text": "모든 티켓이 판매됐어요. 취소 티켓이 나올 수 있으니 나중에 다시 확인해 보세요."
+      },
+      "notStarted": {
+        "title": "아직 판매 전이에요",
+        "text": "곧 티켓 판매가 시작돼요. 시작 시간은 티켓마다 표시돼요."
+      },
+      "saleClosed": {
+        "title": "판매가 종료됐어요",
+        "text": "이 이벤트의 티켓은 더 이상 구매할 수 없어요."
+      }
+    },
+    "until": "{{time}}까지",
+    "stats": "이벤트 통계",
+    "views_other": "조회 {{n}}",
+    "likes_other": "좋아요 {{n}}",
+    "commentsCount_other": "댓글 {{n}}",
+    "about": "이벤트 소개",
+    "starts": "시작",
+    "ends": "종료",
+    "seating": "좌석",
+    "seatingType": {
+      "GENERAL": "자유석",
+      "RESERVED": "지정석"
+    },
+    "refundTitle": "환불 정책",
+    "refundText": "공연장 현지 시간({{zone}}) 기준으로 공연 전날인 {{date}} 23:59까지 전액 환불받을 수 있어요.",
+    "venue": "공연장",
+    "timezone": "시간은 공연장 시간대({{zone}}) 기준이에요",
+    "openMaps": "지도에서 열기",
+    "organizer": "주최자",
+    "moreFrom": "{{name}}의 다른 이벤트",
+    "tickets": "티켓",
+    "left_other": "{{count}}장 남음",
+    "salesStart": "{{date}}부터 판매",
+    "salesClosed": "판매 종료",
+    "paused": "현재 구매할 수 없어요",
+    "noTickets": "아직 등록된 티켓이 없어요.",
+    "selectSeats": "좌석 선택",
+    "selectTickets": "티켓 선택",
+    "unavailable": {
+      "cancelled": "취소된 이벤트",
+      "ended": "종료된 이벤트",
+      "soldOut": "매진",
+      "notStarted": "판매 시작 전",
+      "saleClosed": "판매 종료",
+      "onSale": "좌석 선택"
+    },
+    "ticketsFoot": "가격에 수수료가 포함돼 있어요. 티켓은 내 티켓에 QR 코드로 도착해요.",
+    "soldOutBadge": "매진",
+    "viewTickets": "티켓 보기"
+  },
+  "comments": {
+    "title": "댓글",
+    "label": "댓글 작성",
+    "placeholder": "이 이벤트에 대한 질문이나 생각을 남겨 보세요",
+    "length": "{{count}} / {{max}}",
+    "post": "댓글 등록",
+    "loginLink": "로그인",
+    "loginText": "하고 대화에 참여해 보세요.",
+    "empty": "등록하기 전에 내용을 입력해 주세요.",
+    "postFailed": "댓글을 등록하지 못했어요. 다시 시도해 주세요.",
+    "deleteFailed": "댓글을 삭제하지 못했어요. 다시 시도해 주세요.",
+    "none": "아직 댓글이 없어요. 가장 먼저 질문해 보세요.",
+    "anonymous": "Ticketzy 회원",
+    "confirmDelete": "삭제",
+    "cancel": "취소",
+    "delete": "삭제",
+    "more": "댓글 더 보기"
+  },
+  "seats": {
+    "title": "좌석 선택",
+    "text": "좌석 선택은 곧 제공될 예정이에요. 지금은 이벤트 페이지로 돌아가 주세요.",
+    "back": "이벤트로 돌아가기"
+  },
+  "organizer": {
+    "notFoundTitle": "주최자를 찾을 수 없어요",
+    "notFoundText": "존재하지 않거나 이용할 수 없는 주최자예요.",
+    "seoDescription": "Ticketzy에서 만나는 {{name}}의 다가오는 이벤트.",
+    "eventsCount_other": "이벤트 {{n}}개",
+    "completed_other": "진행한 이벤트 {{n}}개",
+    "upcoming": "다가오는 이벤트",
+    "noEventsTitle": "예정된 이벤트가 없어요",
+    "noEventsText": "이 주최자는 지금 판매 중인 이벤트가 없어요.",
+    "moreInList_other": "이벤트 {{count}}개가 더 있지만 여기에는 표시되지 않아요."
+  }
+}

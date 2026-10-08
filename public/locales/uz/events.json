@@ -1,0 +1,208 @@
+{
+  "categories": {
+    "CONCERT": "Konsert",
+    "FOOTBALL": "Futbol",
+    "COMEDY": "Komediya",
+    "SPORT": "Sport",
+    "THEATER": "Teatr",
+    "CONFERENCE": "Konferensiya",
+    "FESTIVAL": "Festival",
+    "OTHER": "Boshqa"
+  },
+  "categoryPlural": {
+    "CONCERT": "Konsertlar",
+    "FOOTBALL": "Futbol",
+    "COMEDY": "Komediya",
+    "SPORT": "Sport",
+    "THEATER": "Teatr",
+    "CONFERENCE": "Konferensiyalar",
+    "FESTIVAL": "Festivallar",
+    "OTHER": "Boshqa"
+  },
+  "card": {
+    "from": "Narxi"
+  },
+  "pagination": {
+    "label": "Sahifalash",
+    "previous": "Oldingi sahifa",
+    "next": "Keyingi sahifa",
+    "goTo": "{{page}}-sahifa",
+    "compact": "{{page}}-sahifa, jami {{count}}"
+  },
+  "errors": {
+    "loadTitle": "Tadbirlarni yuklab bo‘lmadi",
+    "loadText": "Ulanishni tekshirib, qayta urinib ko‘ring. Hech narsa yo‘qolmadi.",
+    "retry": "Qayta urinish"
+  },
+  "home": {
+    "getTickets": "Chipta olish",
+    "seoDescription": "Konsert, futbol va komediya chiptalari. Tadbirni toping, bir daqiqada to‘lang va QR kodlaringizni bir joyda saqlang.",
+    "emptyTitle": "Hozircha sotuvda tadbir yo‘q",
+    "emptyText": "Tashkilotchilar e’lon qilishi bilanoq yangi tadbirlar shu yerda paydo bo‘ladi.",
+    "browse": "Tadbirlarni ko‘rish",
+    "categories": "Turkumlar bo‘yicha",
+    "categoryText": {
+      "CONCERT": "Gastrollar, festivallar, klub kechalari",
+      "FOOTBALL": "Liga va kubok o‘yinlari",
+      "COMEDY": "Stend-ap va improvizatsiya",
+      "OTHER": "Teatr, suhbatlar, bozorlar"
+    },
+    "upcoming": "Yaqinlashayotgan tadbirlar",
+    "concerts": "Konsertlar",
+    "football": "Futbol",
+    "comedy": "Komediya",
+    "seeAll": "Hammasi",
+    "organizers": "Tashkilotchilar",
+    "ctaTitle": "Tadbir o‘tkazmoqchimisiz?",
+    "ctaText": "O‘z konsertingiz, o‘yiningiz yoki shoyingiz chiptalarini soting. Birinchi tadbir e’lon qilinishidan oldin har bir tashkilotchini tekshiramiz.",
+    "ctaButton": "Chipta sotish"
+  },
+  "list": {
+    "title": "Tadbirlar",
+    "seoDescription": "Konsert, futbol o‘yinlari va komediya shoularini sana, shahar va narx bo‘yicha qidiring va saralang.",
+    "search": "Tadbirlarni qidirish",
+    "searchPlaceholder": "Tadbir nomi bo‘yicha qidirish",
+    "noMatch": "Filtrlarga mos tadbir topilmadi",
+    "noMatchQuery": "“{{query}}” bo‘yicha tadbir topilmadi",
+    "noMatchText": "Boshqa sana yoki shaharni tanlang yoki sotuvdagi hamma narsani ko‘rish uchun filtrlarni tozalang.",
+    "showing_one": "{{total}} tadbirdan {{from}}–{{to}} ko‘rsatilmoqda",
+    "showing_other": "{{total}} tadbirdan {{from}}–{{to}} ko‘rsatilmoqda",
+    "tryCategory": "Barcha tadbirlar: {{category}}"
+  },
+  "filters": {
+    "title": "Filtrlar",
+    "category": "Turkum",
+    "allEvents": "Barcha tadbirlar",
+    "date": "Sana",
+    "from": "Dan",
+    "to": "Gacha",
+    "city": "Shahar",
+    "allCities": "Barcha shaharlar",
+    "price": "Narx oralig‘i (₩)",
+    "min": "Eng kam",
+    "max": "Eng ko‘p",
+    "any": "Istalgan",
+    "clear": "Filtrlarni tozalash",
+    "sortBy": "Saralash"
+  },
+  "sort": {
+    "date": "Sana: yaqinlari birinchi",
+    "priceAsc": "Narx: arzonidan",
+    "priceDesc": "Narx: qimmatidan",
+    "popular": "Eng ko‘p ko‘rilgan",
+    "newest": "Yaqinda qo‘shilgan"
+  },
+  "detail": {
+    "like": "Bu tadbir yoqdi",
+    "unlike": "Yoqtirishni bekor qilish",
+    "likeFailed": "Yoqtirish saqlanmadi. Qayta urinib ko‘ring.",
+    "notFoundTitle": "Tadbir topilmadi",
+    "notFoundText": "Bunday tadbir yo‘q yoki chiptalari endi sotilmaydi.",
+    "images": "Tadbir rasmlari",
+    "showImage": "{{n}}-rasmni ko‘rsatish",
+    "allOf": "Barcha: {{category}}",
+    "banner": {
+      "cancelled": {
+        "title": "Tadbir bekor qilindi",
+        "text": "Buyurtmalar puli avtomatik qaytariladi.",
+        "reason": "Sabab: {{reason}}"
+      },
+      "ended": {
+        "title": "Tadbir tugagan",
+        "text": "Chiptalar endi sotilmaydi."
+      },
+      "soldOut": {
+        "title": "Chiptalar tugadi",
+        "text": "Barcha chiptalar sotilgan. Chiptalar qaytarilishi mumkin, keyinroq qayta tekshiring."
+      },
+      "notStarted": {
+        "title": "Sotuv hali boshlanmagan",
+        "text": "Chiptalar tez orada sotuvga chiqadi. Boshlanish vaqti har bir chipta yonida ko‘rsatilgan."
+      },
+      "saleClosed": {
+        "title": "Sotuv yopilgan",
+        "text": "Bu tadbir chiptalarini endi sotib olib bo‘lmaydi."
+      }
+    },
+    "until": "{{time}} gacha",
+    "stats": "Tadbir statistikasi",
+    "views_one": "{{n}} ko‘rish",
+    "views_other": "{{n}} ko‘rish",
+    "likes_one": "{{n}} yoqtirish",
+    "likes_other": "{{n}} yoqtirish",
+    "commentsCount_one": "{{n}} izoh",
+    "commentsCount_other": "{{n}} izoh",
+    "about": "Tadbir haqida",
+    "starts": "Boshlanishi",
+    "ends": "Tugashi",
+    "seating": "O‘rindiqlar",
+    "seatingType": {
+      "GENERAL": "Erkin o‘rin",
+      "RESERVED": "Belgilangan o‘rinlar"
+    },
+    "refundTitle": "Pulni qaytarish qoidasi",
+    "refundText": "Tadbirdan bir kun oldin, {{date}} kuni 23:59 gacha, maydon vaqti bo‘yicha ({{zone}}) to‘liq qaytarib olishingiz mumkin.",
+    "venue": "Maydon",
+    "timezone": "Vaqt maydonning vaqt mintaqasida ko‘rsatilgan: {{zone}}",
+    "openMaps": "Xaritada ochish",
+    "organizer": "Tashkilotchi",
+    "moreFrom": "{{name}} boshqa tadbirlari",
+    "tickets": "Chiptalar",
+    "left_one": "Atigi {{count}} ta qoldi",
+    "left_other": "Atigi {{count}} ta qoldi",
+    "salesStart": "{{date}} dan sotuvda",
+    "salesClosed": "Sotuv yopilgan",
+    "paused": "Hozircha mavjud emas",
+    "noTickets": "Chiptalar hali qo‘shilmagan.",
+    "selectSeats": "O‘rin tanlash",
+    "selectTickets": "Chipta tanlash",
+    "unavailable": {
+      "cancelled": "Tadbir bekor qilindi",
+      "ended": "Tadbir tugagan",
+      "soldOut": "Chiptalar tugadi",
+      "notStarted": "Sotuv boshlanmagan",
+      "saleClosed": "Sotuv yopilgan",
+      "onSale": "O‘rin tanlash"
+    },
+    "ticketsFoot": "Narxlar yig‘imlarni o‘z ichiga oladi. Chiptalar “Mening chiptalarim” bo‘limida QR kod ko‘rinishida keladi.",
+    "soldOutBadge": "Tugadi",
+    "viewTickets": "Chiptalarni ko‘rish"
+  },
+  "comments": {
+    "title": "Izohlar",
+    "label": "Izoh yozish",
+    "placeholder": "Bu tadbir haqida savol yoki fikringizni yozing",
+    "length": "{{count}} / {{max}}",
+    "post": "Izoh qoldirish",
+    "loginLink": "Kiring",
+    "loginText": "va suhbatda qatnashing.",
+    "empty": "Yuborishdan oldin biror narsa yozing.",
+    "postFailed": "Izoh yuborilmadi. Qayta urinib ko‘ring.",
+    "deleteFailed": "Izohni o‘chirib bo‘lmadi. Qayta urinib ko‘ring.",
+    "none": "Hozircha izoh yo‘q. Birinchi savolni siz bering.",
+    "anonymous": "Ticketzy a’zosi",
+    "confirmDelete": "O‘chirish",
+    "cancel": "Bekor qilish",
+    "delete": "O‘chirish",
+    "more": "Yana izohlar"
+  },
+  "seats": {
+    "title": "O‘rin tanlash",
+    "text": "O‘rin tanlash tez orada qo‘shiladi. Hozircha tadbir sahifasiga qayting.",
+    "back": "Tadbirga qaytish"
+  },
+  "organizer": {
+    "notFoundTitle": "Tashkilotchi topilmadi",
+    "notFoundText": "Bunday tashkilotchi yo‘q yoki mavjud emas.",
+    "seoDescription": "{{name}} ning Ticketzy’dagi yaqin tadbirlari.",
+    "eventsCount_one": "{{n}} tadbir",
+    "eventsCount_other": "{{n}} tadbir",
+    "completed_one": "{{n}} tadbir o‘tkazilgan",
+    "completed_other": "{{n}} tadbir o‘tkazilgan",
+    "upcoming": "Yaqinlashayotgan tadbirlar",
+    "noEventsTitle": "Rejalashtirilgan tadbir yo‘q",
+    "noEventsText": "Bu tashkilotchida hozir sotuvda tadbir yo‘q.",
+    "moreInList_one": "Yana {{count}} ta tadbir bu yerda ko‘rsatilmagan.",
+    "moreInList_other": "Yana {{count}} ta tadbir bu yerda ko‘rsatilmagan."
+  }
+}

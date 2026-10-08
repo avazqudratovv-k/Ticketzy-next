@@ -6,6 +6,13 @@ import { List } from 'phosphor-react';
 import { useTranslation } from 'next-i18next';
 import useAuth from '../hooks/useAuth';
 import { ROUTES } from '../routes';
+import { categoryHref, CategorySlug } from '../events';
+
+const NAV_CATEGORIES: { slug: CategorySlug; key: string }[] = [
+	{ slug: 'concert', key: 'nav.concerts' },
+	{ slug: 'football', key: 'nav.football' },
+	{ slug: 'comedy', key: 'nav.comedy' },
+];
 import Brand from './common/Brand';
 import LanguageSwitcher from './common/LanguageSwitcher';
 import ThemeToggle from './common/ThemeToggle';
@@ -26,10 +33,25 @@ const Top = () => {
 				<nav aria-label={t('nav.mainLabel')}>
 					<ul className="tz-navbar__links">
 						<li>
-							<Link href={ROUTES.events} className="tz-navbar__link" aria-current={onEvents ? 'page' : undefined}>
+							<Link
+								href={ROUTES.events}
+								className="tz-navbar__link"
+								aria-current={onEvents && !router.query.category ? 'page' : undefined}
+							>
 								{t('nav.events')}
 							</Link>
 						</li>
+						{NAV_CATEGORIES.map(({ slug, key }) => (
+							<li key={slug}>
+								<Link
+									href={categoryHref(slug)}
+									className="tz-navbar__link tz-navbar__link--cat"
+									aria-current={onEvents && router.query.category === slug ? 'page' : undefined}
+								>
+									{t(key)}
+								</Link>
+							</li>
+						))}
 					</ul>
 				</nav>
 				<div className="tz-navbar__actions">
@@ -68,6 +90,11 @@ const Top = () => {
 							<MenuItem component={Link} href={ROUTES.events} onClick={closeMenu}>
 								{t('nav.events')}
 							</MenuItem>
+							{NAV_CATEGORIES.map(({ slug, key }) => (
+								<MenuItem key={slug} component={Link} href={categoryHref(slug)} onClick={closeMenu}>
+									{t(key)}
+								</MenuItem>
+							))}
 							{ready && !user && (
 								<MenuItem component={Link} href={ROUTES.login} onClick={closeMenu}>
 									{t('header.login')}

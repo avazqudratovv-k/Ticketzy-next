@@ -1,0 +1,208 @@
+{
+  "categories": {
+    "CONCERT": "Concert",
+    "FOOTBALL": "Football",
+    "COMEDY": "Comedy",
+    "SPORT": "Sport",
+    "THEATER": "Theater",
+    "CONFERENCE": "Conference",
+    "FESTIVAL": "Festival",
+    "OTHER": "Other"
+  },
+  "categoryPlural": {
+    "CONCERT": "Concerts",
+    "FOOTBALL": "Football",
+    "COMEDY": "Comedy",
+    "SPORT": "Sport",
+    "THEATER": "Theater",
+    "CONFERENCE": "Conferences",
+    "FESTIVAL": "Festivals",
+    "OTHER": "Other"
+  },
+  "card": {
+    "from": "From"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page",
+    "goTo": "Page {{page}}",
+    "compact": "Page {{page}} of {{count}}"
+  },
+  "errors": {
+    "loadTitle": "We couldn’t load events",
+    "loadText": "Check your connection and try again. Nothing was lost.",
+    "retry": "Try again"
+  },
+  "home": {
+    "getTickets": "Get tickets",
+    "seoDescription": "Tickets for concerts, football and comedy. Find an event, pay in a minute and keep your QR codes in one place.",
+    "emptyTitle": "No events on sale yet",
+    "emptyText": "New events appear here as soon as organizers publish them.",
+    "browse": "Browse events",
+    "categories": "Browse by category",
+    "categoryText": {
+      "CONCERT": "Tours, festivals, club nights",
+      "FOOTBALL": "League and cup matches",
+      "COMEDY": "Stand-up and improv",
+      "OTHER": "Theater, talks, markets"
+    },
+    "upcoming": "Upcoming events",
+    "concerts": "Concerts",
+    "football": "Football",
+    "comedy": "Comedy",
+    "seeAll": "See all",
+    "organizers": "Organizers",
+    "ctaTitle": "Organize an event?",
+    "ctaText": "Sell tickets to your own concert, match or show. We review every organizer before the first event goes live.",
+    "ctaButton": "Sell tickets"
+  },
+  "list": {
+    "title": "Browse events",
+    "seoDescription": "Search and filter concerts, football matches and comedy shows by date, city and price.",
+    "search": "Search events",
+    "searchPlaceholder": "Search by event title",
+    "noMatch": "No events match your filters",
+    "noMatchQuery": "No events match “{{query}}”",
+    "noMatchText": "Try a different date or city, or clear the filters to see everything on sale.",
+    "showing_one": "Showing {{from}}–{{to}} of {{total}} event",
+    "showing_other": "Showing {{from}}–{{to}} of {{total}} events",
+    "tryCategory": "Show all {{category}} events"
+  },
+  "filters": {
+    "title": "Filters",
+    "category": "Category",
+    "allEvents": "All events",
+    "date": "Date",
+    "from": "From",
+    "to": "To",
+    "city": "City",
+    "allCities": "All cities",
+    "price": "Price range (₩)",
+    "min": "Min",
+    "max": "Max",
+    "any": "Any",
+    "clear": "Clear filters",
+    "sortBy": "Sort by"
+  },
+  "sort": {
+    "date": "Date, soonest first",
+    "priceAsc": "Price, low to high",
+    "priceDesc": "Price, high to low",
+    "popular": "Most viewed",
+    "newest": "Recently added"
+  },
+  "detail": {
+    "like": "Like this event",
+    "unlike": "Remove like",
+    "likeFailed": "Couldn’t save your like. Try again.",
+    "notFoundTitle": "Event not found",
+    "notFoundText": "This event does not exist or is no longer on sale.",
+    "images": "Event images",
+    "showImage": "Show image {{n}}",
+    "allOf": "All {{category}}",
+    "banner": {
+      "cancelled": {
+        "title": "This event was cancelled",
+        "text": "Orders are refunded automatically.",
+        "reason": "Reason: {{reason}}"
+      },
+      "ended": {
+        "title": "This event has ended",
+        "text": "Tickets are no longer on sale."
+      },
+      "soldOut": {
+        "title": "Sold out",
+        "text": "All tickets are taken. Check back later in case tickets are released."
+      },
+      "notStarted": {
+        "title": "Sales have not started",
+        "text": "Tickets go on sale soon. The start time is shown next to each ticket."
+      },
+      "saleClosed": {
+        "title": "Sales are closed",
+        "text": "Tickets for this event can no longer be bought."
+      }
+    },
+    "until": "until {{time}}",
+    "stats": "Event statistics",
+    "views_one": "{{n}} view",
+    "views_other": "{{n}} views",
+    "likes_one": "{{n}} like",
+    "likes_other": "{{n}} likes",
+    "commentsCount_one": "{{n}} comment",
+    "commentsCount_other": "{{n}} comments",
+    "about": "About this event",
+    "starts": "Starts",
+    "ends": "Ends",
+    "seating": "Seating",
+    "seatingType": {
+      "GENERAL": "General admission",
+      "RESERVED": "Reserved seats"
+    },
+    "refundTitle": "Refund policy",
+    "refundText": "You can get a full refund until 23:59 on {{date}}, the day before the event, on venue time ({{zone}}).",
+    "venue": "Venue",
+    "timezone": "Times are shown in the venue’s time zone: {{zone}}",
+    "openMaps": "Open in maps",
+    "organizer": "Organizer",
+    "moreFrom": "More events from {{name}}",
+    "tickets": "Tickets",
+    "left_one": "Only {{count}} left",
+    "left_other": "Only {{count}} left",
+    "salesStart": "On sale from {{date}}",
+    "salesClosed": "Sales closed",
+    "paused": "Not available right now",
+    "noTickets": "No tickets have been added yet.",
+    "selectSeats": "Select seats",
+    "selectTickets": "Select tickets",
+    "unavailable": {
+      "cancelled": "Event cancelled",
+      "ended": "Event ended",
+      "soldOut": "Sold out",
+      "notStarted": "Sales not started",
+      "saleClosed": "Sales closed",
+      "onSale": "Select seats"
+    },
+    "ticketsFoot": "Prices include fees. Tickets arrive as QR codes in My tickets.",
+    "soldOutBadge": "Sold out",
+    "viewTickets": "View tickets"
+  },
+  "comments": {
+    "title": "Comments",
+    "label": "Write a comment",
+    "placeholder": "Share a question or a thought about this event",
+    "length": "{{count}} / {{max}}",
+    "post": "Post comment",
+    "loginLink": "Log in",
+    "loginText": "to join the conversation.",
+    "empty": "Write something before posting.",
+    "postFailed": "Your comment was not posted. Try again.",
+    "deleteFailed": "The comment could not be deleted. Try again.",
+    "none": "No comments yet. Be the first to ask something.",
+    "anonymous": "Ticketzy member",
+    "confirmDelete": "Delete",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "more": "Show more comments"
+  },
+  "seats": {
+    "title": "Select seats",
+    "text": "Seat selection is coming soon. For now, go back to the event.",
+    "back": "Back to the event"
+  },
+  "organizer": {
+    "notFoundTitle": "Organizer not found",
+    "notFoundText": "This organizer does not exist or is not available.",
+    "seoDescription": "Upcoming events by {{name}} on Ticketzy.",
+    "eventsCount_one": "{{n}} event",
+    "eventsCount_other": "{{n}} events",
+    "completed_one": "{{n}} event held",
+    "completed_other": "{{n}} events held",
+    "upcoming": "Upcoming events",
+    "noEventsTitle": "No upcoming events",
+    "noEventsText": "This organizer has nothing on sale right now.",
+    "moreInList_one": "{{count}} more event is not shown here.",
+    "moreInList_other": "{{count}} more events are not shown here."
+  }
+}

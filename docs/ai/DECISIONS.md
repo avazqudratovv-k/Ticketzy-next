@@ -37,3 +37,30 @@
 | F29 | Chat WebSocket: nothing built. `NEXT_PUBLIC_API_WS_URL` is still unused; the client will send the token in a first `auth` message | Prompt | |
 | F30 | Old files are left unused instead of deleted (list in FRONTEND_COMPLETED_TASKS.md) | A bulk delete was blocked by the permission system | Delete them with `git rm` |
 | F31 | The shell shows nothing until the member is allowed in (no skeleton) | Avoids a flash of dashboard content for the wrong role | |
+
+## Prompt 2 decisions
+| # | Decision | Why | Open question |
+|---|---|---|---|
+| F32 | Data is fetched in the browser with Apollo; only the SEO tags come from `getServerSideProps` (anonymous plain `fetch`) | The Apollo client has no link on the server and the member's token lives in `localStorage`; the like state and view count need the token | If a page must be indexed with its full text, add a server Apollo link |
+| F33 | The event detail waits for the stored session (`authReadyVar`) before its first request | The first request then carries the token, so the view is recorded once and `meLiked` is right | The page shows a skeleton until the session check ends |
+| F34 | A hidden event (draft, pending, cancelled, ended for visitors) shows "Event not found" | The API answers `NO_DATA_FOUND` for all of them, so the page cannot tell them apart | Ask the backend to return CANCELLED and ENDED events publicly (read-only) if buyers should see them |
+| F35 | Text search is sent as is. When the text equals a category name in the active language (or `comedy`, `concert`, `football`), the empty state offers "Show all Comedy events" | The API only searches `eventTitle`; "comedy" finds nothing | Backend could search translations, category and venue |
+| F36 | Category filter has four slugs: `concert`, `football`, `comedy`, `other` (other = SPORT, THEATER, CONFERENCE, FESTIVAL, OTHER) | The design shows four filters; the enum has eight values | |
+| F37 | Date filter uses Seoul midnight boundaries (`+09:00`) | Venues default to Asia/Seoul and the API takes absolute times | Per-venue boundaries are not possible in one query |
+| F38 | Page size 12 with numbered pagination (compact "Page 2 of 3" below 768px); no "Show more" | Design allows either; numbered pages keep the page in the URL | |
+| F39 | Left out of the browse design: "Hide sold-out events" and the top-bar search box | The list API has no sold-out filter, and a second search field would duplicate the one on `/events` | |
+| F40 | Cards have no "Sold out" badge | `getEvents` does not return ticket stock; the detail page derives it from `getTicketTypes` | Backend could expose a `soldOut` flag |
+| F41 | Detail "Select seats" button reads "Select tickets" for GENERAL events and is disabled for cancelled, ended, sold out and not-yet-on-sale events, with the reason as its label | Matches the design's separate general-admission flow; the prompt says "Select seats" for the primary case | Use "Select seats" everywhere if preferred |
+| F42 | Refund line is hidden for cancelled and ended events; the cancelled banner says orders are refunded automatically | The 23:59 rule is meaningless for them | |
+| F43 | `cancelReason` is shown when the API sends it (owner and admins only) | It is the only reason text available | |
+| F44 | "Open in maps" is a Google Maps search link built from the venue name and address; no embedded map | `venueCoordinates` order is not documented and an iframe adds a third-party request | Embed later |
+| F45 | Uzbek dates are composed by hand (`Yakshanba, 8-noyabr`); other languages use `Intl` | Chrome and Node have no Uzbek date data (Intl prints "M11 8, Sun") | Re-check when ICU gets full `uz` |
+| F46 | Prices use `Intl` with the ticket's currency and `narrowSymbol` (₩ in all languages, grouping per locale: `33 000 ₩` in Russian) | The design's table shows ₩65,000 for Korean only | |
+| F47 | Title, description and image in the SEO tags come from the active language with the EN fallback; the server query is anonymous | Same rule as the page; hidden events get a generic title and `noindex` | |
+| F48 | Comments: delete is `updateComment` with status DELETE, confirmed inline (no browser dialog); 1000 characters client limit; own comments only | There is no member-level remove operation; the length limit is not in the schema | Check the backend limit |
+| F49 | The like button redirects logged-out visitors to login with `returnTo` | Prompt: like for logged-in users | |
+| F50 | Organizer page rejects members that are not ORGANIZER and shows the first 12 upcoming events with a "N more not shown" line | `getMember` answers for any ACTIVE member | Add a "load more" when an organizer has many events |
+| F51 | Category links in the top bar appear from 1024px; the 768px bar kept wrapping the auth buttons | Not enough room | A burger menu up to 1023px would keep them reachable |
+| F52 | Avatar-menu targets (My tickets, Orders, Settings) were left as they are (F25) | Their pages come in later phases | |
+| F53 | `reloadOnPrerender` is on in development in `next-i18next.config.js` | Locale JSON edits showed stale keys until the dev server restarted | |
+| F54 | Seats page `/events/[id]/seats` is a placeholder with a back link | Next prompt | |

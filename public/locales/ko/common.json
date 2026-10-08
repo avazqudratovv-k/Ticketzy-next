@@ -4,7 +4,10 @@
     "events": "이벤트",
     "openMenu": "메뉴 열기",
     "closeMenu": "메뉴 닫기",
-    "mainLabel": "주요 메뉴"
+    "mainLabel": "주요 메뉴",
+    "concerts": "콘서트",
+    "football": "축구",
+    "comedy": "코미디"
   },
   "header": {
     "login": "로그인",
@@ -39,16 +42,14 @@
     "tagline": "콘서트, 축구, 코미디 티켓을 1분 만에 구매하고 현장에서 바로 스캔하세요.",
     "discover": "둘러보기",
     "organizers": "주최자",
-    "help": "도움말",
     "events": "모든 이벤트",
     "sellTickets": "티켓 판매",
     "organizerSignIn": "주최자 로그인",
-    "faq": "자주 묻는 질문",
-    "contact": "고객 지원 문의",
-    "about": "Ticketzy 소개",
-    "terms": "이용약관",
-    "privacy": "개인정보 처리방침",
-    "copyright": "© {{year}} Ticketzy"
+    "copyright": "© {{year}} Ticketzy",
+    "concerts": "콘서트",
+    "football": "축구",
+    "comedy": "코미디",
+    "other": "기타 이벤트"
   },
   "dashboard": {
     "organizer": "주최자",
@@ -86,19 +87,6 @@
     },
     "overviewTitle": "개요",
     "adminOverviewTitle": "플랫폼 개요"
-  },
-  "home": {
-    "title": "집을 나설 만한 밤을 위한 티켓",
-    "subtitle": "콘서트, 축구, 코미디. 이벤트를 찾고 1분 만에 결제하고 QR 코드를 한곳에서 관리하세요.",
-    "browse": "이벤트 둘러보기",
-    "sell": "티켓 판매",
-    "categories": "카테고리별 보기",
-    "concerts": "콘서트",
-    "concertsText": "투어, 페스티벌, 클럽 나이트",
-    "football": "축구",
-    "footballText": "리그 및 컵 대회 경기",
-    "comedy": "코미디",
-    "comedyText": "스탠드업과 즉흥 코미디"
   },
   "notFound": {
     "title": "페이지를 찾을 수 없어요",

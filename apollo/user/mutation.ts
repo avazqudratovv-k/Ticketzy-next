@@ -35,3 +35,33 @@ export const SIGNUP_ORGANIZER = gql`
 		}
 	}
 `;
+
+export const LIKE_TARGET_EVENT = gql`
+	mutation LikeTargetEvent($eventId: String!) {
+		likeTargetEvent(eventId: $eventId) {
+			_id
+			eventLikes
+			meLiked {
+				myFavorite
+			}
+		}
+	}
+`;
+
+export const CREATE_COMMENT = gql`
+	mutation CreateComment($input: CommentInput!) {
+		createComment(input: $input) {
+			_id
+		}
+	}
+`;
+
+/** Deleting a comment is `updateComment` with commentStatus DELETE (there is no member-level remove). */
+export const UPDATE_COMMENT = gql`
+	mutation UpdateComment($input: CommentUpdate!) {
+		updateComment(input: $input) {
+			_id
+			commentStatus
+		}
+	}
+`;

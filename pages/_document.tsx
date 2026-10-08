@@ -11,7 +11,6 @@ export default function Document() {
 				<link rel="icon" type="image/png" href="/img/logo/favicon.svg" />
 
 				{/* SEO */}
-				<meta name={'description'} content={'Ticketzy - discover events and buy tickets'} />
 				<script dangerouslySetInnerHTML={{ __html: themeScript }} />
 			</Head>
 			<body>

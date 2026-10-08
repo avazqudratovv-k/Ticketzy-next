@@ -4,7 +4,10 @@
     "events": "Events",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "mainLabel": "Main"
+    "mainLabel": "Main",
+    "concerts": "Concerts",
+    "football": "Football",
+    "comedy": "Comedy"
   },
   "header": {
     "login": "Log in",
@@ -39,16 +42,14 @@
     "tagline": "Tickets for concerts, football and comedy. Bought in a minute, scanned at the door.",
     "discover": "Discover",
     "organizers": "Organizers",
-    "help": "Help",
     "events": "All events",
     "sellTickets": "Sell tickets",
     "organizerSignIn": "Organizer sign in",
-    "faq": "FAQ",
-    "contact": "Contact support",
-    "about": "About Ticketzy",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "copyright": "© {{year}} Ticketzy"
+    "copyright": "© {{year}} Ticketzy",
+    "concerts": "Concerts",
+    "football": "Football",
+    "comedy": "Comedy",
+    "other": "Other events"
   },
   "dashboard": {
     "organizer": "Organizer",
@@ -86,19 +87,6 @@
     },
     "overviewTitle": "Overview",
     "adminOverviewTitle": "Platform overview"
-  },
-  "home": {
-    "title": "Tickets for the nights worth leaving home for",
-    "subtitle": "Concerts, football and comedy. Find an event, pay in a minute and keep your QR codes in one place.",
-    "browse": "Browse events",
-    "sell": "Sell tickets",
-    "categories": "Browse by category",
-    "concerts": "Concerts",
-    "concertsText": "Tours, festivals, club nights",
-    "football": "Football",
-    "footballText": "League and cup matches",
-    "comedy": "Comedy",
-    "comedyText": "Stand-up and improv"
   },
   "notFound": {
     "title": "Page not found",

@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { ROUTES } from '../routes';
+import { categoryHref } from '../events';
 import Brand from './common/Brand';
 import LanguageSwitcher from './common/LanguageSwitcher';
 
-/** Several targets (FAQ, contact, about, terms, privacy) are static pages that come in a later phase. */
+/** FAQ, contact, about, terms and privacy are left out until those pages exist. */
 const Footer = () => {
 	const { t } = useTranslation('common');
 
@@ -19,6 +20,18 @@ const Footer = () => {
 					<div>
 						<h2 className="tz-footer__title">{t('footer.discover')}</h2>
 						<ul className="tz-footer__list">
+							<li>
+								<Link href={categoryHref('concert')}>{t('footer.concerts')}</Link>
+							</li>
+							<li>
+								<Link href={categoryHref('football')}>{t('footer.football')}</Link>
+							</li>
+							<li>
+								<Link href={categoryHref('comedy')}>{t('footer.comedy')}</Link>
+							</li>
+							<li>
+								<Link href={categoryHref('other')}>{t('footer.other')}</Link>
+							</li>
 							<li>
 								<Link href={ROUTES.events}>{t('footer.events')}</Link>
 							</li>
@@ -35,30 +48,10 @@ const Footer = () => {
 							</li>
 						</ul>
 					</div>
-					<div>
-						<h2 className="tz-footer__title">{t('footer.help')}</h2>
-						<ul className="tz-footer__list">
-							<li>
-								<Link href="/faq">{t('footer.faq')}</Link>
-							</li>
-							<li>
-								<Link href="/contact">{t('footer.contact')}</Link>
-							</li>
-							<li>
-								<Link href="/about">{t('footer.about')}</Link>
-							</li>
-						</ul>
-					</div>
 				</div>
 				<div className="tz-footer__bar">
 					<div className="tz-footer__legal">
 						<span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
-						<Link href="/terms" className="tz-link">
-							{t('footer.terms')}
-						</Link>
-						<Link href="/privacy" className="tz-link">
-							{t('footer.privacy')}
-						</Link>
 					</div>
 					<LanguageSwitcher variant="segmented" />
 				</div>

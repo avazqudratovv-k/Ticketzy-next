@@ -4,7 +4,10 @@
     "events": "Tadbirlar",
     "openMenu": "Menyuni ochish",
     "closeMenu": "Menyuni yopish",
-    "mainLabel": "Asosiy menyu"
+    "mainLabel": "Asosiy menyu",
+    "concerts": "Konsertlar",
+    "football": "Futbol",
+    "comedy": "Komediya"
   },
   "header": {
     "login": "Kirish",
@@ -39,16 +42,14 @@
     "tagline": "Konsert, futbol va komediya chiptalari. Bir daqiqada sotib olinadi, kirishda skanerlanadi.",
     "discover": "Kashf etish",
     "organizers": "Tashkilotchilar",
-    "help": "Yordam",
     "events": "Barcha tadbirlar",
     "sellTickets": "Chipta sotish",
     "organizerSignIn": "Tashkilotchi kirishi",
-    "faq": "Koʻp beriladigan savollar",
-    "contact": "Yordam xizmatiga murojaat",
-    "about": "Ticketzy haqida",
-    "terms": "Shartlar",
-    "privacy": "Maxfiylik",
-    "copyright": "© {{year}} Ticketzy"
+    "copyright": "© {{year}} Ticketzy",
+    "concerts": "Konsertlar",
+    "football": "Futbol",
+    "comedy": "Komediya",
+    "other": "Boshqa tadbirlar"
   },
   "dashboard": {
     "organizer": "Tashkilotchi",
@@ -86,19 +87,6 @@
     },
     "overviewTitle": "Sharh",
     "adminOverviewTitle": "Platforma sharhi"
-  },
-  "home": {
-    "title": "Uydan chiqishga arziydigan oqshomlar uchun chiptalar",
-    "subtitle": "Konsertlar, futbol va komediya. Tadbirni toping, bir daqiqada toʻlang va QR kodlaringizni bir joyda saqlang.",
-    "browse": "Tadbirlarni koʻrish",
-    "sell": "Chipta sotish",
-    "categories": "Turkumlar boʻyicha",
-    "concerts": "Konsertlar",
-    "concertsText": "Gastrollar, festivallar, klub kechalari",
-    "football": "Futbol",
-    "footballText": "Liga va kubok oʻyinlari",
-    "comedy": "Komediya",
-    "comedyText": "Stend-ap va improvizatsiya"
   },
   "notFound": {
     "title": "Sahifa topilmadi",

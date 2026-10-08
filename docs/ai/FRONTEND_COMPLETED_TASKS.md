@@ -63,3 +63,30 @@ Goal: Ticketzy theme and layouts from `design/`, Apollo auth, and login/signup a
 
 ### Left in place (unused now, safe to delete)
 `scss/pc/`, `scss/mobile/`, `scss/reset.scss`, `scss/variables.scss`, `scss/MaterialTheme/{shadow,typography,styled}.ts`, `libs/components/admin/AdminMenuList.tsx`, `libs/hooks/useDeviceDetect.ts`, `libs/types/customJwtPayload.ts`. A bulk delete was blocked in this session, so nothing was removed. `libs/sweetAlert.ts` is also unused now but is kept for later phases.
+
+## Prompt 2: public pages (2026-10-08)
+Goal: Home, events list, event detail, organizer profile and the shared pieces, against the real schema. Not committed.
+
+### Operations used (exact names, from `docs/ai/schema.json`)
+`getEvents(input: EventsInquiry)` (search: `text`, `categoryList`, `cityList`, `pricesRange`, `periodsRange`, `organizerId`; sort whitelist `createdAt, updatedAt, eventLikes, eventViews, eventRank, eventMinPrice, startAt`), `getEvent(eventId)`, `getTicketTypes(eventId)`, `getVenues` (for the city list), `getOrganizers`, `getMember` (organizer profile), `getComments(input)`, `createComment`, `updateComment` (status DELETE removes a comment), `likeTargetEvent`. Documents are in `apollo/user/query.ts`, `mutation.ts`, `fragments.ts` (`EVENT_CARD_FIELDS`).
+
+### Added
+- Pages: `/` (hero = most viewed event, three compact cards, category tiles, upcoming grid, Concerts / Football / Comedy sections, organizers and a sell-tickets block), `/events` (search, category, date range, city, price range, sort, numbered pagination, empty / error / skeleton states, filters as a collapsible panel below 1024px), `/events/[id]`, `/events/[id]/seats` (placeholder), `/organizers/[id]`.
+- Shared: `EventCard` (+ row variant and skeletons), `EventImage`, `CategoryChip`, `Pagination`, `StateBlock` (empty / error), `Seo` (title, description, Open Graph, Twitter card, `noindex` for hidden pages), `LikeButton`, `Comments`, `TicketPanel`, `OrganizerAvatar`, `libs/format.ts` (price, date, time, zone name, refund day), `libs/events.ts` (categories, sort keys, `localizedEvent`, `saleState`), `libs/hooks/useEventFilters.ts` (URL query state), `libs/serverFetch.ts`.
+- `scss/events.scss` (tokens only, light and dark).
+- i18n: new `events` namespace in en, ko, ru, uz (same keys, plural forms where the language needs them). `common.json`: `nav` categories added, `footer` categories added, Nestar-era `home` block and the dead footer keys removed.
+- Nav and footer: the top bar has Events, Concerts, Football, Comedy (the three categories only from 1024px); the footer links go to category filters. FAQ, Contact, About, Terms and Privacy links were removed (no pages).
+- Event detail: image gallery, title and description in the active language (fallback EN, then the base fields), date and time in the venue's time zone with the zone name, venue block with "Open in maps", ticket types with KRW prices and availability, refund policy line (23:59 the day before, venue zone), organizer card, view / like / comment counts, like toggle, comments (list, post, delete own with an inline confirm), states for cancelled, ended, sold out, sales not started and sales closed.
+- SEO: `getServerSideProps` on the detail and organizer pages fetches the title, description and image anonymously so the tags are in the HTML in the requested language; the removed static description in `_document` stopped duplicating the page one.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds.
+- Browser against the live backend (dev server and a production start): home; list with `?q=comedy` (no title match, offers the Comedy category), category, city menu, sort, page 2 of a sort (page size temporarily 3, set back to 12), reload and shareable URLs; event detail in en, ko, ru, uz (date, price, refund text and plurals checked); like, comment, delete own comment as `buyer@ticketzy.demo`; cancelled (`Winter Ballad Tour: Hanbit`) and ended (`Spring Stand-Up Showcase`) events opened as `organizer@ticketzy.demo`; the same cancelled event logged out gives the "Event not found" state; organizer page; 390 and 768 px layouts (in iframes, the window cannot be resized below the screen) and the light theme.
+- **Not tested**: sold-out and "sales not started" banners (no demo event is in that state; the logic is `saleState` in `libs/events.ts`), the 4-language organizer page, 768px after the final navbar fix, the share link of Open Graph in a real crawler, keyboard-only use of the filter panel.
+
+### Backend behaviour found (not changed, backend is read-only)
+- `getEvents`, `getEvent`, `getTicketTypes` show only APPROVED events to the public. CANCELLED and ENDED events are `NO_DATA_FOUND` for visitors and buyers; only the owner and admins can open them. The cancelled / ended states exist in the UI but a buyer never reaches them today.
+- `getEvents` text search matches the base `eventTitle` only, not translated titles, categories or venues.
+- `eventComments` is not lowered when a comment is deleted through `updateComment`; the page shows the live list total instead.
+- `Member.memberEvents` counts every event of an organizer (12 for the demo organizer), not only the public ones (7).
+- `eventRank` is 0 for all demo events, so "popular" uses `eventViews`.

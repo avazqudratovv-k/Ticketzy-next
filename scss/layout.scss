@@ -56,6 +56,16 @@
 			background: var(--surface);
 		}
 	}
+	// The category links need the room of a wide bar; below 1024px they live on the home tiles, filters and footer
+	&__link--cat {
+		display: none;
+		@media (min-width: 1024px) {
+			display: inline-flex;
+		}
+	}
+	&__desktop .MuiButton-root {
+		white-space: nowrap;
+	}
 	&__actions {
 		display: flex;
 		align-items: center;
@@ -207,7 +217,7 @@
 		gap: var(--space-6);
 		padding-block: var(--space-8);
 		@media (min-width: 768px) {
-			grid-template-columns: 2fr repeat(3, 1fr);
+			grid-template-columns: 2fr repeat(2, 1fr);
 		}
 	}
 	&__about {
