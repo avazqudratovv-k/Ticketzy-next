@@ -1,0 +1,157 @@
+/* Ticketzy design tokens as CSS custom properties. Generated from tokens.json.
+   Dark is the default theme. Set data-theme="light" on <html> (or on any wrapper) for the light theme.
+   Type styles are font shorthands: `font: var(--text-h1); letter-spacing: var(--tracking-h1);` */
+
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0b0d;
+  --surface: #14161a;
+  --surface-raised: #1d2025;
+  --surface-sunken: #060708;
+  --border: #2a2e35;
+  --border-control: #7a808c;
+  --ink: #f4f5f7;
+  --ink-muted: #b4b9c3;
+  --ink-subtle: #8d93a0;
+  --accent: #c8f53c;
+  --accent-hover: #d8fb6a;
+  --accent-pressed: #b0dc1f;
+  --on-accent: #111500;
+  --accent-edge: #c8f53c;
+  --accent-text: #c8f53c;
+  --accent-soft: #1e2909;
+  --focus: #ffffff;
+  --success-text: #5fe0b5;
+  --success-soft: #0f2a23;
+  --warning-text: #ffc24a;
+  --warning-soft: #2e2208;
+  --danger-text: #ff8f85;
+  --danger-soft: #33130f;
+  --danger: #ff6b5e;
+  --on-danger: #1a0503;
+  --info-text: #8cc4ff;
+  --info-soft: #0f2238;
+  --neutral-text: #c3c8d1;
+  --neutral-soft: #23262c;
+  --seat-available: #8b93a3;
+  --seat-selected: var(--accent);
+  --seat-held: #ffc24a;
+  --seat-sold: #2a2e35;
+  --on-image: #ffffff;
+  --image-scrim: rgba(6, 7, 8, 0.82);
+  --scrim: rgba(0, 0, 0, 0.64);
+  --qr-ground: #ffffff;
+  --qr-ink: #0a0b0d;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f6f3;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-sunken: #ecece8;
+  --border: #dfdfda;
+  --border-control: #72757c;
+  --ink: #0e1013;
+  --ink-muted: #474b53;
+  --ink-subtle: #63676f;
+  --accent: #c8f53c;
+  --accent-hover: #b9e62c;
+  --accent-pressed: #a8d31c;
+  --on-accent: #111500;
+  --accent-edge: #5d7d00;
+  --accent-text: #486100;
+  --accent-soft: #eef9c9;
+  --focus: #0a0b0d;
+  --success-text: #006b52;
+  --success-soft: #d9f5ec;
+  --warning-text: #7a4d00;
+  --warning-soft: #fdecc4;
+  --danger-text: #b3261a;
+  --danger-soft: #fde3df;
+  --danger: #c22b1e;
+  --on-danger: #ffffff;
+  --info-text: #0b57a8;
+  --info-soft: #dcebfb;
+  --neutral-text: #474b53;
+  --neutral-soft: #e9e9e5;
+  --seat-available: #6f7580;
+  --seat-selected: var(--accent);
+  --seat-held: #a86a00;
+  --seat-sold: #dfdfda;
+  --on-image: #ffffff;
+  --image-scrim: rgba(6, 7, 8, 0.82);
+  --scrim: rgba(14, 16, 19, 0.48);
+  --qr-ground: #ffffff;
+  --qr-ink: #0a0b0d;
+  --shadow-sm: 0 1px 2px rgba(14, 16, 19, 0.08);
+  --shadow-md: 0 8px 24px rgba(14, 16, 19, 0.12);
+  --shadow-lg: 0 24px 64px rgba(14, 16, 19, 0.2);
+}
+
+:root {
+  /* Typography */
+  --font-sans: "Onest", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --text-display-xl: 800 56px/60px var(--font-sans);
+  --tracking-display-xl: -0.02em;
+  --text-display-lg: 800 40px/46px var(--font-sans);
+  --tracking-display-lg: -0.02em;
+  --text-h1: 700 32px/40px var(--font-sans);
+  --tracking-h1: -0.01em;
+  --text-h2: 700 24px/32px var(--font-sans);
+  --tracking-h2: -0.01em;
+  --text-h3: 700 20px/28px var(--font-sans);
+  --text-title: 600 18px/26px var(--font-sans);
+  --text-body-lg: 400 18px/28px var(--font-sans);
+  --text-body: 400 16px/24px var(--font-sans);
+  --text-body-sm: 400 14px/20px var(--font-sans);
+  --text-caption: 500 12px/16px var(--font-sans);
+  --text-label-lg: 600 16px/24px var(--font-sans);
+  --text-label: 600 14px/20px var(--font-sans);
+  --text-badge: 700 12px/16px var(--font-sans);
+  --text-price: 800 20px/24px var(--font-sans);
+  --text-code: 500 14px/20px var(--font-mono);
+  --tracking-code: 0.04em;
+  /* Spacing (4px scale) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+  /* Sizes */
+  --control-sm: 36px;
+  --control-md: 44px;
+  --control-lg: 52px;
+  --navbar-height: 64px;
+  --sidebar-width: 264px;
+  --container-max: 1280px;
+  --container-text: 720px;
+  /* Z-index */
+  --z-sticky: 100;
+  --z-dropdown: 200;
+  --z-scrim: 300;
+  --z-modal: 310;
+  --z-toast: 400;
+  /* Breakpoints: for reference only. CSS cannot read a variable inside a media or container query. */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+}

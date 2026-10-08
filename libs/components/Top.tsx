@@ -16,7 +16,7 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
-import { REACT_APP_API_URL } from '../config';
+import { NEXT_PUBLIC_API_URL } from '../config';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -29,27 +29,18 @@ const Top = () => {
 	const [colorChange, setColorChange] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
 	let open = Boolean(anchorEl);
-	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const flagSrc = lang === 'uz' ? '/img/flag/languz.svg' : `/img/flag/lang${lang}.png`;
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (localStorage.getItem('locale') === null) {
+		const stored = localStorage.getItem('locale');
+		if (stored === null || !['en', 'ko', 'ru', 'uz'].includes(stored)) {
 			localStorage.setItem('locale', 'en');
 			setLang('en');
 		} else {
-			setLang(localStorage.getItem('locale'));
-		}
-	}, [router]);
-
-	useEffect(() => {
-		switch (router.pathname) {
-			case '/property/detail':
-				setBgColor(true);
-				break;
-			default:
-				break;
+			setLang(stored);
 		}
 	}, [router]);
 
@@ -145,24 +136,12 @@ const Top = () => {
 				<Link href={'/'}>
 					<div>{t('Home')}</div>
 				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
-				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
-				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
-				</Link>
-				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
-				</Link>
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
+				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
@@ -173,23 +152,6 @@ const Top = () => {
 							<Link href={'/'}>
 								<div>{t('Home')}</div>
 							</Link>
-							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
-							</Link>
-							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
-							</Link>
-							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
-							</Link>
-							{user?._id && (
-								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
-								</Link>
-							)}
-							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
-							</Link>
 						</Box>
 						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
@@ -197,7 +159,7 @@ const Top = () => {
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
+												user?.memberImage ? `${NEXT_PUBLIC_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
 											}
 											alt=""
 										/>
@@ -239,7 +201,7 @@ const Top = () => {
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+											<img src={flagSrc} alt={'flag'} />
 										) : (
 											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
 										)}
@@ -257,12 +219,12 @@ const Top = () => {
 										/>
 										{t('English')}
 									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="kr">
+									<MenuItem disableRipple onClick={langChoice} id="ko">
 										<img
 											className="img-flag"
-											src={'/img/flag/langkr.png'}
+											src={'/img/flag/langko.png'}
 											onClick={langChoice}
-											id="uz"
+											id="ko"
 											alt={'koreanFlag'}
 										/>
 										{t('Korean')}
@@ -276,6 +238,16 @@ const Top = () => {
 											alt={'russiaFlag'}
 										/>
 										{t('Russian')}
+									</MenuItem>
+									<MenuItem disableRipple onClick={langChoice} id="uz">
+										<img
+											className="img-flag"
+											src={'/img/flag/languz.svg'}
+											onClick={langChoice}
+											id="uz"
+											alt={'uzbekFlag'}
+										/>
+										{t('Uzbek')}
 									</MenuItem>
 								</StyledMenu>
 							</div>

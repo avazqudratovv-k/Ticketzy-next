@@ -16,11 +16,11 @@ import Tooltip from '@mui/material/Tooltip';
 import { getJwtToken, logOut, updateUserInfo } from '../../auth';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { MemberType } from '../../enums/member.enum';
 const drawerWidth = 280;
 
-const withAdminLayout = (Component: ComponentType) => {
+const withAdminLayout = (Component: ComponentType<any>) => {
 	return (props: object) => {
 		const router = useRouter();
 		const user = useReactiveVar(userVar);
@@ -77,7 +77,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 									<Avatar
 										src={
-											user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
+											user?.memberImage ? `${NEXT_PUBLIC_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
 										}
 									/>
 								</IconButton>
@@ -157,7 +157,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								}}
 							>
 								<Avatar
-									src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
+									src={user?.memberImage ? `${NEXT_PUBLIC_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 								/>
 								<Typography variant={'body2'} p={1} ml={1}>
 									{user?.memberNick} <br />
@@ -172,7 +172,6 @@ const withAdminLayout = (Component: ComponentType) => {
 					</Drawer>
 
 					<Box component={'div'} id="bunker" sx={{ flexGrow: 1 }}>
-						{/*@ts-ignore*/}
 						<Component {...props} setSnackbar={setSnackbar} setTitle={setTitle} />
 					</Box>
 				</Box>

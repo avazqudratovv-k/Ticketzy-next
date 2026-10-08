@@ -1,4 +1,4 @@
-import { styled, alpha, Theme } from '@mui/material/styles';
+import { styled, alpha, Theme, CSSObject } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import MuiAppBar from '@mui/material/AppBar';
 import TextField from '@mui/material/TextField';
@@ -121,7 +121,7 @@ export const StyleButton = styled(Button)(({ theme }) => ({
 ////////////////////////////
 // ADMIN LAYOUT
 ////////////////////////////
-const openedMixin = (theme: Theme, drawerwidth: number) => ({
+const openedMixin = (theme: Theme, drawerwidth: number): CSSObject => ({
 	width: drawerwidth,
 	transition: theme.transitions.create('width', {
 		easing: theme.transitions.easing.sharp,
@@ -130,7 +130,7 @@ const openedMixin = (theme: Theme, drawerwidth: number) => ({
 	overflowX: 'hidden',
 });
 
-const closedMixin = (theme: Theme) => ({
+const closedMixin = (theme: Theme): CSSObject => ({
 	transition: theme.transitions.create('width', {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
@@ -144,8 +144,7 @@ const closedMixin = (theme: Theme) => ({
 
 export const AdminAppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== 'open',
-	// @ts-ignore
-})(({ theme, open, drawerwidth }) => ({
+})<{ open?: boolean; drawerwidth: number }>(({ theme, open, drawerwidth }) => ({
 	zIndex: theme.zIndex.drawer + 1,
 	transition: theme.transitions.create(['width', 'margin'], {
 		easing: theme.transitions.easing.sharp,
@@ -161,8 +160,10 @@ export const AdminAppBar = styled(MuiAppBar, {
 	}),
 }));
 
-export const AdminDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-	// @ts-ignore
+export const AdminDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })<{
+	open?: boolean;
+	drawerwidth: number;
+}>(
 	({ theme, open, drawerwidth }) => ({
 		width: drawerwidth + 'px',
 		flexShrink: 0,

@@ -1,17 +1,13 @@
 export enum MemberType {
 	USER = 'USER',
-	AGENT = 'AGENT',
+	ORGANIZER = 'ORGANIZER',
 	ADMIN = 'ADMIN',
 }
 
 export enum MemberStatus {
+	PENDING = 'PENDING',
 	ACTIVE = 'ACTIVE',
-	BLOCK = 'BLOCK',
+	REJECTED = 'REJECTED',
+	SUSPENDED = 'SUSPENDED',
 	DELETE = 'DELETE',
-}
-
-export enum MemberAuthType {
-	PHONE = 'PHONE',
-	EMAIL = 'EMAIL',
-	TELEGRAM = 'TELEGRAM',
 }
