@@ -1,0 +1,237 @@
+{
+  "steps": {
+    "label": "Checkout progress",
+    "tickets": "Tickets",
+    "payment": "Payment",
+    "confirmation": "Confirmation"
+  },
+  "page": {
+    "back": "Back to event",
+    "browse": "Browse events",
+    "retry": "Try again",
+    "loadError": "We could not load this page",
+    "notFound": "Event not found",
+    "notFoundText": "This event is not on sale or no longer exists.",
+    "seatsTitle": "Choose your seats",
+    "ticketsTitle": "Choose your tickets",
+    "state": {
+      "cancelled": {
+        "title": "This event was cancelled",
+        "text": "Tickets can no longer be bought. Orders that were paid are refunded."
+      },
+      "ended": {
+        "title": "This event has ended",
+        "text": "Tickets are no longer on sale."
+      },
+      "soldOut": {
+        "title": "Sold out",
+        "text": "Every ticket for this event has been sold."
+      },
+      "notStarted": {
+        "title": "Sales have not started",
+        "text": "Tickets are not on sale yet. Check the event page for the start time."
+      },
+      "saleClosed": {
+        "title": "Sales are closed",
+        "text": "The sale for this event has ended."
+      }
+    }
+  },
+  "map": {
+    "label": "Seat map. Zoom and drag to explore. Use the section list below the map to choose seats with a keyboard.",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "fit": "Fit map",
+    "stage": "Stage",
+    "standing": "Standing area",
+    "standingNote": "Not sold online in this demo",
+    "live": "Live",
+    "reconnecting": "Reconnecting…",
+    "loading": "Loading seats…",
+    "unavailable": "The seat map is not available for this event."
+  },
+  "state": {
+    "available": "Available",
+    "selected": "Selected",
+    "mine": "Held for you",
+    "held": "Held by someone else",
+    "sold": "Sold",
+    "locked": "Not on sale"
+  },
+  "legend": {
+    "status": "Seat status",
+    "tier": "Price tier"
+  },
+  "sections": {
+    "title": "Sections",
+    "hint": "Choose a section to zoom the map to it and list its seats. Seats can be picked with the keyboard.",
+    "free": "{{free}} of {{total}} seats free",
+    "soldOut": "Sold out",
+    "unavailable": "Not on sale"
+  },
+  "grid": {
+    "title": "Seats in {{section}}",
+    "label": "Seats in {{section}}"
+  },
+  "seat": {
+    "label": "Row {{row}}, seat {{number}}",
+    "row": "Row {{row}}",
+    "aria": "Row {{row}}, seat {{number}}, {{state}}"
+  },
+  "summary": {
+    "title": "Your seats",
+    "empty": "Pick a seat on the map to start.",
+    "continue": "Continue",
+    "holding": "Holding your seats…",
+    "remove": "Remove {{seat}}",
+    "count_one": "{{count}} seat",
+    "count_other": "{{count}} seats",
+    "total_one": "Total, {{count}} seat",
+    "total_other": "Total, {{count}} seats",
+    "max_one": "Up to {{count}} seat per order.",
+    "max_other": "Up to {{count}} seats per order."
+  },
+  "hold": {
+    "left": "left to complete your order",
+    "text": "Your seats are held for you until the timer runs out. After that they go back on sale.",
+    "idle": "Seats are held for {{seconds}} seconds once you continue.",
+    "release": "Release my seats"
+  },
+  "notices": {
+    "conflictUnknown": "A seat was taken before you could hold it. The map was refreshed; check your selection and try again.",
+    "pickOthers": "Pick other seats to continue.",
+    "expired": "Your hold expired",
+    "expiredText": "The seats went back on sale. Pick them again if they are still free.",
+    "released": "Your held seats were released.",
+    "allGone": "There are no free seats left for this event.",
+    "dismiss": "Dismiss",
+    "taken_one": "A seat you picked was just taken and was removed from your selection.",
+    "taken_other": "Seats you picked were just taken and were removed from your selection.",
+    "conflict_one": "This seat was taken before you could hold it:",
+    "conflict_other": "These seats were taken before you could hold them:",
+    "max_one": "You can pick up to {{count}} seat per order.",
+    "max_other": "You can pick up to {{count}} seats per order."
+  },
+  "pending": {
+    "title": "left to pay for your order",
+    "text": "You have an order waiting for payment. Continue to pay, or choose different seats.",
+    "resume": "Continue to payment",
+    "change": "Choose different seats"
+  },
+  "general": {
+    "summary": "Your order",
+    "empty": "Choose how many tickets you want.",
+    "perTicket": "Per ticket",
+    "quantity": "Number of tickets",
+    "less": "One less {{name}}",
+    "more": "One more {{name}}",
+    "note": "General admission has no seat map: there is no seat to pick. Your tickets are reserved for you when you continue.",
+    "unavailable": {
+      "soldOut": "Sold out",
+      "paused": "Sales are paused for this ticket.",
+      "notStarted": "Sales have not started for this ticket.",
+      "closed": "Sales are closed for this ticket."
+    },
+    "max_one": "Up to {{count}} per order",
+    "max_other": "Up to {{count}} per order",
+    "idle": "Tickets are reserved for {{seconds}} seconds once you continue.",
+    "count_one": "{{count}} ticket",
+    "count_other": "{{count}} tickets",
+    "totalLabel_one": "Total, {{count}} ticket",
+    "totalLabel_other": "Total, {{count}} tickets"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "changeSeats": "Change seats",
+    "changeTickets": "Change tickets",
+    "chooseAgain": "Choose seats again",
+    "chooseAgainTickets": "Choose tickets again",
+    "holdText": "Your order is held for you until the timer runs out. Pay before then or the seats go back on sale.",
+    "notFound": "Order not found",
+    "notFoundText": "This order does not exist or belongs to another account."
+  },
+  "order": {
+    "summary": "Order summary",
+    "seated": "Seated",
+    "general": "General admission",
+    "ticket": "Ticket"
+  },
+  "pay": {
+    "title": "Payment",
+    "demoTitle": "This is a demo",
+    "demoText": "No real card data is collected and no money moves. Pressing Pay only tells the demo payment service to succeed or fail.",
+    "card": "Card number",
+    "expiry": "Expiry",
+    "cvc": "CVC",
+    "simulateFailure": "Simulate a failed payment",
+    "simulateHint": "Demo only: the payment is declined so you can see the retry flow.",
+    "breakdown": "Price breakdown",
+    "fee": "Service fee",
+    "included": "Included",
+    "total": "Total to pay",
+    "button": "Pay {{amount}}",
+    "paying": "Processing…",
+    "noCard": "Demo payment. Ticketzy never sees a card number here.",
+    "refund": "Refunds are open until {{date}}."
+  },
+  "failed": {
+    "title": "The payment did not go through",
+    "text": "Nothing was charged and your hold was released. Try again to hold the same seats again, or choose different ones.",
+    "retry": "Try again",
+    "retrying": "Holding your seats…"
+  },
+  "expired": {
+    "title": "Your hold expired",
+    "text": "The time to pay ran out and the seats went back on sale. Choose them again if they are still free.",
+    "lostTitle": "Your seats are no longer held",
+    "lostText": "Another tab or device replaced your hold, so these seats are no longer reserved for you. Choose seats again."
+  },
+  "confirmation": {
+    "title": "Order confirmation",
+    "paid": "Payment received. Your tickets are ready.",
+    "order": "Order",
+    "paidOn": "{{amount}} paid on {{date}}",
+    "orders": "Go to My orders",
+    "continuePay": "Continue to payment",
+    "demoNote": "Demo payment: no money was charged.",
+    "status": {
+      "PENDING_PAYMENT": "This order is waiting for payment",
+      "FAILED": "The payment for this order failed",
+      "CANCELLED": "This order was cancelled",
+      "EXPIRED": "This order expired",
+      "REFUNDED": "This order was refunded"
+    },
+    "badge": {
+      "PAID": "Paid",
+      "PENDING_PAYMENT": "Waiting for payment",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled",
+      "EXPIRED": "Expired",
+      "REFUNDED": "Refunded"
+    },
+    "total": "Total"
+  },
+  "orders": {
+    "title": "My orders",
+    "placeholderTitle": "Order history is coming soon",
+    "placeholderText": "Your orders and tickets will be listed here. For now, open an order from its confirmation page."
+  },
+  "errors": {
+    "seatTaken": "Someone else took one of those seats first. Pick other seats.",
+    "seatNotFound": "One of those seats does not exist for this event.",
+    "holdLimit": "You picked more seats than one order allows.",
+    "holdExpired": "Your hold expired. Choose your seats again.",
+    "orderNotPayable": "This order can no longer be paid. It may already be paid, cancelled or expired.",
+    "eventClosed": "Seats can no longer be held for this event.",
+    "notAllowed": "That could not be done right now. The tickets may be sold out, or sales may have closed.",
+    "notFound": "We could not find that.",
+    "generic": "Something went wrong. Please try again.",
+    "session": "Your session ended. Sign in again to continue.",
+    "network": "We could not reach Ticketzy. Check your connection and try again.",
+    "retryTaken": "Some of those seats were taken while you were away. Choose seats again."
+  },
+  "countdown": {
+    "announce_one": "{{count}} second left",
+    "announce_other": "{{count}} seconds left"
+  }
+}

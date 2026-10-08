@@ -82,18 +82,6 @@ const Events: NextPage = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data, total, pageCount]);
 
-	// The API searches event titles only, so a search for a category word ("comedy") finds nothing; offer the category instead
-	const keywordCategory = useMemo(() => {
-		const word = filters.q.trim().toLowerCase();
-		if (!word) return undefined;
-		return CATEGORY_SLUGS.find(
-			(c) =>
-				c.slug === word ||
-				t(`categories.${c.category}`).toLowerCase() === word ||
-				t(`categoryPlural.${c.category}`).toLowerCase() === word,
-		);
-	}, [filters.q, t]);
-
 	const from = (filters.page - 1) * PAGE_SIZE + 1;
 	const to = Math.min(filters.page * PAGE_SIZE, total);
 
@@ -325,16 +313,9 @@ const Events: NextPage = () => {
 							text={t('list.noMatchText')}
 							actions={
 								hasAny ? (
-									<>
-										{keywordCategory && (
-											<Button variant="contained" onClick={() => update({ q: '', category: keywordCategory.slug })}>
-												{t('list.tryCategory', { category: t(`categoryPlural.${keywordCategory.category}`) })}
-											</Button>
-										)}
-										<Button variant="outlined" onClick={clear}>
-											{t('filters.clear')}
-										</Button>
-									</>
+									<Button variant="outlined" onClick={clear}>
+										{t('filters.clear')}
+									</Button>
 								) : undefined
 							}
 						/>

@@ -4,6 +4,7 @@ import { MemberType } from './enums/member.enum';
 export const ROUTES = {
 	home: '/',
 	events: '/events',
+	orders: '/orders',
 	login: '/account/login',
 	signup: '/account/signup',
 	organizerDashboard: '/organizer',
@@ -30,3 +31,5 @@ export const loginUrl = (returnTo?: string) =>
 export const eventUrl = (id: string) => `/events/${id}`;
 export const seatsUrl = (id: string) => `/events/${id}/seats`;
 export const organizerUrl = (id: string) => `/organizers/${id}`;
+export const checkoutUrl = (orderId: string) => `/checkout/${orderId}`;
+export const confirmationUrl = (orderId: string) => `/orders/${orderId}/confirmation`;

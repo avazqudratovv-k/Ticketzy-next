@@ -66,6 +66,7 @@ export interface TicketTypeItem {
 	ticketTypeName: string;
 	ticketPrice: number;
 	ticketCurrency: string;
+	tierKey?: string | null;
 	totalQuantity: number;
 	soldQuantity: number;
 	maxPerOrder: number;

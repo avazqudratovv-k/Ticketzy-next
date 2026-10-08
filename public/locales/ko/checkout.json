@@ -1,0 +1,227 @@
+{
+  "steps": {
+    "label": "결제 진행 단계",
+    "tickets": "티켓",
+    "payment": "결제",
+    "confirmation": "주문 확인"
+  },
+  "page": {
+    "back": "이벤트로 돌아가기",
+    "browse": "이벤트 둘러보기",
+    "retry": "다시 시도",
+    "loadError": "페이지를 불러오지 못했습니다",
+    "notFound": "이벤트를 찾을 수 없습니다",
+    "notFoundText": "판매 중이 아니거나 더 이상 존재하지 않는 이벤트입니다.",
+    "seatsTitle": "좌석 선택",
+    "ticketsTitle": "티켓 선택",
+    "state": {
+      "cancelled": {
+        "title": "취소된 이벤트입니다",
+        "text": "더 이상 티켓을 구매할 수 없습니다. 결제된 주문은 환불됩니다."
+      },
+      "ended": {
+        "title": "종료된 이벤트입니다",
+        "text": "티켓 판매가 종료되었습니다."
+      },
+      "soldOut": {
+        "title": "매진",
+        "text": "이 이벤트의 모든 티켓이 판매되었습니다."
+      },
+      "notStarted": {
+        "title": "아직 판매 전입니다",
+        "text": "티켓 판매가 시작되지 않았습니다. 판매 시작 시간은 이벤트 페이지에서 확인하세요."
+      },
+      "saleClosed": {
+        "title": "판매가 마감되었습니다",
+        "text": "이 이벤트의 티켓 판매가 끝났습니다."
+      }
+    }
+  },
+  "map": {
+    "label": "좌석 배치도. 확대하고 끌어서 둘러보세요. 키보드로 선택하려면 배치도 아래의 구역 목록을 사용하세요.",
+    "zoomIn": "확대",
+    "zoomOut": "축소",
+    "fit": "전체 보기",
+    "stage": "무대",
+    "standing": "스탠딩 구역",
+    "standingNote": "이 데모에서는 온라인 판매를 하지 않습니다",
+    "live": "실시간",
+    "reconnecting": "다시 연결하는 중…",
+    "loading": "좌석을 불러오는 중…",
+    "unavailable": "이 이벤트는 좌석 배치도를 제공하지 않습니다."
+  },
+  "state": {
+    "available": "선택 가능",
+    "selected": "선택됨",
+    "mine": "내가 잡아 둔 좌석",
+    "held": "다른 고객이 결제 중",
+    "sold": "판매 완료",
+    "locked": "판매 안 함"
+  },
+  "legend": {
+    "status": "좌석 상태",
+    "tier": "가격 등급"
+  },
+  "sections": {
+    "title": "구역",
+    "hint": "구역을 선택하면 배치도가 그 구역으로 확대되고 좌석 목록이 표시됩니다. 키보드로도 좌석을 선택할 수 있습니다.",
+    "free": "{{total}}석 중 {{free}}석 남음",
+    "soldOut": "매진",
+    "unavailable": "판매 안 함"
+  },
+  "grid": {
+    "title": "{{section}} 좌석",
+    "label": "{{section}} 좌석"
+  },
+  "seat": {
+    "label": "{{row}}열 {{number}}번",
+    "row": "{{row}}열",
+    "aria": "{{row}}열 {{number}}번, {{state}}"
+  },
+  "summary": {
+    "title": "선택한 좌석",
+    "empty": "배치도에서 좌석을 선택하세요.",
+    "continue": "계속",
+    "holding": "좌석을 확보하는 중…",
+    "remove": "{{seat}} 삭제",
+    "count_other": "{{count}}석",
+    "total_other": "합계 {{count}}석",
+    "max_other": "한 번에 최대 {{count}}석까지 주문할 수 있습니다."
+  },
+  "hold": {
+    "left": "안에 주문을 완료하세요",
+    "text": "타이머가 끝날 때까지 좌석을 잡아 둡니다. 이후에는 다시 판매됩니다.",
+    "idle": "계속을 누르면 좌석을 {{seconds}}초 동안 잡아 둡니다.",
+    "release": "좌석 놓아주기"
+  },
+  "notices": {
+    "conflictUnknown": "좌석을 잡기 전에 다른 고객이 선점했습니다. 배치도를 새로 고쳤으니 선택을 확인하고 다시 시도하세요.",
+    "pickOthers": "계속하려면 다른 좌석을 선택하세요.",
+    "expired": "좌석 확보 시간이 끝났습니다",
+    "expiredText": "좌석이 다시 판매됩니다. 아직 비어 있다면 다시 선택하세요.",
+    "released": "잡아 둔 좌석이 해제되었습니다.",
+    "allGone": "이 이벤트에는 남은 좌석이 없습니다.",
+    "dismiss": "닫기",
+    "taken_other": "선택한 좌석을 다른 고객이 방금 선점하여 선택에서 제외했습니다.",
+    "conflict_other": "좌석을 잡기 전에 다른 고객이 선점한 좌석:",
+    "max_other": "한 번에 최대 {{count}}석까지 선택할 수 있습니다."
+  },
+  "pending": {
+    "title": "안에 결제하세요",
+    "text": "결제를 기다리는 주문이 있습니다. 결제를 계속하거나 다른 좌석을 선택하세요.",
+    "resume": "결제 계속하기",
+    "change": "다른 좌석 선택"
+  },
+  "general": {
+    "summary": "주문 내용",
+    "empty": "티켓 수량을 선택하세요.",
+    "perTicket": "티켓당",
+    "quantity": "티켓 수량",
+    "less": "{{name}} 하나 줄이기",
+    "more": "{{name}} 하나 늘리기",
+    "note": "자유석 이벤트에는 좌석 배치도가 없어 선택할 좌석이 없습니다. 계속하면 티켓이 확보됩니다.",
+    "unavailable": {
+      "soldOut": "매진",
+      "paused": "이 티켓은 판매가 일시 중지되었습니다.",
+      "notStarted": "이 티켓은 아직 판매 전입니다.",
+      "closed": "이 티켓은 판매가 마감되었습니다."
+    },
+    "max_other": "주문당 최대 {{count}}매",
+    "idle": "계속을 누르면 티켓을 {{seconds}}초 동안 확보합니다.",
+    "count_other": "{{count}}매",
+    "totalLabel_other": "합계 {{count}}매"
+  },
+  "checkout": {
+    "title": "결제",
+    "changeSeats": "좌석 변경",
+    "changeTickets": "티켓 변경",
+    "chooseAgain": "좌석 다시 선택",
+    "chooseAgainTickets": "티켓 다시 선택",
+    "holdText": "타이머가 끝날 때까지 주문을 잡아 둡니다. 그 전에 결제하지 않으면 좌석이 다시 판매됩니다.",
+    "notFound": "주문을 찾을 수 없습니다",
+    "notFoundText": "존재하지 않거나 다른 계정의 주문입니다."
+  },
+  "order": {
+    "summary": "주문 요약",
+    "seated": "지정석",
+    "general": "자유석",
+    "ticket": "티켓"
+  },
+  "pay": {
+    "title": "결제",
+    "demoTitle": "데모입니다",
+    "demoText": "실제 카드 정보는 수집하지 않으며 돈도 오가지 않습니다. 결제 버튼은 데모 결제 서비스에 성공 또는 실패를 알려 줄 뿐입니다.",
+    "card": "카드 번호",
+    "expiry": "유효기간",
+    "cvc": "CVC",
+    "simulateFailure": "결제 실패 시뮬레이션",
+    "simulateHint": "데모 전용: 결제가 거절되어 재시도 과정을 볼 수 있습니다.",
+    "breakdown": "금액 상세",
+    "fee": "서비스 수수료",
+    "included": "포함",
+    "total": "결제 금액",
+    "button": "{{amount}} 결제",
+    "paying": "처리 중…",
+    "noCard": "데모 결제입니다. Ticketzy는 여기서 카드 번호를 받지 않습니다.",
+    "refund": "{{date}}까지 환불할 수 있습니다."
+  },
+  "failed": {
+    "title": "결제가 완료되지 않았습니다",
+    "text": "청구된 금액은 없으며 좌석 확보도 해제되었습니다. 같은 좌석을 다시 잡으려면 다시 시도하거나 다른 좌석을 선택하세요.",
+    "retry": "다시 시도",
+    "retrying": "좌석을 확보하는 중…"
+  },
+  "expired": {
+    "title": "좌석 확보 시간이 끝났습니다",
+    "text": "결제 시간이 지나 좌석이 다시 판매됩니다. 아직 비어 있다면 다시 선택하세요.",
+    "lostTitle": "좌석 확보가 해제되었습니다",
+    "lostText": "다른 탭이나 기기에서 좌석을 새로 잡아 이 좌석은 더 이상 내 것이 아닙니다. 좌석을 다시 선택하세요."
+  },
+  "confirmation": {
+    "title": "주문 확인",
+    "paid": "결제가 완료되었습니다. 티켓이 준비되었습니다.",
+    "order": "주문",
+    "paidOn": "{{date}}에 {{amount}} 결제",
+    "orders": "내 주문으로 이동",
+    "continuePay": "결제 계속하기",
+    "demoNote": "데모 결제로 실제 청구는 없었습니다.",
+    "status": {
+      "PENDING_PAYMENT": "결제를 기다리는 주문입니다",
+      "FAILED": "이 주문의 결제가 실패했습니다",
+      "CANCELLED": "취소된 주문입니다",
+      "EXPIRED": "만료된 주문입니다",
+      "REFUNDED": "환불된 주문입니다"
+    },
+    "badge": {
+      "PAID": "결제 완료",
+      "PENDING_PAYMENT": "결제 대기",
+      "FAILED": "실패",
+      "CANCELLED": "취소됨",
+      "EXPIRED": "만료됨",
+      "REFUNDED": "환불됨"
+    },
+    "total": "합계"
+  },
+  "orders": {
+    "title": "내 주문",
+    "placeholderTitle": "주문 내역은 곧 제공됩니다",
+    "placeholderText": "주문과 티켓이 여기에 표시됩니다. 지금은 주문 확인 페이지에서 주문을 열어 보세요."
+  },
+  "errors": {
+    "seatTaken": "다른 고객이 먼저 좌석을 선택했습니다. 다른 좌석을 선택하세요.",
+    "seatNotFound": "이 이벤트에 없는 좌석이 포함되어 있습니다.",
+    "holdLimit": "한 번에 주문할 수 있는 좌석 수를 넘었습니다.",
+    "holdExpired": "좌석 확보 시간이 끝났습니다. 좌석을 다시 선택하세요.",
+    "orderNotPayable": "이 주문은 더 이상 결제할 수 없습니다. 이미 결제되었거나 취소 또는 만료되었을 수 있습니다.",
+    "eventClosed": "이 이벤트는 더 이상 좌석을 잡을 수 없습니다.",
+    "notAllowed": "지금은 처리할 수 없습니다. 티켓이 매진되었거나 판매가 마감되었을 수 있습니다.",
+    "notFound": "찾을 수 없습니다.",
+    "generic": "문제가 발생했습니다. 다시 시도해 주세요.",
+    "session": "로그인이 만료되었습니다. 계속하려면 다시 로그인하세요.",
+    "network": "Ticketzy에 연결할 수 없습니다. 네트워크를 확인하고 다시 시도하세요.",
+    "retryTaken": "자리를 비운 사이 일부 좌석이 선점되었습니다. 좌석을 다시 선택하세요."
+  },
+  "countdown": {
+    "announce_other": "{{count}}초 남았습니다"
+  }
+}

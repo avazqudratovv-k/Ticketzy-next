@@ -1,0 +1,237 @@
+{
+  "steps": {
+    "label": "Buyurtma bosqichlari",
+    "tickets": "Chiptalar",
+    "payment": "Toʻlov",
+    "confirmation": "Tasdiqlash"
+  },
+  "page": {
+    "back": "Tadbirga qaytish",
+    "browse": "Tadbirlarni koʻrish",
+    "retry": "Qayta urinish",
+    "loadError": "Sahifani yuklab boʻlmadi",
+    "notFound": "Tadbir topilmadi",
+    "notFoundText": "Bu tadbir sotuvda emas yoki endi mavjud emas.",
+    "seatsTitle": "Oʻrinlarni tanlang",
+    "ticketsTitle": "Chiptalarni tanlang",
+    "state": {
+      "cancelled": {
+        "title": "Tadbir bekor qilingan",
+        "text": "Chipta xarid qilib boʻlmaydi. Toʻlangan buyurtmalar qaytariladi."
+      },
+      "ended": {
+        "title": "Tadbir tugagan",
+        "text": "Chiptalar endi sotilmaydi."
+      },
+      "soldOut": {
+        "title": "Hammasi sotilgan",
+        "text": "Bu tadbirning barcha chiptalari sotilgan."
+      },
+      "notStarted": {
+        "title": "Sotuv hali boshlanmagan",
+        "text": "Chiptalar hali sotuvda emas. Boshlanish vaqtini tadbir sahifasidan koʻring."
+      },
+      "saleClosed": {
+        "title": "Sotuv yopilgan",
+        "text": "Bu tadbir uchun chipta sotuvi tugagan."
+      }
+    }
+  },
+  "map": {
+    "label": "Oʻrinlar sxemasi. Kattalashtiring va sudrab koʻring. Klaviatura bilan tanlash uchun sxema ostidagi seksiyalar roʻyxatidan foydalaning.",
+    "zoomIn": "Kattalashtirish",
+    "zoomOut": "Kichiklashtirish",
+    "fit": "Butun sxema",
+    "stage": "Sahna",
+    "standing": "Tik turish joyi",
+    "standingNote": "Bu demoda onlayn sotilmaydi",
+    "live": "Jonli",
+    "reconnecting": "Qayta ulanmoqda…",
+    "loading": "Oʻrinlar yuklanmoqda…",
+    "unavailable": "Bu tadbir uchun oʻrinlar sxemasi mavjud emas."
+  },
+  "state": {
+    "available": "Boʻsh",
+    "selected": "Tanlangan",
+    "mine": "Siz uchun band qilingan",
+    "held": "Boshqa xaridor band qilgan",
+    "sold": "Sotilgan",
+    "locked": "Sotuvda emas"
+  },
+  "legend": {
+    "status": "Oʻrin holati",
+    "tier": "Narx toifasi"
+  },
+  "sections": {
+    "title": "Seksiyalar",
+    "hint": "Sxemani shu seksiyaga yaqinlashtirish va oʻrinlarini koʻrish uchun seksiyani tanlang. Oʻrinlarni klaviatura bilan ham tanlash mumkin.",
+    "free": "{{total}} ta oʻrindan {{free}} tasi boʻsh",
+    "soldOut": "Hammasi sotilgan",
+    "unavailable": "Sotuvda emas"
+  },
+  "grid": {
+    "title": "{{section}} dagi oʻrinlar",
+    "label": "{{section}} dagi oʻrinlar"
+  },
+  "seat": {
+    "label": "{{row}}-qator, {{number}}-oʻrin",
+    "row": "{{row}}-qator",
+    "aria": "{{row}}-qator, {{number}}-oʻrin, {{state}}"
+  },
+  "summary": {
+    "title": "Tanlangan oʻrinlar",
+    "empty": "Boshlash uchun sxemadan oʻrin tanlang.",
+    "continue": "Davom etish",
+    "holding": "Oʻrinlar band qilinmoqda…",
+    "remove": "{{seat}} ni olib tashlash",
+    "count_one": "{{count}} ta oʻrin",
+    "count_other": "{{count}} ta oʻrin",
+    "total_one": "Jami, {{count}} ta oʻrin",
+    "total_other": "Jami, {{count}} ta oʻrin",
+    "max_one": "Bir buyurtmada {{count}} tagacha oʻrin.",
+    "max_other": "Bir buyurtmada {{count}} tagacha oʻrin."
+  },
+  "hold": {
+    "left": "ichida buyurtmani yakunlang",
+    "text": "Taymer tugaguncha oʻrinlar siz uchun band. Keyin ular yana sotuvga chiqadi.",
+    "idle": "Davom etishni bossangiz, oʻrinlar {{seconds}} soniya band qilinadi.",
+    "release": "Oʻrinlarni boʻshatish"
+  },
+  "notices": {
+    "conflictUnknown": "Oʻrin siz band qilgungacha olib qoʻyildi. Sxema yangilandi: tanlovingizni tekshirib, qayta urinib koʻring.",
+    "pickOthers": "Davom etish uchun boshqa oʻrinlarni tanlang.",
+    "expired": "Band qilish muddati tugadi",
+    "expiredText": "Oʻrinlar yana sotuvga chiqdi. Boʻsh boʻlsa, qayta tanlang.",
+    "released": "Band qilingan oʻrinlaringiz boʻshatildi.",
+    "allGone": "Bu tadbir uchun boʻsh oʻrin qolmadi.",
+    "dismiss": "Yopish",
+    "taken_one": "Tanlagan oʻrinlaringiz olib qoʻyildi va tanlovdan chiqarildi.",
+    "taken_other": "Tanlagan oʻrinlaringiz olib qoʻyildi va tanlovdan chiqarildi.",
+    "conflict_one": "Bu oʻrin siz band qilgungacha olib qoʻyildi:",
+    "conflict_other": "Bu oʻrinlar siz band qilgungacha olib qoʻyildi:",
+    "max_one": "Bir buyurtmada {{count}} tagacha oʻrin tanlash mumkin.",
+    "max_other": "Bir buyurtmada {{count}} tagacha oʻrin tanlash mumkin."
+  },
+  "pending": {
+    "title": "ichida buyurtmani toʻlang",
+    "text": "Toʻlov kutayotgan buyurtmangiz bor. Toʻlovni davom ettiring yoki boshqa oʻrinlarni tanlang.",
+    "resume": "Toʻlovni davom ettirish",
+    "change": "Boshqa oʻrinlarni tanlash"
+  },
+  "general": {
+    "summary": "Buyurtmangiz",
+    "empty": "Chiptalar sonini tanlang.",
+    "perTicket": "Bir chipta",
+    "quantity": "Chiptalar soni",
+    "less": "{{name}} ni kamaytirish",
+    "more": "{{name}} ni koʻpaytirish",
+    "note": "Bu yerda oʻrinlar sxemasi yoʻq: oʻrin tanlanmaydi. Davom etganingizda chiptalar siz uchun band qilinadi.",
+    "unavailable": {
+      "soldOut": "Hammasi sotilgan",
+      "paused": "Bu chipta sotuvi toʻxtatilgan.",
+      "notStarted": "Bu chipta sotuvi hali boshlanmagan.",
+      "closed": "Bu chipta sotuvi yopilgan."
+    },
+    "max_one": "Buyurtmada {{count}} tagacha",
+    "max_other": "Buyurtmada {{count}} tagacha",
+    "idle": "Davom etishni bossangiz, chiptalar {{seconds}} soniya band qilinadi.",
+    "count_one": "{{count}} ta chipta",
+    "count_other": "{{count}} ta chipta",
+    "totalLabel_one": "Jami, {{count}} ta chipta",
+    "totalLabel_other": "Jami, {{count}} ta chipta"
+  },
+  "checkout": {
+    "title": "Buyurtmani rasmiylashtirish",
+    "changeSeats": "Oʻrinlarni oʻzgartirish",
+    "changeTickets": "Chiptalarni oʻzgartirish",
+    "chooseAgain": "Oʻrinlarni qayta tanlash",
+    "chooseAgainTickets": "Chiptalarni qayta tanlash",
+    "holdText": "Taymer tugaguncha buyurtma siz uchun band. Undan oldin toʻlang, aks holda oʻrinlar yana sotuvga chiqadi.",
+    "notFound": "Buyurtma topilmadi",
+    "notFoundText": "Bunday buyurtma yoʻq yoki boshqa hisobga tegishli."
+  },
+  "order": {
+    "summary": "Buyurtma tafsilotlari",
+    "seated": "Oʻrinli",
+    "general": "Umumiy kirish",
+    "ticket": "Chipta"
+  },
+  "pay": {
+    "title": "Toʻlov",
+    "demoTitle": "Bu demo",
+    "demoText": "Haqiqiy karta maʼlumotlari yigʻilmaydi va pul oʻtkazilmaydi. Toʻlov tugmasi demo xizmatga faqat muvaffaqiyat yoki xatolikni aytadi.",
+    "card": "Karta raqami",
+    "expiry": "Amal qilish muddati",
+    "cvc": "CVC",
+    "simulateFailure": "Muvaffaqiyatsiz toʻlovni sinash",
+    "simulateHint": "Faqat demo uchun: toʻlov rad etiladi va qayta urinish jarayonini koʻrasiz.",
+    "breakdown": "Narx tafsiloti",
+    "fee": "Xizmat haqi",
+    "included": "Kiritilgan",
+    "total": "Toʻlanadigan summa",
+    "button": "{{amount}} toʻlash",
+    "paying": "Bajarilmoqda…",
+    "noCard": "Demo toʻlov. Ticketzy bu yerda karta raqamini koʻrmaydi.",
+    "refund": "Pulni qaytarish {{date}} gacha mumkin."
+  },
+  "failed": {
+    "title": "Toʻlov amalga oshmadi",
+    "text": "Pul yechilmadi va oʻrinlar boʻshatildi. Shu oʻrinlarni qayta band qilish uchun qayta urining yoki boshqalarini tanlang.",
+    "retry": "Qayta urinish",
+    "retrying": "Oʻrinlar band qilinmoqda…"
+  },
+  "expired": {
+    "title": "Band qilish muddati tugadi",
+    "text": "Toʻlov vaqti tugadi va oʻrinlar yana sotuvga chiqdi. Boʻsh boʻlsa, qayta tanlang.",
+    "lostTitle": "Oʻrinlar endi band emas",
+    "lostText": "Boshqa oyna yoki qurilma band qilishni almashtirdi, shuning uchun bu oʻrinlar endi siz uchun saqlanmaydi. Oʻrinlarni qayta tanlang."
+  },
+  "confirmation": {
+    "title": "Buyurtma tasdigʻi",
+    "paid": "Toʻlov qabul qilindi. Chiptalaringiz tayyor.",
+    "order": "Buyurtma",
+    "paidOn": "{{amount}} {{date}} da toʻlandi",
+    "orders": "Buyurtmalarimga oʻtish",
+    "continuePay": "Toʻlovni davom ettirish",
+    "demoNote": "Demo toʻlov: pul yechilmadi.",
+    "status": {
+      "PENDING_PAYMENT": "Bu buyurtma toʻlovni kutmoqda",
+      "FAILED": "Bu buyurtma toʻlovi amalga oshmadi",
+      "CANCELLED": "Bu buyurtma bekor qilingan",
+      "EXPIRED": "Bu buyurtma muddati tugagan",
+      "REFUNDED": "Bu buyurtma boʻyicha pul qaytarilgan"
+    },
+    "badge": {
+      "PAID": "Toʻlangan",
+      "PENDING_PAYMENT": "Toʻlov kutilmoqda",
+      "FAILED": "Xatolik",
+      "CANCELLED": "Bekor qilingan",
+      "EXPIRED": "Muddati tugagan",
+      "REFUNDED": "Qaytarilgan"
+    },
+    "total": "Jami"
+  },
+  "orders": {
+    "title": "Buyurtmalarim",
+    "placeholderTitle": "Buyurtmalar tarixi tez orada",
+    "placeholderText": "Buyurtma va chiptalaringiz shu yerda koʻrinadi. Hozircha buyurtmani tasdiq sahifasidan oching."
+  },
+  "errors": {
+    "seatTaken": "Oʻrinlardan birini boshqa kishi oldinroq oldi. Boshqa oʻrinlarni tanlang.",
+    "seatNotFound": "Bu oʻrinlardan biri ushbu tadbirda mavjud emas.",
+    "holdLimit": "Bir buyurtmada ruxsat etilganidan koʻp oʻrin tanladingiz.",
+    "holdExpired": "Band qilish muddati tugadi. Oʻrinlarni qayta tanlang.",
+    "orderNotPayable": "Bu buyurtmani endi toʻlab boʻlmaydi. U allaqachon toʻlangan, bekor qilingan yoki muddati tugagan boʻlishi mumkin.",
+    "eventClosed": "Bu tadbir uchun oʻrinlarni endi band qilib boʻlmaydi.",
+    "notAllowed": "Hozir buni bajarib boʻlmadi. Chiptalar sotilib boʻlgan yoki sotuv yopilgan boʻlishi mumkin.",
+    "notFound": "Topib boʻlmadi.",
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring.",
+    "session": "Seansingiz tugadi. Davom etish uchun qayta kiring.",
+    "network": "Ticketzy bilan aloqa oʻrnatib boʻlmadi. Ulanishni tekshirib, qayta urinib koʻring.",
+    "retryTaken": "Siz yoʻqligingizda baʼzi oʻrinlar olib qoʻyildi. Oʻrinlarni qayta tanlang."
+  },
+  "countdown": {
+    "announce_one": "{{count}} soniya qoldi",
+    "announce_other": "{{count}} soniya qoldi"
+  }
+}

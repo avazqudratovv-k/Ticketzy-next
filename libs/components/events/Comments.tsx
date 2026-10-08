@@ -13,7 +13,7 @@ import { CommentItem } from '../../types/event';
 import Avatar from '../common/OrganizerAvatar';
 
 const PAGE = 10;
-const MAX_LENGTH = 1000;
+const MAX_LENGTH = 500;
 
 /** `onTotal` reports the live number of comments: the event's own counter is not lowered when a comment is deleted. */
 const Comments = ({ eventId, onTotal }: { eventId: string; onTotal?: (total: number) => void }) => {

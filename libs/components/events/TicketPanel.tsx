@@ -3,22 +3,11 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { Button } from '@mui/material';
 import { formatEventDate, formatPrice } from '../../format';
-import { SaleState } from '../../events';
+import { SaleState, ticketAvailability as availabilityOf } from '../../events';
 import { seatsUrl } from '../../routes';
 import { EventItem, TicketTypeItem } from '../../types/event';
 
 const LOW_STOCK = 10;
-
-type Availability = 'available' | 'soldOut' | 'paused' | 'notStarted' | 'closed';
-
-const availabilityOf = (tt: TicketTypeItem): Availability => {
-	const now = Date.now();
-	if (tt.ticketTypeStatus === 'SOLD_OUT' || tt.soldQuantity >= tt.totalQuantity) return 'soldOut';
-	if (tt.ticketTypeStatus === 'PAUSED') return 'paused';
-	if (tt.saleStartAt && new Date(tt.saleStartAt).getTime() > now) return 'notStarted';
-	if (tt.saleEndAt && new Date(tt.saleEndAt).getTime() <= now) return 'closed';
-	return 'available';
-};
 
 interface Props {
 	event: EventItem;

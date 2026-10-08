@@ -90,3 +90,33 @@ Goal: Home, events list, event detail, organizer profile and the shared pieces, 
 - `eventComments` is not lowered when a comment is deleted through `updateComment`; the page shows the live list total instead.
 - `Member.memberEvents` counts every event of an organizer (12 for the demo organizer), not only the public ones (7).
 - `eventRank` is 0 for all demo events, so "popular" uses `eventViews`.
+
+## Prompt 3: seat picker, hold, checkout, confirmation (2026-10-08)
+Goal: buy seats (RESERVED) or tickets (GENERAL) with the 30 second hold. Not committed.
+
+### Small changes first
+- Comment limit is now 500 (backend DECISIONS #66). The "Show all Comedy events" button and its `keywordCategory` code, and the `list.tryCategory` strings in all four languages, are removed (backend DECISIONS #65 search now covers translations, category, venue, city, organizer).
+- `docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql`.
+
+### Operations used (exact names from the schema)
+`getSeatConfig`, `getEventSeatMap(eventId)`, `holdSeats(eventId, seats: [SeatRefInput{sectionKey,row,number}])`, `releaseSeats(eventId)`, `createCheckout(input: {eventId, seatIds | items})`, `payOrder(orderId, simulate: SUCCESS | FAILURE)`, `cancelPendingOrder`, `getOrder`, `getMyOrders(orderStatus: PENDING_PAYMENT)`, `getMyTickets`, `getTicketTypes` (now with `tierKey`). Documents are in `apollo/user/query.ts` and `mutation.ts`.
+
+### Added
+- Pages: `/events/[id]/seats` (map for RESERVED, quantity selector for GENERAL), `/checkout/[orderId]`, `/orders/[orderId]/confirmation`, `/orders` (placeholder).
+- `libs/seats/`: `types`, `layout` (geometry of the 1000x700 layout, tiers), `errors` (the ONE message-to-translation map), `clock` (server clock skew, countdown), `checkout` (hold then order), `retry`. `libs/hooks/useSeatMap` (polling), `useSessionWatch`.
+- `libs/components/seats/`: `SeatMap` (SVG, zoom and pan), `SectionList` (+ `SeatGrid`, real buttons for keyboards), `SeatSummary` (sticky card, bottom sheet on phones), `Countdown`, `Steps`, `OrderSummary`, `SeatPicker`, `GeneralPicker`. `scss/seats.scss`.
+- i18n: new `checkout` namespace in en, ko, ru, uz (same keys, plural forms per language, checked by script).
+
+### Behaviour
+- Seat map: seats drawn from `venueLayout` (rows x seatsPerRow, spacing, rotation); states available / selected / held (someone else) / mine (my hold) / sold / locked (ticket type not on sale); tooltip, wheel / pinch / button zoom, drag to pan, fit; STANDING sections are read-only ("Standing area, not sold online in this demo"); keyboard users pick a section from the list and get its seats as buttons.
+- Polling every 3 s while the tab is visible, paused when hidden, immediate refresh on focus, stale answers ignored, back-off 3, 6, 12, 24, 30 s on errors; "Live" badge. A selected seat that becomes taken is dropped and named in an alert.
+- Continue = `holdSeats` then `createCheckout`, then `/checkout/[orderId]`; double submit blocked. A conflict refreshes the map and names the seats that were lost. Max seats and hold seconds come from `getSeatConfig`.
+- Countdown from the server deadline, corrected with `serverTime` (kept in sessionStorage for reloads). At 0 the selection is released in the UI with a message.
+- Checkout: order summary, demo payment panel (disabled sample fields, "no real card data"), "Simulate a failed payment" checkbox, Pay. Success goes to the confirmation page. Failure shows a retry state; expiry shows an expired state; a hold replaced by another tab shows "no longer held".
+- Reload: the seat page restores my held seats from `getEventSeatMap` (`mine`) and offers to resume a pending order; the checkout page reloads the order and seat names from the server.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds.
+- Browser against the live backend as `buyer@ticketzy.demo`, with `crowd@ticketzy.demo` acting through the API: login redirect with returnTo; map render (hall, club, stadium with standing area and rotated sections); select and remove seats; seat conflict (crowd held a selected seat, message names it, seat dropped); poll update within 4 s when crowd held a seat; hold then checkout with countdown; failed payment, retry (new hold and order), successful payment and confirmation; reload mid-checkout (countdown continues, seat name restored); hold expiry on the seat page (message) and on the checkout page after a reload (expired state); two-tab case (same buyer held another seat: checkout shows "no longer held"); restore of held seats on the seat page after a reload; GENERAL event (quantity, checkout, failed payment, retry, success); token expiry (redirect to login with returnTo); mobile (500 px bottom sheet) and desktop; Korean.
+- **Not tested**: ended and cancelled events (the backend hides them from buyers, so the page shows "Event not found"); sold-out section and "all seats gone" banners (no event in that state); `uz` and `ru` pages visually (keys are checked by script); light theme; pinch zoom (needs touch); a real keyboard-only run through the section list; the hold released on in-app navigation (written, not exercised).
+- Test setup note: port 3000 already ran an old production build and the backend allows only that origin for CORS, so the checks ran on a second dev server (port 3100) from a scratch copy with a `/gql-proxy` rewrite. Nothing of that is in the repo.

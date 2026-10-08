@@ -80,3 +80,15 @@ export const CATEGORY_SLUGS: { slug: CategorySlug; category: EventCategory; list
 ];
 export const isCategorySlug = (value: unknown): value is CategorySlug => CATEGORY_SLUGS.some((c) => c.slug === value);
 export const categoryHref = (slug: CategorySlug) => `/events?category=${slug}`;
+
+export type TicketAvailability = 'available' | 'soldOut' | 'paused' | 'notStarted' | 'closed';
+
+/** Whether one ticket type can be bought right now (status, stock and sale window). */
+export const ticketAvailability = (tt: TicketTypeItem): TicketAvailability => {
+	const now = Date.now();
+	if (tt.ticketTypeStatus === 'SOLD_OUT' || tt.soldQuantity >= tt.totalQuantity) return 'soldOut';
+	if (tt.ticketTypeStatus === 'PAUSED') return 'paused';
+	if (tt.saleStartAt && new Date(tt.saleStartAt).getTime() > now) return 'notStarted';
+	if (tt.saleEndAt && new Date(tt.saleEndAt).getTime() <= now) return 'closed';
+	return 'available';
+};

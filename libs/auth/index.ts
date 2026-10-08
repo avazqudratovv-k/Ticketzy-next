@@ -21,7 +21,7 @@ interface TokenResult {
 	accessToken: string;
 }
 
-const isExpired = (token: string): boolean => {
+export const isExpired = (token: string): boolean => {
 	try {
 		const { exp } = decodeJWT<TokenClaims>(token);
 		return typeof exp === 'number' && exp * 1000 <= Date.now();

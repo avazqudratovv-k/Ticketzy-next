@@ -127,6 +127,7 @@ export const GET_TICKET_TYPES = gql`
 			ticketTypeName
 			ticketPrice
 			ticketCurrency
+			tierKey
 			totalQuantity
 			soldQuantity
 			maxPerOrder
@@ -172,6 +173,135 @@ export const GET_ORGANIZER = gql`
 			memberEvents
 			completedEvents
 			memberFollowers
+		}
+	}
+`;
+
+/**************************
+ *         SEATS          *
+ *************************/
+
+export const GET_SEAT_CONFIG = gql`
+	query GetSeatConfig {
+		getSeatConfig {
+			seatHoldSeconds
+			maxSeatsPerOrder
+		}
+	}
+`;
+
+/** Only taken seats come back (SOLD, or HELD with a live hold); every seat not listed is available. */
+export const GET_EVENT_SEAT_MAP = gql`
+	query GetEventSeatMap($eventId: String!) {
+		getEventSeatMap(eventId: $eventId) {
+			eventId
+			venueTimezone
+			venueLayout {
+				sections {
+					key
+					name
+					kind
+					rows
+					seatsPerRow
+					capacity
+					x
+					y
+					rotation
+					spacing
+					tierKey
+				}
+			}
+			seats {
+				sectionKey
+				row
+				number
+				seatStatus
+				mine
+				holdExpiresAt
+			}
+		}
+	}
+`;
+
+/**************************
+ *         ORDERS         *
+ *************************/
+
+export const ORDER_FIELDS = gql`
+	fragment OrderFields on Order {
+		_id
+		orderNumber
+		orderStatus
+		eventId
+		items {
+			ticketTypeId
+			quantity
+			unitPrice
+		}
+		seatIds
+		currency
+		subtotal
+		commissionAmount
+		totalAmount
+		expiresAt
+		paidAt
+		createdAt
+		eventData {
+			_id
+			eventStatus
+			seatingType
+			eventTitle
+			eventTranslations {
+				locale
+				title
+			}
+			eventImages
+			startAt
+			endAt
+			venueId
+		}
+	}
+`;
+
+export const GET_ORDER = gql`
+	query GetOrder($orderId: String!) {
+		getOrder(orderId: $orderId) {
+			...OrderFields
+		}
+	}
+	${ORDER_FIELDS}
+`;
+
+/** The buyer's orders that still wait for payment; the seat picker offers to resume one. */
+export const GET_MY_PENDING_ORDERS = gql`
+	query GetMyPendingOrders($input: OrdersInquiry!) {
+		getMyOrders(input: $input) {
+			list {
+				_id
+				eventId
+				expiresAt
+				orderStatus
+			}
+		}
+	}
+`;
+
+/** Tickets of the buyer; the confirmation page picks the ones of one order (there is no orderId filter). */
+export const GET_MY_TICKETS = gql`
+	query GetMyTickets($input: TicketsInquiry!) {
+		getMyTickets(input: $input) {
+			list {
+				_id
+				ticketCode
+				ticketStatus
+				orderId
+				ticketTypeId
+				seatData {
+					sectionKey
+					row
+					number
+				}
+			}
 		}
 	}
 `;

@@ -66,8 +66,7 @@
     "noMatchQuery": "“{{query}}” bo‘yicha tadbir topilmadi",
     "noMatchText": "Boshqa sana yoki shaharni tanlang yoki sotuvdagi hamma narsani ko‘rish uchun filtrlarni tozalang.",
     "showing_one": "{{total}} tadbirdan {{from}}–{{to}} ko‘rsatilmoqda",
-    "showing_other": "{{total}} tadbirdan {{from}}–{{to}} ko‘rsatilmoqda",
-    "tryCategory": "Barcha tadbirlar: {{category}}"
+    "showing_other": "{{total}} tadbirdan {{from}}–{{to}} ko‘rsatilmoqda"
   },
   "filters": {
     "title": "Filtrlar",

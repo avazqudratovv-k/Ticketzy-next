@@ -65,3 +65,62 @@ export const UPDATE_COMMENT = gql`
 		}
 	}
 `;
+
+/**************************
+ *    SEATS AND CHECKOUT  *
+ *************************/
+
+/** Send `seats` (coordinates), not the old `seatIds` form. */
+export const HOLD_SEATS = gql`
+	mutation HoldSeats($eventId: String!, $seats: [SeatRefInput!]) {
+		holdSeats(eventId: $eventId, seats: $seats) {
+			eventId
+			seats {
+				_id
+				ticketTypeId
+				sectionKey
+				row
+				number
+			}
+			heldUntil
+			holdSeconds
+			serverTime
+		}
+	}
+`;
+
+export const RELEASE_SEATS = gql`
+	mutation ReleaseSeats($eventId: String!) {
+		releaseSeats(eventId: $eventId)
+	}
+`;
+
+/** RESERVED events send seatIds (the held seats), GENERAL events send items. Prices are computed by the server. */
+export const CREATE_CHECKOUT = gql`
+	mutation CreateCheckout($input: CheckoutInput!) {
+		createCheckout(input: $input) {
+			_id
+			orderStatus
+			expiresAt
+		}
+	}
+`;
+
+export const PAY_ORDER = gql`
+	mutation PayOrder($orderId: String!, $simulate: PaymentSimulation!) {
+		payOrder(orderId: $orderId, simulate: $simulate) {
+			_id
+			orderStatus
+			paidAt
+		}
+	}
+`;
+
+export const CANCEL_PENDING_ORDER = gql`
+	mutation CancelPendingOrder($orderId: String!) {
+		cancelPendingOrder(orderId: $orderId) {
+			_id
+			orderStatus
+		}
+	}
+`;

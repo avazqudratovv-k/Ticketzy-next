@@ -66,8 +66,7 @@
     "noMatchQuery": "No events match “{{query}}”",
     "noMatchText": "Try a different date or city, or clear the filters to see everything on sale.",
     "showing_one": "Showing {{from}}–{{to}} of {{total}} event",
-    "showing_other": "Showing {{from}}–{{to}} of {{total}} events",
-    "tryCategory": "Show all {{category}} events"
+    "showing_other": "Showing {{from}}–{{to}} of {{total}} events"
   },
   "filters": {
     "title": "Filters",
