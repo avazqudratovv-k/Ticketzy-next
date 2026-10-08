@@ -1,0 +1,220 @@
+import { useMemo } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import { Button } from '@mui/material';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { CalendarBlank, CaretLeft, MapPin, Ticket } from 'phosphor-react';
+import { GET_MY_ORDERS, GET_MY_TICKETS_LIST, GET_ORDER_DETAIL, GET_TICKET_TYPES } from '../../../apollo/user/query';
+import withLayoutBasic from '../../../libs/components/layout/LayoutBasic';
+import { withAccount } from '../../../libs/components/account/AccountShell';
+import LoadError from '../../../libs/components/account/LoadError';
+import RefundPanel from '../../../libs/components/account/RefundPanel';
+import { eventTitleOf } from '../../../libs/components/account/OrderRow';
+import { OrderBadge, TicketBadge } from '../../../libs/components/account/StatusBadge';
+import EventImage from '../../../libs/components/events/EventImage';
+import Seo from '../../../libs/components/common/Seo';
+import useVenues from '../../../libs/hooks/useVenues';
+import { ticketState } from '../../../libs/account/tickets';
+import { formatEventDate, formatPrice, formatViewerDate } from '../../../libs/format';
+import { checkoutUrl, eventUrl, ROUTES, ticketUrl } from '../../../libs/routes';
+import { AccountOrder, AccountTicket } from '../../../libs/types/account';
+import { TicketTypeItem } from '../../../libs/types/event';
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout', 'account'])) },
+});
+
+const Seat = ({ ticket }: { ticket: AccountTicket }) => {
+	const { t } = useTranslation('account');
+	const seat = ticket.seatData;
+	return <>{seat ? t('ticket.seatLine', { section: seat.sectionKey, row: seat.row, number: seat.number }) : t('ticket.general')}</>;
+};
+
+const OrderDetail: NextPage = () => {
+	const { t } = useTranslation('account');
+	const router = useRouter();
+	const { locale } = router;
+	const orderId = typeof router.query.orderId === 'string' ? router.query.orderId : '';
+	const skip = !router.isReady || !orderId;
+
+	const { data, error, refetch } = useQuery(GET_ORDER_DETAIL, { variables: { orderId }, skip, fetchPolicy: 'cache-and-network' });
+	const order: AccountOrder | undefined = data?.getOrder;
+	const paidLike = order?.orderStatus === 'PAID' || order?.orderStatus === 'REFUNDED';
+	// There is no filter by order: read the buyer's tickets and keep this order's
+	const { data: ticketData } = useQuery(GET_MY_TICKETS_LIST, {
+		variables: { input: { page: 1, limit: 100 } },
+		skip: !paidLike,
+		fetchPolicy: 'cache-and-network',
+	});
+	// getOrder returns `eventData: null` (the list does join it), so the event comes from the order's tickets, or from the list for unpaid orders
+	const { data: listData } = useQuery(GET_MY_ORDERS, {
+		variables: { input: { page: 1, limit: 100, sort: 'createdAt', direction: 'DESC' } },
+		skip: !order || paidLike || Boolean(order.eventData),
+	});
+	const { data: typeData } = useQuery(GET_TICKET_TYPES, { variables: { eventId: order?.eventId ?? '' }, skip: !order, errorPolicy: 'ignore' });
+
+	const tickets: AccountTicket[] = useMemo(
+		() => ((ticketData?.getMyTickets?.list ?? []) as AccountTicket[]).filter((ticket) => ticket.orderId === orderId),
+		[ticketData, orderId],
+	);
+	const event =
+		order?.eventData ??
+		tickets[0]?.eventData ??
+		((listData?.getMyOrders?.list ?? []) as AccountOrder[]).find((row) => row._id === orderId)?.eventData ??
+		undefined;
+	const venues = useVenues([event?.venueId]);
+	const venue = venues.get(event?.venueId ?? '');
+	const typeName = (id: string) => ((typeData?.getTicketTypes ?? []) as TicketTypeItem[]).find((type) => type._id === id)?.ticketTypeName ?? t('ticket.type');
+
+	if (error && !order) {
+		return (
+			<LoadError
+				error={error}
+				onRetry={() => refetch()}
+				notFoundTitle={t('order.notFound')}
+				notFoundText={t('order.notFoundText')}
+				back={
+					<Button component={Link} href={ROUTES.orders} variant="outlined">
+						{t('order.back')}
+					</Button>
+				}
+			/>
+		);
+	}
+	if (!order) {
+		return (
+			<div aria-busy="true">
+				<span className="tz-skel tz-skel--title" style={{ width: '50%', height: 40 }} />
+				<span className="tz-skel tz-skel--block" style={{ height: 220, marginTop: 24 }} />
+			</div>
+		);
+	}
+
+	const currency = order.currency ?? 'KRW';
+	const title = eventTitleOf(event, locale) || t('order.unknownEvent');
+	const paymentLine =
+		order.orderStatus === 'PAID' && order.paidAt
+			? t('order.payment.PAID', { date: formatViewerDate(order.paidAt, locale, true) })
+			: order.orderStatus === 'REFUNDED' && order.refundedAt
+			? t('order.payment.REFUNDED', { date: formatViewerDate(order.refundedAt, locale, true) })
+			: t(`order.payment.${order.orderStatus}`, { date: '' });
+
+	return (
+		<>
+			<Seo title={t('order.detailTitle', { number: order.orderNumber })} noindex />
+			<Link href={ROUTES.orders} className="acct__back tz-link">
+				<CaretLeft size={16} aria-hidden="true" /> {t('order.back')}
+			</Link>
+			<div className="acct__head">
+				<div>
+					<h1 className="acct__title">{title}</h1>
+					<p className="acct__sub">
+						{t('order.number')} <code className="confirm__code">{order.orderNumber}</code> · {t('order.boughtOn', { date: formatViewerDate(order.createdAt, locale) })}
+					</p>
+				</div>
+				<OrderBadge status={order.orderStatus} />
+			</div>
+
+			<div className="acct__cols">
+				<div className="acct__stack">
+					<section className="card" aria-labelledby="order-event">
+						<h2 id="order-event" className="card__title">
+							{t('order.event')}
+						</h2>
+						<div className="order__event">
+							<EventImage src={event?.eventImages?.[0]} className="order__image" />
+							<div>
+								<h3 className="order__name">
+									{event ? (
+										<Link href={eventUrl(event._id)} className="tz-link">
+											{title}
+										</Link>
+									) : (
+										title
+									)}
+								</h3>
+								{event && (
+									<p className="order__meta">
+										<CalendarBlank size={16} aria-hidden="true" /> {formatEventDate(event.startAt, locale, venue?.venueTimezone, true)}
+									</p>
+								)}
+								{venue && (
+									<p className="order__meta">
+										<MapPin size={16} aria-hidden="true" /> {venue.venueName}, {venue.venueCity}
+									</p>
+								)}
+							</div>
+						</div>
+					</section>
+
+					<section className="card" aria-labelledby="order-items">
+						<h2 id="order-items" className="card__title">
+							{t('order.items')}
+						</h2>
+						<ul className="order__lines">
+							{tickets.length > 0
+								? tickets.map((ticket) => (
+										<li key={ticket._id}>
+											<div>
+												<span className="order__line-title">
+													<Link href={ticketUrl(ticket._id)} className="tz-link">
+														{ticket.ticketTypeData?.ticketTypeName ?? typeName(ticket.ticketTypeId)}
+													</Link>
+												</span>
+												<span className="order__line-meta">
+													<Seat ticket={ticket} />
+												</span>
+											</div>
+											<div className="order__line-end">
+												<TicketBadge state={ticketState(ticket)} />
+												<span>{formatPrice(ticket.ticketTypeData?.ticketPrice ?? 0, locale, ticket.ticketTypeData?.ticketCurrency ?? currency)}</span>
+											</div>
+										</li>
+								  ))
+								: order.items.map((item) => (
+										<li key={item.ticketTypeId}>
+											<div>
+												<span className="order__line-title">
+													{item.quantity} × {typeName(item.ticketTypeId)}
+												</span>
+												<span className="order__line-meta">{order.seatIds.length > 0 ? t('ticket.seated') : t('ticket.general')}</span>
+											</div>
+											<span>{formatPrice(item.quantity * item.unitPrice, locale, currency)}</span>
+										</li>
+								  ))}
+						</ul>
+						<dl className="breakdown">
+							<div className="breakdown__row breakdown__row--total">
+								<dt>{t('order.total')}</dt>
+								<dd>{formatPrice(order.totalAmount, locale, currency)}</dd>
+							</div>
+						</dl>
+						<p className="breakdown__note">{paymentLine}</p>
+						{paidLike && tickets.length > 0 && (
+							<div>
+								<Button component={Link} href={ticketUrl(tickets[0]._id)} variant="outlined" startIcon={<Ticket size={20} aria-hidden="true" />}>
+									{t('order.viewTickets')}
+								</Button>
+							</div>
+						)}
+						{order.orderStatus === 'PENDING_PAYMENT' && new Date(order.expiresAt).getTime() > Date.now() && (
+							<div>
+								<Button component={Link} href={checkoutUrl(order._id)} variant="contained">
+									{t('order.continuePay')}
+								</Button>
+							</div>
+						)}
+					</section>
+				</div>
+				<div className="acct__stack">
+					<RefundPanel order={order} />
+				</div>
+			</div>
+		</>
+	);
+};
+
+export default withLayoutBasic(withAccount(OrderDetail));

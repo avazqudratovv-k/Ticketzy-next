@@ -17,6 +17,7 @@ import Brand from './common/Brand';
 import LanguageSwitcher from './common/LanguageSwitcher';
 import ThemeToggle from './common/ThemeToggle';
 import AccountMenu from './common/AccountMenu';
+import NotificationBell from './notifications/NotificationBell';
 
 const Top = () => {
 	const { t } = useTranslation('common');
@@ -59,7 +60,12 @@ const Top = () => {
 					<ThemeToggle />
 					{/* The slot keeps its size until the stored session is checked, so the bar does not jump. */}
 					<div className="tz-navbar__auth-slot">
-						{ready && user && <AccountMenu user={user} />}
+						{ready && user && (
+							<div className="tz-navbar__user">
+								<NotificationBell user={user} />
+								<AccountMenu user={user} />
+							</div>
+						)}
 						{ready && !user && (
 							<div className="tz-navbar__desktop">
 								<Button component={Link} href={ROUTES.login} variant="text" size="small">

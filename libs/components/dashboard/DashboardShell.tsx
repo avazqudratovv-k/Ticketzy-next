@@ -12,6 +12,7 @@ import Brand from '../common/Brand';
 import LanguageSwitcher from '../common/LanguageSwitcher';
 import ThemeToggle from '../common/ThemeToggle';
 import AccountMenu from '../common/AccountMenu';
+import NotificationBell from '../notifications/NotificationBell';
 import PendingBanner from '../common/PendingBanner';
 import { ADMIN_BADGE_ICON, ADMIN_FOOT, ADMIN_NAV, NavGroup, NavItem, ORGANIZER_NAV } from './nav';
 
@@ -121,6 +122,7 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 							<div className="tz-topbar__actions">
 								<LanguageSwitcher />
 								<ThemeToggle />
+								<NotificationBell user={user} />
 								<AccountMenu user={user} />
 							</div>
 						</header>

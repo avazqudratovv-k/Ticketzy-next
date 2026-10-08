@@ -124,3 +124,58 @@ export const CANCEL_PENDING_ORDER = gql`
 		}
 	}
 `;
+
+/**************************
+ *    ACCOUNT (BUYER)     *
+ *************************/
+
+/** Whole orders only; the server answers with its own code and message when the order is not eligible. */
+export const REQUEST_REFUND = gql`
+	mutation RequestRefund($orderId: String!, $reason: String) {
+		requestRefund(orderId: $orderId, reason: $reason) {
+			_id
+			orderStatus
+			refundedAt
+		}
+	}
+`;
+
+export const MARK_NOTIFICATION_READ = gql`
+	mutation MarkNotificationRead($notificationId: String!) {
+		markNotificationRead(notificationId: $notificationId) {
+			_id
+			notificationStatus
+		}
+	}
+`;
+
+export const MARK_ALL_NOTIFICATIONS_READ = gql`
+	mutation MarkAllNotificationsRead {
+		markAllNotificationsRead
+	}
+`;
+
+export const UPDATE_MEMBER = gql`
+	mutation UpdateMember($input: MemberUpdate!) {
+		updateMember(input: $input) {
+			_id
+			memberType
+			memberStatus
+			memberEmail
+			memberPhone
+			memberNick
+			memberFullName
+			memberImage
+			memberAddress
+			memberDesc
+			rejectReason
+			createdAt
+		}
+	}
+`;
+
+export const IMAGE_UPLOADER = gql`
+	mutation ImageUploader($file: Upload!, $target: String!) {
+		imageUploader(file: $file, target: $target)
+	}
+`;

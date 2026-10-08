@@ -1,0 +1,232 @@
+{
+  "nav": {
+    "label": "Account",
+    "tickets": "My tickets",
+    "orders": "Order history",
+    "notifications": "Notifications",
+    "saved": "Saved events",
+    "following": "Following",
+    "settings": "Profile and settings"
+  },
+  "state": {
+    "loadError": "We could not load this page",
+    "network": "We could not reach Ticketzy. Check your connection and try again.",
+    "retry": "Try again"
+  },
+  "orders": {
+    "title": "Order history",
+    "sub": "Every order you have placed, newest first.",
+    "filter": "Filter by status",
+    "allStatuses": "All orders",
+    "emptyTitle": "No orders yet",
+    "emptyText": "When you buy tickets, your orders show up here.",
+    "emptyFiltered": "No orders with this status",
+    "emptyFilteredText": "Try another status or show all orders.",
+    "clearFilter": "Show all orders",
+    "browse": "Browse events",
+    "showing": "Showing {{from}}–{{to}} of {{total}} orders"
+  },
+  "order": {
+    "status": {
+      "PAID": "Paid",
+      "REFUNDED": "Refunded",
+      "PENDING_PAYMENT": "Waiting for payment",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled",
+      "EXPIRED": "Expired"
+    },
+    "unknownEvent": "Event",
+    "tickets": "Tickets",
+    "ticketCount_one": "{{count}} ticket",
+    "ticketCount_other": "{{count}} tickets",
+    "bought": "Bought",
+    "total": "Total",
+    "view": "View order",
+    "notFound": "Order not found",
+    "notFoundText": "This order does not exist or belongs to another account.",
+    "back": "Order history",
+    "detailTitle": "Order {{number}}",
+    "number": "Order",
+    "boughtOn": "bought {{date}}",
+    "event": "Event",
+    "items": "Tickets and total",
+    "viewTickets": "View tickets",
+    "continuePay": "Continue to payment",
+    "payment": {
+      "PAID": "Paid on {{date}}.",
+      "REFUNDED": "Refunded on {{date}}.",
+      "PENDING_PAYMENT": "This order is waiting for payment.",
+      "FAILED": "The payment for this order failed. Nothing was charged.",
+      "CANCELLED": "This order was cancelled. Nothing was charged.",
+      "EXPIRED": "The time to pay ran out. Nothing was charged."
+    }
+  },
+  "tickets": {
+    "title": "My tickets",
+    "sub": "Tickets you buy show up here, ready to scan at the door.",
+    "tabs": "Ticket groups",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "emptyUpcoming": "No upcoming tickets",
+    "emptyUpcomingText": "Tickets for events that have not ended yet are listed here.",
+    "emptyPast": "No past tickets",
+    "emptyPastText": "Tickets for events that are over end up here."
+  },
+  "ticket": {
+    "seatLine": "{{section}}, row {{row}}, seat {{number}}",
+    "general": "General admission",
+    "seated": "Seated",
+    "type": "Ticket",
+    "showQr": "Show QR code",
+    "open": "Open ticket",
+    "state": {
+      "valid": "Valid",
+      "used": "Used",
+      "refunded": "Refunded",
+      "cancelled": "Cancelled",
+      "expired": "Expired"
+    },
+    "notFound": "Ticket not found",
+    "notFoundText": "This ticket does not exist or belongs to another account.",
+    "back": "All tickets",
+    "qrLabel": "QR code of your ticket for {{event}}",
+    "stepper": "Tickets of this order",
+    "prev": "Previous ticket",
+    "next": "Next ticket",
+    "position": "Ticket {{current}} of {{count}}",
+    "cardLabel": "Ticket",
+    "date": "Date",
+    "venue": "Venue",
+    "section": "Block",
+    "row": "Row",
+    "seat": "Seat",
+    "entry": "Entry",
+    "code": "Ticket code",
+    "fullscreen": "Full-screen QR code",
+    "fullscreenTitle": "QR code for scanning",
+    "close": "Close",
+    "void": {
+      "used": {
+        "title": "This ticket was used",
+        "text": "It was scanned at the door and cannot be used again.",
+        "textAt": "It was scanned at the door on {{date}} and cannot be used again."
+      },
+      "refunded": {
+        "title": "This ticket was refunded",
+        "text": "The order was refunded, so this ticket no longer works."
+      },
+      "cancelled": {
+        "title": "This ticket was cancelled",
+        "text": "This ticket no longer works."
+      },
+      "expired": {
+        "title": "This ticket has expired",
+        "text": "The event is over, so this ticket can no longer be scanned."
+      }
+    },
+    "actionsTitle": "Save the date",
+    "calendarText": "Download an .ics file for your calendar app. The time is the venue's local time.",
+    "calendar": "Add to calendar",
+    "doorTitle": "At the door",
+    "tipBrightness": "Turn your screen brightness up so the scanner reads the code the first time.",
+    "tipOffline": "Open this ticket before you arrive, so it is ready if the signal at the venue is weak.",
+    "orderTitle": "Order",
+    "pricePaid": "Price paid",
+    "orderRefundLink": "View the order or request a refund",
+    "orderLink": "View the order",
+    "eventLink": "Event page"
+  },
+  "refund": {
+    "title": "Refund",
+    "done": "Your refund went through. The tickets of this order no longer work.",
+    "already": "This order was already refunded. Nothing more was charged back.",
+    "refundedOn": "This order was refunded on {{date}}. Amount: {{amount}}.",
+    "refunded": "This order was refunded.",
+    "notPaid": "Only paid orders can be refunded.",
+    "quoteError": "We could not check if this order can be refunded.",
+    "deadline": "Refund deadline: {{date}}",
+    "rule": "Orders are refunded as a whole. Refunds are open until 23:59 on the day before the event, in the venue's time zone.",
+    "amount": "Refundable amount",
+    "request": "Request a refund",
+    "irreversible": "Refunded tickets stop working straight away and the seats go back on sale. This cannot be undone.",
+    "notEligible": "This order cannot be refunded.",
+    "confirmTitle": "Refund this order?",
+    "confirmText": "The whole order is refunded and all its tickets stop working. This cannot be undone.",
+    "noteLabel": "Reason (optional)",
+    "keep": "Keep my order",
+    "sending": "Refunding…",
+    "confirm": "Refund {{amount}}",
+    "reason": {
+      "deadline": "The refund deadline for this order has passed.",
+      "checkedIn": "An order with a ticket that was already scanned cannot be refunded.",
+      "notPaid": "Only paid orders can be refunded.",
+      "inProgress": "This order is being refunded right now. Check back in a moment.",
+      "failed": "The refund failed and nothing was changed. Please try again."
+    },
+    "error": {
+      "generic": "The refund could not be completed. Please try again."
+    }
+  },
+  "saved": {
+    "title": "Saved events",
+    "sub": "Events you liked.",
+    "emptyTitle": "No saved events",
+    "emptyText": "Tap the heart on an event to keep it here."
+  },
+  "following": {
+    "title": "Following",
+    "sub": "Organizers you follow.",
+    "emptyTitle": "You are not following anyone",
+    "emptyText": "Follow an organizer from their page to see them here.",
+    "events_one": "{{count}} event",
+    "events_other": "{{count}} events"
+  },
+  "notifications": {
+    "filter": "Notification filter"
+  },
+  "profile": {
+    "title": "Profile and settings",
+    "sub": "Your details and sign-in.",
+    "details": "Profile",
+    "changePhoto": "Change photo",
+    "photoHint": "PNG or JPG, up to {{size}} MB.",
+    "photoType": "Choose a PNG or JPG image.",
+    "photoSize": "The image is too large. The limit is {{size}} MB.",
+    "photoReady": "{{name}} will be saved with your changes.",
+    "fullName": "Full name",
+    "fullNameHint": "3 to 100 characters.",
+    "nick": "Nickname",
+    "nickHint": "3 to 12 characters. Shown on comments.",
+    "email": "Email",
+    "emailHint": "You sign in with this address. It cannot be changed here.",
+    "phone": "Phone (optional)",
+    "error": {
+      "fullName": "Enter 3 to 100 characters, or leave it empty.",
+      "nick": "Enter 3 to 12 characters, or leave it empty.",
+      "phone": "Enter a phone number with digits, for example +82 10 0000 0000."
+    },
+    "save": "Save changes",
+    "saving": "Saving…",
+    "saved": "Your profile was saved.",
+    "saveError": "We could not save your profile. Check the fields and try again.",
+    "accountTitle": "Account",
+    "memberType": "Account type",
+    "memberStatus": "Status",
+    "since": "Member since",
+    "type": {
+      "USER": "Buyer",
+      "ORGANIZER": "Organizer",
+      "ADMIN": "Admin"
+    },
+    "status": {
+      "PENDING": "Waiting for approval",
+      "ACTIVE": "Active",
+      "REJECTED": "Not verified",
+      "SUSPENDED": "Suspended",
+      "DELETE": "Deleted"
+    },
+    "signOutTitle": "Sign out",
+    "signedInAs": "Signed in as {{email}}.",
+    "logout": "Log out"
+  }
+}

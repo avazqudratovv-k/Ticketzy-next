@@ -32,7 +32,8 @@
       "USER": "Buyer",
       "ORGANIZER": "Organizer",
       "ADMIN": "Admin"
-    }
+    },
+    "notifications": "Notifications"
   },
   "banner": {
     "pendingTitle": "Your organizer account is being reviewed.",
@@ -92,5 +93,50 @@
     "title": "Page not found",
     "text": "This page does not exist or has moved.",
     "back": "Back to home"
+  },
+  "bell": {
+    "label": "Notifications",
+    "labelUnread_one": "Notifications, {{count}} unread",
+    "labelUnread_other": "Notifications, {{count}} unread",
+    "title": "Notifications",
+    "seeAll": "See all notifications"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAll": "Mark all as read",
+    "unread": "Unread",
+    "unreadCount_one": "{{formatted}} unread",
+    "unreadCount_other": "{{formatted}} unread",
+    "allRead": "You are all caught up.",
+    "filterAll": "All",
+    "filterUnread": "Unread",
+    "emptyTitle": "No notifications yet",
+    "emptyText": "Order confirmations, refunds and event updates show up here.",
+    "emptyUnread": "Nothing unread",
+    "emptyUnreadText": "You have read everything.",
+    "emptyShort": "No notifications yet.",
+    "loadError": "We could not load your notifications.",
+    "retry": "Try again",
+    "today": "Today, {{time}}",
+    "yesterday": "Yesterday, {{time}}",
+    "refundSummary": "Refunded: {{refunded}}, failed: {{failed}}",
+    "type": {
+      "LIKE": "Someone liked your event",
+      "COMMENT": "New comment",
+      "ORDER_PAID": "Payment received",
+      "ORDER_PAID_SALE": "New ticket sale",
+      "EVENT_REMINDER": "Your event is coming up",
+      "ORGANIZER_VERIFIED": "Your organizer account was approved",
+      "ORGANIZER_REJECTED": "Your organizer account was not approved",
+      "ORGANIZER_SUSPENDED": "Your organizer account was suspended",
+      "ORGANIZER_REINSTATED": "Your organizer account is active again",
+      "COMMISSION_UPDATED": "Your commission rate changed",
+      "EVENT_APPROVED": "Your event was approved",
+      "EVENT_REJECTED": "Your event was not approved",
+      "EVENT_CANCELLED": "An event was cancelled",
+      "REFUND_COMPLETED": "Your order was refunded",
+      "ORDER_REFUNDED": "An order was refunded",
+      "NEW_MESSAGE": "You have a new message"
+    }
   }
 }

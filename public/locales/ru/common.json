@@ -32,7 +32,8 @@
       "USER": "Покупатель",
       "ORGANIZER": "Организатор",
       "ADMIN": "Администратор"
-    }
+    },
+    "notifications": "Уведомления"
   },
   "banner": {
     "pendingTitle": "Аккаунт организатора на проверке.",
@@ -92,5 +93,54 @@
     "title": "Страница не найдена",
     "text": "Такой страницы нет, или она переехала.",
     "back": "На главную"
+  },
+  "bell": {
+    "label": "Уведомления",
+    "labelUnread_one": "Уведомления, {{count}} непрочитанное",
+    "labelUnread_few": "Уведомления, {{count}} непрочитанных",
+    "labelUnread_many": "Уведомления, {{count}} непрочитанных",
+    "labelUnread_other": "Уведомления, {{count}} непрочитанных",
+    "title": "Уведомления",
+    "seeAll": "Все уведомления"
+  },
+  "notifications": {
+    "title": "Уведомления",
+    "markAll": "Отметить все как прочитанные",
+    "unread": "Не прочитано",
+    "unreadCount_one": "{{formatted}} непрочитанное",
+    "unreadCount_few": "{{formatted}} непрочитанных",
+    "unreadCount_many": "{{formatted}} непрочитанных",
+    "unreadCount_other": "{{formatted}} непрочитанных",
+    "allRead": "Всё прочитано.",
+    "filterAll": "Все",
+    "filterUnread": "Непрочитанные",
+    "emptyTitle": "Уведомлений пока нет",
+    "emptyText": "Здесь появятся подтверждения заказов, возвраты и новости о событиях.",
+    "emptyUnread": "Непрочитанных нет",
+    "emptyUnreadText": "Вы прочитали всё.",
+    "emptyShort": "Уведомлений пока нет.",
+    "loadError": "Не удалось загрузить уведомления.",
+    "retry": "Повторить",
+    "today": "Сегодня, {{time}}",
+    "yesterday": "Вчера, {{time}}",
+    "refundSummary": "Возвращено: {{refunded}}, с ошибкой: {{failed}}",
+    "type": {
+      "LIKE": "Кому-то понравилось ваше событие",
+      "COMMENT": "Новый комментарий",
+      "ORDER_PAID": "Платёж получен",
+      "ORDER_PAID_SALE": "Новая продажа билетов",
+      "EVENT_REMINDER": "Скоро ваше событие",
+      "ORGANIZER_VERIFIED": "Аккаунт организатора одобрен",
+      "ORGANIZER_REJECTED": "Аккаунт организатора не одобрен",
+      "ORGANIZER_SUSPENDED": "Аккаунт организатора заблокирован",
+      "ORGANIZER_REINSTATED": "Аккаунт организатора снова активен",
+      "COMMISSION_UPDATED": "Изменилась ваша комиссия",
+      "EVENT_APPROVED": "Ваше событие одобрено",
+      "EVENT_REJECTED": "Ваше событие не одобрено",
+      "EVENT_CANCELLED": "Событие отменено",
+      "REFUND_COMPLETED": "По вашему заказу выполнен возврат",
+      "ORDER_REFUNDED": "По заказу выполнен возврат",
+      "NEW_MESSAGE": "У вас новое сообщение"
+    }
   }
 }

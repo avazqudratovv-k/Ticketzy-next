@@ -1,0 +1,232 @@
+{
+  "nav": {
+    "label": "Hisob",
+    "tickets": "Chiptalarim",
+    "orders": "Buyurtmalar tarixi",
+    "notifications": "Bildirishnomalar",
+    "saved": "Saqlangan tadbirlar",
+    "following": "Obunalar",
+    "settings": "Profil va sozlamalar"
+  },
+  "state": {
+    "loadError": "Sahifani yuklab boʻlmadi",
+    "network": "Ticketzy bilan aloqa oʻrnatib boʻlmadi. Internetni tekshirib, qayta urinib koʻring.",
+    "retry": "Qayta urinish"
+  },
+  "orders": {
+    "title": "Buyurtmalar tarixi",
+    "sub": "Barcha buyurtmalaringiz, yangilari birinchi.",
+    "filter": "Holat boʻyicha saralash",
+    "allStatuses": "Barcha buyurtmalar",
+    "emptyTitle": "Hozircha buyurtmalar yoʻq",
+    "emptyText": "Chipta sotib olsangiz, buyurtmalaringiz shu yerda chiqadi.",
+    "emptyFiltered": "Bu holatdagi buyurtmalar yoʻq",
+    "emptyFilteredText": "Boshqa holatni tanlang yoki barcha buyurtmalarni koʻrsating.",
+    "clearFilter": "Barcha buyurtmalarni koʻrsatish",
+    "browse": "Tadbirlarni koʻrish",
+    "showing": "{{total}} ta buyurtmadan {{from}}–{{to}}"
+  },
+  "order": {
+    "status": {
+      "PAID": "Toʻlangan",
+      "REFUNDED": "Qaytarilgan",
+      "PENDING_PAYMENT": "Toʻlov kutilmoqda",
+      "FAILED": "Muvaffaqiyatsiz",
+      "CANCELLED": "Bekor qilingan",
+      "EXPIRED": "Muddati tugagan"
+    },
+    "unknownEvent": "Tadbir",
+    "tickets": "Chiptalar",
+    "ticketCount_one": "{{count}} ta chipta",
+    "ticketCount_other": "{{count}} ta chipta",
+    "bought": "Sotib olingan",
+    "total": "Jami",
+    "view": "Buyurtmani ochish",
+    "notFound": "Buyurtma topilmadi",
+    "notFoundText": "Bunday buyurtma yoʻq yoki u boshqa hisobga tegishli.",
+    "back": "Buyurtmalar tarixi",
+    "detailTitle": "Buyurtma {{number}}",
+    "number": "Buyurtma",
+    "boughtOn": "{{date}} sotib olingan",
+    "event": "Tadbir",
+    "items": "Chiptalar va jami",
+    "viewTickets": "Chiptalarni koʻrish",
+    "continuePay": "Toʻlovni davom ettirish",
+    "payment": {
+      "PAID": "{{date}} toʻlangan.",
+      "REFUNDED": "{{date}} qaytarilgan.",
+      "PENDING_PAYMENT": "Bu buyurtma toʻlovni kutmoqda.",
+      "FAILED": "Bu buyurtma uchun toʻlov amalga oshmadi. Pul yechilmadi.",
+      "CANCELLED": "Bu buyurtma bekor qilindi. Pul yechilmadi.",
+      "EXPIRED": "Toʻlov muddati tugadi. Pul yechilmadi."
+    }
+  },
+  "tickets": {
+    "title": "Chiptalarim",
+    "sub": "Sotib olgan chiptalaringiz shu yerda chiqadi, kirishda skaner qilishga tayyor.",
+    "tabs": "Chipta guruhlari",
+    "upcoming": "Kelgusi",
+    "past": "Oʻtgan",
+    "emptyUpcoming": "Kelgusi chiptalar yoʻq",
+    "emptyUpcomingText": "Hali tugamagan tadbirlarning chiptalari shu yerda koʻrinadi.",
+    "emptyPast": "Oʻtgan chiptalar yoʻq",
+    "emptyPastText": "Tugagan tadbirlarning chiptalari shu yerga tushadi."
+  },
+  "ticket": {
+    "seatLine": "{{section}}, {{row}}-qator, {{number}}-oʻrin",
+    "general": "Umumiy kirish",
+    "seated": "Oʻrinli",
+    "type": "Chipta",
+    "showQr": "QR kodni koʻrsatish",
+    "open": "Chiptani ochish",
+    "state": {
+      "valid": "Amal qiladi",
+      "used": "Ishlatilgan",
+      "refunded": "Qaytarilgan",
+      "cancelled": "Bekor qilingan",
+      "expired": "Muddati tugagan"
+    },
+    "notFound": "Chipta topilmadi",
+    "notFoundText": "Bunday chipta yoʻq yoki u boshqa hisobga tegishli.",
+    "back": "Barcha chiptalar",
+    "qrLabel": "{{event}} tadbiri uchun chiptangizning QR kodi",
+    "stepper": "Ushbu buyurtmaning chiptalari",
+    "prev": "Oldingi chipta",
+    "next": "Keyingi chipta",
+    "position": "{{count}} tadan {{current}}-chipta",
+    "cardLabel": "Chipta",
+    "date": "Sana",
+    "venue": "Joy",
+    "section": "Blok",
+    "row": "Qator",
+    "seat": "Oʻrin",
+    "entry": "Kirish",
+    "code": "Chipta kodi",
+    "fullscreen": "QR kodni butun ekranda",
+    "fullscreenTitle": "Skaner uchun QR kod",
+    "close": "Yopish",
+    "void": {
+      "used": {
+        "title": "Bu chipta ishlatilgan",
+        "text": "U kirishda skaner qilingan va qayta ishlatib boʻlmaydi.",
+        "textAt": "U {{date}} kuni kirishda skaner qilingan va qayta ishlatib boʻlmaydi."
+      },
+      "refunded": {
+        "title": "Bu chipta qaytarilgan",
+        "text": "Buyurtma qaytarilgan, shuning uchun chipta endi amal qilmaydi."
+      },
+      "cancelled": {
+        "title": "Bu chipta bekor qilingan",
+        "text": "Bu chipta endi amal qilmaydi."
+      },
+      "expired": {
+        "title": "Chiptaning muddati tugagan",
+        "text": "Tadbir tugagan, chiptani endi skaner qilib boʻlmaydi."
+      }
+    },
+    "actionsTitle": "Sanani saqlang",
+    "calendarText": "Kalendar ilovasi uchun .ics faylini yuklab oling. Vaqt tadbir joyining mahalliy vaqti boʻyicha.",
+    "calendar": "Kalendarga qoʻshish",
+    "doorTitle": "Kirishda",
+    "tipBrightness": "Skaner kodni birinchi urinishda oʻqishi uchun ekran yorugʻligini oshiring.",
+    "tipOffline": "Chiptani oldindan oching: tadbir joyida signal zaif boʻlishi mumkin.",
+    "orderTitle": "Buyurtma",
+    "pricePaid": "Toʻlangan narx",
+    "orderRefundLink": "Buyurtmani koʻrish yoki pulni qaytarishni soʻrash",
+    "orderLink": "Buyurtmani koʻrish",
+    "eventLink": "Tadbir sahifasi"
+  },
+  "refund": {
+    "title": "Pulni qaytarish",
+    "done": "Pul qaytarildi. Ushbu buyurtmaning chiptalari endi amal qilmaydi.",
+    "already": "Bu buyurtma allaqachon qaytarilgan. Qoʻshimcha qaytarish boʻlmadi.",
+    "refundedOn": "Bu buyurtma {{date}} kuni qaytarilgan. Summa: {{amount}}.",
+    "refunded": "Bu buyurtma qaytarilgan.",
+    "notPaid": "Faqat toʻlangan buyurtmani qaytarish mumkin.",
+    "quoteError": "Bu buyurtmani qaytarish mumkinligini tekshirib boʻlmadi.",
+    "deadline": "Qaytarish muddati: {{date}}",
+    "rule": "Buyurtma butunlay qaytariladi. Qaytarish tadbirdan bir kun oldin soat 23:59 gacha, tadbir joyining vaqt mintaqasi boʻyicha ochiq.",
+    "amount": "Qaytariladigan summa",
+    "request": "Pulni qaytarishni soʻrash",
+    "irreversible": "Qaytarilgan chiptalar darhol amal qilmay qoʻyadi, oʻrinlar esa yana sotuvga chiqadi. Buni bekor qilib boʻlmaydi.",
+    "notEligible": "Bu buyurtmani qaytarib boʻlmaydi.",
+    "confirmTitle": "Bu buyurtma qaytarilsinmi?",
+    "confirmText": "Buyurtma butunlay qaytariladi va uning barcha chiptalari amal qilmay qoʻyadi. Buni bekor qilib boʻlmaydi.",
+    "noteLabel": "Sabab (ixtiyoriy)",
+    "keep": "Buyurtmani qoldirish",
+    "sending": "Qaytarilmoqda…",
+    "confirm": "{{amount}} qaytarish",
+    "reason": {
+      "deadline": "Bu buyurtmani qaytarish muddati oʻtgan.",
+      "checkedIn": "Skaner qilingan chiptasi bor buyurtmani qaytarib boʻlmaydi.",
+      "notPaid": "Faqat toʻlangan buyurtmani qaytarish mumkin.",
+      "inProgress": "Bu buyurtma hozir qaytarilmoqda. Birozdan keyin qayta tekshiring.",
+      "failed": "Qaytarish amalga oshmadi, hech narsa oʻzgarmadi. Qayta urinib koʻring."
+    },
+    "error": {
+      "generic": "Pulni qaytarishni yakunlab boʻlmadi. Qayta urinib koʻring."
+    }
+  },
+  "saved": {
+    "title": "Saqlangan tadbirlar",
+    "sub": "Siz yoqtirgan tadbirlar.",
+    "emptyTitle": "Saqlangan tadbirlar yoʻq",
+    "emptyText": "Tadbirdagi yurakchani bossangiz, u shu yerda saqlanadi."
+  },
+  "following": {
+    "title": "Obunalar",
+    "sub": "Siz obuna boʻlgan tashkilotchilar.",
+    "emptyTitle": "Hech kimga obuna boʻlmagansiz",
+    "emptyText": "Tashkilotchining sahifasida obuna boʻlsangiz, u shu yerda chiqadi.",
+    "events_one": "{{count}} ta tadbir",
+    "events_other": "{{count}} ta tadbir"
+  },
+  "notifications": {
+    "filter": "Bildirishnomalar filtri"
+  },
+  "profile": {
+    "title": "Profil va sozlamalar",
+    "sub": "Maʼlumotlaringiz va kirish sozlamalari.",
+    "details": "Profil",
+    "changePhoto": "Rasmni almashtirish",
+    "photoHint": "PNG yoki JPG, {{size}} MB gacha.",
+    "photoType": "PNG yoki JPG rasm tanlang.",
+    "photoSize": "Rasm juda katta. Chegara — {{size}} MB.",
+    "photoReady": "“{{name}}” oʻzgarishlar bilan birga saqlanadi.",
+    "fullName": "Toʻliq ism",
+    "fullNameHint": "3 dan 100 tagacha belgi.",
+    "nick": "Taxallus",
+    "nickHint": "3 dan 12 tagacha belgi. Izohlarda koʻrinadi.",
+    "email": "Email",
+    "emailHint": "Shu manzil bilan kirasiz. Uni bu yerda oʻzgartirib boʻlmaydi.",
+    "phone": "Telefon (ixtiyoriy)",
+    "error": {
+      "fullName": "3 dan 100 tagacha belgi kiriting yoki boʻsh qoldiring.",
+      "nick": "3 dan 12 tagacha belgi kiriting yoki boʻsh qoldiring.",
+      "phone": "Telefon raqamini raqamlar bilan kiriting, masalan +82 10 0000 0000."
+    },
+    "save": "Oʻzgarishlarni saqlash",
+    "saving": "Saqlanmoqda…",
+    "saved": "Profilingiz saqlandi.",
+    "saveError": "Profilni saqlab boʻlmadi. Maydonlarni tekshirib, qayta urinib koʻring.",
+    "accountTitle": "Hisob",
+    "memberType": "Hisob turi",
+    "memberStatus": "Holat",
+    "since": "Aʼzo boʻlgan sana",
+    "type": {
+      "USER": "Xaridor",
+      "ORGANIZER": "Tashkilotchi",
+      "ADMIN": "Administrator"
+    },
+    "status": {
+      "PENDING": "Tasdiq kutilmoqda",
+      "ACTIVE": "Faol",
+      "REJECTED": "Tasdiqlanmagan",
+      "SUSPENDED": "Toʻxtatilgan",
+      "DELETE": "Oʻchirilgan"
+    },
+    "signOutTitle": "Chiqish",
+    "signedInAs": "{{email}} sifatida kirgansiz.",
+    "logout": "Chiqish"
+  }
+}

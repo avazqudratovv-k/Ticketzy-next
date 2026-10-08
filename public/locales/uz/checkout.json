@@ -211,11 +211,6 @@
     },
     "total": "Jami"
   },
-  "orders": {
-    "title": "Buyurtmalarim",
-    "placeholderTitle": "Buyurtmalar tarixi tez orada",
-    "placeholderText": "Buyurtma va chiptalaringiz shu yerda koʻrinadi. Hozircha buyurtmani tasdiq sahifasidan oching."
-  },
   "errors": {
     "seatTaken": "Oʻrinlardan birini boshqa kishi oldinroq oldi. Boshqa oʻrinlarni tanlang.",
     "seatNotFound": "Bu oʻrinlardan biri ushbu tadbirda mavjud emas.",

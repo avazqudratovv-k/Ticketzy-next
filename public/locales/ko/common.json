@@ -32,7 +32,8 @@
       "USER": "구매자",
       "ORGANIZER": "주최자",
       "ADMIN": "관리자"
-    }
+    },
+    "notifications": "알림"
   },
   "banner": {
     "pendingTitle": "주최자 계정을 검토하고 있어요.",
@@ -92,5 +93,48 @@
     "title": "페이지를 찾을 수 없어요",
     "text": "페이지가 없거나 이동되었어요.",
     "back": "홈으로 돌아가기"
+  },
+  "bell": {
+    "label": "알림",
+    "labelUnread_other": "알림, 읽지 않음 {{count}}개",
+    "title": "알림",
+    "seeAll": "모든 알림 보기"
+  },
+  "notifications": {
+    "title": "알림",
+    "markAll": "모두 읽음으로 표시",
+    "unread": "읽지 않음",
+    "unreadCount_other": "읽지 않음 {{formatted}}개",
+    "allRead": "모든 알림을 확인했습니다.",
+    "filterAll": "전체",
+    "filterUnread": "읽지 않음",
+    "emptyTitle": "아직 알림이 없습니다",
+    "emptyText": "주문 확인, 환불, 이벤트 소식이 여기에 표시됩니다.",
+    "emptyUnread": "읽지 않은 알림이 없습니다",
+    "emptyUnreadText": "모든 알림을 읽었습니다.",
+    "emptyShort": "아직 알림이 없습니다.",
+    "loadError": "알림을 불러오지 못했습니다.",
+    "retry": "다시 시도",
+    "today": "오늘 {{time}}",
+    "yesterday": "어제 {{time}}",
+    "refundSummary": "환불 완료 {{refunded}}건, 실패 {{failed}}건",
+    "type": {
+      "LIKE": "누군가 내 이벤트에 좋아요를 눌렀습니다",
+      "COMMENT": "새 댓글",
+      "ORDER_PAID": "결제가 완료되었습니다",
+      "ORDER_PAID_SALE": "새 티켓 판매",
+      "EVENT_REMINDER": "이벤트가 곧 열립니다",
+      "ORGANIZER_VERIFIED": "주최자 계정이 승인되었습니다",
+      "ORGANIZER_REJECTED": "주최자 계정이 승인되지 않았습니다",
+      "ORGANIZER_SUSPENDED": "주최자 계정이 정지되었습니다",
+      "ORGANIZER_REINSTATED": "주최자 계정이 다시 활성화되었습니다",
+      "COMMISSION_UPDATED": "수수료율이 변경되었습니다",
+      "EVENT_APPROVED": "이벤트가 승인되었습니다",
+      "EVENT_REJECTED": "이벤트가 승인되지 않았습니다",
+      "EVENT_CANCELLED": "이벤트가 취소되었습니다",
+      "REFUND_COMPLETED": "주문이 환불되었습니다",
+      "ORDER_REFUNDED": "주문이 환불되었습니다(주최자 알림)",
+      "NEW_MESSAGE": "새 메시지가 도착했습니다"
+    }
   }
 }

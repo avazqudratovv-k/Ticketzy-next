@@ -26,6 +26,8 @@ function createIsomorphicLink() {
 
 		const uploadLink = createUploadLink({
 			uri: process.env.NEXT_PUBLIC_API_GRAPHQL_URL,
+			// Apollo Server's CSRF protection rejects multipart uploads without this header
+			headers: { 'apollo-require-preflight': 'true' },
 		});
 
 		// No popups here: errors reach the caller (see parseApiError in libs/errors). Logged in development only.

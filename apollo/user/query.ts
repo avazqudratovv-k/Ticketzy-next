@@ -305,3 +305,222 @@ export const GET_MY_TICKETS = gql`
 		}
 	}
 `;
+
+/**************************
+ *    ACCOUNT (BUYER)     *
+ *************************/
+
+/** Order rows and details. `eventData.venueData` always comes back null (the server does not join it), so venues are loaded by `venueId` with GET_VENUES_BY_ID. */
+export const ACCOUNT_ORDER_FIELDS = gql`
+	fragment AccountOrderFields on Order {
+		_id
+		orderNumber
+		orderStatus
+		eventId
+		items {
+			ticketTypeId
+			quantity
+			unitPrice
+		}
+		seatIds
+		currency
+		subtotal
+		totalAmount
+		expiresAt
+		paidAt
+		refundedAt
+		createdAt
+		eventData {
+			_id
+			eventStatus
+			seatingType
+			eventTitle
+			eventTranslations {
+				locale
+				title
+			}
+			eventImages
+			startAt
+			endAt
+			venueId
+		}
+	}
+`;
+
+export const GET_MY_ORDERS = gql`
+	query GetMyOrders($input: OrdersInquiry!) {
+		getMyOrders(input: $input) {
+			list {
+				...AccountOrderFields
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+	${ACCOUNT_ORDER_FIELDS}
+`;
+
+export const GET_ORDER_DETAIL = gql`
+	query GetOrderDetail($orderId: String!) {
+		getOrder(orderId: $orderId) {
+			...AccountOrderFields
+		}
+	}
+	${ACCOUNT_ORDER_FIELDS}
+`;
+
+/** The backend decides refund eligibility; the deadline is in UTC and `venueTimezone` says whose wall clock it follows. */
+export const GET_REFUND_QUOTE = gql`
+	query GetRefundQuote($orderId: String!) {
+		getRefundQuote(orderId: $orderId) {
+			orderId
+			refundable
+			deadline
+			venueTimezone
+			refundableAmount
+			currency
+			reason
+		}
+	}
+`;
+
+export const ACCOUNT_TICKET_FIELDS = gql`
+	fragment AccountTicketFields on Ticket {
+		_id
+		ticketCode
+		ticketStatus
+		qrToken
+		orderId
+		eventId
+		ticketTypeId
+		checkedInAt
+		seatData {
+			sectionKey
+			row
+			number
+		}
+		ticketTypeData {
+			ticketTypeName
+			ticketPrice
+			ticketCurrency
+		}
+		eventData {
+			_id
+			eventStatus
+			eventTitle
+			eventTranslations {
+				locale
+				title
+			}
+			eventImages
+			startAt
+			endAt
+			venueId
+		}
+	}
+`;
+
+export const GET_MY_TICKETS_LIST = gql`
+	query GetMyTicketsList($input: TicketsInquiry!) {
+		getMyTickets(input: $input) {
+			list {
+				...AccountTicketFields
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+	${ACCOUNT_TICKET_FIELDS}
+`;
+
+export const GET_TICKET = gql`
+	query GetTicket($ticketId: String!) {
+		getTicket(ticketId: $ticketId) {
+			...AccountTicketFields
+		}
+	}
+	${ACCOUNT_TICKET_FIELDS}
+`;
+
+export const GET_MY_NOTIFICATIONS = gql`
+	query GetMyNotifications($input: NotificationsInquiry!) {
+		getMyNotifications(input: $input) {
+			list {
+				_id
+				notificationType
+				notificationStatus
+				notificationGroup
+				notificationTitle
+				notificationDesc
+				eventId
+				orderId
+				createdAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_UNREAD_NOTIFICATION_COUNT = gql`
+	query GetUnreadNotificationCount {
+		getUnreadNotificationCount
+	}
+`;
+
+export const GET_MY_FAVORITES = gql`
+	query GetMyFavorites($input: OrdinaryInquiry!) {
+		getFavorites(input: $input) {
+			list {
+				...EventCardFields
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+	${EVENT_CARD_FIELDS}
+`;
+
+export const GET_MY_FOLLOWINGS = gql`
+	query GetMyFollowings($input: FollowInquiry!) {
+		getMemberFollowings(input: $input) {
+			list {
+				_id
+				followingId
+				followingData {
+					_id
+					memberNick
+					memberFullName
+					memberImage
+					memberEvents
+					memberFollowers
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+/** Venues by id in one request. The aliases are built per call (see useVenues). */
+export const venuesByIdQuery = (ids: string[]) =>
+	gql`
+		query GetVenuesById(${ids.map((_, i) => `$id${i}: String!`).join(', ')}) {
+			${ids
+				.map(
+					(_, i) => `v${i}: getVenue(venueId: $id${i}) {
+				_id
+				venueName
+				venueCity
+				venueAddress
+				venueTimezone
+			}`,
+				)
+				.join('\n')}
+		}
+	`;

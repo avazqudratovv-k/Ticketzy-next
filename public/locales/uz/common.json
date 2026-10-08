@@ -32,7 +32,8 @@
       "USER": "Xaridor",
       "ORGANIZER": "Tashkilotchi",
       "ADMIN": "Administrator"
-    }
+    },
+    "notifications": "Bildirishnomalar"
   },
   "banner": {
     "pendingTitle": "Tashkilotchi akkauntingiz tekshirilmoqda.",
@@ -92,5 +93,50 @@
     "title": "Sahifa topilmadi",
     "text": "Bunday sahifa yoʻq yoki koʻchirilgan.",
     "back": "Bosh sahifaga"
+  },
+  "bell": {
+    "label": "Bildirishnomalar",
+    "labelUnread_one": "Bildirishnomalar, {{count}} ta oʻqilmagan",
+    "labelUnread_other": "Bildirishnomalar, {{count}} ta oʻqilmagan",
+    "title": "Bildirishnomalar",
+    "seeAll": "Barcha bildirishnomalar"
+  },
+  "notifications": {
+    "title": "Bildirishnomalar",
+    "markAll": "Hammasini oʻqilgan deb belgilash",
+    "unread": "Oʻqilmagan",
+    "unreadCount_one": "{{formatted}} ta oʻqilmagan",
+    "unreadCount_other": "{{formatted}} ta oʻqilmagan",
+    "allRead": "Hammasi oʻqilgan.",
+    "filterAll": "Hammasi",
+    "filterUnread": "Oʻqilmagan",
+    "emptyTitle": "Hozircha bildirishnomalar yoʻq",
+    "emptyText": "Buyurtma tasdiqlari, pul qaytarishlar va tadbir yangiliklari shu yerda chiqadi.",
+    "emptyUnread": "Oʻqilmaganlari yoʻq",
+    "emptyUnreadText": "Hammasini oʻqib boʻlgansiz.",
+    "emptyShort": "Hozircha bildirishnomalar yoʻq.",
+    "loadError": "Bildirishnomalarni yuklab boʻlmadi.",
+    "retry": "Qayta urinish",
+    "today": "Bugun, {{time}}",
+    "yesterday": "Kecha, {{time}}",
+    "refundSummary": "Qaytarilgan: {{refunded}}, xatolik: {{failed}}",
+    "type": {
+      "LIKE": "Kimdir tadbiringizni yoqtirdi",
+      "COMMENT": "Yangi izoh",
+      "ORDER_PAID": "Toʻlov qabul qilindi",
+      "ORDER_PAID_SALE": "Yangi chipta sotuvi",
+      "EVENT_REMINDER": "Tadbiringiz yaqinlashmoqda",
+      "ORGANIZER_VERIFIED": "Tashkilotchi hisobingiz tasdiqlandi",
+      "ORGANIZER_REJECTED": "Tashkilotchi hisobingiz tasdiqlanmadi",
+      "ORGANIZER_SUSPENDED": "Tashkilotchi hisobingiz toʻxtatildi",
+      "ORGANIZER_REINSTATED": "Tashkilotchi hisobingiz yana faol",
+      "COMMISSION_UPDATED": "Komissiya stavkangiz oʻzgardi",
+      "EVENT_APPROVED": "Tadbiringiz tasdiqlandi",
+      "EVENT_REJECTED": "Tadbiringiz tasdiqlanmadi",
+      "EVENT_CANCELLED": "Tadbir bekor qilindi",
+      "REFUND_COMPLETED": "Buyurtmangiz qaytarildi",
+      "ORDER_REFUNDED": "Buyurtma qaytarildi",
+      "NEW_MESSAGE": "Sizda yangi xabar bor"
+    }
   }
 }

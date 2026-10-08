@@ -12,34 +12,36 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@mui/material": "^5.10.1",
-		"next": "14.2.0",
-		"next-i18next": "^14.0.3",
-		"react": "18.2.0",
-		"react-dom": "18.2.0",
+		"@apollo/client": "^3.5.10",
 		"@emotion/react": "^11.8.1",
 		"@emotion/styled": "^11.8.1",
-		"sweetalert2": "^11.7.27",
-		"@apollo/client": "^3.5.10",
 		"@mui/icons-material": "^5.4.2",
+		"@mui/material": "^5.10.1",
 		"animate.css": "^4.1.1",
 		"apollo-upload-client": "^17.0.0",
 		"graphql": "^15.5.0",
 		"i18next": "^21.6.11",
 		"jwt-decode": "^3.1.2",
+		"next": "14.2.0",
+		"next-i18next": "^14.0.3",
 		"phosphor-react": "^1.4.1",
+		"qrcode": "^1.5.4",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
 		"react-i18next": "^11.15.4",
-		"sass": "^1.49.9"
+		"sass": "^1.49.9",
+		"sweetalert2": "^11.7.27"
 	},
 	"devDependencies": {
-		"@types/react": "18.2.0",
-		"@types/react-dom": "18.2.7",
-		"prettier": "2.7.1",
-		"standard-version": "^9.5.0",
-		"typescript": "^5.4.5",
 		"@types/apollo-upload-client": "^17.0.0",
 		"@types/node": "20.10.0",
+		"@types/qrcode": "^1.5.6",
+		"@types/react": "18.2.0",
+		"@types/react-dom": "18.2.7",
 		"eslint": "^8.57.0",
-		"eslint-config-next": "14.2.0"
+		"eslint-config-next": "14.2.0",
+		"prettier": "2.7.1",
+		"standard-version": "^9.5.0",
+		"typescript": "^5.4.5"
 	}
 }

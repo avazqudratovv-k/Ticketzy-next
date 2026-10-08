@@ -211,11 +211,6 @@
     },
     "total": "Total"
   },
-  "orders": {
-    "title": "My orders",
-    "placeholderTitle": "Order history is coming soon",
-    "placeholderText": "Your orders and tickets will be listed here. For now, open an order from its confirmation page."
-  },
   "errors": {
     "seatTaken": "Someone else took one of those seats first. Pick other seats.",
     "seatNotFound": "One of those seats does not exist for this event.",

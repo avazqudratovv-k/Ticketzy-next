@@ -138,3 +138,24 @@ export function formatRefundDeadlineDay(startIso: string, locale?: string, timeZ
 
 /** Value for an `<input type="date">` boundary: start or end of that day on Seoul time (the platform default). */
 export const dayBoundaryIso = (day: string, end: boolean) => `${day}T${end ? '23:59:59.999' : '00:00:00.000'}+09:00`;
+
+/**
+ * A moment that belongs to the viewer (purchase time, notification time), printed in the viewer's own time zone.
+ * Only call this after mount (data that needs a signed-in member), so server and browser never disagree.
+ */
+export function formatViewerDate(iso: string, locale?: string, withTime = false): string {
+	const zone = safeZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+	const date =
+		locale === 'uz'
+			? uzDate(new Date(iso), zone, true, false)
+			: new Intl.DateTimeFormat(intlLocale(locale), { timeZone: zone, day: 'numeric', month: 'short', year: 'numeric' }).format(
+					new Date(iso),
+			  );
+	return withTime ? `${date}, ${formatEventTime(iso, locale, zone)}` : date;
+}
+
+/** Whole calendar days between a moment and now on the viewer's clock: 0 today, 1 yesterday. */
+export function daysAgo(iso: string): number {
+	const day = (date: Date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+	return Math.round((day(new Date()) - day(new Date(iso))) / 86_400_000);
+}

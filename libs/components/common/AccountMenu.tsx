@@ -10,7 +10,7 @@ import { logOut } from '../../auth';
 import { ROUTES } from '../../routes';
 import Avatar, { displayName } from './Avatar';
 
-/** Role-based links of the avatar menu. Targets that do not exist yet come with the dashboards and buyer pages. */
+/** Role-based links of the avatar menu. Organizer and admin targets that do not exist yet come with the dashboards. */
 const linksFor = (type: MemberType): { href: string; key: string }[] => {
 	switch (type) {
 		case MemberType.ADMIN:
@@ -26,9 +26,10 @@ const linksFor = (type: MemberType): { href: string; key: string }[] => {
 			];
 		default:
 			return [
-				{ href: '/tickets', key: 'account.myTickets' },
-				{ href: '/orders', key: 'account.orders' },
-				{ href: '/settings', key: 'account.settings' },
+				{ href: ROUTES.tickets, key: 'account.myTickets' },
+				{ href: ROUTES.orders, key: 'account.orders' },
+				{ href: ROUTES.notifications, key: 'account.notifications' },
+				{ href: ROUTES.settings, key: 'account.settings' },
 			];
 	}
 };
