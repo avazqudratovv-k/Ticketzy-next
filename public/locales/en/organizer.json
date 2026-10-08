@@ -44,7 +44,13 @@
     "layoutCapacity": "A standing area needs a capacity of at least 1.",
     "layoutTier": "Every seated section needs a price tier key.",
     "badTimezone": "That time zone isn’t valid. Choose one from the list.",
-    "layoutLocked": "The layout can’t change because an event that uses this venue already has seats. Your other changes can still be saved."
+    "layoutLocked": "The layout can’t change because an event that uses this venue already has seats. Your other changes can still be saved.",
+    "saleStartBeforeEnd": "The sales start must be before the sales end.",
+    "saleEndAfterEventEnd": "Ticket sales must end no later than the event end.",
+    "saleStartAfterEventEnd": "Ticket sales must start before the event ends.",
+    "eventEnded": "This event has ended, so tickets can no longer be bought.",
+    "salesNotStarted": "Ticket sales for this event haven’t started yet.",
+    "salesClosed": "Ticket sales for this event are closed."
   },
   "blocked": {
     "reason": "Reason given: {{reason}}",
@@ -234,12 +240,24 @@
       },
       "startDate": "Start date",
       "startTime": "Start time",
-      "endDate": "End date",
       "endTime": "End time",
       "zone": "Times are in the venue’s time zone: {{zone}}.",
       "zoneUnknown": "Choose a venue first: times are read in the venue’s time zone.",
-      "sameDay": "End on the same day",
-      "createLink": "Create a new venue"
+      "createLink": "Create a new venue",
+      "date": "Date",
+      "when": {
+        "title": "When is the event?",
+        "hint": "The day and time the show starts and ends. Most events start and end on the same day.",
+        "nextDay": "Ends the next day",
+        "otherDay": "Event ends on a different day",
+        "hintMulti": "The same daily hours on every day, from the first date to the last.",
+        "dates": "Dates",
+        "dailyHours": "Daily hours",
+        "backToSingle": "Back to a single day",
+        "saleConflict": "The new dates conflict with the ticket sale window. Check it in the Tickets step."
+      },
+      "fromDate": "From date",
+      "toDate": "To date"
     },
     "tickets": {
       "introGeneral": "Add one ticket type per price: for example Standard and VIP. Guests choose a quantity, and you set how many are available.",
@@ -271,7 +289,9 @@
       "saleStartDate": "Sales start date",
       "saleStartTime": "Sales start time",
       "saleEndDate": "Sales end date",
-      "saleEndTime": "Sales end time"
+      "saleEndTime": "Sales end time",
+      "saleEndHint": "Suggested: when the event starts. It can stay open until the event ends.",
+      "saleRule": "Sales must close before the event ends."
     },
     "translations": {
       "intro": "The event is written in English. Add Korean, Russian and Uzbek so every visitor reads it in their language. A language left empty falls back to English.",
@@ -306,15 +326,20 @@
       "venue": "Choose a venue.",
       "noLayout": "This venue has no seated section. Choose general admission or another venue.",
       "startRequired": "Enter a start date and time.",
-      "endRequired": "Enter an end date and time.",
-      "endBeforeStart": "The end can’t be before the start.",
+      "endRequired": "Enter when the event ends.",
+      "endBeforeStart": "The end must be after the start.",
       "incomplete": "Enter both a date and a time, or clear both.",
-      "saleEndBeforeStart": "The sales end can’t be before the sales start.",
+      "saleEndBeforeStart": "The sales end must be after the sales start.",
       "ticketName": "Use 2 to 60 characters.",
       "ticketPrice": "Enter a price in won as a whole number. 0 means free.",
       "ticketMax": "Enter a whole number of 1 or more.",
       "ticketQuantity": "Enter a whole number of 1 or more.",
-      "belowSold": "This can’t be lower than the number already sold."
+      "belowSold": "This can’t be lower than the number already sold.",
+      "startInPast": "The start must be in the future.",
+      "lastDayBeforeFirst": "The last day can’t be before the first day.",
+      "dailyEndBeforeStart": "The end time must be after the start time. Daily hours can’t run past midnight.",
+      "saleEndAfterEventEnd": "Sales can’t end after the event ends.",
+      "saleStartAfterEventEnd": "Sales must start before the event ends."
     }
   },
   "ai": {

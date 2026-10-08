@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { CalendarBlank, MapPin } from 'phosphor-react';
 import { EventItem } from '../../types/event';
 import { localizedEvent } from '../../events';
-import { formatEventDate, formatPrice } from '../../format';
+import { formatEventWhen, formatPrice } from '../../format';
 import { eventUrl } from '../../routes';
 import CategoryChip, { categoryIcon } from './CategoryChip';
 import EventImage from './EventImage';
@@ -22,7 +22,7 @@ const EventCard = ({ event, variant = 'card' }: Props) => {
 	const { title, lang, translated } = localizedEvent(event, locale);
 	const venue = event.venueData;
 	const zone = venue?.venueTimezone;
-	const when = formatEventDate(event.startAt, locale, zone);
+	const when = formatEventWhen(event.startAt, event.endAt, locale, zone);
 	const where = venue ? `${venue.venueName}, ${venue.venueCity}` : null;
 	const fallbackLang = translated ? undefined : lang;
 

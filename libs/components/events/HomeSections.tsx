@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { ArrowRight, CalendarBlank, MapPin } from 'phosphor-react';
 import { EventItem } from '../../types/event';
 import { localizedEvent } from '../../events';
-import { formatEventDate, formatPrice } from '../../format';
+import { formatEventWhen, formatPrice } from '../../format';
 import { eventUrl, organizerUrl, ROUTES } from '../../routes';
 import CategoryChip from './CategoryChip';
 import EventImage from './EventImage';
@@ -30,7 +30,7 @@ export const Hero = ({ event }: { event: EventItem }) => {
 				<ul className="tz-hero__meta">
 					<li>
 						<CalendarBlank size={16} aria-hidden="true" />
-						{formatEventDate(event.startAt, locale, venue?.venueTimezone)}
+						{formatEventWhen(event.startAt, event.endAt, locale, venue?.venueTimezone)}
 					</li>
 					{venue && (
 						<li>

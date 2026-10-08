@@ -30,7 +30,8 @@ import Avatar from '../../../libs/components/common/OrganizerAvatar';
 import useAuth from '../../../libs/hooks/useAuth';
 import { CATEGORY_SLUGS, categoryHref, localizedEvent, saleState } from '../../../libs/events';
 import {
-	formatEventDate,
+	formatEventWhen,
+	isMultiDay,
 	formatEventTime,
 	formatNumber,
 	formatRefundDeadlineDay,
@@ -226,9 +227,9 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 						<li>
 							<CalendarBlank size={20} aria-hidden="true" />
 							<div>
-								<strong>{formatEventDate(event.startAt, locale, zone, true)}</strong>
+								<strong>{formatEventWhen(event.startAt, event.endAt, locale, zone, true)}</strong>
 								<span>
-									{t('detail.until', { time: formatEventTime(event.endAt, locale, zone) })} ·{' '}
+									{!isMultiDay(event.startAt, event.endAt, zone) && <>{t('detail.until', { time: formatEventTime(event.endAt, locale, zone) })} · </>}
 									{formatZoneName(event.startAt, locale, zone)}
 								</span>
 							</div>

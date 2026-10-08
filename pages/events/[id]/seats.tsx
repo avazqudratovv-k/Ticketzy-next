@@ -15,7 +15,7 @@ import SeatPicker from '../../../libs/components/seats/SeatPicker';
 import Steps from '../../../libs/components/seats/Steps';
 import { useRequireAuth } from '../../../libs/auth/guards';
 import { localizedEvent, saleState } from '../../../libs/events';
-import { formatEventDate } from '../../../libs/format';
+import { formatEventWhen } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { eventUrl, ROUTES } from '../../../libs/routes';
 import { SeatConfig } from '../../../libs/seats/types';
@@ -99,7 +99,7 @@ const Seats: NextPage = () => {
 			</Link>
 			<h1 className="checkout__title">{reserved ? t('page.seatsTitle') : t('page.ticketsTitle')}</h1>
 			<p className="checkout__sub">
-				{title} · {formatEventDate(event.startAt, locale, venue?.venueTimezone, true)}
+				{title} · {formatEventWhen(event.startAt, event.endAt, locale, venue?.venueTimezone, true)}
 				{venue && ` · ${venue.venueName}, ${venue.venueCity}`}
 			</p>
 

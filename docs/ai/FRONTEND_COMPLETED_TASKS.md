@@ -197,3 +197,45 @@ Goal: venues list, venue form and a 2D layout editor, with the lock rules of the
 - Browser on `http://localhost:3000` as `organizer@ticketzy.demo`: list (own 3 venues, counts, locked marks); new venue from the stadium template, drag, Ctrl+Z, Ctrl+Shift+Z, arrow nudge, save (capacity 1528 = 1000 + 288 + 240 checked on the API), redirect and reload; rows set to 0 (inline error, save blocked with a summary), duplicate, overlap warning, delete dialog and delete; locked venue "Harbor Sky Stadium" (read-only layout with the events named, details still editable); editor and buyer seat picker of the Harbor Cup event give identical section transforms, seat counts and seat sizes; event form to "Create a new venue" to a club template venue and back (typed title restored, new venue selected); light theme; 390 px (iframe: no horizontal overflow, canvas fits). Pages were seen in Russian (the browser's language), at 520 px and 1440 px.
 - **Not tested:** ko and uz pages visually (keys checked by script); real touch input (pinch, one-finger drag: written with pointer events, only mouse drag was exercised); server-side validation placement on sections (the client blocks first); `VENUE_LAYOUT_LOCKED` coming from the server; the tier-orphan warning with real events; photo upload (not exercised); the unsaved-changes confirm of in-app navigation on the venue page (the event form's browser prompt did appear); time zone combobox with the keyboard.
 - Test data left behind: venues "QA Test Arena" and "QA Comedy Cellar" (no delete operation exists) and no events.
+
+## Small fix: event date fields in the organizer event form (2026-10-08)
+
+### Changed
+- `libs/components/organizer/editor/StepVenue.tsx`: new "When is the event?" block (Date, Start time, End time; End date behind a link), default end time, "Ends the next day" notice, live inline errors, one-line summary with the venue time zone.
+- `libs/organizer/form.ts`: `dateOrderErrors`, `addDays`, `addHours`, `impliedEndDate`, `endsOnOtherDay`; `validateVenue`, `allErrors` and `canCreateDraft` take the saved start so a started event is not blocked. `libs/format.ts`: `formatEventDay`. `scss/organizer.scss`: `.org-when`, `.org-grid3`.
+- i18n (en, ko, ru, uz): `form.venue.date`, `form.venue.when.*`, errors `startInPast`, `endRequired`, `endBeforeStart` reworded; `form.venue.sameDay` removed. Decisions F125 to F128.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean.
+- Browser (`http://localhost:3000`, organizer@ticketzy.demo, Russian UI): new event with Date 12 Dec 2026 and start 19:00 gave end 21:00 and the summary; end 01:00 gave "Ends the next day" and a two-day summary; saved as a draft (create), reopened (edit): overnight stays hidden with the notice; revealed End date, set 14 Dec 22:00, saved, reloaded: End date is shown by default; end date before start and start date in the past both showed the inline error.
+- **Not tested:** ko, uz and en pages visually (keys only, parity checked by script); editing an event that already started (the rule is code only); the same-day case saved separately (it was the same form before the overnight edit); error text after Save/Continue (only the live errors were seen); 390 px width.
+- Test data left behind: draft "QA One-day show" (12 to 14 Dec 2026, Hanbit Concert Hall; no delete operation exists).
+
+## Small fix: multi-day layout of the event time fields (2026-10-08)
+
+### Changed
+- `StepVenue.tsx`: one-day mode unchanged; multi-day mode has "Dates" (From, To) and "Daily hours" (Start, End) with "Back to a single day"; summary from `formatEventSummary`. `form.ts`: `multiDay` flag, multi-day rules and error keys. `useEventEditor.ts`: any date or time edit clears all four date errors. `format.ts`: `isMultiDay`, `formatEventWhen`, `formatEventSummary`. Event cards, detail, seats, orders, tickets, organizer lists and the review step use `formatEventWhen` (F131, F132).
+- i18n (en, ko, ru, uz): `form.venue.fromDate`, `toDate`, `when.hintMulti`, `dates`, `dailyHours`, `backToSingle`, errors `lastDayBeforeFirst`, `dailyEndBeforeStart`; the earlier `summarySame`, `summaryRange` and `endDate` keys were removed.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. Key parity en, ko, ru, uz: checked by script.
+- Browser (`http://localhost:3000`, organizer@ticketzy.demo): reopened the saved multi-day draft (opens in multi-day mode, summary "12 – 14 Dec 2026 · daily 19:00–22:00 (Asia/Seoul)"); end time 01:00 shows the daily-hours error and hides the summary; To date before From date shows its error; Back to a single day keeps 19:00 and 22:00 and the one-day summary; saved as one day, reloaded: one-day mode.
+- Formatter run under Node for en, ko, ru, uz with one day, overnight, a 3-day range and a range across a year: output as expected (F131).
+- A one-day buyer event page (Harbor Sky Summer Rock Festival, ends 00:00) is unchanged.
+- **Not tested:** a buyer page of a **multi-day** event: no published event spans days and publishing needs admin approval. Cards, checkout, tickets and organizer lists were not opened with a multi-day event either (same helper, type-checked). ko, uz pages in the browser. Saving the multi-day draft again after the new layout (it was saved earlier with the previous layout and reloaded fine).
+- Test data left behind: draft "QA One-day show" (now 12 Dec 2026, 19:00 to 22:00, Hanbit Concert Hall).
+
+## Small fix: ticket sale window must fit the event (2026-10-08)
+
+### Changed
+- `libs/organizer/form.ts`: `validateSaleWindow` checks sales start before end, sales end no later than the event end, sales start before the event end; new `saleWindowConflicts`.
+- `StepTickets.tsx`: live inline sale errors, sales end suggested from the event start, hint under Sales end date and the rule line under the window. `StepVenue.tsx`: warning when new event dates conflict with the sale window. `useEventEditor.ts`: date edits and sale edits clear stale sale errors.
+- `libs/organizer/errors.ts` and `libs/seats/errors.ts`: the six new backend messages mapped.
+- i18n (en, ko, ru, uz): `form.tickets.saleEndHint`, `saleRule`, `form.venue.when.saleConflict`, errors `saleEndAfterEventEnd`, `saleStartAfterEventEnd` (and `saleEndBeforeStart` reworded), six `serverErrors.*` keys, three `checkout` `errors.*` keys. Decisions F133 to F136.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. Key parity en, ko, ru, uz: checked by script (only plural-form differences, as before).
+- Browser (`http://localhost:3000`, organizer@ticketzy.demo, English UI) on draft "QA One-day show" (12 Dec 2026, 19:00 to 22:00, Asia/Seoul): filling Sales start date suggested sales end 12 Dec 19:00; sales end 13 Dec showed "Sales can’t end after the event ends." and Save draft sent no request; sales end 30 Nov showed the start/end error; 1 Dec 10:00 to 12 Dec 19:00 saved (UpdateEvent). Event date changed to 25 Nov: the venue-step warning appeared, Save draft was blocked and jumped to the tickets step with both errors; date set back to 12 Dec: warning gone, form clean.
+- Backend (direct `updateEvent` with the organizer token): returned "The ticket sales must end no later than the event end!" and "The ticket sales start must be before the ticket sales end!", which match the mapped strings exactly.
+- **Not tested:** the translated server error shown in the form (the client blocks first); "must start before the event ends" from the server (backend answered the start/end message for that input); the buyer messages at checkout; ko, ru and uz pages in the browser; 390 px.
+- Test data: draft "QA One-day show" now has a sale window 1 Dec 2026 10:00 to 12 Dec 2026 19:00.

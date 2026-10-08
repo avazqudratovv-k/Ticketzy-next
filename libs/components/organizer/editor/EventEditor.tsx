@@ -89,7 +89,7 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 			case 'images':
 				return validateImages(values);
 			case 'venue':
-				return validateVenue(values, venue);
+				return validateVenue(values, venue, event?.startAt);
 			case 'tickets':
 				return { ...validateTickets(filled, values.seatingType), ...validateSaleWindow(values, venue) };
 			case 'translations':

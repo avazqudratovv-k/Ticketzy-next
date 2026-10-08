@@ -18,7 +18,7 @@ import EventImage from '../../libs/components/events/EventImage';
 import Seo from '../../libs/components/common/Seo';
 import { buildIcs, downloadIcs } from '../../libs/account/ics';
 import { ticketState, TicketState } from '../../libs/account/tickets';
-import { formatEventDate, formatPrice, formatViewerDate } from '../../libs/format';
+import { formatEventWhen, formatPrice, formatViewerDate } from '../../libs/format';
 import { eventUrl, orderUrl, ROUTES, ticketUrl } from '../../libs/routes';
 import { AccountTicket } from '../../libs/types/account';
 
@@ -81,7 +81,7 @@ const TicketDetail: NextPage = () => {
 
 	const state: TicketState = ticketState(ticket);
 	const title = eventTitleOf(event, locale) || t('order.unknownEvent');
-	const when = event ? formatEventDate(event.startAt, locale, venue?.venueTimezone, true) : '';
+	const when = event ? formatEventWhen(event.startAt, event.endAt, locale, venue?.venueTimezone, true) : '';
 	const seat = ticket.seatData;
 	const index = siblings.findIndex((item) => item._id === ticket._id);
 	const prev = index > 0 ? siblings[index - 1] : undefined;

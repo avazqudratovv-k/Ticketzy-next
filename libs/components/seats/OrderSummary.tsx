@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { CalendarBlank, MapPin } from 'phosphor-react';
-import { formatEventDate, formatPrice } from '../../format';
+import { formatEventWhen, formatPrice } from '../../format';
 import { localizedEvent } from '../../events';
 import { EventItem } from '../../types/event';
 import { OrderData } from '../../seats/types';
@@ -42,7 +42,7 @@ const OrderSummary = ({ order, event, seatLines, ticketName }: Props) => {
 					<h3 className="order__name">{title}</h3>
 					{source && (
 						<p className="order__meta">
-							<CalendarBlank size={16} aria-hidden="true" /> {formatEventDate(source.startAt, locale, venue?.venueTimezone, true)}
+							<CalendarBlank size={16} aria-hidden="true" /> {formatEventWhen(source.startAt, source.endAt, locale, venue?.venueTimezone, true)}
 						</p>
 					)}
 					{venue && (

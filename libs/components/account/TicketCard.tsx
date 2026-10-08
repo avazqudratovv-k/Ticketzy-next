@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { CalendarBlank, MapPin, Ticket } from 'phosphor-react';
-import { formatEventDate } from '../../format';
+import { formatEventWhen } from '../../format';
 import { ticketState } from '../../account/tickets';
 import { ticketUrl } from '../../routes';
 import { AccountTicket } from '../../types/account';
@@ -32,7 +32,7 @@ const TicketCard = ({ ticket }: { ticket: AccountTicket }) => {
 					{event && (
 						<li>
 							<CalendarBlank size={16} aria-hidden="true" />
-							{formatEventDate(event.startAt, locale, venue?.venueTimezone, true)}
+							{formatEventWhen(event.startAt, event.endAt, locale, venue?.venueTimezone, true)}
 						</li>
 					)}
 					{venue && (

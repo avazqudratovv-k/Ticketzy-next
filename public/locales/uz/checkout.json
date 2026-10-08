@@ -223,7 +223,10 @@
     "generic": "Nimadir xato ketdi. Qayta urinib koʻring.",
     "session": "Seansingiz tugadi. Davom etish uchun qayta kiring.",
     "network": "Ticketzy bilan aloqa oʻrnatib boʻlmadi. Ulanishni tekshirib, qayta urinib koʻring.",
-    "retryTaken": "Siz yoʻqligingizda baʼzi oʻrinlar olib qoʻyildi. Oʻrinlarni qayta tanlang."
+    "retryTaken": "Siz yoʻqligingizda baʼzi oʻrinlar olib qoʻyildi. Oʻrinlarni qayta tanlang.",
+    "eventEnded": "Tadbir tugadi, endi chipta sotib olib boʻlmaydi.",
+    "salesNotStarted": "Bu tadbir uchun chipta sotuvi hali boshlanmagan.",
+    "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan."
   },
   "countdown": {
     "announce_one": "{{count}} soniya qoldi",

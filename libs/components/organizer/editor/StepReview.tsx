@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { CheckCircle, Circle } from 'phosphor-react';
-import { formatEventDate, formatNumber, formatPrice } from '../../../format';
+import { formatEventDate, formatEventWhen, isMultiDay, formatNumber, formatPrice } from '../../../format';
 import { isUntouched } from '../../../organizer/useEventEditor';
 import { StepId, submitChecks } from '../../../organizer/form';
 import { zonedToIso } from '../../../organizer/zoned';
@@ -45,7 +45,7 @@ const StepReview = ({ editor, onGo }: StepProps & { onGo: (step: StepId) => void
 				<Row step="venue" label={t('form.steps.venue')}>
 					<strong>{venue ? `${venue.venueName}, ${venue.venueCity}` : '–'}</strong>
 					<span>{t(`form.venue.seatingType.${values.seatingType}`)}</span>
-					<span>{start ? `${formatEventDate(start, locale, zone, true)}${end ? ` → ${formatEventDate(end, locale, zone, true)}` : ''}` : '–'}</span>
+					<span>{start ? (end && isMultiDay(start, end, zone) ? formatEventWhen(start, end, locale, zone, true) : `${formatEventDate(start, locale, zone, true)}${end ? ` → ${formatEventDate(end, locale, zone, true)}` : ''}`) : '–'}</span>
 				</Row>
 				<Row step="tickets" label={t('form.steps.tickets')}>
 					{filled.length === 0 ? (

@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { Info, Plus, TrashSimple } from 'phosphor-react';
 import { useRouter } from 'next/router';
 import { formatNumber } from '../../../format';
-import { LIMITS, tiersOfVenue } from '../../../organizer/form';
+import { LIMITS, tiersOfVenue, validateSaleWindow } from '../../../organizer/form';
 import { isUntouched } from '../../../organizer/useEventEditor';
 import { FormField, useErrorText } from './fields';
 import { StepProps } from './types';
@@ -16,6 +16,21 @@ const StepTickets = ({ editor, readOnly }: StepProps) => {
 	const reserved = values.seatingType === 'RESERVED';
 	const tiers = tiersOfVenue(venue);
 	const approved = mode === 'review';
+	// Checked live, so a change of the event dates on the venue step shows here at once
+	// "incomplete" waits for Save/Continue, so it does not flash while the organizer is still typing the time
+	const live = readOnly ? {} : validateSaleWindow(values, venue);
+	const ruleOf = (code?: string) => (code && code !== 'incomplete' ? code : undefined);
+	const saleStartError = ruleOf(live.saleStart) ?? errors.saleStart;
+	const saleEndError = ruleOf(live.saleEnd) ?? errors.saleEnd;
+	type SaleField = 'saleStartDate' | 'saleStartTime' | 'saleEndDate' | 'saleEndTime';
+	/** The first sale field filled in suggests sales end = event start (it may be moved up to the event end) */
+	const setSale = (name: SaleField, value: string) => {
+		setField(name, value);
+		const endEmpty = !values.saleEndDate && !values.saleEndTime;
+		if (!value || !endEmpty || !values.startDate || !values.startTime) return;
+		if (name !== 'saleEndDate') setField('saleEndDate', values.startDate);
+		if (name !== 'saleEndTime') setField('saleEndTime', values.startTime);
+	};
 
 	return (
 		<div className="org-fields">
@@ -95,19 +110,20 @@ const StepTickets = ({ editor, readOnly }: StepProps) => {
 			<h3 className="org-subtitle">{t('form.tickets.saleWindow')}</h3>
 			<p className="org-hint">{t('form.tickets.saleWindowHint')}</p>
 			<div className="org-grid2">
-				<FormField label={t('form.tickets.saleStartDate')} error={text(errors.saleStart)}>
-					<input type="date" className="tz-input" value={values.saleStartDate} disabled={readOnly} onChange={(event) => setField('saleStartDate', event.target.value)} />
+				<FormField label={t('form.tickets.saleStartDate')} error={text(saleStartError)}>
+					<input type="date" className="tz-input" value={values.saleStartDate} disabled={readOnly} onChange={(event) => setSale('saleStartDate', event.target.value)} />
 				</FormField>
 				<FormField label={t('form.tickets.saleStartTime')}>
-					<input type="time" className="tz-input" value={values.saleStartTime} disabled={readOnly} onChange={(event) => setField('saleStartTime', event.target.value)} />
+					<input type="time" className="tz-input" value={values.saleStartTime} disabled={readOnly} onChange={(event) => setSale('saleStartTime', event.target.value)} />
 				</FormField>
-				<FormField label={t('form.tickets.saleEndDate')} error={text(errors.saleEnd)}>
-					<input type="date" className="tz-input" value={values.saleEndDate} disabled={readOnly} onChange={(event) => setField('saleEndDate', event.target.value)} />
+				<FormField label={t('form.tickets.saleEndDate')} error={text(saleEndError)} hint={t('form.tickets.saleEndHint')}>
+					<input type="date" className="tz-input" value={values.saleEndDate} disabled={readOnly} onChange={(event) => setSale('saleEndDate', event.target.value)} />
 				</FormField>
 				<FormField label={t('form.tickets.saleEndTime')}>
-					<input type="time" className="tz-input" value={values.saleEndTime} disabled={readOnly} onChange={(event) => setField('saleEndTime', event.target.value)} />
+					<input type="time" className="tz-input" value={values.saleEndTime} disabled={readOnly} onChange={(event) => setSale('saleEndTime', event.target.value)} />
 				</FormField>
 			</div>
+			<p className="org-hint">{t('form.tickets.saleRule')}</p>
 		</div>
 	);
 };

@@ -14,7 +14,7 @@ import { GET_MY_EARNINGS, GET_MY_EVENT_COUNTS, GET_MY_EVENTS, ticketTypesOfEvent
 import { EVENT_STATUSES, isUpcoming } from '../../libs/organizer/events';
 import { OrgEvent } from '../../libs/organizer/types';
 import { localizedEvent } from '../../libs/events';
-import { formatEventDate, formatNumber, formatPrice } from '../../libs/format';
+import { formatEventWhen, formatNumber, formatPrice } from '../../libs/format';
 import { organizerEventEditUrl, organizerEventNewUrl, organizerEventsUrl } from '../../libs/routes';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -174,7 +174,7 @@ const Overview: NextPage = () => {
 											<EventStatusBadge status={event.eventStatus} />
 										</div>
 										<span className="org-row__meta">
-											{formatEventDate(event.startAt, locale, event.venueData?.venueTimezone, true)}
+											{formatEventWhen(event.startAt, event.endAt, locale, event.venueData?.venueTimezone, true)}
 											{event.venueData ? ` · ${event.venueData.venueName}` : ''}
 										</span>
 										<div className="org-bar" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent} aria-label={t('dashboard.soldBar', { title: title(event) })}>

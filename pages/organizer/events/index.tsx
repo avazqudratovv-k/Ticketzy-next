@@ -23,7 +23,7 @@ import { describeError, Described } from '../../../libs/organizer/errors';
 import { isSortKey, rowActions, SORTS, SortKey } from '../../../libs/organizer/events';
 import { OrgEvent } from '../../../libs/organizer/types';
 import { localizedEvent } from '../../../libs/events';
-import { formatEventDate, formatNumber } from '../../../libs/format';
+import { formatEventWhen, formatNumber } from '../../../libs/format';
 import { eventUrl, organizerEventEditUrl, organizerEventNewUrl } from '../../../libs/routes';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { EventStatus } from '../../../libs/types/event';
@@ -276,7 +276,7 @@ const OrganizerEvents: NextPage = () => {
 									</div>
 									<div role="cell" className="org-row__date">
 										<CalendarBlank size={16} aria-hidden="true" />
-										<span>{formatEventDate(event.startAt, locale, venue?.venueTimezone, true)}</span>
+										<span>{formatEventWhen(event.startAt, event.endAt, locale, venue?.venueTimezone, true)}</span>
 									</div>
 									<div role="cell" className="org-row__status">
 										<EventStatusBadge status={event.eventStatus} />

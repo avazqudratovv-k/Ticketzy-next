@@ -37,6 +37,12 @@ const KNOWN: Record<string, string> = {
 	'A seated section needs a tier key!': 'layoutTier',
 	'The venue timezone must be a valid IANA timezone!': 'badTimezone',
 	'The layout of this venue cannot change because an event that uses it already has seats!': 'layoutLocked',
+	'The ticket sales start must be before the ticket sales end!': 'saleStartBeforeEnd',
+	'The ticket sales must end no later than the event end!': 'saleEndAfterEventEnd',
+	'The ticket sales must start before the event ends!': 'saleStartAfterEventEnd',
+	'This event has ended, so tickets can no longer be bought!': 'eventEnded',
+	'Ticket sales for this event have not started yet!': 'salesNotStarted',
+	'Ticket sales for this event are closed!': 'salesClosed',
 };
 
 const AI: Record<string, string> = {

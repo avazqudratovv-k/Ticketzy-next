@@ -83,6 +83,13 @@ export function formatEventDate(iso: string, locale?: string, timeZone?: string 
 	return `${date} · ${formatEventTime(iso, locale, zone)}`;
 }
 
+/** "Sat, 12 Dec 2026" in the venue's time zone. */
+export function formatEventDay(iso: string, locale?: string, timeZone?: string | null): string {
+	const zone = safeZone(timeZone);
+	if (locale === 'uz') return uzDate(new Date(iso), zone, true);
+	return new Intl.DateTimeFormat(intlLocale(locale), { timeZone: zone, weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
+}
+
 export function formatEventTime(iso: string, locale?: string, timeZone?: string | null): string {
 	return new Intl.DateTimeFormat(intlLocale(locale), {
 		timeZone: safeZone(timeZone),
@@ -90,6 +97,68 @@ export function formatEventTime(iso: string, locale?: string, timeZone?: string 
 		minute: '2-digit',
 		hourCycle: 'h23',
 	}).format(new Date(iso));
+}
+
+/** Calendar day and clock time of an instant on the venue's wall clock. */
+function wallOf(iso: string, zone: string): { date: string; time: string } {
+	const parts = new Intl.DateTimeFormat('en-CA', { timeZone: zone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(iso));
+	const get = (type: string) => parts.find((p) => p.type === type)?.value ?? '';
+	return { date: `${get('year')}-${get('month')}-${get('day')}`, time: `${get('hour')}:${get('minute')}` };
+}
+const nextCalendarDay = (date: string) => new Date(Date.parse(`${date}T00:00:00Z`) + 86400000).toISOString().slice(0, 10);
+
+/**
+ * Convention: a multi-day event is the same daily hours on every day from the first day to the last one
+ * (start = first day at the start time, end = last day at the end time). A show that runs past midnight
+ * (ends the next day, earlier on the clock) is still one day.
+ */
+export function isMultiDay(startIso?: string | null, endIso?: string | null, timeZone?: string | null): boolean {
+	if (!startIso || !endIso) return false;
+	const zone = safeZone(timeZone);
+	const start = wallOf(startIso, zone);
+	const end = wallOf(endIso, zone);
+	if (start.date === end.date) return false;
+	return !(end.date === nextCalendarDay(start.date) && end.time < start.time);
+}
+
+const DAILY: Record<string, string> = { en: 'daily', ko: '매일', ru: 'ежедневно', uz: 'har kuni' };
+
+/** "12–14 Dec 2026", "28 Dec 2026 – 2 Jan 2027". The year is left out only when asked and both days are in one year. */
+function formatDayRange(startIso: string, endIso: string, locale: string | undefined, zone: string, withYear: boolean): string {
+	const start = new Date(startIso);
+	const end = new Date(endIso);
+	const a = wallOf(startIso, zone).date;
+	const b = wallOf(endIso, zone).date;
+	const sameYear = a.slice(0, 4) === b.slice(0, 4);
+	const year = withYear || !sameYear;
+	if (locale === 'uz') {
+		// No usable Uzbek date data in Intl (see uzDate)
+		if (a.slice(0, 7) === b.slice(0, 7)) return `${Number(a.slice(8))}–${uzDate(end, zone, year, false)}`;
+		return `${uzDate(start, zone, !sameYear, false)} – ${uzDate(end, zone, year, false)}`;
+	}
+	return new Intl.DateTimeFormat(intlLocale(locale), { timeZone: zone, day: 'numeric', month: 'short', ...(year ? { year: 'numeric' } : {}) }).formatRange(start, end);
+}
+
+const hours = (startIso: string, endIso: string, locale: string | undefined, zone: string) =>
+	`${formatEventTime(startIso, locale, zone)}–${formatEventTime(endIso, locale, zone)}`;
+
+/**
+ * Where an event shows its time: a one-day event is "Sat, 14 Nov · 20:00" (unchanged),
+ * a multi-day one is "12–14 Dec · daily 19:00–22:00".
+ */
+export function formatEventWhen(startIso: string, endIso: string | null | undefined, locale?: string, timeZone?: string | null, withYear = false): string {
+	if (!endIso || !isMultiDay(startIso, endIso, timeZone)) return formatEventDate(startIso, locale, timeZone, withYear);
+	const zone = safeZone(timeZone);
+	return `${formatDayRange(startIso, endIso, locale, zone, withYear)} · ${DAILY[locale ?? 'en'] ?? DAILY.en} ${hours(startIso, endIso, locale, zone)}`;
+}
+
+/** The organizer form's summary line, always with the year and ending with the time zone name. */
+export function formatEventSummary(startIso: string, endIso: string, locale?: string, timeZone?: string | null): string {
+	const zone = safeZone(timeZone);
+	const when = isMultiDay(startIso, endIso, zone)
+		? `${formatDayRange(startIso, endIso, locale, zone, true)} · ${DAILY[locale ?? 'en'] ?? DAILY.en} ${hours(startIso, endIso, locale, zone)}`
+		: `${formatEventDay(startIso, locale, zone)} · ${hours(startIso, endIso, locale, zone)}`;
+	return `${when} (${zone})`;
 }
 
 /** "GMT+9" for the venue's zone at that moment. */

@@ -14,6 +14,9 @@ const MESSAGES: Record<string, string> = {
 	'Hold expired!': 'errors.holdExpired',
 	'This order can no longer be paid!': 'errors.orderNotPayable',
 	'Seats can only be held for an approved reserved-seating event that has not started!': 'errors.eventClosed',
+	'This event has ended, so tickets can no longer be bought!': 'errors.eventEnded',
+	'Ticket sales for this event have not started yet!': 'errors.salesNotStarted',
+	'Ticket sales for this event are closed!': 'errors.salesClosed',
 	// createCheckout and holdSeats answer this for ended, not-yet-on-sale, sold-out and inactive accounts alike
 	'Not Allowed Request!': 'errors.notAllowed',
 	'No data found!': 'errors.notFound',

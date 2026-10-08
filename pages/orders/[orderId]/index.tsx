@@ -17,7 +17,7 @@ import { OrderBadge, TicketBadge } from '../../../libs/components/account/Status
 import EventImage from '../../../libs/components/events/EventImage';
 import Seo from '../../../libs/components/common/Seo';
 import { ticketState } from '../../../libs/account/tickets';
-import { formatEventDate, formatPrice, formatViewerDate } from '../../../libs/format';
+import { formatEventWhen, formatPrice, formatViewerDate } from '../../../libs/format';
 import { checkoutUrl, eventUrl, ROUTES, ticketUrl } from '../../../libs/routes';
 import { AccountOrder, AccountTicket } from '../../../libs/types/account';
 import { TicketTypeItem } from '../../../libs/types/event';
@@ -127,7 +127,7 @@ const OrderDetail: NextPage = () => {
 								</h3>
 								{event && (
 									<p className="order__meta">
-										<CalendarBlank size={16} aria-hidden="true" /> {formatEventDate(event.startAt, locale, venue?.venueTimezone, true)}
+										<CalendarBlank size={16} aria-hidden="true" /> {formatEventWhen(event.startAt, event.endAt, locale, venue?.venueTimezone, true)}
 									</p>
 								)}
 								{venue && (

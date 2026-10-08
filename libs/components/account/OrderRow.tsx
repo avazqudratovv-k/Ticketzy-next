@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { CalendarBlank } from 'phosphor-react';
-import { formatEventDate, formatPrice, formatViewerDate } from '../../format';
+import { formatEventWhen, formatPrice, formatViewerDate } from '../../format';
 import { localizedEvent } from '../../events';
 import { orderUrl } from '../../routes';
 import { AccountOrder } from '../../types/account';
@@ -29,7 +29,7 @@ const OrderRow = ({ order }: { order: AccountOrder }) => {
 				<code className="orow__code">{order.orderNumber}</code>
 				{event && (
 					<span className="orow__when">
-						<CalendarBlank size={16} aria-hidden="true" /> {formatEventDate(event.startAt, locale, venue?.venueTimezone)}
+						<CalendarBlank size={16} aria-hidden="true" /> {formatEventWhen(event.startAt, event.endAt, locale, venue?.venueTimezone)}
 					</span>
 				)}
 			</div>

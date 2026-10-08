@@ -44,7 +44,13 @@
     "layoutCapacity": "Tik turish joyining sigʻimi kamida 1 boʻlishi kerak.",
     "layoutTier": "Har bir oʻrindiqli seksiyaga narx toifasi kaliti kerak.",
     "badTimezone": "Bunday vaqt mintaqasi yoʻq. Roʻyxatdan birini tanlang.",
-    "layoutLocked": "Sxemani oʻzgartirib boʻlmaydi: bu joydagi tadbirda oʻrindiqlar allaqachon bor. Boshqa oʻzgarishlarni saqlash mumkin."
+    "layoutLocked": "Sxemani oʻzgartirib boʻlmaydi: bu joydagi tadbirda oʻrindiqlar allaqachon bor. Boshqa oʻzgarishlarni saqlash mumkin.",
+    "saleStartBeforeEnd": "Sotuv boshlanishi sotuv tugashidan oldin boʻlishi kerak.",
+    "saleEndAfterEventEnd": "Chipta sotuvi tadbir tugashidan kechikmasdan tugashi kerak.",
+    "saleStartAfterEventEnd": "Chipta sotuvi tadbir tugashidan oldin boshlanishi kerak.",
+    "eventEnded": "Tadbir tugadi, endi chipta sotib olib boʻlmaydi.",
+    "salesNotStarted": "Bu tadbir uchun chipta sotuvi hali boshlanmagan.",
+    "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan."
   },
   "blocked": {
     "reason": "Koʻrsatilgan sabab: {{reason}}",
@@ -234,12 +240,24 @@
       },
       "startDate": "Boshlanish sanasi",
       "startTime": "Boshlanish vaqti",
-      "endDate": "Tugash sanasi",
       "endTime": "Tugash vaqti",
       "zone": "Vaqt joyning vaqt zonasida koʻrsatiladi: {{zone}}.",
       "zoneUnknown": "Avval joyni tanlang: vaqt uning vaqt zonasida hisoblanadi.",
-      "sameDay": "Xuddi shu kuni tugasin",
-      "createLink": "Yangi joy yaratish"
+      "createLink": "Yangi joy yaratish",
+      "date": "Sana",
+      "when": {
+        "title": "Tadbir qachon boʻladi?",
+        "hint": "Shou boshlanadigan va tugaydigan kun va vaqt. Koʻpchilik tadbirlar bir kunda boshlanib, shu kuni tugaydi.",
+        "nextDay": "Ertasi kuni tugaydi",
+        "otherDay": "Tadbir boshqa kuni tugaydi",
+        "hintMulti": "Birinchi kundan oxirgi kungacha har kuni bir xil vaqt.",
+        "dates": "Sanalar",
+        "dailyHours": "Har kungi vaqt",
+        "backToSingle": "Bir kunga qaytish",
+        "saleConflict": "Yangi sanalar chipta sotuvi davriga mos kelmaydi. Uni “Chiptalar” bosqichida tekshiring."
+      },
+      "fromDate": "Boshlanish sanasi",
+      "toDate": "Tugash sanasi"
     },
     "tickets": {
       "introGeneral": "Har bir narx uchun bittadan chipta turini qoʻshing, masalan Standart va VIP. Mehmonlar miqdorni tanlaydi, nechta chipta mavjudligini esa siz belgilaysiz.",
@@ -271,7 +289,9 @@
       "saleStartDate": "Sotuv boshlanish sanasi",
       "saleStartTime": "Sotuv boshlanish vaqti",
       "saleEndDate": "Sotuv tugash sanasi",
-      "saleEndTime": "Sotuv tugash vaqti"
+      "saleEndTime": "Sotuv tugash vaqti",
+      "saleEndHint": "Tavsiya: tadbir boshlanish vaqti. Sotuvni tadbir tugaguncha ochiq qoldirish mumkin.",
+      "saleRule": "Sotuv tadbir tugashidan oldin yopilishi kerak."
     },
     "translations": {
       "intro": "Tadbir inglizcha yozilgan. Har bir tashrif buyuruvchi uni oʻz tilida oʻqishi uchun koreys, rus va oʻzbek tillarini qoʻshing. Boʻsh qolgan til inglizchaga qaytadi.",
@@ -306,15 +326,20 @@
       "venue": "Joyni tanlang.",
       "noLayout": "Bu joyda oʻrindiqli boʻlim yoʻq. Umumiy kirishni yoki boshqa joyni tanlang.",
       "startRequired": "Boshlanish sanasi va vaqtini kiriting.",
-      "endRequired": "Tugash sanasi va vaqtini kiriting.",
-      "endBeforeStart": "Tugash vaqti boshlanishdan oldin boʻlishi mumkin emas.",
+      "endRequired": "Tadbir qachon tugashini kiriting.",
+      "endBeforeStart": "Tugash vaqti boshlanishdan keyin boʻlishi kerak.",
       "incomplete": "Sana va vaqtni ikkalasini ham kiriting yoki ikkalasini ham tozalang.",
-      "saleEndBeforeStart": "Sotuv tugashi sotuv boshlanishidan oldin boʻlishi mumkin emas.",
+      "saleEndBeforeStart": "Sotuv tugashi sotuv boshlanishidan keyin boʻlishi kerak.",
       "ticketName": "2 dan 60 tagacha belgi kiriting.",
       "ticketPrice": "Narxni von bilan butun son sifatida kiriting. 0 — bepul.",
       "ticketMax": "1 yoki undan katta butun son kiriting.",
       "ticketQuantity": "1 yoki undan katta butun son kiriting.",
-      "belowSold": "Allaqachon sotilgan miqdordan kam boʻlishi mumkin emas."
+      "belowSold": "Allaqachon sotilgan miqdordan kam boʻlishi mumkin emas.",
+      "startInPast": "Boshlanish kelajakda boʻlishi kerak.",
+      "lastDayBeforeFirst": "Oxirgi kun birinchi kundan oldin boʻlishi mumkin emas.",
+      "dailyEndBeforeStart": "Tugash vaqti boshlanish vaqtidan keyin boʻlishi kerak. Kunlik vaqt yarim tundan oshib ketmaydi.",
+      "saleEndAfterEventEnd": "Sotuv tadbir tugaganidan keyin tugashi mumkin emas.",
+      "saleStartAfterEventEnd": "Sotuv tadbir tugashidan oldin boshlanishi kerak."
     }
   },
   "ai": {

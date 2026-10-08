@@ -15,6 +15,8 @@ export interface FormValues {
 	startTime: string;
 	endDate: string;
 	endTime: string;
+	/** "Same daily hours on every day from startDate to endDate": not sent, it only picks the layout and the rules (see DECISIONS F129) */
+	multiDay: boolean;
 	saleStartDate: string;
 	saleStartTime: string;
 	saleEndDate: string;
@@ -63,6 +65,7 @@ export const emptyValues = (): FormValues => ({
 	startTime: '',
 	endDate: '',
 	endTime: '',
+	multiDay: false,
 	saleStartDate: '',
 	saleStartTime: '',
 	saleEndDate: '',
@@ -93,6 +96,7 @@ export function valuesFromEvent(event: OrgEvent, venue?: OrgVenue | null): FormV
 		startTime: start.time,
 		endDate: end.date,
 		endTime: end.time,
+		multiDay: endsOnOtherDay({ startDate: start.date, startTime: start.time, endDate: end.date, endTime: end.time }),
 		saleStartDate: saleStart.date,
 		saleStartTime: saleStart.time,
 		saleEndDate: saleEnd.date,
@@ -184,7 +188,7 @@ export function validateImages(values: FormValues): FieldErrors {
 	return values.images.length > LIMITS.maxImages ? { images: 'tooMany' } : {};
 }
 
-export function validateVenue(values: FormValues, venue?: OrgVenue | null): FieldErrors {
+export function validateVenue(values: FormValues, venue?: OrgVenue | null, savedStartAt?: string | null): FieldErrors {
 	const errors: FieldErrors = {};
 	if (!values.venueId || !venue) errors.venueId = 'venue';
 	if (values.seatingType === 'RESERVED' && venue && !venueSupportsReserved(venue)) errors.seatingType = 'noLayout';
@@ -192,20 +196,80 @@ export function validateVenue(values: FormValues, venue?: OrgVenue | null): Fiel
 	const end = values.endDate && values.endTime ? isoOf(values.endDate, values.endTime, venue) : null;
 	if (!start) errors.start = 'startRequired';
 	if (!end) errors.end = 'endRequired';
-	if (start && end && new Date(end) < new Date(start)) errors.end = 'endBeforeStart';
+	return { ...errors, ...dateOrderErrors(values, venue, savedStartAt) };
+}
+
+/** Start in the future, end after start. Only what is filled in is judged. The server refuses an end before the start and, at submit, dates in the past. */
+export function dateOrderErrors(values: FormValues, venue?: OrgVenue | null, savedStartAt?: string | null, now = Date.now()): FieldErrors {
+	const errors: FieldErrors = {};
+	const start = values.startDate && values.startTime ? isoOf(values.startDate, values.startTime, venue) : null;
+	const end = values.endDate && values.endTime ? isoOf(values.endDate, values.endTime, venue) : null;
+	// An event that already started (or ended) can still be edited: the start is only checked for a draft or a show that has not begun
+	const started = Boolean(savedStartAt && new Date(savedStartAt).getTime() <= now);
+	if (start && !started && new Date(start).getTime() <= now) errors.start = 'startInPast';
+	if (values.multiDay) {
+		// Same daily hours on every day: the last day is not before the first, and the end time is after the start time (no overnight)
+		if (values.endDate && values.startDate && values.endDate < values.startDate) errors.endDate = 'lastDayBeforeFirst';
+		if (values.startTime && values.endTime && values.endTime <= values.startTime) errors.endTime = 'dailyEndBeforeStart';
+	} else if (start && end && new Date(end).getTime() <= new Date(start).getTime()) errors.end = 'endBeforeStart';
 	return errors;
 }
 
+/** "2026-12-12" + 1 -> "2026-12-13" (calendar arithmetic, no time zone involved). */
+export function addDays(date: string, days: number): string {
+	const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+	if (!m) return '';
+	const next = new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]) + days));
+	return next.toISOString().slice(0, 10);
+}
+
+/** "19:30" + 2 hours -> "21:30"; wraps past midnight ("23:00" -> "01:00"). */
+export function addHours(time: string, hours: number): string {
+	const m = /^(\d{2}):(\d{2})$/.exec(time);
+	if (!m) return '';
+	const total = (Number(m[1]) + hours + 24 * 10) % 24;
+	return `${String(total).padStart(2, '0')}:${m[2]}`;
+}
+
+/**
+ * With the End date hidden the end is on the start date, or on the next day when the end time is earlier than the start time.
+ * Returns the end date to use, or '' when there is nothing to base it on.
+ */
+export function impliedEndDate(startDate: string, startTime: string, endTime: string): string {
+	if (!startDate) return '';
+	return startTime && endTime && endTime < startTime ? addDays(startDate, 1) : startDate;
+}
+
+/** A saved event shows the End date field when it spans more than one night: an overnight show (ends the next day, earlier in the day) stays hidden. */
+export function endsOnOtherDay(values: Pick<FormValues, 'startDate' | 'startTime' | 'endDate' | 'endTime'>): boolean {
+	if (!values.endDate || !values.startDate || values.endDate === values.startDate) return false;
+	return values.endDate !== impliedEndDate(values.startDate, values.startTime, values.endTime);
+}
+
+/**
+ * Sale window rules (backend assertValidSaleWindow): start before end, end no later than the event end, start before the event end.
+ * Empty fields mean "from approval until the event", so only what is filled in is judged.
+ */
 export function validateSaleWindow(values: FormValues, venue?: OrgVenue | null): FieldErrors {
 	const errors: FieldErrors = {};
 	const hasStart = Boolean(values.saleStartDate || values.saleStartTime);
 	const hasEnd = Boolean(values.saleEndDate || values.saleEndTime);
 	const start = hasStart ? isoOf(values.saleStartDate, values.saleStartTime, venue) : null;
 	const end = hasEnd ? isoOf(values.saleEndDate, values.saleEndTime, venue) : null;
+	const eventEnd = values.endDate && values.endTime ? isoOf(values.endDate, values.endTime, venue) : null;
+	const ms = (iso: string) => new Date(iso).getTime();
 	if (hasStart && !start) errors.saleStart = 'incomplete';
 	if (hasEnd && !end) errors.saleEnd = 'incomplete';
-	if (start && end && new Date(end) < new Date(start)) errors.saleEnd = 'saleEndBeforeStart';
+	if (start && eventEnd && ms(start) >= ms(eventEnd)) errors.saleStart = 'saleStartAfterEventEnd';
+	if (end && eventEnd && ms(end) > ms(eventEnd)) errors.saleEnd = 'saleEndAfterEventEnd';
+	else if (start && end && ms(end) <= ms(start)) errors.saleEnd = 'saleEndBeforeStart';
 	return errors;
+}
+
+/** True when a filled-in sale window breaks a rule that depends on the event dates (used for the notice after a date change). */
+export function saleWindowConflicts(values: FormValues, venue?: OrgVenue | null): boolean {
+	const errors = validateSaleWindow(values, venue);
+	return errors.saleStart === 'saleStartAfterEventEnd' || errors.saleEnd === 'saleEndAfterEventEnd';
 }
 
 /** Errors per ticket row, keyed `<row key>.<field>`. */
@@ -244,16 +308,16 @@ export function validateTranslations(values: FormValues): FieldErrors {
 export function stepOfError(field: string): StepId {
 	if (field === 'title' || field === 'category' || field === 'description') return 'details';
 	if (field === 'images') return 'images';
-	if (field === 'venueId' || field === 'seatingType' || field === 'start' || field === 'end') return 'venue';
+	if (['venueId', 'seatingType', 'start', 'end', 'endDate', 'endTime'].includes(field)) return 'venue';
 	if (field.startsWith('sale') || field.includes('.')) return /^(KO|RU|UZ)\./.test(field) ? 'translations' : 'tickets';
 	return 'details';
 }
 
-export function allErrors(values: FormValues, rows: TicketRow[], venue?: OrgVenue | null): FieldErrors {
+export function allErrors(values: FormValues, rows: TicketRow[], venue?: OrgVenue | null, savedStartAt?: string | null): FieldErrors {
 	return {
 		...validateDetails(values),
 		...validateImages(values),
-		...validateVenue(values, venue),
+		...validateVenue(values, venue, savedStartAt),
 		...validateSaleWindow(values, venue),
 		...validateTickets(rows, values.seatingType),
 		...validateTranslations(values),
@@ -261,8 +325,8 @@ export function allErrors(values: FormValues, rows: TicketRow[], venue?: OrgVenu
 }
 
 /** The fields the server needs to create the first draft: name, category, venue and the two dates. */
-export function canCreateDraft(values: FormValues, venue?: OrgVenue | null): boolean {
-	return Object.keys({ ...validateDetails(values), ...validateVenue(values, venue), ...validateImages(values) }).filter((key) => key !== 'description' || values.description.trim()).length === 0;
+export function canCreateDraft(values: FormValues, venue?: OrgVenue | null, savedStartAt?: string | null): boolean {
+	return Object.keys({ ...validateDetails(values), ...validateVenue(values, venue, savedStartAt), ...validateImages(values) }).filter((key) => key !== 'description' || values.description.trim()).length === 0;
 }
 
 const optionalText = (value: string) => (value.trim() ? value.trim() : null);

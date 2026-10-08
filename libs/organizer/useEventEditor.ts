@@ -141,10 +141,9 @@ export default function useEventEditor({ event: initialEvent = null, ticketTypes
 	const setField = useCallback(<K extends keyof FormValues>(name: K, value: FormValues[K]) => {
 		setValues((current) => ({ ...current, [name]: value }));
 		const keys: string[] = [name as string];
-		if (/^start(Date|Time)$/.test(name as string)) keys.push('start');
-		if (/^end(Date|Time)$/.test(name as string)) keys.push('end');
-		if (/^saleStart(Date|Time)$/.test(name as string)) keys.push('saleStart');
-		if (/^saleEnd(Date|Time)$/.test(name as string)) keys.push('saleEnd');
+		if (/^(start|end)(Date|Time)$/.test(name as string)) keys.push('start', 'end', 'endDate', 'endTime', 'saleStart', 'saleEnd');
+		// The sale rules compare start, end and the event end, so any sale edit clears both sale errors (the step re-checks live)
+		if (/^sale(Start|End)(Date|Time)$/.test(name as string)) keys.push('saleStart', 'saleEnd');
 		if (name === 'venueId') keys.push('seatingType');
 		setErrors((current) => {
 			if (!keys.some((key) => key in current)) return current;
@@ -193,7 +192,7 @@ export default function useEventEditor({ event: initialEvent = null, ticketTypes
 		setServerError(null);
 
 		const filled = rows.filter((row) => !isUntouched(row, values.seatingType));
-		const found = allErrors(values, filled, venue);
+		const found = allErrors(values, filled, venue, event?.startAt);
 		// The first draft needs only what createEvent asks for; later saves check everything that is filled in
 		if (!event && !canCreateDraft(values, venue) && Object.keys(found).length === 0) return { ok: false };
 		if (Object.keys(found).length) {
