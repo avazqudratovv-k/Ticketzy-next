@@ -40,3 +40,7 @@ export const checkoutUrl = (orderId: string) => `/checkout/${orderId}`;
 export const confirmationUrl = (orderId: string) => `/orders/${orderId}/confirmation`;
 export const orderUrl = (id: string) => `/orders/${id}`;
 export const ticketUrl = (id: string) => `/tickets/${id}`;
+
+export const organizerEventsUrl = '/organizer/events';
+export const organizerEventNewUrl = '/organizer/events/new';
+export const organizerEventEditUrl = (id: string) => `/organizer/events/${id}/edit`;

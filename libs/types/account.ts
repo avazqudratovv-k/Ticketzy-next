@@ -4,7 +4,7 @@ import { EventTranslation } from './event';
 export type OrderStatus = 'PENDING_PAYMENT' | 'PAID' | 'FAILED' | 'CANCELLED' | 'EXPIRED' | 'REFUNDED';
 export type TicketStatus = 'VALID' | 'USED' | 'REFUNDED' | 'CANCELLED';
 
-/** The event as the order and ticket queries return it; there is no venue here (see useVenues). */
+/** The event as the order and ticket queries return it, with its venue joined. */
 export interface AccountEvent {
 	_id: string;
 	eventStatus: string;
@@ -15,6 +15,7 @@ export interface AccountEvent {
 	startAt: string;
 	endAt: string;
 	venueId: string;
+	venueData?: VenueBrief | null;
 }
 
 export interface AccountOrder {

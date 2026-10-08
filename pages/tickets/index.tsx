@@ -17,7 +17,6 @@ import Seo from '../../libs/components/common/Seo';
 import StateBlock from '../../libs/components/states/StateBlock';
 import Pagination from '../../libs/components/events/Pagination';
 import useUrlState from '../../libs/hooks/useUrlState';
-import useVenues from '../../libs/hooks/useVenues';
 import { formatNumber } from '../../libs/format';
 import { ROUTES } from '../../libs/routes';
 import { AccountTicket } from '../../libs/types/account';
@@ -53,7 +52,6 @@ const Tickets: NextPage = () => {
 	const otherTotal: number = otherData?.getMyTickets?.metaCounter?.[0]?.total ?? 0;
 	const counts = { UPCOMING: tab === 'UPCOMING' ? total : otherTotal, PAST: tab === 'PAST' ? total : otherTotal };
 	const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
-	const venues = useVenues(list.map((ticket) => ticket.eventData?.venueId));
 	const firstLoad = !data && (loading || !ready);
 
 	useEffect(() => {
@@ -106,7 +104,7 @@ const Tickets: NextPage = () => {
 					<>
 						<ul className="tcards">
 							{list.map((ticket) => (
-								<TicketCard key={ticket._id} ticket={ticket} venue={venues.get(ticket.eventData?.venueId ?? '')} />
+								<TicketCard key={ticket._id} ticket={ticket} />
 							))}
 						</ul>
 						<Pagination page={page} pageCount={pageCount} onChange={(next) => update({ page: next })} />

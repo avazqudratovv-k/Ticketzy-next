@@ -1,0 +1,349 @@
+import { EventCategory } from '../types/event';
+import { EditMode } from './events';
+import { OrgEvent, OrgTicketType, OrgVenue, TranslatedLocale, TRANSLATED_LOCALES } from './types';
+import { isoToZoned, zonedToIso } from './zoned';
+
+/** Everything the event form edits. Dates are the venue's wall clock as typed (see zoned.ts); they become instants on save. */
+export interface FormValues {
+	title: string;
+	category: EventCategory | '';
+	description: string;
+	images: string[];
+	venueId: string;
+	seatingType: 'GENERAL' | 'RESERVED';
+	startDate: string;
+	startTime: string;
+	endDate: string;
+	endTime: string;
+	saleStartDate: string;
+	saleStartTime: string;
+	saleEndDate: string;
+	saleEndTime: string;
+	translations: Record<TranslatedLocale, { title: string; description: string }>;
+}
+
+export interface TicketRow {
+	/** stable key for React, also for rows that are not saved yet */
+	key: string;
+	/** set once the ticket type exists on the server */
+	id?: string;
+	tierKey: string;
+	name: string;
+	price: string;
+	quantity: string;
+	maxPerOrder: string;
+	status: 'ACTIVE' | 'PAUSED' | 'SOLD_OUT';
+	sold: number;
+	/** RESERVED only: seats of the tier in the venue layout (the quantity is computed by the server) */
+	seatCount?: number;
+}
+
+export const STEPS = ['details', 'images', 'venue', 'tickets', 'translations', 'review'] as const;
+export type StepId = (typeof STEPS)[number];
+
+/** Limits from the backend DTOs (EventInput, EventTranslationInput, TicketTypeInput). */
+export const LIMITS = {
+	title: { min: 3, max: 100 },
+	description: { min: 5, max: 2000 },
+	ticketName: { min: 2, max: 60 },
+	maxImages: 8,
+	imageBytes: 5 * 1024 * 1024,
+	imageTypes: ['image/png', 'image/jpeg'] as const,
+	defaultMaxPerOrder: 6,
+};
+
+export const emptyValues = (): FormValues => ({
+	title: '',
+	category: '',
+	description: '',
+	images: [],
+	venueId: '',
+	seatingType: 'GENERAL',
+	startDate: '',
+	startTime: '',
+	endDate: '',
+	endTime: '',
+	saleStartDate: '',
+	saleStartTime: '',
+	saleEndDate: '',
+	saleEndTime: '',
+	translations: { KO: { title: '', description: '' }, RU: { title: '', description: '' }, UZ: { title: '', description: '' } },
+});
+
+export function valuesFromEvent(event: OrgEvent, venue?: OrgVenue | null): FormValues {
+	const zone = (venue ?? event.venueData)?.venueTimezone;
+	const start = isoToZoned(event.startAt, zone);
+	const end = isoToZoned(event.endAt, zone);
+	const saleStart = isoToZoned(event.saleStartAt, zone);
+	const saleEnd = isoToZoned(event.saleEndAt, zone);
+	const values = emptyValues();
+	TRANSLATED_LOCALES.forEach((locale) => {
+		const entry = event.eventTranslations?.find((item) => item.locale === locale);
+		values.translations[locale] = { title: entry?.title ?? '', description: entry?.description ?? '' };
+	});
+	return {
+		...values,
+		title: event.eventTitle ?? '',
+		category: event.eventCategory,
+		description: event.eventDesc ?? '',
+		images: event.eventImages ?? [],
+		venueId: event.venueId ?? '',
+		seatingType: event.seatingType ?? 'GENERAL',
+		startDate: start.date,
+		startTime: start.time,
+		endDate: end.date,
+		endTime: end.time,
+		saleStartDate: saleStart.date,
+		saleStartTime: saleStart.time,
+		saleEndDate: saleEnd.date,
+		saleEndTime: saleEnd.time,
+	};
+}
+
+export const rowFromTicketType = (tt: OrgTicketType): TicketRow => ({
+	key: tt._id,
+	id: tt._id,
+	tierKey: tt.tierKey ?? '',
+	name: tt.ticketTypeName,
+	price: String(tt.ticketPrice),
+	quantity: String(tt.totalQuantity),
+	maxPerOrder: String(tt.maxPerOrder),
+	status: tt.ticketTypeStatus,
+	sold: tt.soldQuantity,
+});
+
+let counter = 0;
+export const newRow = (patch: Partial<TicketRow> = {}): TicketRow => ({
+	key: `new-${Date.now()}-${counter++}`,
+	tierKey: '',
+	name: '',
+	price: '',
+	quantity: '',
+	maxPerOrder: String(LIMITS.defaultMaxPerOrder),
+	status: 'ACTIVE',
+	sold: 0,
+	...patch,
+});
+
+/** The price tiers of a venue layout: one per tier key of the SEATED sections, with the seats they add up to. */
+export interface Tier {
+	tierKey: string;
+	sections: string[];
+	seats: number;
+}
+export function tiersOfVenue(venue?: OrgVenue | null): Tier[] {
+	const tiers = new Map<string, Tier>();
+	for (const section of venue?.venueLayout?.sections ?? []) {
+		if (section.kind !== 'SEATED' || !section.tierKey) continue;
+		const tier = tiers.get(section.tierKey) ?? { tierKey: section.tierKey, sections: [], seats: 0 };
+		tier.sections.push(section.name);
+		tier.seats += section.rows * section.seatsPerRow;
+		tiers.set(section.tierKey, tier);
+	}
+	return Array.from(tiers.values());
+}
+
+/** A venue can host a RESERVED event only with at least one SEATED section (backend DECISIONS #41). */
+export const venueSupportsReserved = (venue?: OrgVenue | null) => tiersOfVenue(venue).length > 0;
+
+/**
+ * RESERVED events have one ticket type per tier of the layout, and the quantity is the seat count.
+ * Rows already saved keep their data; missing tiers get an empty row. GENERAL rows are left as the organizer made them.
+ */
+export function rowsForSeating(rows: TicketRow[], seatingType: 'GENERAL' | 'RESERVED', venue?: OrgVenue | null): TicketRow[] {
+	if (seatingType !== 'RESERVED') return rows;
+	const tiers = tiersOfVenue(venue);
+	const byTier = new Map(rows.filter((row) => row.tierKey).map((row) => [row.tierKey, row]));
+	const result = tiers.map((tier) => {
+		const row = byTier.get(tier.tierKey) ?? newRow({ tierKey: tier.tierKey, name: tier.sections.join(', ') });
+		return { ...row, seatCount: tier.seats, quantity: String(tier.seats) };
+	});
+	// saved rows whose tier is no longer in the layout stay visible so nothing silently disappears
+	const known = new Set(tiers.map((tier) => tier.tierKey));
+	return [...result, ...rows.filter((row) => row.id && !known.has(row.tierKey))];
+}
+
+export type FieldErrors = Record<string, string>;
+
+const len = (value: string) => value.trim().length;
+const isWholeNumber = (value: string) => /^\d+$/.test(value.trim());
+
+const isoOf = (date: string, time: string, venue?: OrgVenue | null) => zonedToIso(date, time, venue?.venueTimezone);
+
+export function validateDetails(values: FormValues): FieldErrors {
+	const errors: FieldErrors = {};
+	const title = len(values.title);
+	if (title < LIMITS.title.min || title > LIMITS.title.max) errors.title = 'title';
+	if (!values.category) errors.category = 'category';
+	const description = len(values.description);
+	if (description > 0 && (description < LIMITS.description.min || description > LIMITS.description.max)) errors.description = 'description';
+	return errors;
+}
+
+export function validateImages(values: FormValues): FieldErrors {
+	return values.images.length > LIMITS.maxImages ? { images: 'tooMany' } : {};
+}
+
+export function validateVenue(values: FormValues, venue?: OrgVenue | null): FieldErrors {
+	const errors: FieldErrors = {};
+	if (!values.venueId || !venue) errors.venueId = 'venue';
+	if (values.seatingType === 'RESERVED' && venue && !venueSupportsReserved(venue)) errors.seatingType = 'noLayout';
+	const start = values.startDate && values.startTime ? isoOf(values.startDate, values.startTime, venue) : null;
+	const end = values.endDate && values.endTime ? isoOf(values.endDate, values.endTime, venue) : null;
+	if (!start) errors.start = 'startRequired';
+	if (!end) errors.end = 'endRequired';
+	if (start && end && new Date(end) < new Date(start)) errors.end = 'endBeforeStart';
+	return errors;
+}
+
+export function validateSaleWindow(values: FormValues, venue?: OrgVenue | null): FieldErrors {
+	const errors: FieldErrors = {};
+	const hasStart = Boolean(values.saleStartDate || values.saleStartTime);
+	const hasEnd = Boolean(values.saleEndDate || values.saleEndTime);
+	const start = hasStart ? isoOf(values.saleStartDate, values.saleStartTime, venue) : null;
+	const end = hasEnd ? isoOf(values.saleEndDate, values.saleEndTime, venue) : null;
+	if (hasStart && !start) errors.saleStart = 'incomplete';
+	if (hasEnd && !end) errors.saleEnd = 'incomplete';
+	if (start && end && new Date(end) < new Date(start)) errors.saleEnd = 'saleEndBeforeStart';
+	return errors;
+}
+
+/** Errors per ticket row, keyed `<row key>.<field>`. */
+export function validateTickets(rows: TicketRow[], seatingType: 'GENERAL' | 'RESERVED'): FieldErrors {
+	const errors: FieldErrors = {};
+	for (const row of rows) {
+		const name = len(row.name);
+		if (name < LIMITS.ticketName.min || name > LIMITS.ticketName.max) errors[`${row.key}.name`] = 'ticketName';
+		if (!isWholeNumber(row.price)) errors[`${row.key}.price`] = 'ticketPrice';
+		const max = Number(row.maxPerOrder);
+		if (!isWholeNumber(row.maxPerOrder) || max < 1) errors[`${row.key}.maxPerOrder`] = 'ticketMax';
+		if (seatingType === 'GENERAL') {
+			const quantity = Number(row.quantity);
+			if (!isWholeNumber(row.quantity) || quantity < 1) errors[`${row.key}.quantity`] = 'ticketQuantity';
+			else if (quantity < row.sold) errors[`${row.key}.quantity`] = 'belowSold';
+		}
+	}
+	return errors;
+}
+
+/** Translations: a language is filled in when it has any text; then the title is required and both fields follow the DTO limits. */
+export function validateTranslations(values: FormValues): FieldErrors {
+	const errors: FieldErrors = {};
+	for (const locale of TRANSLATED_LOCALES) {
+		const { title, description } = values.translations[locale];
+		if (!title.trim() && !description.trim()) continue;
+		const t = len(title);
+		if (t < LIMITS.title.min || t > LIMITS.title.max) errors[`${locale}.title`] = 'title';
+		const d = len(description);
+		if (d > 0 && (d < LIMITS.description.min || d > LIMITS.description.max)) errors[`${locale}.description`] = 'description';
+	}
+	return errors;
+}
+
+/** Which step each error belongs to, for the "go to the first problem" jump. */
+export function stepOfError(field: string): StepId {
+	if (field === 'title' || field === 'category' || field === 'description') return 'details';
+	if (field === 'images') return 'images';
+	if (field === 'venueId' || field === 'seatingType' || field === 'start' || field === 'end') return 'venue';
+	if (field.startsWith('sale') || field.includes('.')) return /^(KO|RU|UZ)\./.test(field) ? 'translations' : 'tickets';
+	return 'details';
+}
+
+export function allErrors(values: FormValues, rows: TicketRow[], venue?: OrgVenue | null): FieldErrors {
+	return {
+		...validateDetails(values),
+		...validateImages(values),
+		...validateVenue(values, venue),
+		...validateSaleWindow(values, venue),
+		...validateTickets(rows, values.seatingType),
+		...validateTranslations(values),
+	};
+}
+
+/** The fields the server needs to create the first draft: name, category, venue and the two dates. */
+export function canCreateDraft(values: FormValues, venue?: OrgVenue | null): boolean {
+	return Object.keys({ ...validateDetails(values), ...validateVenue(values, venue), ...validateImages(values) }).filter((key) => key !== 'description' || values.description.trim()).length === 0;
+}
+
+const optionalText = (value: string) => (value.trim() ? value.trim() : null);
+
+/** `updateEvent` content. `null` clears an optional field; translations that are empty are left out. */
+export function toUpdateInput(id: string, values: FormValues, venue?: OrgVenue | null, mode: EditMode = 'full') {
+	const translations = TRANSLATED_LOCALES.filter((locale) => values.translations[locale].title.trim()).map((locale) => ({
+		locale,
+		title: values.translations[locale].title.trim(),
+		...(values.translations[locale].description.trim() ? { description: values.translations[locale].description.trim() } : {}),
+	}));
+	const input: Record<string, unknown> = {
+		_id: id,
+		eventCategory: values.category,
+		eventTitle: values.title.trim(),
+		eventDesc: optionalText(values.description),
+		eventImages: values.images,
+		eventTranslations: translations,
+		startAt: isoOf(values.startDate, values.startTime, venue),
+		endAt: isoOf(values.endDate, values.endTime, venue),
+		saleStartAt: values.saleStartDate && values.saleStartTime ? isoOf(values.saleStartDate, values.saleStartTime, venue) : null,
+		saleEndAt: values.saleEndDate && values.saleEndTime ? isoOf(values.saleEndDate, values.saleEndTime, venue) : null,
+	};
+	// Venue and seating type are not sent once orders can exist (an APPROVED event): see DECISIONS F98
+	if (mode === 'full') {
+		input.venueId = values.venueId;
+		input.seatingType = values.seatingType;
+	}
+	return input;
+}
+
+export function toCreateInput(values: FormValues, venue?: OrgVenue | null) {
+	const { _id, ...rest } = toUpdateInput('', values, venue, 'full');
+	void _id;
+	// createEvent has no `null` handling: leave empty optionals out
+	const input: Record<string, unknown> = { ...rest };
+	for (const key of ['eventDesc', 'saleStartAt', 'saleEndAt']) if (input[key] === null) delete input[key];
+	return input;
+}
+
+export function toTicketInput(row: TicketRow, eventId: string, seatingType: 'GENERAL' | 'RESERVED') {
+	const common = {
+		ticketTypeName: row.name.trim(),
+		ticketPrice: Number(row.price),
+		maxPerOrder: Number(row.maxPerOrder),
+	};
+	if (row.id) {
+		// `totalQuantity` is refused for RESERVED events; the tier key is locked once seats exist, so it is not resent
+		return { _id: row.id, ...common, ticketTypeStatus: row.status === 'PAUSED' ? 'PAUSED' : 'ACTIVE', ...(seatingType === 'GENERAL' ? { totalQuantity: Number(row.quantity) } : {}) };
+	}
+	return {
+		eventId,
+		...common,
+		ticketCurrency: 'KRW',
+		...(seatingType === 'RESERVED' ? { tierKey: row.tierKey } : { totalQuantity: Number(row.quantity) }),
+	};
+}
+
+/** What `submitEventForApproval` checks, in the server's order (backend getEventSubmitError). */
+export type CheckId = 'title' | 'image' | 'dates' | 'venue' | 'ticketType' | 'layout' | 'tiers';
+export interface Check {
+	id: CheckId;
+	ok: boolean;
+}
+export function submitChecks(values: FormValues, rows: TicketRow[], venue?: OrgVenue | null, now = Date.now()): Check[] {
+	const start = isoOf(values.startDate, values.startTime, venue);
+	const end = isoOf(values.endDate, values.endTime, venue);
+	const checks: Check[] = [
+		{ id: 'title', ok: len(values.title) >= LIMITS.title.min },
+		{ id: 'image', ok: values.images.length >= 1 },
+		{ id: 'dates', ok: Boolean(start && end && new Date(start).getTime() > now && new Date(end).getTime() > now) },
+		{ id: 'venue', ok: Boolean(venue && (venue.venueStatus ?? 'ACTIVE') === 'ACTIVE') },
+		{ id: 'ticketType', ok: rows.length >= 1 },
+	];
+	if (values.seatingType === 'RESERVED') {
+		const tiers = tiersOfVenue(venue);
+		checks.push({ id: 'layout', ok: tiers.length > 0 });
+		checks.push({ id: 'tiers', ok: tiers.length > 0 && tiers.every((tier) => rows.some((row) => row.tierKey === tier.tierKey)) });
+	}
+	return checks;
+}
+
+export const snapshot = (values: FormValues, rows: TicketRow[]) =>
+	JSON.stringify({ values, rows: rows.map(({ key, ...row }) => row) });

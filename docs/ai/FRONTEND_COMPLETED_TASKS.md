@@ -141,3 +141,34 @@ Goal: buy seats (RESERVED) or tickets (GENERAL) with the 30 second hold. Not com
 - `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds (run in a scratch copy with `node_modules` linked, so the running dev server's `.next` was not touched).
 - Browser on the real dev server (`http://localhost:3000`, light theme) as `buyer@ticketzy.demo`: orders list and detail; ticket list, detail and QR (the rendered image was decoded with the browser's `BarcodeDetector` and equals the backend token exactly); `.ics` content checked; full-screen QR; refund of an eligible order (22,000 KRW: dialog, success, order and ticket turned Refunded, a REFUND_COMPLETED notification arrived and the bell count rose); a not-eligible order (checked-in ticket: backend reason shown, no button); bell dropdown, open-to-read, Mark all as read, notifications page; profile edit with phone and an avatar upload (header avatar updated). 390 px was checked in a 390 px iframe of the same dev server (tickets, ticket detail, order detail, bell); Russian was checked on the order detail.
 - **Not tested**: ko and uz pages visually (keys checked by script); dark theme; the "already refunded" outcome (the button is hidden for refunded orders, so only a race can reach it); the avatar type/size error messages; `/account/saved` and `/account/following` with data in a browser (they compile and the queries match the schema); pagination beyond one page of tickets (demo buyer has 14 tickets, page size 12, only page 1 of Upcoming was seen).
+
+## Prompt 5: organizer events (2026-10-08)
+Goal: organizer dashboard, events list, create and edit form with ticket types, translations and AI suggestions, submit for approval, cancel. Not committed.
+
+### Schema
+`docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql` (no change in the SDL since Prompt 4; the file is minified as before).
+
+### Operations used (exact names)
+`getMyEvents(input: OrganizerEventsInquiry{page, limit, sort, direction, search{eventStatus}})`, `getEvent`, `createEvent`, `updateEvent`, `submitEventForApproval`, `getTicketTypes`, `createTicketType`, `updateTicketType`, `getVenues`, `getVenue`, `translateEvent(input{eventId, targetLocales})`, `imageUploader(target: "event")`, `getMyEarnings`. Documents: `apollo/organizer/query.ts` and `mutation.ts`.
+
+### Cleanup from Prompt 4
+Order and ticket queries now read `eventData.venueData`; `useVenues`, `venuesByIdQuery` and the `getMyOrders` / tickets fallbacks for the order event are removed (F92).
+
+### Added
+- Pages: `/organizer` (dashboard), `/organizer/events`, `/organizer/events/new`, `/organizer/events/[id]/edit`.
+- Libraries: `libs/organizer/` (`types`, `events` status and action rules, `form` validation and input builders, `useEventEditor`, `useListState`, `zoned`, `images`, `errors`), `libs/hooks/useUnsavedGuard`, `libs/components/organizer/` (status badge, blocked panel, submit and cancel dialogs, `editor/` with the six steps), `scss/organizer.scss`.
+- i18n: `organizer` namespace in en, ko, ru, uz; `dashboard.createEventLocked_{pending,rejected,suspended}` in `common`.
+
+### Behaviour
+- List: status tabs with counts, search, sort, pagination, loading, empty, no-result and error states; row actions by status (edit or fix, view, submit or resubmit with a dialog, public page for APPROVED, cancel info for APPROVED); reject and cancel reasons shown in the row.
+- Form: six steps, save draft at any step, unsaved-changes warning, inline validation that mirrors the DTO limits, server errors translated, tier rows from the venue layout for RESERVED events, GENERAL ticket types, event sale window, translations tabs with AI suggestions that are never saved automatically, review page with the submit checks, submit dialog.
+- Statuses: REJECTED shows the admin's reason and can be fixed and resubmitted; PENDING, CANCELLED, ENDED are read-only with an explanation; APPROVED explains what is editable and confirms before sending the event back to review.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds (scratch copy with `node_modules` linked).
+- Browser on `http://localhost:3000`, English, as `organizer@ticketzy.demo`: dashboard (counts, earnings), list with tabs and counts, rejected tab, create a RESERVED draft end to end (name, category, description, image upload with a small-image warning and a rejected non-image, venue, dates, sale of two tiers from the layout, "End on the same day"), first save redirect to `/[id]/edit`, ticket types created, AI translate (suggestions shown, nothing filled in, "Use this suggestion" then save), review page, submit dialog and submit (event is now In review and read-only), edit and save of the REJECTED demo event ("Charity Legends Match", description extended, still REJECTED, not resubmitted), approved event page (what is editable), cancel dialog, light theme, 500 px window (dashboard, list, form step 1), unsaved-changes prompt blocked navigation. `pending@ticketzy.demo`: dashboard, events and new pages show why they are blocked, the button is disabled. `buyer@ticketzy.demo` (USER): `/organizer/events/new` redirects to the home page.
+- After the dev server was restarted: the list (ko), the form (ko, uz, ru: pending test event, tickets and translations steps), dark and light themes, all at about 520 px. Found and fixed: step labels broke per character in Korean (`white-space: nowrap` on `.org-step`). The `organizer` namespace was empty for ko, ru and uz before the restart (F109).
+- **Not done, and why:**
+  - Cancelling a test event: the backend has no organizer cancel (F96). The "In review" test event "QA Test Comedy Night" (Laugh Cellar Comedy Club, 20 Mar 2027) is left in the demo data; only an admin can reject or approve it.
+  - Duplicate: no backend operation.
+  - Saving changes of an APPROVED event (to avoid sending a live demo event back to review).

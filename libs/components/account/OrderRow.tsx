@@ -5,7 +5,7 @@ import { CalendarBlank } from 'phosphor-react';
 import { formatEventDate, formatPrice, formatViewerDate } from '../../format';
 import { localizedEvent } from '../../events';
 import { orderUrl } from '../../routes';
-import { AccountOrder, VenueBrief } from '../../types/account';
+import { AccountOrder } from '../../types/account';
 import { EventItem } from '../../types/event';
 import { OrderBadge } from './StatusBadge';
 
@@ -13,10 +13,11 @@ export const eventTitleOf = (event: AccountOrder['eventData'], locale?: string) 
 	event ? localizedEvent({ eventTitle: event.eventTitle, eventDesc: null, eventTranslations: event.eventTranslations as EventItem['eventTranslations'] }, locale).title : '';
 
 /** One order of the history list (design: Orders). The whole row opens the order. */
-const OrderRow = ({ order, venue }: { order: AccountOrder; venue?: VenueBrief }) => {
+const OrderRow = ({ order }: { order: AccountOrder }) => {
 	const { t } = useTranslation('account');
 	const { locale } = useRouter();
 	const event = order.eventData;
+	const venue = event?.venueData;
 	const count = order.items.reduce((sum, item) => sum + item.quantity, 0);
 
 	return (

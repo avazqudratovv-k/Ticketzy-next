@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CalendarBlank, CaretLeft, MapPin, Ticket } from 'phosphor-react';
-import { GET_MY_ORDERS, GET_MY_TICKETS_LIST, GET_ORDER_DETAIL, GET_TICKET_TYPES } from '../../../apollo/user/query';
+import { GET_MY_TICKETS_LIST, GET_ORDER_DETAIL, GET_TICKET_TYPES } from '../../../apollo/user/query';
 import withLayoutBasic from '../../../libs/components/layout/LayoutBasic';
 import { withAccount } from '../../../libs/components/account/AccountShell';
 import LoadError from '../../../libs/components/account/LoadError';
@@ -16,7 +16,6 @@ import { eventTitleOf } from '../../../libs/components/account/OrderRow';
 import { OrderBadge, TicketBadge } from '../../../libs/components/account/StatusBadge';
 import EventImage from '../../../libs/components/events/EventImage';
 import Seo from '../../../libs/components/common/Seo';
-import useVenues from '../../../libs/hooks/useVenues';
 import { ticketState } from '../../../libs/account/tickets';
 import { formatEventDate, formatPrice, formatViewerDate } from '../../../libs/format';
 import { checkoutUrl, eventUrl, ROUTES, ticketUrl } from '../../../libs/routes';
@@ -49,24 +48,14 @@ const OrderDetail: NextPage = () => {
 		skip: !paidLike,
 		fetchPolicy: 'cache-and-network',
 	});
-	// getOrder returns `eventData: null` (the list does join it), so the event comes from the order's tickets, or from the list for unpaid orders
-	const { data: listData } = useQuery(GET_MY_ORDERS, {
-		variables: { input: { page: 1, limit: 100, sort: 'createdAt', direction: 'DESC' } },
-		skip: !order || paidLike || Boolean(order.eventData),
-	});
 	const { data: typeData } = useQuery(GET_TICKET_TYPES, { variables: { eventId: order?.eventId ?? '' }, skip: !order, errorPolicy: 'ignore' });
 
 	const tickets: AccountTicket[] = useMemo(
 		() => ((ticketData?.getMyTickets?.list ?? []) as AccountTicket[]).filter((ticket) => ticket.orderId === orderId),
 		[ticketData, orderId],
 	);
-	const event =
-		order?.eventData ??
-		tickets[0]?.eventData ??
-		((listData?.getMyOrders?.list ?? []) as AccountOrder[]).find((row) => row._id === orderId)?.eventData ??
-		undefined;
-	const venues = useVenues([event?.venueId]);
-	const venue = venues.get(event?.venueId ?? '');
+	const event = order?.eventData ?? undefined;
+	const venue = event?.venueData;
 	const typeName = (id: string) => ((typeData?.getTicketTypes ?? []) as TicketTypeItem[]).find((type) => type._id === id)?.ticketTypeName ?? t('ticket.type');
 
 	if (error && !order) {

@@ -1,0 +1,419 @@
+{
+  "status": {
+    "DRAFT": "Draft",
+    "PENDING": "In review",
+    "APPROVED": "Approved",
+    "REJECTED": "Rejected",
+    "CANCELLED": "Cancelled",
+    "ENDED": "Ended"
+  },
+  "errors": {
+    "retry": "Try again",
+    "network": "We can’t reach Ticketzy right now. Check your connection and try again.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "serverErrors": {
+    "notEditable": "This event can’t be edited in its current status. Events in review, cancelled events and ended events are locked.",
+    "badTransition": "This status change isn’t allowed from the event’s current status.",
+    "submitTitle": "Add an event name before submitting.",
+    "submitImage": "Add at least one image before submitting.",
+    "submitDates": "The start and end must be in the future to submit the event.",
+    "submitVenue": "Choose an active venue before submitting.",
+    "submitTicketType": "Add at least one ticket type before submitting.",
+    "submitLayout": "Reserved seating needs a venue with at least one seated section.",
+    "tierMissing": "Every seated section needs a ticket type with a matching tier.",
+    "tierDuplicate": "Only one ticket type of an event can use the same tier.",
+    "tierKeyRequired": "A ticket type for reserved seating needs a tier that matches a seated section.",
+    "quantityFromSeats": "For reserved seating the quantity is the number of seats, so it can’t be set by hand.",
+    "quantityRequired": "Enter how many tickets are available.",
+    "tierLocked": "The tier can’t change once the seats of the event exist.",
+    "notApproved": "Your organizer account is still waiting for admin approval, so this isn’t available yet.",
+    "notAllowed": "That isn’t allowed for this event right now.",
+    "updateFailed": "The changes could not be saved. Reload the page and try again.",
+    "createFailed": "The event could not be created. Check the fields and try again.",
+    "badRequest": "Some of the information isn’t valid. Check the fields and try again.",
+    "noData": "We couldn’t find that. It may have been removed or you may not have access.",
+    "imageFormat": "Use a JPG or PNG image.",
+    "uploadFailed": "The upload failed. Try again.",
+    "notAuthenticated": "Your session has ended. Sign in again.",
+    "notVerified": "Your account is not verified. Contact support."
+  },
+  "blocked": {
+    "reason": "Reason given: {{reason}}",
+    "back": "Back to overview",
+    "pending": {
+      "title": "Your organizer account is waiting for approval",
+      "create": "You can create and publish events once an admin approves your account. We’ll notify you as soon as that happens.",
+      "events": "You will see your events here once an admin approves your account. Until then you can’t create or publish events.",
+      "dashboard": "Creating and publishing events is switched on after approval."
+    },
+    "rejected": {
+      "title": "Your organizer account was not approved",
+      "create": "Events can’t be created or published from an account that was not approved. Contact support if you think this is a mistake.",
+      "events": "Your events can’t be changed because the account was not approved. Contact support if you think this is a mistake.",
+      "dashboard": "Events can’t be created or published until the account is approved."
+    },
+    "suspended": {
+      "title": "Your organizer account is suspended",
+      "create": "Events can’t be created or published while the account is suspended. Contact support to find out what is needed to lift it.",
+      "events": "Your events can’t be changed while the account is suspended. Contact support to find out what is needed to lift it.",
+      "dashboard": "Events can’t be created or published while the account is suspended."
+    }
+  },
+  "dashboard": {
+    "title": "Overview",
+    "subtitle": "Your events, their review status and your sales.",
+    "byStatus": "Events by status",
+    "sales": "Sales",
+    "ticketsSold": "Tickets sold",
+    "revenue": "Revenue",
+    "commission": "Commission",
+    "netPayout": "Your payout",
+    "salesNote": "All time, from paid orders. Refunded orders are not counted. Detailed sales, attendees and payouts come with the sales screens.",
+    "salesError": "We couldn’t load your sales figures.",
+    "upcoming": "Upcoming events",
+    "allEvents": "All events",
+    "noUpcoming": "No approved event is coming up. Approved events with a future date appear here.",
+    "noneYet": "Your upcoming events will appear here once your account is approved.",
+    "soldBar": "Tickets sold for {{title}}",
+    "attention": "Needs your attention",
+    "recentOrders": "Recent orders",
+    "ordersSoonTitle": "Coming with the sales screens.",
+    "ordersSoonText": "The backend has no list of orders across your events yet, so this card stays empty for now."
+  },
+  "list": {
+    "title": "My events",
+    "subtitle": "Every event you created, with its review status.",
+    "create": "Create event",
+    "tabsLabel": "Filter by status",
+    "all": "All",
+    "search": "Search events",
+    "searchPlaceholder": "Search by name, venue or city",
+    "sort": "Sort events",
+    "sorts": {
+      "dateAsc": "Event date, soonest first",
+      "dateDesc": "Event date, latest first",
+      "updated": "Recently changed",
+      "created": "Recently created"
+    },
+    "loading": "Loading events",
+    "cols": {
+      "event": "Event",
+      "date": "Date",
+      "status": "Status",
+      "tickets": "Tickets sold",
+      "actions": "Actions"
+    },
+    "noVenue": "Venue not set",
+    "sold": "{{sold}} / {{total}}",
+    "soldOf": "{{sold}} of {{total}} tickets sold",
+    "noTickets": "No tickets yet",
+    "rejectReason": "Reason: {{reason}}",
+    "cancelReason": "Cancelled: {{reason}}",
+    "actions": {
+      "edit": "Edit",
+      "fix": "Fix",
+      "view": "View",
+      "submit": "Submit",
+      "resubmit": "Resubmit",
+      "publicPage": "Public page",
+      "cancel": "Cancel event"
+    },
+    "showing": "Showing {{from}}–{{to}} of {{total}}",
+    "cap": "Only the first {{limit}} events of this status are searched and listed.",
+    "submitted": "“{{title}}” was submitted for review.",
+    "empty": {
+      "title": "You haven’t created an event yet",
+      "text": "Start with a draft. You can save at any step and submit it for review when it’s ready."
+    },
+    "none": {
+      "title": "No events match",
+      "text": "Try another status or a different search.",
+      "clear": "Clear filters"
+    },
+    "error": {
+      "title": "We couldn’t load your events",
+      "text": "Something went wrong on our side. Try again in a moment."
+    }
+  },
+  "form": {
+    "titleNew": "Create event",
+    "backToList": "My events",
+    "stepsLabel": "Steps",
+    "stepOf": "Step {{step}} of {{count}}: {{name}}",
+    "unsaved": "Unsaved changes",
+    "savedAt": "Saved at {{time}}",
+    "allSaved": "All changes saved",
+    "notSavedYet": "Not saved yet",
+    "firstDraftHint": "The first draft needs an event name, a category, a venue and dates. Fill those in and use Save draft or Continue.",
+    "leave": "You have unsaved changes. Leave this page and lose them?",
+    "errorsSummary": "Some fields need attention ({{count}}).",
+    "goToFirst": "Go to the first one",
+    "back": "Back",
+    "continue": "Continue",
+    "saveDraft": "Save draft",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "submit": "Submit for approval",
+    "resubmit": "Fix and resubmit",
+    "submitted": {
+      "title": "Submitted for review.",
+      "text": "An admin will check it. You’ll get a notification when it is approved or if something needs fixing."
+    },
+    "steps": {
+      "details": "Details",
+      "images": "Images",
+      "venue": "Schedule and venue",
+      "tickets": "Tickets",
+      "translations": "Translations",
+      "review": "Review and submit"
+    },
+    "details": {
+      "title": "Event name (English)",
+      "titleHint": "{{min}} to {{max}} characters. Shown on the event page and on tickets.",
+      "category": "Category",
+      "categoryPlaceholder": "Choose a category",
+      "description": "Description (English)",
+      "descriptionHint": "Optional. {{min}} to {{max}} characters ({{count}} so far). What happens, how long it runs, what guests should bring.",
+      "english": "Write the name and description in English here. Korean, Russian and Uzbek come in the Translations step."
+    },
+    "images": {
+      "drop": "Drop event images here",
+      "rules": "JPG or PNG, up to {{size}} MB each, at least {{width}} × {{height}} px, up to {{max}} images.",
+      "choose": "Choose images",
+      "uploading": "Uploading…",
+      "none": "No images yet. At least one is needed to submit.",
+      "listLabel": "Event images",
+      "alt": "Event image {{number}}",
+      "cover": "Cover",
+      "moveEarlier": "Move earlier",
+      "moveLater": "Move later",
+      "remove": "Remove image",
+      "hint": "The first image is the cover. Keep the subject near the centre so it survives the different crops. Avoid text in the image: it can’t be translated.",
+      "max": "You can add up to {{max}} images.",
+      "small": "is {{dimensions}} px. {{width}} × {{height}} px or larger looks sharper. It was added anyway.",
+      "problem": {
+        "type": "isn’t a JPG or PNG image.",
+        "size": "is larger than {{size}} MB."
+      }
+    },
+    "venue": {
+      "venue": "Venue",
+      "placeholder": "Choose a venue",
+      "loading": "Loading venues…",
+      "loadError": "We couldn’t load the venues.",
+      "createLater": "Can’t find your venue? Creating venues is coming in the next update.",
+      "capacity": "Capacity: {{formatted}}",
+      "noCapacity": "Capacity not set",
+      "tiers": "Seated price tiers: {{count}}",
+      "noLayout": "No seat map, general admission only",
+      "seating": "How do guests get a place?",
+      "seatingType": {
+        "RESERVED": "Reserved seating",
+        "GENERAL": "General admission"
+      },
+      "seatingText": {
+        "RESERVED": "Guests pick exact seats on the venue’s seat map. Each tier of the map has its own ticket type and price.",
+        "GENERAL": "No assigned seats. Guests choose a quantity and you set how many tickets are available."
+      },
+      "reservedUnavailable": "This venue has no seated section, so it can only host general admission events.",
+      "locked": {
+        "approved": "The venue and the seating type are locked because the event was approved: its seats and orders belong to them.",
+        "tickets": "The venue and the seating type are locked because ticket types already exist for this event. Ticket types can’t be deleted."
+      },
+      "startDate": "Start date",
+      "startTime": "Start time",
+      "endDate": "End date",
+      "endTime": "End time",
+      "zone": "Times are in the venue’s time zone: {{zone}}.",
+      "zoneUnknown": "Choose a venue first: times are read in the venue’s time zone.",
+      "sameDay": "End on the same day"
+    },
+    "tickets": {
+      "introGeneral": "Add one ticket type per price: for example Standard and VIP. Guests choose a quantity, and you set how many are available.",
+      "introReserved": "Each tier of the venue’s seat map has one ticket type. You set the name and price; the quantity is the number of seats and can’t be changed.",
+      "approvedNote": "Ticket changes of an approved event apply right away and do not send the event back to review.",
+      "pickVenue": "Choose a venue with a seat map in the previous step to see its tiers.",
+      "ticketTitle": "Ticket type {{number}}",
+      "tierTitle": "Tier {{tier}}",
+      "tierSections": "Sections: {{sections}}",
+      "name": "Name",
+      "price": "Price, ₩",
+      "quantity": "Tickets available",
+      "quantityMin": "At least {{count}}, the number already sold.",
+      "seats": "Seats",
+      "seatsHint": "Counted from the seat map.",
+      "maxPerOrder": "Most per order",
+      "pause": "Pause sales of this ticket type",
+      "paused": "Paused",
+      "onSale": "On sale",
+      "soldOut": "Sold out",
+      "sold": "Sold: {{formatted}}",
+      "remove": "Remove this ticket type",
+      "add": "Add ticket type",
+      "untouched": "Add a price to create this ticket type. Tiers without a price are skipped when you save, but every tier needs one before you submit.",
+      "noDelete": "Saved ticket types can’t be deleted. Pause one to stop selling it.",
+      "commission": "Buyers pay exactly the price you set. Ticketzy’s commission is taken out of your payout, not added on top. Prices are in Korean won (₩).",
+      "saleWindow": "Sale window",
+      "saleWindowHint": "Optional. Leave empty to sell from approval until the event. Times are in the venue’s time zone.",
+      "saleStartDate": "Sales start date",
+      "saleStartTime": "Sales start time",
+      "saleEndDate": "Sales end date",
+      "saleEndTime": "Sales end time"
+    },
+    "translations": {
+      "intro": "The event is written in English. Add Korean, Russian and Uzbek so every visitor reads it in their language. A language left empty falls back to English.",
+      "tabs": "Languages",
+      "locales": {
+        "KO": "Korean",
+        "RU": "Russian",
+        "UZ": "Uzbek"
+      },
+      "filled": "filled in",
+      "source": "English (source)",
+      "noDescription": "No description.",
+      "title": "Event name, {{language}}",
+      "description": "Description, {{language}}",
+      "titleHint": "{{min}} to {{max}} characters.",
+      "descriptionHint": "{{min}} to {{max}} characters.",
+      "fallback": "A language needs a name to count as filled in. Descriptions without a name are not saved."
+    },
+    "review": {
+      "edit": "Edit",
+      "images": "Images: {{count}}",
+      "tickets": "{{formatted}} tickets",
+      "noTranslations": "English only",
+      "fixErrors": "Some fields need attention. Fix them before submitting.",
+      "after": "An admin reviews every event before it goes on sale. After you submit, the status changes to In review and the event is locked until the admin decides."
+    },
+    "errors": {
+      "title": "Use 3 to 100 characters.",
+      "category": "Choose a category.",
+      "description": "Use 5 to 2,000 characters, or leave it empty.",
+      "tooMany": "You can add up to 8 images.",
+      "venue": "Choose a venue.",
+      "noLayout": "This venue has no seated section. Choose general admission or another venue.",
+      "startRequired": "Enter a start date and time.",
+      "endRequired": "Enter an end date and time.",
+      "endBeforeStart": "The end can’t be before the start.",
+      "incomplete": "Enter both a date and a time, or clear both.",
+      "saleEndBeforeStart": "The sales end can’t be before the sales start.",
+      "ticketName": "Use 2 to 60 characters.",
+      "ticketPrice": "Enter a price in won as a whole number. 0 means free.",
+      "ticketMax": "Enter a whole number of 1 or more.",
+      "ticketQuantity": "Enter a whole number of 1 or more.",
+      "belowSold": "This can’t be lower than the number already sold."
+    }
+  },
+  "ai": {
+    "button": "Translate with AI",
+    "working": "Translating…",
+    "needTitle": "Add an event name of at least 3 characters to translate it.",
+    "notSaved": "AI suggestions are only shown for you to review. Nothing is filled in or saved until you accept it.",
+    "manual": "You can still write the translations yourself.",
+    "createFirst": "Save the draft first (Save draft below), then translate.",
+    "saveFirst": "Fix the highlighted fields and save the draft first, then translate.",
+    "saveFirstApproved": "Save your changes to the event first, then translate. The AI reads the saved English text.",
+    "reviewTitle": "Suggestions are ready.",
+    "reviewText": "Read each language before you use it. Artist names, dates and venue names are the usual mistakes.",
+    "hasSuggestion": "suggestion ready",
+    "suggestionFor": "Suggestion for {{language}}",
+    "use": "Use this suggestion",
+    "replace": "Replace my text",
+    "dismiss": "Dismiss",
+    "errors": {
+      "disabled": "AI translation isn’t available on this server.",
+      "rateLimited": "You’re using AI too fast. Wait a minute and try again.",
+      "failed": "The AI couldn’t answer right now. Try again later.",
+      "busy": "The AI is busy right now. Try again in a moment.",
+      "invalid": "The AI’s answer couldn’t be used. Try again.",
+      "locales": "Choose at least one language."
+    }
+  },
+  "submit": {
+    "title": "Submit for approval?",
+    "intro": "An admin will check the event before it goes on sale. We check these first:",
+    "checksLabel": "What is checked",
+    "check": {
+      "title": "The event has a name",
+      "image": "At least one image",
+      "dates": "Start and end are in the future",
+      "venue": "An active venue is chosen",
+      "ticketType": "At least one ticket type",
+      "layout": "The venue has a seated section (reserved seating)",
+      "tiers": "Every seated tier has a ticket type"
+    },
+    "missing": "(missing)",
+    "after": "After you submit, the status becomes In review and the event can’t be edited until the admin decides. If it is rejected, you’ll see the reason and can fix it and submit again.",
+    "cancel": "Not yet",
+    "confirm": "Submit for approval",
+    "sending": "Submitting…",
+    "fix": "Fix the event"
+  },
+  "cancel": {
+    "title": "Cancel this event?",
+    "intro": "This is what happens when an approved event is cancelled:",
+    "points": {
+      "closed": "The event is closed for good. It leaves the public pages, can’t be edited or re-opened, and its sales stop.",
+      "refunds": "Every paid order is refunded in full automatically, in batches. The normal refund deadline does not apply.",
+      "used": "Tickets that were already checked in are refunded too.",
+      "notices": "Each buyer gets a “refund completed” notification and you get one summary of how many orders were refunded and how many failed.",
+      "retry": "An order that fails to refund stays paid and an admin can run the refunds again.",
+      "stock": "Seats and tickets do not go back on sale."
+    },
+    "unavailableTitle": "You can’t cancel an approved event yourself yet.",
+    "unavailableText": "Contact Ticketzy support with the event name and the reason. An admin cancels it, and the steps above run automatically.",
+    "close": "Close"
+  },
+  "notice": {
+    "rejected": {
+      "title": "This event was rejected.",
+      "reason": "Reason from the admin: “{{reason}}”.",
+      "noReason": "The admin did not give a reason.",
+      "next": "Fix it and submit it again."
+    },
+    "pending": {
+      "title": "In review.",
+      "text": "An admin is checking this event, so it is locked. You’ll be notified when it is decided."
+    },
+    "approved": {
+      "title": "This event is approved and on sale.",
+      "text": "What you can change:",
+      "points": {
+        "content": "Name, category, description, images, dates, sale window and translations can be edited, but saving any of them sends the event back to review and takes it off sale until it is approved again.",
+        "tickets": "Ticket types (name, price, how many, pausing) apply right away without a new review. You can’t go below the number already sold.",
+        "locked": "The venue and the seating type are locked, because seats and orders belong to them.",
+        "seats": "For reserved seating the quantity comes from the seats and the tier can’t change."
+      }
+    },
+    "cancelled": {
+      "title": "This event was cancelled.",
+      "reason": "Reason: “{{reason}}”.",
+      "text": "It can’t be edited. Paid orders were refunded."
+    },
+    "ended": {
+      "title": "This event has ended.",
+      "text": "It can’t be edited."
+    }
+  },
+  "rereview": {
+    "title": "Send this event back to review?",
+    "text": "Saving changes to an approved event needs a new review:",
+    "points": {
+      "offSale": "While it is in review the event is not public and nobody can buy tickets.",
+      "tickets": "Tickets that were already sold stay valid.",
+      "again": "You’ll be notified when an admin approves it again."
+    },
+    "cancel": "Keep editing",
+    "confirm": "Save and send for review"
+  },
+  "edit": {
+    "notFound": {
+      "title": "Event not found",
+      "text": "It may have been removed, or it belongs to another organizer."
+    },
+    "loadError": {
+      "title": "We couldn’t load this event"
+    }
+  }
+}

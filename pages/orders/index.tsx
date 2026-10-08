@@ -16,7 +16,6 @@ import Seo from '../../libs/components/common/Seo';
 import StateBlock from '../../libs/components/states/StateBlock';
 import Pagination from '../../libs/components/events/Pagination';
 import useUrlState from '../../libs/hooks/useUrlState';
-import useVenues from '../../libs/hooks/useVenues';
 import { formatNumber } from '../../libs/format';
 import { ROUTES } from '../../libs/routes';
 import { AccountOrder, OrderStatus } from '../../libs/types/account';
@@ -44,7 +43,6 @@ const Orders: NextPage = () => {
 	const list: AccountOrder[] = data?.getMyOrders?.list ?? [];
 	const total: number = data?.getMyOrders?.metaCounter?.[0]?.total ?? 0;
 	const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
-	const venues = useVenues(list.map((order) => order.eventData?.venueId));
 	const firstLoad = !data && (loading || !ready);
 
 	// A shared link to a page that no longer exists goes to the last one
@@ -104,7 +102,7 @@ const Orders: NextPage = () => {
 				<>
 					<ul className="orows">
 						{list.map((order) => (
-							<OrderRow key={order._id} order={order} venue={venues.get(order.eventData?.venueId ?? '')} />
+							<OrderRow key={order._id} order={order} />
 						))}
 					</ul>
 					<div className="acct__pager">

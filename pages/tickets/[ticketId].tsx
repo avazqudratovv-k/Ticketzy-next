@@ -16,7 +16,6 @@ import { eventTitleOf } from '../../libs/components/account/OrderRow';
 import { TicketBadge } from '../../libs/components/account/StatusBadge';
 import EventImage from '../../libs/components/events/EventImage';
 import Seo from '../../libs/components/common/Seo';
-import useVenues from '../../libs/hooks/useVenues';
 import { buildIcs, downloadIcs } from '../../libs/account/ics';
 import { ticketState, TicketState } from '../../libs/account/tickets';
 import { formatEventDate, formatPrice, formatViewerDate } from '../../libs/format';
@@ -44,7 +43,7 @@ const TicketDetail: NextPage = () => {
 	const { data, error, refetch } = useQuery(GET_TICKET, { variables: { ticketId }, skip: !router.isReady || !ticketId, fetchPolicy: 'cache-and-network' });
 	const ticket: AccountTicket | undefined = data?.getTicket;
 	const event = ticket?.eventData;
-	const venue = useVenues([event?.venueId]).get(event?.venueId ?? '');
+	const venue = event?.venueData;
 	// Other tickets of the same order, for the "Ticket 1 of 2" stepper
 	const { data: siblingData } = useQuery(GET_MY_TICKETS_LIST, {
 		variables: { input: { page: 1, limit: 100 } },

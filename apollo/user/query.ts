@@ -310,7 +310,7 @@ export const GET_MY_TICKETS = gql`
  *    ACCOUNT (BUYER)     *
  *************************/
 
-/** Order rows and details. `eventData.venueData` always comes back null (the server does not join it), so venues are loaded by `venueId` with GET_VENUES_BY_ID. */
+/** Order rows and details. `eventData.venueData` is joined by the server (backend DECISIONS #68); it is null only when the venue no longer exists. */
 export const ACCOUNT_ORDER_FIELDS = gql`
 	fragment AccountOrderFields on Order {
 		_id
@@ -343,6 +343,13 @@ export const ACCOUNT_ORDER_FIELDS = gql`
 			startAt
 			endAt
 			venueId
+			venueData {
+				_id
+				venueName
+				venueCity
+				venueAddress
+				venueTimezone
+			}
 		}
 	}
 `;
@@ -417,6 +424,13 @@ export const ACCOUNT_TICKET_FIELDS = gql`
 			startAt
 			endAt
 			venueId
+			venueData {
+				_id
+				venueName
+				venueCity
+				venueAddress
+				venueTimezone
+			}
 		}
 	}
 `;
@@ -506,21 +520,3 @@ export const GET_MY_FOLLOWINGS = gql`
 		}
 	}
 `;
-
-/** Venues by id in one request. The aliases are built per call (see useVenues). */
-export const venuesByIdQuery = (ids: string[]) =>
-	gql`
-		query GetVenuesById(${ids.map((_, i) => `$id${i}: String!`).join(', ')}) {
-			${ids
-				.map(
-					(_, i) => `v${i}: getVenue(venueId: $id${i}) {
-				_id
-				venueName
-				venueCity
-				venueAddress
-				venueTimezone
-			}`,
-				)
-				.join('\n')}
-		}
-	`;

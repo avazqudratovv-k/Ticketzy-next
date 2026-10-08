@@ -1,0 +1,419 @@
+{
+  "status": {
+    "DRAFT": "Qoralama",
+    "PENDING": "Koʻrib chiqilmoqda",
+    "APPROVED": "Tasdiqlangan",
+    "REJECTED": "Rad etilgan",
+    "CANCELLED": "Bekor qilingan",
+    "ENDED": "Tugagan"
+  },
+  "errors": {
+    "retry": "Qayta urinish",
+    "network": "Hozir Ticketzy bilan aloqa oʻrnatib boʻlmadi. Internet aloqasini tekshirib, qayta urinib koʻring.",
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+  },
+  "serverErrors": {
+    "notEditable": "Tadbirni hozirgi holatida tahrirlab boʻlmaydi. Koʻrib chiqilayotgan, bekor qilingan va tugagan tadbirlar bloklangan.",
+    "badTransition": "Tadbirning hozirgi holatidan bu holat oʻzgarishiga ruxsat yoʻq.",
+    "submitTitle": "Yuborishdan oldin tadbir nomini kiriting.",
+    "submitImage": "Yuborishdan oldin kamida bitta rasm qoʻshing.",
+    "submitDates": "Yuborish uchun boshlanish va tugash vaqti kelajakda boʻlishi kerak.",
+    "submitVenue": "Yuborishdan oldin faol joyni tanlang.",
+    "submitTicketType": "Yuborishdan oldin kamida bitta chipta turini qoʻshing.",
+    "submitLayout": "Joylar belgilangan chiptalar uchun kamida bitta oʻrindiqli boʻlimi bor joy kerak.",
+    "tierMissing": "Har bir oʻrindiqli boʻlim uchun mos toifadagi chipta turi kerak.",
+    "tierDuplicate": "Bitta toifadan tadbirning faqat bitta chipta turi foydalanishi mumkin.",
+    "tierKeyRequired": "Joylar belgilangan chipta turida oʻrindiqli boʻlimga mos toifa boʻlishi kerak.",
+    "quantityFromSeats": "Joylar belgilangan chiptalarda miqdor oʻrindiqlar soniga teng, uni qoʻlda kiritib boʻlmaydi.",
+    "quantityRequired": "Nechta chipta mavjudligini kiriting.",
+    "tierLocked": "Tadbir oʻrindiqlari yaratilgandan keyin toifani oʻzgartirib boʻlmaydi.",
+    "notApproved": "Tashkilotchi akkauntingiz hali administrator tasdigʻini kutmoqda, shuning uchun bu hozircha mavjud emas.",
+    "notAllowed": "Bu tadbir uchun hozir bunga ruxsat yoʻq.",
+    "updateFailed": "Oʻzgarishlar saqlanmadi. Sahifani yangilab, qayta urinib koʻring.",
+    "createFailed": "Tadbir yaratilmadi. Maydonlarni tekshirib, qayta urinib koʻring.",
+    "badRequest": "Ma’lumotlarning bir qismi yaroqsiz. Maydonlarni tekshirib, qayta urinib koʻring.",
+    "noData": "Topib boʻlmadi. U oʻchirilgan boʻlishi yoki sizda ruxsat boʻlmasligi mumkin.",
+    "imageFormat": "JPG yoki PNG rasmdan foydalaning.",
+    "uploadFailed": "Yuklash amalga oshmadi. Qayta urinib koʻring.",
+    "notAuthenticated": "Seansingiz tugadi. Qaytadan kiring.",
+    "notVerified": "Akkauntingiz tasdiqlanmagan. Qoʻllab-quvvatlash xizmatiga murojaat qiling."
+  },
+  "blocked": {
+    "reason": "Koʻrsatilgan sabab: {{reason}}",
+    "back": "Sharhga qaytish",
+    "pending": {
+      "title": "Tashkilotchi akkauntingiz tasdiqlanishini kutmoqda",
+      "create": "Administrator akkauntingizni tasdiqlagach, tadbir yaratish va e’lon qilish mumkin boʻladi. Tasdiqlanishi bilan sizga xabar beramiz.",
+      "events": "Administrator akkauntingizni tasdiqlagach, tadbirlaringiz shu yerda koʻrinadi. Shu vaqtgacha tadbir yaratish va e’lon qilish mumkin emas.",
+      "dashboard": "Tadbir yaratish va e’lon qilish tasdiqlangandan keyin yoqiladi."
+    },
+    "rejected": {
+      "title": "Tashkilotchi akkauntingiz tasdiqlanmadi",
+      "create": "Tasdiqlanmagan akkauntdan tadbir yaratish va e’lon qilish mumkin emas. Agar bu xato deb hisoblasangiz, qoʻllab-quvvatlash xizmatiga murojaat qiling.",
+      "events": "Akkaunt tasdiqlanmagani uchun tadbirlaringizni oʻzgartirib boʻlmaydi. Agar bu xato deb hisoblasangiz, qoʻllab-quvvatlash xizmatiga murojaat qiling.",
+      "dashboard": "Akkaunt tasdiqlanmaguncha tadbir yaratish va e’lon qilish mumkin emas."
+    },
+    "suspended": {
+      "title": "Tashkilotchi akkauntingiz toʻxtatilgan",
+      "create": "Akkaunt toʻxtatilgan vaqtda tadbir yaratish va e’lon qilish mumkin emas. Cheklovni olib tashlash uchun nima kerakligini qoʻllab-quvvatlash xizmatidan soʻrang.",
+      "events": "Akkaunt toʻxtatilgan vaqtda tadbirlarni oʻzgartirib boʻlmaydi. Cheklovni olib tashlash uchun nima kerakligini qoʻllab-quvvatlash xizmatidan soʻrang.",
+      "dashboard": "Akkaunt toʻxtatilgan vaqtda tadbir yaratish va e’lon qilish mumkin emas."
+    }
+  },
+  "dashboard": {
+    "title": "Sharh",
+    "subtitle": "Tadbirlaringiz, ularning koʻrib chiqish holati va sotuvlaringiz.",
+    "byStatus": "Holat boʻyicha tadbirlar",
+    "sales": "Sotuvlar",
+    "ticketsSold": "Sotilgan chiptalar",
+    "revenue": "Tushum",
+    "commission": "Komissiya",
+    "netPayout": "Sizning toʻlovingiz",
+    "salesNote": "Butun davr uchun, toʻlangan buyurtmalar boʻyicha. Pul qaytarilgan buyurtmalar hisobga olinmaydi. Batafsil sotuvlar, qatnashchilar va toʻlovlar sotuv ekranlari bilan birga keladi.",
+    "salesError": "Sotuv koʻrsatkichlarini yuklab boʻlmadi.",
+    "upcoming": "Yaqinlashayotgan tadbirlar",
+    "allEvents": "Barcha tadbirlar",
+    "noUpcoming": "Kelgusida tasdiqlangan tadbir yoʻq. Sanasi kelajakda boʻlgan tasdiqlangan tadbirlar shu yerda koʻrinadi.",
+    "noneYet": "Akkauntingiz tasdiqlangach, yaqinlashayotgan tadbirlaringiz shu yerda koʻrinadi.",
+    "soldBar": "{{title}} uchun sotilgan chiptalar",
+    "attention": "E’tibor talab qiladi",
+    "recentOrders": "Soʻnggi buyurtmalar",
+    "ordersSoonTitle": "Sotuv ekranlari bilan birga keladi.",
+    "ordersSoonText": "Backendda hozircha barcha tadbirlaringiz boʻyicha buyurtmalar roʻyxati yoʻq, shuning uchun bu karta hozircha boʻsh."
+  },
+  "list": {
+    "title": "Mening tadbirlarim",
+    "subtitle": "Siz yaratgan barcha tadbirlar va ularning koʻrib chiqish holati.",
+    "create": "Tadbir yaratish",
+    "tabsLabel": "Holat boʻyicha filtr",
+    "all": "Hammasi",
+    "search": "Tadbirlarni qidirish",
+    "searchPlaceholder": "Nomi, joyi yoki shahri boʻyicha qidirish",
+    "sort": "Tadbirlarni saralash",
+    "sorts": {
+      "dateAsc": "Sana boʻyicha: avval yaqinlari",
+      "dateDesc": "Sana boʻyicha: avval keyingilari",
+      "updated": "Yaqinda oʻzgartirilgan",
+      "created": "Yaqinda yaratilgan"
+    },
+    "loading": "Tadbirlar yuklanmoqda",
+    "cols": {
+      "event": "Tadbir",
+      "date": "Sana",
+      "status": "Holat",
+      "tickets": "Sotilgan chiptalar",
+      "actions": "Amallar"
+    },
+    "noVenue": "Joy tanlanmagan",
+    "sold": "{{sold}} / {{total}}",
+    "soldOf": "{{total}} ta chiptadan {{sold}} tasi sotilgan",
+    "noTickets": "Hali chipta yoʻq",
+    "rejectReason": "Sabab: {{reason}}",
+    "cancelReason": "Bekor qilingan: {{reason}}",
+    "actions": {
+      "edit": "Tahrirlash",
+      "fix": "Tuzatish",
+      "view": "Koʻrish",
+      "submit": "Yuborish",
+      "resubmit": "Qayta yuborish",
+      "publicPage": "Ommaviy sahifa",
+      "cancel": "Tadbirni bekor qilish"
+    },
+    "showing": "{{total}} tadan {{from}}–{{to}} koʻrsatilmoqda",
+    "cap": "Qidiruv va roʻyxat shu holatdagi dastlabki {{limit}} ta tadbir bilan cheklangan.",
+    "submitted": "“{{title}}” koʻrib chiqish uchun yuborildi.",
+    "empty": {
+      "title": "Hali tadbir yaratmadingiz",
+      "text": "Qoralamadan boshlang. Istalgan bosqichda saqlash mumkin, tayyor boʻlgach koʻrib chiqish uchun yuborasiz."
+    },
+    "none": {
+      "title": "Mos tadbir topilmadi",
+      "text": "Boshqa holat yoki boshqa qidiruv soʻzini sinab koʻring.",
+      "clear": "Filtrlarni tozalash"
+    },
+    "error": {
+      "title": "Tadbirlaringizni yuklab boʻlmadi",
+      "text": "Bizning tomonda nimadir xato ketdi. Birozdan soʻng qayta urinib koʻring."
+    }
+  },
+  "form": {
+    "titleNew": "Tadbir yaratish",
+    "backToList": "Mening tadbirlarim",
+    "stepsLabel": "Bosqichlar",
+    "stepOf": "{{count}} bosqichdan {{step}}-bosqich: {{name}}",
+    "unsaved": "Saqlanmagan oʻzgarishlar bor",
+    "savedAt": "{{time}} da saqlandi",
+    "allSaved": "Barcha oʻzgarishlar saqlandi",
+    "notSavedYet": "Hali saqlanmagan",
+    "firstDraftHint": "Birinchi qoralama uchun tadbir nomi, toifa, joy va sanalar kerak. Ularni toʻldirib, “Qoralamani saqlash” yoki “Davom etish” tugmasini bosing.",
+    "leave": "Saqlanmagan oʻzgarishlar bor. Sahifani tark etsangiz, ular yoʻqoladi. Tark etilsinmi?",
+    "errorsSummary": "Ba’zi maydonlar e’tibor talab qiladi ({{count}}).",
+    "goToFirst": "Birinchisiga oʻtish",
+    "back": "Orqaga",
+    "continue": "Davom etish",
+    "saveDraft": "Qoralamani saqlash",
+    "saveChanges": "Oʻzgarishlarni saqlash",
+    "saving": "Saqlanmoqda…",
+    "submit": "Tasdiqlash uchun yuborish",
+    "resubmit": "Tuzatib, qayta yuborish",
+    "submitted": {
+      "title": "Koʻrib chiqish uchun yuborildi.",
+      "text": "Administrator tekshiradi. Tasdiqlansa yoki biror narsani tuzatish kerak boʻlsa, bildirishnoma olasiz."
+    },
+    "steps": {
+      "details": "Asosiy ma’lumotlar",
+      "images": "Rasmlar",
+      "venue": "Jadval va joy",
+      "tickets": "Chiptalar",
+      "translations": "Tarjimalar",
+      "review": "Tekshirish va yuborish"
+    },
+    "details": {
+      "title": "Tadbir nomi (inglizcha)",
+      "titleHint": "{{min}} dan {{max}} tagacha belgi. Tadbir sahifasida va chiptalarda koʻrsatiladi.",
+      "category": "Toifa",
+      "categoryPlaceholder": "Toifani tanlang",
+      "description": "Tavsif (inglizcha)",
+      "descriptionHint": "Ixtiyoriy. {{min}} dan {{max}} tagacha belgi (hozir {{count}} ta). Nima boʻladi, qancha davom etadi, mehmonlar nimani olib kelishi kerak.",
+      "english": "Nom va tavsifni shu yerda inglizcha yozing. Koreys, rus va oʻzbek tillari “Tarjimalar” bosqichida qoʻshiladi."
+    },
+    "images": {
+      "drop": "Tadbir rasmlarini shu yerga tashlang",
+      "rules": "JPG yoki PNG, har biri {{size}} MB gacha, kamida {{width}} × {{height}} px, {{max}} tagacha rasm.",
+      "choose": "Rasmlarni tanlash",
+      "uploading": "Yuklanmoqda…",
+      "none": "Hali rasm yoʻq. Yuborish uchun kamida bittasi kerak.",
+      "listLabel": "Tadbir rasmlari",
+      "alt": "Tadbir rasmi {{number}}",
+      "cover": "Muqova",
+      "moveEarlier": "Oldinga surish",
+      "moveLater": "Orqaga surish",
+      "remove": "Rasmni olib tashlash",
+      "hint": "Birinchi rasm muqova boʻladi. Turli qirqishlarda saqlanib qolishi uchun asosiy narsani markazga joylashtiring. Rasmda matn boʻlmasin: uni tarjima qilib boʻlmaydi.",
+      "max": "{{max}} tagacha rasm qoʻshish mumkin.",
+      "small": "oʻlchami {{dimensions}} px. {{width}} × {{height}} px va undan kattasi aniqroq koʻrinadi. Baribir qoʻshildi.",
+      "problem": {
+        "type": "JPG yoki PNG rasm emas.",
+        "size": "{{size}} MB dan katta."
+      }
+    },
+    "venue": {
+      "venue": "Joy",
+      "placeholder": "Joyni tanlang",
+      "loading": "Joylar yuklanmoqda…",
+      "loadError": "Joylarni yuklab boʻlmadi.",
+      "createLater": "Joyingizni topa olmayapsizmi? Joy yaratish keyingi yangilanishda qoʻshiladi.",
+      "capacity": "Sigʻimi: {{formatted}}",
+      "noCapacity": "Sigʻimi koʻrsatilmagan",
+      "tiers": "Oʻrindiq toifalari: {{count}}",
+      "noLayout": "Oʻrindiqlar sxemasi yoʻq, faqat umumiy kirish",
+      "seating": "Mehmonlar joyni qanday oladi?",
+      "seatingType": {
+        "RESERVED": "Joylar belgilangan",
+        "GENERAL": "Umumiy kirish"
+      },
+      "seatingText": {
+        "RESERVED": "Mehmonlar joyning oʻrindiqlar sxemasidan aniq oʻrindiqlarni tanlaydi. Sxemaning har bir toifasi uchun alohida chipta turi va narx bor.",
+        "GENERAL": "Belgilangan oʻrindiqlar yoʻq. Mehmonlar miqdorni tanlaydi, nechta chipta mavjudligini esa siz belgilaysiz."
+      },
+      "reservedUnavailable": "Bu joyda oʻrindiqli boʻlim yoʻq, shuning uchun u faqat umumiy kirishli tadbirlarni oʻtkaza oladi.",
+      "locked": {
+        "approved": "Tadbir tasdiqlangani uchun joy va joylashtirish turi bloklangan: oʻrindiqlar va buyurtmalar ularga bogʻlangan.",
+        "tickets": "Bu tadbir uchun chipta turlari allaqachon mavjud, shuning uchun joy va joylashtirish turi bloklangan. Chipta turlarini oʻchirib boʻlmaydi."
+      },
+      "startDate": "Boshlanish sanasi",
+      "startTime": "Boshlanish vaqti",
+      "endDate": "Tugash sanasi",
+      "endTime": "Tugash vaqti",
+      "zone": "Vaqt joyning vaqt zonasida koʻrsatiladi: {{zone}}.",
+      "zoneUnknown": "Avval joyni tanlang: vaqt uning vaqt zonasida hisoblanadi.",
+      "sameDay": "Xuddi shu kuni tugasin"
+    },
+    "tickets": {
+      "introGeneral": "Har bir narx uchun bittadan chipta turini qoʻshing, masalan Standart va VIP. Mehmonlar miqdorni tanlaydi, nechta chipta mavjudligini esa siz belgilaysiz.",
+      "introReserved": "Joy sxemasining har bir toifasi uchun bitta chipta turi bor. Nomi va narxini siz belgilaysiz; miqdor oʻrindiqlar soniga teng va uni oʻzgartirib boʻlmaydi.",
+      "approvedNote": "Tasdiqlangan tadbir chiptalaridagi oʻzgarishlar darhol kuchga kiradi va tadbirni qayta koʻrib chiqishga qaytarmaydi.",
+      "pickVenue": "Toifalarni koʻrish uchun oldingi bosqichda oʻrindiqlar sxemasi bor joyni tanlang.",
+      "ticketTitle": "Chipta turi {{number}}",
+      "tierTitle": "Toifa {{tier}}",
+      "tierSections": "Boʻlimlar: {{sections}}",
+      "name": "Nomi",
+      "price": "Narxi, ₩",
+      "quantity": "Mavjud chiptalar",
+      "quantityMin": "Kamida {{count}} ta, ya’ni allaqachon sotilgan miqdor.",
+      "seats": "Oʻrindiqlar",
+      "seatsHint": "Oʻrindiqlar sxemasidan hisoblanadi.",
+      "maxPerOrder": "Buyurtmada koʻpi bilan",
+      "pause": "Bu chipta turi sotuvini toʻxtatib turish",
+      "paused": "Toʻxtatilgan",
+      "onSale": "Sotuvda",
+      "soldOut": "Sotilib boʻldi",
+      "sold": "Sotilgan: {{formatted}}",
+      "remove": "Bu chipta turini olib tashlash",
+      "add": "Chipta turini qoʻshish",
+      "untouched": "Bu chipta turini yaratish uchun narx kiriting. Narxsiz toifalar saqlashda oʻtkazib yuboriladi, lekin yuborishdan oldin har biriga narx kerak.",
+      "noDelete": "Saqlangan chipta turlarini oʻchirib boʻlmaydi. Sotuvni toʻxtatish uchun uni pauzaga qoʻying.",
+      "commission": "Xaridorlar siz belgilagan narxni aynan shunday toʻlaydi. Ticketzy komissiyasi narxga qoʻshilmaydi, balki toʻlovingizdan ushlab qolinadi. Narxlar Janubiy Koreya voni (₩) da.",
+      "saleWindow": "Sotuv davri",
+      "saleWindowHint": "Ixtiyoriy. Boʻsh qoldirsangiz, sotuv tasdiqlangandan tadbirgacha davom etadi. Vaqt joyning vaqt zonasida koʻrsatiladi.",
+      "saleStartDate": "Sotuv boshlanish sanasi",
+      "saleStartTime": "Sotuv boshlanish vaqti",
+      "saleEndDate": "Sotuv tugash sanasi",
+      "saleEndTime": "Sotuv tugash vaqti"
+    },
+    "translations": {
+      "intro": "Tadbir inglizcha yozilgan. Har bir tashrif buyuruvchi uni oʻz tilida oʻqishi uchun koreys, rus va oʻzbek tillarini qoʻshing. Boʻsh qolgan til inglizchaga qaytadi.",
+      "tabs": "Tillar",
+      "locales": {
+        "KO": "Koreys",
+        "RU": "Rus",
+        "UZ": "Oʻzbek"
+      },
+      "filled": "toʻldirilgan",
+      "source": "Inglizcha (asl nusxa)",
+      "noDescription": "Tavsif yoʻq.",
+      "title": "Tadbir nomi, {{language}}",
+      "description": "Tavsif, {{language}}",
+      "titleHint": "{{min}} dan {{max}} tagacha belgi.",
+      "descriptionHint": "{{min}} dan {{max}} tagacha belgi.",
+      "fallback": "Til toʻldirilgan hisoblanishi uchun nom kerak. Nomsiz tavsif saqlanmaydi."
+    },
+    "review": {
+      "edit": "Tahrirlash",
+      "images": "Rasmlar: {{count}}",
+      "tickets": "Chiptalar: {{formatted}}",
+      "noTranslations": "Faqat inglizcha",
+      "fixErrors": "Ba’zi maydonlar e’tibor talab qiladi. Yuborishdan oldin ularni tuzating.",
+      "after": "Administrator har bir tadbirni sotuvga chiqishidan oldin tekshiradi. Yuborganingizdan keyin holat “Koʻrib chiqilmoqda” boʻladi va administrator qaror chiqarguncha tadbir bloklanadi."
+    },
+    "errors": {
+      "title": "3 dan 100 tagacha belgi kiriting.",
+      "category": "Toifani tanlang.",
+      "description": "5 dan 2000 tagacha belgi kiriting yoki boʻsh qoldiring.",
+      "tooMany": "8 tagacha rasm qoʻshish mumkin.",
+      "venue": "Joyni tanlang.",
+      "noLayout": "Bu joyda oʻrindiqli boʻlim yoʻq. Umumiy kirishni yoki boshqa joyni tanlang.",
+      "startRequired": "Boshlanish sanasi va vaqtini kiriting.",
+      "endRequired": "Tugash sanasi va vaqtini kiriting.",
+      "endBeforeStart": "Tugash vaqti boshlanishdan oldin boʻlishi mumkin emas.",
+      "incomplete": "Sana va vaqtni ikkalasini ham kiriting yoki ikkalasini ham tozalang.",
+      "saleEndBeforeStart": "Sotuv tugashi sotuv boshlanishidan oldin boʻlishi mumkin emas.",
+      "ticketName": "2 dan 60 tagacha belgi kiriting.",
+      "ticketPrice": "Narxni von bilan butun son sifatida kiriting. 0 — bepul.",
+      "ticketMax": "1 yoki undan katta butun son kiriting.",
+      "ticketQuantity": "1 yoki undan katta butun son kiriting.",
+      "belowSold": "Allaqachon sotilgan miqdordan kam boʻlishi mumkin emas."
+    }
+  },
+  "ai": {
+    "button": "AI bilan tarjima qilish",
+    "working": "Tarjima qilinmoqda…",
+    "needTitle": "Tarjima qilish uchun kamida 3 belgidan iborat tadbir nomini kiriting.",
+    "notSaved": "AI takliflari faqat koʻrib chiqish uchun koʻrsatiladi. Siz qabul qilmaguningizcha hech narsa toʻldirilmaydi va saqlanmaydi.",
+    "manual": "Tarjimalarni oʻzingiz ham yozishingiz mumkin.",
+    "createFirst": "Avval qoralamani saqlang (pastdagi “Qoralamani saqlash”), keyin tarjima qiling.",
+    "saveFirst": "Belgilangan maydonlarni tuzating va avval qoralamani saqlang, keyin tarjima qiling.",
+    "saveFirstApproved": "Avval tadbirdagi oʻzgarishlarni saqlang, keyin tarjima qiling. AI saqlangan inglizcha matnni oʻqiydi.",
+    "reviewTitle": "Takliflar tayyor.",
+    "reviewText": "Qabul qilishdan oldin har bir tilni oʻqib chiqing. Ijrochilar ismlari, sanalar va joy nomlarida koʻp xato boʻladi.",
+    "hasSuggestion": "taklif bor",
+    "suggestionFor": "Taklif: {{language}}",
+    "use": "Taklifdan foydalanish",
+    "replace": "Matnimni almashtirish",
+    "dismiss": "Rad etish",
+    "errors": {
+      "disabled": "Bu serverda AI tarjima mavjud emas.",
+      "rateLimited": "AIdan juda tez foydalanyapsiz. Bir daqiqa kutib, qayta urinib koʻring.",
+      "failed": "AI hozir javob bera olmadi. Keyinroq qayta urinib koʻring.",
+      "busy": "AI hozir band. Birozdan soʻng qayta urinib koʻring.",
+      "invalid": "AI javobidan foydalanib boʻlmadi. Qayta urinib koʻring.",
+      "locales": "Kamida bitta tilni tanlang."
+    }
+  },
+  "submit": {
+    "title": "Tasdiqlash uchun yuborilsinmi?",
+    "intro": "Administrator tadbirni sotuvga chiqishidan oldin tekshiradi. Avval quyidagilarni tekshiramiz:",
+    "checksLabel": "Nimalar tekshiriladi",
+    "check": {
+      "title": "Tadbirning nomi bor",
+      "image": "Kamida bitta rasm bor",
+      "dates": "Boshlanish va tugash vaqti kelajakda",
+      "venue": "Faol joy tanlangan",
+      "ticketType": "Kamida bitta chipta turi bor",
+      "layout": "Joyda oʻrindiqli boʻlim bor (joylar belgilangan)",
+      "tiers": "Har bir oʻrindiq toifasi uchun chipta turi bor"
+    },
+    "missing": "(yetishmaydi)",
+    "after": "Yuborganingizdan keyin holat “Koʻrib chiqilmoqda” boʻladi va administrator qaror chiqarguncha tadbirni tahrirlab boʻlmaydi. Rad etilsa, sababini koʻrasiz, tuzatib qayta yuborishingiz mumkin.",
+    "cancel": "Hozir emas",
+    "confirm": "Tasdiqlash uchun yuborish",
+    "sending": "Yuborilmoqda…",
+    "fix": "Tadbirni tuzatish"
+  },
+  "cancel": {
+    "title": "Bu tadbir bekor qilinsinmi?",
+    "intro": "Tasdiqlangan tadbir bekor qilinganda quyidagilar sodir boʻladi:",
+    "points": {
+      "closed": "Tadbir butunlay yopiladi. U ommaviy sahifalardan yoʻqoladi, uni tahrirlab yoki qayta ochib boʻlmaydi, sotuv toʻxtaydi.",
+      "refunds": "Barcha toʻlangan buyurtmalar avtomatik ravishda toʻliq qaytariladi, bosqichma-bosqich. Odatdagi qaytarish muddati qoʻllanmaydi.",
+      "used": "Allaqachon tekshiruvdan oʻtgan chiptalar uchun ham pul qaytariladi.",
+      "notices": "Har bir xaridor “Pul qaytarildi” bildirishnomasini oladi, siz esa nechta buyurtma qaytarilgani va nechtasi muvaffaqiyatsiz boʻlgani haqida bitta xulosa olasiz.",
+      "retry": "Pul qaytarilmagan buyurtma toʻlangan holatda qoladi va administrator qaytarishni qayta ishga tushirishi mumkin.",
+      "stock": "Oʻrindiqlar va chiptalar qayta sotuvga chiqmaydi."
+    },
+    "unavailableTitle": "Tasdiqlangan tadbirni hozircha oʻzingiz bekor qila olmaysiz.",
+    "unavailableText": "Tadbir nomi va sababni yozib, Ticketzy qoʻllab-quvvatlash xizmatiga murojaat qiling. Administrator uni bekor qiladi va yuqoridagi amallar avtomatik bajariladi.",
+    "close": "Yopish"
+  },
+  "notice": {
+    "rejected": {
+      "title": "Bu tadbir rad etilgan.",
+      "reason": "Administrator sababi: “{{reason}}”.",
+      "noReason": "Administrator sabab koʻrsatmadi.",
+      "next": "Tuzating va qayta yuboring."
+    },
+    "pending": {
+      "title": "Koʻrib chiqilmoqda.",
+      "text": "Administrator bu tadbirni tekshirmoqda, shuning uchun u bloklangan. Qaror chiqqach, sizga xabar beramiz."
+    },
+    "approved": {
+      "title": "Bu tadbir tasdiqlangan va sotuvda.",
+      "text": "Nimalarni oʻzgartirish mumkin:",
+      "points": {
+        "content": "Nom, toifa, tavsif, rasmlar, sanalar, sotuv davri va tarjimalarni tahrirlash mumkin, lekin ulardan istalganini saqlash tadbirni qayta koʻrib chiqishga qaytaradi va yana tasdiqlanguncha sotuvdan olib tashlaydi.",
+        "tickets": "Chipta turlari (nomi, narxi, miqdori, pauza) yangi koʻrib chiqishsiz darhol kuchga kiradi. Allaqachon sotilgan miqdordan kamaytirib boʻlmaydi.",
+        "locked": "Joy va joylashtirish turi bloklangan, chunki oʻrindiqlar va buyurtmalar ularga bogʻlangan.",
+        "seats": "Joylar belgilangan chiptalarda miqdor oʻrindiqlar sonidan olinadi va toifani oʻzgartirib boʻlmaydi."
+      }
+    },
+    "cancelled": {
+      "title": "Bu tadbir bekor qilingan.",
+      "reason": "Sabab: “{{reason}}”.",
+      "text": "Uni tahrirlab boʻlmaydi. Toʻlangan buyurtmalar uchun pul qaytarilgan."
+    },
+    "ended": {
+      "title": "Bu tadbir tugagan.",
+      "text": "Uni tahrirlab boʻlmaydi."
+    }
+  },
+  "rereview": {
+    "title": "Bu tadbir qayta koʻrib chiqishga yuborilsinmi?",
+    "text": "Tasdiqlangan tadbirdagi oʻzgarishlarni saqlash yangi koʻrib chiqishni talab qiladi:",
+    "points": {
+      "offSale": "Koʻrib chiqilayotgan vaqtda tadbir ommaviy emas va hech kim chipta sotib ola olmaydi.",
+      "tickets": "Allaqachon sotilgan chiptalar amal qilishda davom etadi.",
+      "again": "Administrator uni yana tasdiqlaganda sizga xabar beramiz."
+    },
+    "cancel": "Tahrirlashni davom ettirish",
+    "confirm": "Saqlash va koʻrib chiqishga yuborish"
+  },
+  "edit": {
+    "notFound": {
+      "title": "Tadbir topilmadi",
+      "text": "U oʻchirilgan boʻlishi yoki boshqa tashkilotchiga tegishli boʻlishi mumkin."
+    },
+    "loadError": {
+      "title": "Tadbirni yuklab boʻlmadi"
+    }
+  }
+}

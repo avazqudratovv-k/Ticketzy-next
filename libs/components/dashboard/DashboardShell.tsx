@@ -24,7 +24,8 @@ const isCurrent = (item: NavItem, pathname: string) =>
 const DashboardShell = ({ role, children }: { role: DashboardRole; children: React.ReactNode }) => {
 	const { t } = useTranslation('common');
 	const router = useRouter();
-	const { isPendingOrganizer } = useAuth();
+	const { organizerAccess } = useAuth();
+	const createLocked = organizerAccess !== null && organizerAccess !== 'active';
 	const { user, allowed } = useRequireRole(role);
 	const [open, setOpen] = useState(false);
 	const isAdmin = role === MemberType.ADMIN;
@@ -71,15 +72,15 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 						{!isAdmin && (
 							<div>
 								<Button
-									component={isPendingOrganizer ? 'button' : Link}
-									{...(isPendingOrganizer ? { disabled: true } : { href: '/organizer/events/new' })}
+									component={createLocked ? 'button' : Link}
+									{...(createLocked ? { disabled: true } : { href: '/organizer/events/new' })}
 									variant="contained"
 									fullWidth
 									startIcon={<Plus size={20} aria-hidden />}
 								>
 									{t('dashboard.createEvent')}
 								</Button>
-								{isPendingOrganizer && <p className="tz-sidebar__locked">{t('dashboard.createEventLocked')}</p>}
+								{createLocked && <p className="tz-sidebar__locked">{t(`dashboard.createEventLocked_${organizerAccess}`)}</p>}
 							</div>
 						)}
 						<nav aria-label={roleLabel}>

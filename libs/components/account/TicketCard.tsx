@@ -5,16 +5,17 @@ import { CalendarBlank, MapPin, Ticket } from 'phosphor-react';
 import { formatEventDate } from '../../format';
 import { ticketState } from '../../account/tickets';
 import { ticketUrl } from '../../routes';
-import { AccountTicket, VenueBrief } from '../../types/account';
+import { AccountTicket } from '../../types/account';
 import EventImage from '../events/EventImage';
 import { eventTitleOf } from './OrderRow';
 import { TicketBadge } from './StatusBadge';
 
 /** One ticket (design: TicketCard): event, date and time in the venue's zone, venue, seat and status. */
-const TicketCard = ({ ticket, venue }: { ticket: AccountTicket; venue?: VenueBrief }) => {
+const TicketCard = ({ ticket }: { ticket: AccountTicket }) => {
 	const { t } = useTranslation('account');
 	const { locale } = useRouter();
 	const event = ticket.eventData;
+	const venue = event?.venueData;
 	const state = ticketState(ticket);
 	const seat = ticket.seatData;
 
