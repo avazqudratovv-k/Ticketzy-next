@@ -321,7 +321,16 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 				onClose={() => setSubmitOpen(false)}
 				onConfirm={confirmSubmit}
 			/>
-			<CancelDialog open={cancelOpen} eventTitle={values.title} onClose={() => setCancelOpen(false)} />
+			{event && (
+				<CancelDialog
+					open={cancelOpen}
+					eventId={event._id}
+					eventTitle={values.title}
+					onClose={() => setCancelOpen(false)}
+					// the page reloads so the form shows the event as cancelled, with its reason
+					onCancelled={() => router.reload()}
+				/>
+			)}
 			<Dialog open={Boolean(confirmReview)} onClose={() => setConfirmReview(null)} aria-labelledby="rereview-title" fullWidth maxWidth="xs">
 				<DialogTitle id="rereview-title">{t('rereview.title')}</DialogTitle>
 				<DialogContent>

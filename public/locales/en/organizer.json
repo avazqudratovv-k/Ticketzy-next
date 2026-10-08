@@ -50,7 +50,9 @@
     "saleStartAfterEventEnd": "Ticket sales must start before the event ends.",
     "eventEnded": "This event has ended, so tickets can no longer be bought.",
     "salesNotStarted": "Ticket sales for this event haven’t started yet.",
-    "salesClosed": "Ticket sales for this event are closed."
+    "salesClosed": "Ticket sales for this event are closed.",
+    "cancelReasonRequired": "Write a reason for cancelling. Buyers see it.",
+    "alreadyClosed": "This event is already cancelled or has ended, so it can’t be cancelled again."
   },
   "blocked": {
     "reason": "Reason given: {{reason}}",
@@ -86,7 +88,7 @@
     "revenue": "Revenue",
     "commission": "Commission",
     "netPayout": "Your payout",
-    "salesNote": "All time, from paid orders. Refunded orders are not counted. Detailed sales, attendees and payouts come with the sales screens.",
+    "salesNote": "All time, from paid orders. Refunded orders are not counted; commission is taken out of your payout.",
     "salesError": "We couldn’t load your sales figures.",
     "upcoming": "Upcoming events",
     "allEvents": "All events",
@@ -95,8 +97,26 @@
     "soldBar": "Tickets sold for {{title}}",
     "attention": "Needs your attention",
     "recentOrders": "Recent orders",
-    "ordersSoonTitle": "Coming with the sales screens.",
-    "ordersSoonText": "The backend has no list of orders across your events yet, so this card stays empty for now."
+    "orders": "Paid orders",
+    "upcomingCount": "Upcoming events",
+    "otherCurrencies": "Orders in other currencies ({{currencies}}) are not included above.",
+    "refunded": "Refunded so far: {{amount}}.",
+    "ordersError": "We couldn’t load your recent orders.",
+    "noOrdersTitle": "No orders yet.",
+    "noOrdersText": "Orders from buyers appear here as soon as they are placed.",
+    "orderLine": "Tickets: {{count}} · {{total}}",
+    "chart": {
+      "title": "Revenue, last {{days}} days",
+      "label": "Revenue per day",
+      "hover": "Hover or focus a bar to see the day.",
+      "orders": "Orders: {{count}}",
+      "ordersCol": "Paid orders",
+      "day": "Day",
+      "error": "We couldn’t load the sales chart.",
+      "empty": "No paid orders yet, so there is nothing to chart.",
+      "quiet": "No sales in the last {{days}} days.",
+      "truncated": "Built from your latest {{count}} paid orders; the earliest days may be incomplete."
+    }
   },
   "list": {
     "title": "My events",
@@ -134,7 +154,8 @@
       "submit": "Submit",
       "resubmit": "Resubmit",
       "publicPage": "Public page",
-      "cancel": "Cancel event"
+      "cancel": "Cancel event",
+      "orders": "Orders"
     },
     "showing": "Showing {{from}}–{{to}} of {{total}}",
     "cap": "Only the first {{limit}} events of this status are searched and listed.",
@@ -398,9 +419,15 @@
       "retry": "An order that fails to refund stays paid and an admin can run the refunds again.",
       "stock": "Seats and tickets do not go back on sale."
     },
-    "unavailableTitle": "You can’t cancel an approved event yourself yet.",
-    "unavailableText": "Contact Ticketzy support with the event name and the reason. An admin cancels it, and the steps above run automatically.",
-    "close": "Close"
+    "refundTitle": "Every buyer will be refunded.",
+    "refundText": "All paid orders of this event are refunded in full automatically. This can’t be undone.",
+    "reasonLabel": "Reason for cancelling",
+    "reasonHint": "Required. Up to 500 characters. It is saved with the event.",
+    "reasonRequired": "A reason is required to cancel the event.",
+    "keep": "Keep the event",
+    "confirm": "Cancel event and refund buyers",
+    "sending": "Cancelling…",
+    "done": "“{{title}}” was cancelled. Buyers are being refunded."
   },
   "notice": {
     "rejected": {
@@ -719,6 +746,160 @@
       "notFound": {
         "title": "Venue not found",
         "text": "It may have been removed, or the link is wrong."
+      }
+    }
+  },
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Orders for {{title}}",
+    "back": "Back to events",
+    "openEvent": "Open event",
+    "tabsLabel": "Order status",
+    "loading": "Loading orders",
+    "status": {
+      "PAID": "Paid",
+      "REFUNDED": "Refunded",
+      "PENDING_PAYMENT": "Awaiting payment",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled",
+      "EXPIRED": "Expired"
+    },
+    "sorts": {
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "amountDesc": "Amount, high to low",
+      "amountAsc": "Amount, low to high"
+    },
+    "cols": {
+      "buyer": "Buyer",
+      "tickets": "Tickets",
+      "amount": "Amount",
+      "commission": "Commission",
+      "status": "Status",
+      "date": "Date"
+    },
+    "unknownBuyer": "Unknown buyer",
+    "unknownType": "Ticket",
+    "seatShort": "{{section}} · row {{row}} · {{seats}}",
+    "more": "+{{count}} more",
+    "error": {
+      "title": "We couldn’t load the orders",
+      "text": "Something went wrong while loading. Try again."
+    },
+    "empty": {
+      "title": "No orders yet",
+      "text": "When someone buys tickets for this event, the order shows up here."
+    },
+    "none": {
+      "title": "No orders with this status",
+      "text": "Try another status.",
+      "clear": "Show all orders"
+    },
+    "drawer": {
+      "title": "Order {{number}}",
+      "close": "Close",
+      "placed": "Placed",
+      "paid": "Paid",
+      "refunded": "Refunded",
+      "tickets": "Tickets ({{count}})",
+      "seats": "Seats",
+      "rowSeats": "Row {{row}}: {{seats}}",
+      "money": "Money",
+      "buyerPaid": "Buyer paid",
+      "commission": "Commission ({{rate}}%)",
+      "payout": "Your payout",
+      "refundNote": "This order was refunded to the buyer.",
+      "pendingNote": "This order is waiting for payment and is not counted in your sales yet."
+    }
+  },
+  "checkin": {
+    "title": "Check-in",
+    "subtitle": "Scan tickets at the door. Each QR code works once.",
+    "event": "Event",
+    "choose": "Choose an event",
+    "chooseFirst": "Choose the event you are checking people into. A ticket for any other event will be refused.",
+    "loading": "Loading events",
+    "error": {
+      "title": "We couldn’t load your events",
+      "text": "Check your connection and try again."
+    },
+    "noEvents": {
+      "title": "No event to check in",
+      "text": "Check-in is open for approved events that haven’t ended.",
+      "action": "Go to my events"
+    },
+    "camera": {
+      "hint": "Point the camera at the QR code on the ticket.",
+      "start": "Turn on camera",
+      "stop": "Turn off camera",
+      "retry": "Try the camera again",
+      "switch": "Switch camera",
+      "starting": "Starting the camera…",
+      "denied": "Camera access was blocked. Allow it in your browser settings, or type the code below.",
+      "unavailable": "No camera could be started on this device. Type the code below."
+    },
+    "manual": {
+      "label": "Scanner not reading? Enter the ticket’s QR code text",
+      "placeholder": "Paste the QR code text",
+      "hint": "This is the long code inside the QR code, not the short ticket code.",
+      "submit": "Check ticket"
+    },
+    "checking": "Checking…",
+    "waiting": "The result of the next scan appears here.",
+    "seat": "{{section}}, row {{row}}, seat {{number}}",
+    "general": "General admission",
+    "count": "Checked in",
+    "of": "of {{total}}",
+    "recent": "Recent scans",
+    "recentEmpty": "No scans yet in this session.",
+    "recentNote": "Only scans made on this screen are listed. Opening the page again clears the list.",
+    "badge": {
+      "valid": "Valid",
+      "used": "Used",
+      "wrongEvent": "Wrong event",
+      "refunded": "Refunded",
+      "invalid": "Invalid",
+      "notOpen": "Closed",
+      "notAllowed": "Not allowed",
+      "network": "No connection",
+      "error": "Error"
+    },
+    "result": {
+      "valid": {
+        "title": "Valid ticket. Let them in.",
+        "text": "Checked in just now. This code will not scan again."
+      },
+      "used": {
+        "title": "Already used. Do not admit.",
+        "text": "This ticket was already checked in. Ask to see ID if the guest disputes it."
+      },
+      "wrongEvent": {
+        "title": "Wrong event.",
+        "text": "This ticket is for a different event. Do not admit unless you chose the wrong event above."
+      },
+      "refunded": {
+        "title": "Refunded. Do not admit.",
+        "text": "This ticket was refunded and is no longer valid."
+      },
+      "invalid": {
+        "title": "Invalid code.",
+        "text": "This is not a valid Ticketzy ticket, or it was changed. Do not admit."
+      },
+      "notOpen": {
+        "title": "Check-in is closed.",
+        "text": "Check-in only works for approved events that haven’t ended."
+      },
+      "notAllowed": {
+        "title": "Not allowed.",
+        "text": "Your account can’t check in tickets for this event."
+      },
+      "network": {
+        "title": "No connection.",
+        "text": "Nothing was checked in. Check your connection and scan again."
+      },
+      "error": {
+        "title": "Couldn’t check the ticket.",
+        "text": "Something went wrong. Try again."
       }
     }
   }

@@ -32,13 +32,15 @@ export type EditMode = 'full' | 'review' | 'locked';
 export const editModeOf = (status: EventStatus): EditMode =>
 	status === 'DRAFT' || status === 'REJECTED' ? 'full' : status === 'APPROVED' ? 'review' : 'locked';
 
-/** Actions a row offers per status. Duplicate and organizer-side cancel do not exist in the backend (see DECISIONS). */
+/** Actions a row offers per status. Duplicate does not exist in the backend (see DECISIONS); cancel is `cancelMyEvent`. */
 export interface RowActions {
 	edit: boolean;
 	view: boolean;
 	submit: boolean;
 	cancel: boolean;
 	publicPage: boolean;
+	/** orders exist once an event was approved (a cancelled or ended event keeps its orders) */
+	orders: boolean;
 }
 
 export function rowActions(status: EventStatus): RowActions {
@@ -48,6 +50,7 @@ export function rowActions(status: EventStatus): RowActions {
 		submit: status === 'DRAFT' || status === 'REJECTED',
 		cancel: status === 'APPROVED',
 		publicPage: status === 'APPROVED',
+		orders: status === 'APPROVED' || status === 'CANCELLED' || status === 'ENDED',
 	};
 }
 

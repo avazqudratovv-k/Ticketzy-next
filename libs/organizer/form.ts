@@ -147,6 +147,15 @@ export function tiersOfVenue(venue?: OrgVenue | null): Tier[] {
 	return Array.from(tiers.values());
 }
 
+/**
+ * Default name of a tier row: the section's own name when the tier is one section, otherwise the tier key as a short label
+ * (a tier of many table sections must not become a 200 character list). The organizer can edit it.
+ */
+export function defaultTierName(tier: { tierKey: string; sections: string[] }): string {
+	const name = tier.sections.length === 1 ? tier.sections[0] : tier.tierKey.replace(/[-_]+/g, ' ').trim().replace(/^./, (c) => c.toUpperCase());
+	return (name || tier.sections[0] || '').slice(0, LIMITS.ticketName.max);
+}
+
 /** A venue can host a RESERVED event only with at least one SEATED section (backend DECISIONS #41). */
 export const venueSupportsReserved = (venue?: OrgVenue | null) => tiersOfVenue(venue).length > 0;
 
@@ -159,7 +168,7 @@ export function rowsForSeating(rows: TicketRow[], seatingType: 'GENERAL' | 'RESE
 	const tiers = tiersOfVenue(venue);
 	const byTier = new Map(rows.filter((row) => row.tierKey).map((row) => [row.tierKey, row]));
 	const result = tiers.map((tier) => {
-		const row = byTier.get(tier.tierKey) ?? newRow({ tierKey: tier.tierKey, name: tier.sections.join(', ') });
+		const row = byTier.get(tier.tierKey) ?? newRow({ tierKey: tier.tierKey, name: defaultTierName(tier) });
 		return { ...row, seatCount: tier.seats, quantity: String(tier.seats) };
 	});
 	// saved rows whose tier is no longer in the layout stay visible so nothing silently disappears

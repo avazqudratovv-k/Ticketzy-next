@@ -114,9 +114,19 @@
 		overflow-wrap: anywhere;
 	}
 }
-ul.org-stats:nth-of-type(2) {
+.org-stats--sales {
+	.org-stat__value {
+		white-space: nowrap;
+		@media (max-width: 479px) {
+			font-size: 18px;
+			line-height: 24px;
+		}
+	}
+	@media (min-width: 768px) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
 	@media (min-width: 1200px) {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
@@ -1015,5 +1025,353 @@ input.tz-input[type='time'] {
 		padding: var(--space-3) var(--space-6) var(--space-5);
 		gap: var(--space-2);
 		flex-wrap: wrap;
+	}
+}
+
+
+/** ORDERS, CANCEL, DASHBOARD CHART, CHECK-IN **/
+.org-mono {
+	font-family: var(--font-mono);
+	letter-spacing: 0.02em;
+}
+.org-btn-danger-solid.MuiButton-contained {
+	background: var(--danger);
+	color: var(--on-danger);
+	&:hover {
+		background: var(--danger);
+		filter: brightness(0.92);
+	}
+	&.Mui-disabled {
+		opacity: 0.6;
+		color: var(--on-danger);
+	}
+}
+
+.org-table--orders .org-row {
+	@media (min-width: 1024px) {
+		grid-template-columns: minmax(0, 1.6fr) minmax(0, 2fr) minmax(110px, 1fr) minmax(100px, 0.9fr) minmax(140px, 1.1fr) minmax(130px, 1.1fr);
+	}
+	.org-linkbtn {
+		text-align: start;
+	}
+}
+
+.org-drawer.MuiPaper-root {
+	width: min(100vw, 460px);
+	background: var(--surface);
+	color: var(--ink);
+	background-image: none;
+}
+.org-drawer__head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-3);
+	padding: var(--space-4) var(--space-4) var(--space-3);
+	border-bottom: 1px solid var(--border);
+	> div {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		align-items: flex-start;
+		min-width: 0;
+	}
+	h2 {
+		margin: 0;
+		font: var(--text-title);
+		overflow-wrap: anywhere;
+	}
+	.MuiIconButton-root {
+		color: var(--ink);
+	}
+}
+.org-drawer__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	padding: var(--space-4);
+	overflow-y: auto;
+}
+.org-drawer__sub {
+	margin: var(--space-2) 0 0;
+	font: var(--text-label-lg);
+}
+.org-dl {
+	display: grid;
+	gap: var(--space-2);
+	margin: 0;
+	> div {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+	}
+	dt {
+		color: var(--ink-muted);
+		font: var(--text-body-sm);
+	}
+	dd {
+		margin: 0;
+		text-align: end;
+		font: var(--text-label);
+		overflow-wrap: anywhere;
+	}
+}
+.org-lines {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	li {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		font: var(--text-body-sm);
+		font-variant-numeric: tabular-nums;
+	}
+	.is-total {
+		padding-top: var(--space-2);
+		border-top: 1px solid var(--border);
+		font: var(--text-label-lg);
+	}
+}
+.org-seats {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font: var(--text-body-sm);
+	li {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+}
+
+.org-chart {
+	margin: 0;
+	&__readout {
+		min-height: 24px;
+		margin-bottom: var(--space-2);
+		font: var(--text-body-sm);
+	}
+	&__svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+	&__axis {
+		stroke: var(--border);
+		stroke-width: 1;
+	}
+	&__bar {
+		fill: var(--info-text);
+		opacity: 0.85;
+		&.is-active {
+			opacity: 1;
+		}
+	}
+	&__tick {
+		fill: var(--ink-muted);
+		font: 12px/1 var(--font-sans);
+	}
+	rect:focus-visible {
+		outline: 2px solid var(--focus);
+	}
+}
+
+.org-checkin {
+	&__cols {
+		display: grid;
+		gap: var(--space-5);
+		align-items: start;
+		@media (min-width: 1024px) {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		}
+	}
+	&__main,
+	&__side {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		min-width: 0;
+	}
+	// phone: the result comes first so it is on screen right after a scan, then the scanner, the manual form, the count and the recent list
+	@media (max-width: 1023px) {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		&__main,
+		&__side {
+			display: contents;
+		}
+		&__side > :nth-child(1) {
+			order: 1;
+		}
+		&__main > :nth-child(1) {
+			order: 2;
+		}
+		&__main > :nth-child(2) {
+			order: 3;
+		}
+		&__side > :nth-child(2) {
+			order: 4;
+		}
+		&__side > :nth-child(3) {
+			order: 5;
+		}
+	}
+}
+.org-manual {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	align-items: stretch;
+	.MuiButton-root {
+		align-self: flex-start;
+	}
+}
+.org-count {
+	font: var(--text-body-sm);
+	color: var(--ink-muted);
+	strong {
+		font: var(--text-h2);
+		color: var(--ink);
+	}
+}
+.org-scan {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	&__view {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 240px;
+		overflow: hidden;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: var(--surface-sunken);
+		&.is-on {
+			min-height: 0;
+			background: #000;
+		}
+	}
+	// kept in the layout (the library measures it when it starts) but out of the flow until the camera runs
+	&__region {
+		width: 100%;
+		.org-scan__view:not(.is-on) & {
+			position: absolute;
+			visibility: hidden;
+		}
+		video {
+			display: block;
+			width: 100% !important;
+		}
+	}
+	&__idle {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-5);
+		text-align: center;
+		color: var(--ink-muted);
+		p {
+			margin: 0;
+			max-width: 32ch;
+			font: var(--text-body-sm);
+		}
+	}
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		.MuiButton-root {
+			min-height: 48px;
+		}
+	}
+}
+.org-result {
+	display: flex;
+	gap: var(--space-4);
+	align-items: flex-start;
+	padding: var(--space-5) var(--space-4);
+	border: 2px solid currentColor;
+	border-radius: var(--radius-lg);
+	&--success {
+		color: var(--success-text);
+		background: var(--success-soft);
+	}
+	&--danger {
+		color: var(--danger-text);
+		background: var(--danger-soft);
+	}
+	&--warning {
+		color: var(--warning-text);
+		background: var(--warning-soft);
+	}
+	&__icon {
+		flex: none;
+		display: flex;
+	}
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		min-width: 0;
+		color: var(--ink);
+	}
+	&__title {
+		margin: 0;
+		font: var(--text-h2);
+		color: inherit;
+		overflow-wrap: anywhere;
+	}
+	&__who {
+		margin: 0;
+		font: var(--text-label-lg);
+		overflow-wrap: anywhere;
+	}
+	&__code {
+		margin: 0;
+		font: var(--text-code);
+		letter-spacing: var(--tracking-code);
+	}
+	&__text {
+		margin: 0;
+		font: var(--text-body);
+	}
+}
+.org-result-empty {
+	padding: var(--space-4);
+	border: 1px dashed var(--border-control);
+	border-radius: var(--radius-lg);
+}
+.org-recent {
+	display: flex;
+	flex-direction: column;
+	margin: 0 0 var(--space-3);
+	padding: 0;
+	list-style: none;
+	li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--space-3) 0;
+		border-top: 1px solid var(--border);
+		&:first-child {
+			border-top: 0;
+		}
+		> div {
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+		}
 	}
 }

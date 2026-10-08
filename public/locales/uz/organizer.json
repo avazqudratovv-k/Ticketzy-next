@@ -50,7 +50,9 @@
     "saleStartAfterEventEnd": "Chipta sotuvi tadbir tugashidan oldin boshlanishi kerak.",
     "eventEnded": "Tadbir tugadi, endi chipta sotib olib boʻlmaydi.",
     "salesNotStarted": "Bu tadbir uchun chipta sotuvi hali boshlanmagan.",
-    "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan."
+    "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan.",
+    "cancelReasonRequired": "Bekor qilish sababini yozing. Xaridorlar uni koʻradi.",
+    "alreadyClosed": "Tadbir allaqachon bekor qilingan yoki tugagan, shuning uchun uni qayta bekor qilib boʻlmaydi."
   },
   "blocked": {
     "reason": "Koʻrsatilgan sabab: {{reason}}",
@@ -86,7 +88,7 @@
     "revenue": "Tushum",
     "commission": "Komissiya",
     "netPayout": "Sizning toʻlovingiz",
-    "salesNote": "Butun davr uchun, toʻlangan buyurtmalar boʻyicha. Pul qaytarilgan buyurtmalar hisobga olinmaydi. Batafsil sotuvlar, qatnashchilar va toʻlovlar sotuv ekranlari bilan birga keladi.",
+    "salesNote": "Butun davr uchun, toʻlangan buyurtmalar boʻyicha. Qaytarilgan buyurtmalar hisobga olinmaydi; komissiya sizning toʻlovingizdan ushlab qolinadi.",
     "salesError": "Sotuv koʻrsatkichlarini yuklab boʻlmadi.",
     "upcoming": "Yaqinlashayotgan tadbirlar",
     "allEvents": "Barcha tadbirlar",
@@ -95,8 +97,26 @@
     "soldBar": "{{title}} uchun sotilgan chiptalar",
     "attention": "E’tibor talab qiladi",
     "recentOrders": "Soʻnggi buyurtmalar",
-    "ordersSoonTitle": "Sotuv ekranlari bilan birga keladi.",
-    "ordersSoonText": "Backendda hozircha barcha tadbirlaringiz boʻyicha buyurtmalar roʻyxati yoʻq, shuning uchun bu karta hozircha boʻsh."
+    "orders": "Toʻlangan buyurtmalar",
+    "upcomingCount": "Kutilayotgan tadbirlar",
+    "otherCurrencies": "Boshqa valyutadagi ({{currencies}}) buyurtmalar yuqoridagi raqamlarga kirmaydi.",
+    "refunded": "Hozircha qaytarilgan: {{amount}}.",
+    "ordersError": "Oxirgi buyurtmalarni yuklab boʻlmadi.",
+    "noOrdersTitle": "Hozircha buyurtmalar yoʻq.",
+    "noOrdersText": "Xaridorlarning buyurtmalari berilishi bilan shu yerda paydo boʻladi.",
+    "orderLine": "Chiptalar: {{count}} · {{total}}",
+    "chart": {
+      "title": "Soʻnggi {{days}} kunlik tushum",
+      "label": "Kunlik tushum",
+      "hover": "Kunni koʻrish uchun ustunning ustiga olib boring yoki fokus bering.",
+      "orders": "Buyurtmalar: {{count}}",
+      "ordersCol": "Toʻlangan buyurtmalar",
+      "day": "Kun",
+      "error": "Sotuvlar grafigini yuklab boʻlmadi.",
+      "empty": "Toʻlangan buyurtmalar hali yoʻq, grafik chizish uchun maʼlumot yoʻq.",
+      "quiet": "Soʻnggi {{days}} kunda sotuv boʻlmadi.",
+      "truncated": "Grafik oxirgi {{count}} ta toʻlangan buyurtma asosida tuzilgan; eng erta kunlar toʻliq boʻlmasligi mumkin."
+    }
   },
   "list": {
     "title": "Mening tadbirlarim",
@@ -134,7 +154,8 @@
       "submit": "Yuborish",
       "resubmit": "Qayta yuborish",
       "publicPage": "Ommaviy sahifa",
-      "cancel": "Tadbirni bekor qilish"
+      "cancel": "Tadbirni bekor qilish",
+      "orders": "Buyurtmalar"
     },
     "showing": "{{total}} tadan {{from}}–{{to}} koʻrsatilmoqda",
     "cap": "Qidiruv va roʻyxat shu holatdagi dastlabki {{limit}} ta tadbir bilan cheklangan.",
@@ -398,9 +419,15 @@
       "retry": "Pul qaytarilmagan buyurtma toʻlangan holatda qoladi va administrator qaytarishni qayta ishga tushirishi mumkin.",
       "stock": "Oʻrindiqlar va chiptalar qayta sotuvga chiqmaydi."
     },
-    "unavailableTitle": "Tasdiqlangan tadbirni hozircha oʻzingiz bekor qila olmaysiz.",
-    "unavailableText": "Tadbir nomi va sababni yozib, Ticketzy qoʻllab-quvvatlash xizmatiga murojaat qiling. Administrator uni bekor qiladi va yuqoridagi amallar avtomatik bajariladi.",
-    "close": "Yopish"
+    "refundTitle": "Barcha xaridorlarga pul qaytariladi.",
+    "refundText": "Bu tadbirning barcha toʻlangan buyurtmalari avtomatik ravishda toʻliq qaytariladi. Buni bekor qilib boʻlmaydi.",
+    "reasonLabel": "Bekor qilish sababi",
+    "reasonHint": "Majburiy. 500 belgigacha. Tadbir bilan birga saqlanadi.",
+    "reasonRequired": "Tadbirni bekor qilish uchun sabab kerak.",
+    "keep": "Tadbirni qoldirish",
+    "confirm": "Tadbirni bekor qilish va pulni qaytarish",
+    "sending": "Bekor qilinmoqda…",
+    "done": "“{{title}}” tadbiri bekor qilindi. Xaridorlarga pul qaytarilmoqda."
   },
   "notice": {
     "rejected": {
@@ -719,6 +746,160 @@
       "notFound": {
         "title": "Joy topilmadi",
         "text": "U oʻchirilgan yoki havola notoʻgʻri boʻlishi mumkin."
+      }
+    }
+  },
+  "orders": {
+    "title": "Buyurtmalar",
+    "subtitle": "“{{title}}” uchun buyurtmalar",
+    "back": "Tadbirlarga qaytish",
+    "openEvent": "Tadbirni ochish",
+    "tabsLabel": "Buyurtma holati",
+    "loading": "Buyurtmalar yuklanmoqda",
+    "status": {
+      "PAID": "Toʻlangan",
+      "REFUNDED": "Qaytarilgan",
+      "PENDING_PAYMENT": "Toʻlov kutilmoqda",
+      "FAILED": "Muvaffaqiyatsiz",
+      "CANCELLED": "Bekor qilingan",
+      "EXPIRED": "Muddati oʻtgan"
+    },
+    "sorts": {
+      "newest": "Avval yangilari",
+      "oldest": "Avval eskilari",
+      "amountDesc": "Summa: kamayish tartibida",
+      "amountAsc": "Summa: oshish tartibida"
+    },
+    "cols": {
+      "buyer": "Xaridor",
+      "tickets": "Chiptalar",
+      "amount": "Summa",
+      "commission": "Komissiya",
+      "status": "Holat",
+      "date": "Sana"
+    },
+    "unknownBuyer": "Nomaʼlum xaridor",
+    "unknownType": "Chipta",
+    "seatShort": "{{section}} · {{row}}-qator · {{seats}}",
+    "more": "yana {{count}} ta",
+    "error": {
+      "title": "Buyurtmalarni yuklab boʻlmadi",
+      "text": "Yuklashda xatolik yuz berdi. Qayta urinib koʻring."
+    },
+    "empty": {
+      "title": "Hozircha buyurtmalar yoʻq",
+      "text": "Kimdir bu tadbirga chipta sotib olganda, buyurtma shu yerda koʻrinadi."
+    },
+    "none": {
+      "title": "Bu holatdagi buyurtmalar yoʻq",
+      "text": "Boshqa holatni tanlab koʻring.",
+      "clear": "Barcha buyurtmalarni koʻrsatish"
+    },
+    "drawer": {
+      "title": "Buyurtma {{number}}",
+      "close": "Yopish",
+      "placed": "Berilgan",
+      "paid": "Toʻlangan",
+      "refunded": "Qaytarilgan",
+      "tickets": "Chiptalar ({{count}})",
+      "seats": "Oʻrindiqlar",
+      "rowSeats": "{{row}}-qator: {{seats}}",
+      "money": "Pul",
+      "buyerPaid": "Xaridor toʻlagan",
+      "commission": "Komissiya ({{rate}}%)",
+      "payout": "Sizning toʻlovingiz",
+      "refundNote": "Bu buyurtma boʻyicha xaridorga pul qaytarilgan.",
+      "pendingNote": "Bu buyurtma toʻlovni kutmoqda va hali sotuvlaringizga kirmaydi."
+    }
+  },
+  "checkin": {
+    "title": "Kirish tekshiruvi",
+    "subtitle": "Eshikda chiptalarni skanerlang. Har bir QR kod faqat bir marta ishlaydi.",
+    "event": "Tadbir",
+    "choose": "Tadbirni tanlang",
+    "chooseFirst": "Odamlarni kiritayotgan tadbiringizni tanlang. Boshqa tadbirning chiptasi rad etiladi.",
+    "loading": "Tadbirlar yuklanmoqda",
+    "error": {
+      "title": "Tadbirlarni yuklab boʻlmadi",
+      "text": "Aloqani tekshirib, qayta urinib koʻring."
+    },
+    "noEvents": {
+      "title": "Tekshiruv uchun tadbir yoʻq",
+      "text": "Kirish tekshiruvi tasdiqlangan va hali tugamagan tadbirlar uchun ishlaydi.",
+      "action": "Mening tadbirlarimga oʻtish"
+    },
+    "camera": {
+      "hint": "Kamerani chiptadagi QR kodga qarating.",
+      "start": "Kamerani yoqish",
+      "stop": "Kamerani oʻchirish",
+      "retry": "Kamerani qayta urinib koʻrish",
+      "switch": "Kamerani almashtirish",
+      "starting": "Kamera ishga tushmoqda…",
+      "denied": "Kameraga ruxsat bloklangan. Brauzer sozlamalarida ruxsat bering yoki kodni pastga kiriting.",
+      "unavailable": "Bu qurilmada kamerani ishga tushirib boʻlmadi. Kodni pastga kiriting."
+    },
+    "manual": {
+      "label": "Skaner oʻqimayaptimi? Chiptaning QR kod matnini kiriting",
+      "placeholder": "QR kod matnini joylashtiring",
+      "hint": "Bu qisqa chipta kodi emas, QR kod ichidagi uzun koddir.",
+      "submit": "Chiptani tekshirish"
+    },
+    "checking": "Tekshirilmoqda…",
+    "waiting": "Keyingi skanerlash natijasi shu yerda chiqadi.",
+    "seat": "{{section}}, {{row}}-qator, {{number}}-oʻrin",
+    "general": "Umumiy kirish",
+    "count": "Kirganlar",
+    "of": "/ {{total}}",
+    "recent": "Oxirgi skanerlashlar",
+    "recentEmpty": "Bu seansda hali skanerlash boʻlmadi.",
+    "recentNote": "Faqat shu ekranda skanerlanganlar koʻrsatiladi. Sahifa qayta ochilganda roʻyxat tozalanadi.",
+    "badge": {
+      "valid": "Yaroqli",
+      "used": "Ishlatilgan",
+      "wrongEvent": "Boshqa tadbir",
+      "refunded": "Qaytarilgan",
+      "invalid": "Yaroqsiz",
+      "notOpen": "Yopiq",
+      "notAllowed": "Ruxsat yoʻq",
+      "network": "Aloqa yoʻq",
+      "error": "Xato"
+    },
+    "result": {
+      "valid": {
+        "title": "Chipta yaroqli. Kiritishingiz mumkin.",
+        "text": "Hozirgina belgilandi. Bu kod boshqa skanerlanmaydi."
+      },
+      "used": {
+        "title": "Allaqachon ishlatilgan. Kiritmang.",
+        "text": "Bu chipta allaqachon belgilangan. Mehmon eʼtiroz bildirsa, hujjatini soʻrang."
+      },
+      "wrongEvent": {
+        "title": "Boshqa tadbir.",
+        "text": "Bu chipta boshqa tadbirga. Yuqorida tadbirni xato tanlamagan boʻlsangiz, kiritmang."
+      },
+      "refunded": {
+        "title": "Qaytarilgan. Kiritmang.",
+        "text": "Bu chipta boʻyicha pul qaytarilgan, endi yaroqsiz."
+      },
+      "invalid": {
+        "title": "Yaroqsiz kod.",
+        "text": "Bu Ticketzy chiptasi emas yoki oʻzgartirilgan. Kiritmang."
+      },
+      "notOpen": {
+        "title": "Tekshiruv yopiq.",
+        "text": "Tekshiruv faqat tasdiqlangan va hali tugamagan tadbirlar uchun ishlaydi."
+      },
+      "notAllowed": {
+        "title": "Ruxsat yoʻq.",
+        "text": "Hisobingiz bu tadbir chiptalarini belgilay olmaydi."
+      },
+      "network": {
+        "title": "Aloqa yoʻq.",
+        "text": "Hech narsa belgilanmadi. Aloqani tekshirib, qayta skanerlang."
+      },
+      "error": {
+        "title": "Chiptani tekshirib boʻlmadi.",
+        "text": "Xatolik yuz berdi. Qayta urinib koʻring."
       }
     }
   }

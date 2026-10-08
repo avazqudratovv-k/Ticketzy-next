@@ -239,3 +239,30 @@ Goal: venues list, venue form and a 2D layout editor, with the lock rules of the
 - Backend (direct `updateEvent` with the organizer token): returned "The ticket sales must end no later than the event end!" and "The ticket sales start must be before the ticket sales end!", which match the mapped strings exactly.
 - **Not tested:** the translated server error shown in the form (the client blocks first); "must start before the event ends" from the server (backend answered the start/end message for that input); the buyer messages at checkout; ko, ru and uz pages in the browser; 390 px.
 - Test data: draft "QA One-day show" now has a sale window 1 Dec 2026 10:00 to 12 Dec 2026 19:00.
+
+## Prompt 7: organizer sales, orders, event cancellation and check-in (2026-10-08)
+Goal: real dashboard data, orders per event, cancel, check-in. Not committed. Judgment calls F137 to F146 in DECISIONS.md.
+
+### Schema
+`docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql`.
+
+### Operations used (exact names)
+`getMyEarnings`, `getMyEventOrders(input: OrganizerOrdersInquiry)` (filters `orderStatus`, `eventId`; sort `createdAt` or `totalAmount`; pagination), `cancelMyEvent(input: EventReasonInput)`, `checkInTicket(qrToken, eventId)`, `getEventAttendees` (counts only), `getTicketTypes`, `getVenue`, `getMyEvents`. Documents in `apollo/organizer/orders.ts` and `mutation.ts`. `checkInPreview` and `getEventSales` are not used.
+
+### Added or changed
+- Dashboard (`pages/organizer/index.tsx`): paid orders, tickets sold, revenue, commission, payout, upcoming events from real data; 30-day revenue chart (`SalesChart`, `libs/organizer/salesSeries.ts`); recent orders card (5 newest) replaces the placeholder; loading, empty and error states.
+- `/organizer/events/[id]/orders`: status tabs with counts, sort, pagination, table (buyer, ticket types and seats, amount, commission, status, date), detail drawer, empty, no-result, error, loading.
+- Events list: "Orders" action; `CancelDialog` now cancels (reason required, translated errors); the edit page uses the same dialog.
+- `/organizer/check-in`: event chooser, camera scanner (html5-qrcode, new dependency), manual QR-text entry, big result states, checked-in counter, recent scans (this page only).
+- Ticket tier default names (`defaultTierName` in `libs/organizer/form.ts`).
+- i18n en, ko, ru, uz: `orders.*`, `checkin.*`, `cancel.*`, `dashboard.*` additions, `serverErrors.cancelReasonRequired`, `alreadyClosed`, `list.actions.orders`. Key and placeholder parity checked by script.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds (scratch copy with `node_modules` linked).
+- Browser, `http://localhost:3000`, organizer@ticketzy.demo, English: dashboard numbers equal the sums of `getMyEventOrders` PAID (50 orders, 215 tickets, 14,189,000 revenue, 1,418,900 commission, direct API check); orders list of "Incheon FC vs Seoul United" (13 orders, tab counts, Paid and Refunded tabs, empty state for 0 refunded, URL state), drawer (money split, seats with section names); check-in by manual entry for a VALID ticket (valid, counter 1 of 61), the same ticket again (already used), a ticket of another event (wrong event), a refunded ticket on its own event (refunded), a garbage code and a tampered code (invalid). Backend cancel messages checked against the live API (blank reason, CANCELLED, ENDED, DRAFT, unknown id) and they match the mapped strings. Dark and light themes; 390 px (iframe) for check-in, dashboard and orders: no horizontal overflow. Found and fixed: money figures broke mid-number at 390 px, chart labels too small on a phone, scanner idle text off-centre, section keys (LOWER_N) shown at the gate instead of names, result below the fold on a phone.
+- **Not done, and why:**
+  - Cancel success path: the UI offers cancel only for APPROVED events and every approved event is demo data; creating an approved test event needs an admin account. The dialog (required reason, buttons) was not clicked in the browser because the automation was blocked from opening it on a demo event. Error strings were verified through the API only.
+  - The camera: no camera in the automated browser, so scanning a real QR code, "Switch camera" and the denied state were not exercised.
+  - ko, ru and uz pages were not looked at in the browser (keys only).
+  - The 30-day chart has only one non-empty day in the demo data (all orders were created on 8 Oct).
+- Test data changed: one VALID demo ticket of "Incheon FC vs Seoul United" (buyer@ticketzy.demo) is now USED. No events were cancelled or created.

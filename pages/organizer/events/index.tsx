@@ -24,7 +24,7 @@ import { isSortKey, rowActions, SORTS, SortKey } from '../../../libs/organizer/e
 import { OrgEvent } from '../../../libs/organizer/types';
 import { localizedEvent } from '../../../libs/events';
 import { formatEventWhen, formatNumber } from '../../../libs/format';
-import { eventUrl, organizerEventEditUrl, organizerEventNewUrl } from '../../../libs/routes';
+import { eventUrl, organizerEventEditUrl, organizerEventNewUrl, organizerEventOrdersUrl } from '../../../libs/routes';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { EventStatus } from '../../../libs/types/event';
 
@@ -320,6 +320,11 @@ const OrganizerEvents: NextPage = () => {
 												{t('list.actions.publicPage')}
 											</Link>
 										)}
+										{actions.orders && (
+											<Link href={organizerEventOrdersUrl(event._id)} className="tz-link">
+												{t('list.actions.orders')}
+											</Link>
+										)}
 										{actions.cancel && (
 											<button type="button" className="tz-link org-linkbtn org-linkbtn--danger" onClick={() => setCancelTarget(event)}>
 												{t('list.actions.cancel')}
@@ -353,7 +358,17 @@ const OrganizerEvents: NextPage = () => {
 				onConfirm={confirmSubmit}
 				onFix={submitTarget ? () => router.push(organizerEventEditUrl(submitTarget._id)) : undefined}
 			/>
-			<CancelDialog open={Boolean(cancelTarget)} eventTitle={cancelTarget?.eventTitle ?? ''} onClose={() => setCancelTarget(null)} />
+			<CancelDialog
+				open={Boolean(cancelTarget)}
+				eventId={cancelTarget?._id ?? ''}
+				eventTitle={cancelTarget ? title(cancelTarget) : ''}
+				onClose={() => setCancelTarget(null)}
+				onCancelled={async () => {
+					setNotice(t('cancel.done', { title: cancelTarget ? title(cancelTarget) : '' }));
+					setCancelTarget(null);
+					await Promise.all([refetch(), refetchCounts()]);
+				}}
+			/>
 		</div>
 	);
 };

@@ -56,3 +56,14 @@ export const TRANSLATE_EVENT = gql`
 		}
 	}
 `;
+
+/** Organizer cancel: `cancelMyEvent(input: EventReasonInput)`, backend DECISIONS #69. */
+export const CANCEL_MY_EVENT = gql`
+	mutation CancelMyEvent($input: EventReasonInput!) {
+		cancelMyEvent(input: $input) {
+			_id
+			eventStatus
+			cancelReason
+		}
+	}
+`;

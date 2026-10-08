@@ -7,15 +7,20 @@ import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Clock, Prohibit, Receipt, WarningCircle } from 'phosphor-react';
+import SalesChart from '../../libs/components/organizer/SalesChart';
+import OrderStatusBadge from '../../libs/components/organizer/orders/OrderStatusBadge';
 import { withOrganizerLayout } from '../../libs/components/layout/LayoutAdmin';
 import EventStatusBadge from '../../libs/components/organizer/EventStatusBadge';
 import useAuth from '../../libs/hooks/useAuth';
 import { GET_MY_EARNINGS, GET_MY_EVENT_COUNTS, GET_MY_EVENTS, ticketTypesOfEventsQuery } from '../../apollo/organizer/query';
+import { GET_MY_EVENT_ORDERS, GET_PAID_ORDERS_FOR_CHART } from '../../apollo/organizer/orders';
+import { OrgOrder } from '../../libs/organizer/orders';
+import { dailyRevenue, PaidOrder } from '../../libs/organizer/salesSeries';
 import { EVENT_STATUSES, isUpcoming } from '../../libs/organizer/events';
 import { OrgEvent } from '../../libs/organizer/types';
 import { localizedEvent } from '../../libs/events';
-import { formatEventWhen, formatNumber, formatPrice } from '../../libs/format';
-import { organizerEventEditUrl, organizerEventNewUrl, organizerEventsUrl } from '../../libs/routes';
+import { formatEventWhen, formatNumber, formatPrice, formatViewerDate } from '../../libs/format';
+import { organizerEventEditUrl, organizerEventNewUrl, organizerEventOrdersUrl, organizerEventsUrl } from '../../libs/routes';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -53,6 +58,15 @@ const Overview: NextPage = () => {
 		fetchPolicy: 'cache-and-network',
 	});
 
+	const CHART_ORDERS = 200;
+	const CHART_DAYS = 30;
+	const { data: recentData, loading: recentLoading, error: recentError, refetch: refetchRecent } = useQuery(GET_MY_EVENT_ORDERS, {
+		variables: { input: { page: 1, limit: 5, sort: 'createdAt', direction: 'DESC' } },
+		skip,
+		fetchPolicy: 'cache-and-network',
+	});
+	const { data: chartData, error: chartError } = useQuery(GET_PAID_ORDERS_FOR_CHART, { variables: { limit: CHART_ORDERS }, skip, fetchPolicy: 'cache-and-network' });
+
 	const upcoming: OrgEvent[] = useMemo(
 		() => ((approved?.getMyEvents?.list ?? []) as OrgEvent[]).filter((event) => isUpcoming(event.endAt)).slice(0, 4),
 		[approved],
@@ -69,6 +83,15 @@ const Overview: NextPage = () => {
 	// KRW is the platform currency; any other currency in the data is shown as its own line
 	const main = earnings.find((item) => item.currency === 'KRW') ?? earnings[0];
 	const currency = main?.currency ?? 'KRW';
+	const recent: OrgOrder[] = recentData?.getMyEventOrders?.list ?? [];
+	const paidList: PaidOrder[] = useMemo(() => chartData?.getMyEventOrders?.list ?? [], [chartData]);
+	const paidTotal: number = chartData?.getMyEventOrders?.metaCounter?.[0]?.total ?? 0;
+	const series = useMemo(() => dailyRevenue(paidList, currency, CHART_DAYS), [paidList, currency]);
+	const seriesRevenue = series.reduce((sum, point) => sum + point.revenue, 0);
+	// the chart reads the newest 200 paid orders: if there are more and the oldest one read is still inside the window, the early days are incomplete
+	const oldestRead = paidList.length ? new Date(paidList[paidList.length - 1].paidAt ?? paidList[paidList.length - 1].createdAt).getTime() : Infinity;
+	const chartTruncated = paidTotal > paidList.length && oldestRead > Date.now() - CHART_DAYS * 86_400_000;
+	const upcomingTotal = ((approved?.getMyEvents?.list ?? []) as OrgEvent[]).filter((event) => isUpcoming(event.endAt)).length;
 	const rejectedList: OrgEvent[] = rejected?.getMyEvents?.list ?? [];
 	const title = (event: OrgEvent) => localizedEvent(event, locale).title;
 
@@ -122,7 +145,11 @@ const Overview: NextPage = () => {
 						<span>{t('dashboard.salesError')}</span>
 					</p>
 				) : (
-					<ul className="org-stats">
+					<ul className="org-stats org-stats--sales">
+						<li className="org-stat">
+							<span className="org-stat__label">{t('dashboard.orders')}</span>
+							<strong className="org-stat__value">{active ? formatNumber(main?.ordersCount ?? 0, locale) : '–'}</strong>
+						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('dashboard.ticketsSold')}</span>
 							<strong className="org-stat__value">{active ? formatNumber(main?.ticketsSold ?? 0, locale) : '–'}</strong>
@@ -139,10 +166,41 @@ const Overview: NextPage = () => {
 							<span className="org-stat__label">{t('dashboard.netPayout')}</span>
 							<strong className="org-stat__value">{active ? formatPrice(main?.netPayout ?? 0, locale, currency) : '–'}</strong>
 						</li>
+						<li className="org-stat">
+							<span className="org-stat__label">{t('dashboard.upcomingCount')}</span>
+							<strong className="org-stat__value">{active ? formatNumber(upcomingTotal, locale) : '–'}</strong>
+						</li>
 					</ul>
 				)}
 				<p className="org-hint">{t('dashboard.salesNote')}</p>
+				{earnings.length > 1 && <p className="org-hint">{t('dashboard.otherCurrencies', { currencies: earnings.filter((e) => e !== main).map((e) => e.currency).join(', ') })}</p>}
+				{(main?.refundedAmount ?? 0) > 0 && <p className="org-hint">{t('dashboard.refunded', { amount: formatPrice(main?.refundedAmount ?? 0, locale, currency) })}</p>}
 			</section>
+
+			{active && (
+				<section className="org-card" aria-labelledby="dash-chart">
+					<div className="org-card__head">
+						<h2 id="dash-chart">{t('dashboard.chart.title', { days: CHART_DAYS })}</h2>
+						{!chartError && chartData && <span className="org-hint">{formatPrice(seriesRevenue, locale, currency)}</span>}
+					</div>
+					{chartError && !chartData ? (
+						<p className="tz-alert tz-alert--error" role="alert">
+							<WarningCircle size={20} aria-hidden="true" />
+							<span>{t('dashboard.chart.error')}</span>
+						</p>
+					) : !chartData ? (
+						<span className="tz-skel tz-skel--block" aria-busy="true" />
+					) : paidList.length === 0 ? (
+						<p className="org-hint">{t('dashboard.chart.empty')}</p>
+					) : (
+						<>
+							<SalesChart points={series} currency={currency} locale={locale} />
+							{seriesRevenue === 0 && <p className="org-hint">{t('dashboard.chart.quiet', { days: CHART_DAYS })}</p>}
+							{chartTruncated && <p className="org-hint">{t('dashboard.chart.truncated', { count: paidList.length })}</p>}
+						</>
+					)}
+				</section>
+			)}
 
 			<div className="org-cols">
 				<section className="org-card" aria-labelledby="dash-upcoming">
@@ -216,12 +274,50 @@ const Overview: NextPage = () => {
 						<div className="org-card__head">
 							<h2 id="dash-orders">{t('dashboard.recentOrders')}</h2>
 						</div>
-						<div className="org-placeholder">
-							<Receipt size={28} aria-hidden="true" />
-							<p>
-								<strong>{t('dashboard.ordersSoonTitle')}</strong> {t('dashboard.ordersSoonText')}
+						{!active ? (
+							<p className="org-hint">{t('dashboard.noneYet')}</p>
+						) : recentError && !recentData ? (
+							<p className="tz-alert tz-alert--error" role="alert">
+								<WarningCircle size={20} aria-hidden="true" />
+								<span>
+									{t('dashboard.ordersError')}{' '}
+									<button type="button" className="tz-link org-linkbtn" onClick={() => refetchRecent()}>
+										{t('errors.retry')}
+									</button>
+								</span>
 							</p>
-						</div>
+						) : recentLoading && !recentData ? (
+							<span className="tz-skel tz-skel--block" aria-busy="true" />
+						) : recent.length === 0 ? (
+							<div className="org-placeholder">
+								<Receipt size={28} aria-hidden="true" />
+								<p>
+									<strong>{t('dashboard.noOrdersTitle')}</strong> {t('dashboard.noOrdersText')}
+								</p>
+							</div>
+						) : (
+							<ul className="org-upcoming">
+								{recent.map((order) => (
+									<li key={order._id}>
+										<div className="org-upcoming__top">
+											<Link href={organizerEventOrdersUrl(order.eventId)} className="org-row__title">
+												{order.buyerNick || t('orders.unknownBuyer')}
+											</Link>
+											<OrderStatusBadge status={order.orderStatus} />
+										</div>
+										<span className="org-row__meta">
+											{formatViewerDate(order.createdAt, locale, true)} · <span className="org-mono">{order.orderNumber}</span>
+										</span>
+										<span className="org-row__meta">
+											{order.eventData ? localizedEvent({ eventTitle: order.eventData.eventTitle, eventTranslations: order.eventData.eventTranslations } as OrgEvent, locale).title : ''}
+										</span>
+										<span className="org-row__meta">
+											{t('dashboard.orderLine', { count: order.ticketCount, total: formatPrice(order.totalAmount, locale, order.currency ?? 'KRW') })}
+										</span>
+									</li>
+								))}
+							</ul>
+						)}
 					</section>
 				</div>
 			</div>

@@ -21,6 +21,8 @@ const KNOWN: Record<string, string> = {
 	'The tier key cannot change after the seats of the event were generated!': 'tierLocked',
 	'Your organizer account is waiting for admin approval!': 'notApproved',
 	'Not Allowed Request!': 'notAllowed',
+	'A reason is required to cancel an event!': 'cancelReasonRequired',
+	'This event is already cancelled or ended!': 'alreadyClosed',
 	'Update failed!': 'updateFailed',
 	'Create failed!': 'createFailed',
 	'Bad Request': 'badRequest',
