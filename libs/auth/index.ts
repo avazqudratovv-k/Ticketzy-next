@@ -1,186 +1,121 @@
 import decodeJWT from 'jwt-decode';
 import { initializeApollo } from '../../apollo/client';
-import { userVar } from '../../apollo/store';
-import { CustomJwtPayload } from '../types/customJwtPayload';
-import { sweetMixinErrorAlert } from '../sweetAlert';
-import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
+import { authReadyVar, userVar } from '../../apollo/store';
+import { LOGIN, SIGNUP_ORGANIZER, SIGNUP_USER } from '../../apollo/user/mutation';
+import { GET_MEMBER } from '../../apollo/user/query';
+import { MemberProfile, SignupInput } from '../types/member';
+import { parseApiError } from '../errors';
+import { getJwtToken, removeJwtToken, setJwtToken } from './token';
 
-export function getJwtToken(): any {
-	if (typeof window !== 'undefined') {
-		return localStorage.getItem('accessToken') ?? '';
-	}
+export { getJwtToken } from './token';
+
+/** The token carries only these two claims (backend DECISIONS #25). */
+interface TokenClaims {
+	_id: string;
+	memberType: string;
+	exp?: number;
 }
 
-export function setJwtToken(token: string) {
-	localStorage.setItem('accessToken', token);
+interface TokenResult {
+	_id: string;
+	accessToken: string;
 }
 
-export const logIn = async (nick: string, password: string): Promise<void> => {
+const isExpired = (token: string): boolean => {
 	try {
-		const { jwtToken } = await requestJwtToken({ nick, password });
-
-		if (jwtToken) {
-			updateStorage({ jwtToken });
-			updateUserInfo(jwtToken);
-		}
-	} catch (err) {
-		console.warn('login err', err);
-		logOut();
-		throw new Error('Login Err');
+		const { exp } = decodeJWT<TokenClaims>(token);
+		return typeof exp === 'number' && exp * 1000 <= Date.now();
+	} catch {
+		return true;
 	}
 };
 
-const requestJwtToken = async ({
-	nick,
-	password,
-}: {
-	nick: string;
-	password: string;
-}): Promise<{ jwtToken: string }> => {
-	const apolloClient = await initializeApollo();
-
+/** Loads the profile with the stored token. Throws the parsed API error when the call fails. */
+async function loadProfile(memberId: string): Promise<MemberProfile> {
+	const client = initializeApollo();
 	try {
-		const result = await apolloClient.mutate({
+		const { data } = await client.query({
+			query: GET_MEMBER,
+			variables: { memberId },
+			fetchPolicy: 'network-only',
+		});
+		return data.getMember as MemberProfile;
+	} catch (err) {
+		throw parseApiError(err);
+	}
+}
+
+/** Stores the token, loads the profile and publishes it. A failed profile load leaves nothing half signed in. */
+async function startSession({ _id, accessToken }: TokenResult): Promise<MemberProfile> {
+	setJwtToken(accessToken);
+	try {
+		const profile = await loadProfile(_id);
+		userVar(profile);
+		return profile;
+	} catch (err) {
+		clearSession();
+		throw err;
+	}
+}
+
+export async function logIn(memberEmail: string, memberPassword: string): Promise<MemberProfile> {
+	const client = initializeApollo();
+	let result: TokenResult;
+	try {
+		const { data } = await client.mutate({
 			mutation: LOGIN,
-			variables: { input: { memberNick: nick, memberPassword: password } },
-			fetchPolicy: 'network-only',
+			variables: { input: { memberEmail: memberEmail.trim().toLowerCase(), memberPassword } },
 		});
-
-		const { accessToken } = result?.data?.login;
-
-		return { jwtToken: accessToken };
-	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
-		}
-		throw new Error('token error');
-	}
-};
-
-export const signUp = async (nick: string, password: string, phone: string, type: string): Promise<void> => {
-	try {
-		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type });
-
-		if (jwtToken) {
-			updateStorage({ jwtToken });
-			updateUserInfo(jwtToken);
-		}
+		result = data.login;
 	} catch (err) {
-		console.warn('login err', err);
-		logOut();
-		// throw new Error('Login Err');
+		throw parseApiError(err);
 	}
-};
+	return startSession(result);
+}
 
-const requestSignUpJwtToken = async ({
-	nick,
-	password,
-	phone,
-	type,
-}: {
-	nick: string;
-	password: string;
-	phone: string;
-	type: string;
-}): Promise<{ jwtToken: string }> => {
-	const apolloClient = await initializeApollo();
-
+/** Creates the account and signs the new member in (the signup mutations return a token). */
+export async function signUp(role: 'USER' | 'ORGANIZER', input: SignupInput): Promise<MemberProfile> {
+	const client = initializeApollo();
+	const payload: SignupInput = { ...input, memberEmail: input.memberEmail.trim().toLowerCase() };
+	let result: TokenResult;
 	try {
-		const result = await apolloClient.mutate({
-			mutation: SIGN_UP,
-			variables: {
-				input: { memberNick: nick, memberPassword: password, memberPhone: phone, memberType: type },
-			},
-			fetchPolicy: 'network-only',
+		const { data } = await client.mutate({
+			mutation: role === 'ORGANIZER' ? SIGNUP_ORGANIZER : SIGNUP_USER,
+			variables: { input: payload },
 		});
-
-		const { accessToken } = result?.data?.signup;
-
-		return { jwtToken: accessToken };
-	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
-		}
-		throw new Error('token error');
+		result = role === 'ORGANIZER' ? data.signupOrganizer : data.signupUser;
+	} catch (err) {
+		throw parseApiError(err);
 	}
-};
+	return startSession(result);
+}
 
-export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
-	setJwtToken(jwtToken);
-	window.localStorage.setItem('login', Date.now().toString());
-};
+/** Runs once on load (and when another tab signs in or out): token in storage -> profile in userVar. */
+export async function restoreSession(): Promise<void> {
+	const token = getJwtToken();
+	if (!token || isExpired(token)) {
+		if (token) removeJwtToken();
+		userVar(null);
+		authReadyVar(true);
+		return;
+	}
+	try {
+		const { _id } = decodeJWT<TokenClaims>(token);
+		userVar(await loadProfile(_id));
+	} catch (err) {
+		const { code } = parseApiError(err);
+		// Only a rejected token ends the session; a network blip keeps it for the next load.
+		if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN' || code === 'BAD_REQUEST') clearSession();
+	} finally {
+		authReadyVar(true);
+	}
+}
 
-export const updateUserInfo = (jwtToken: any) => {
-	if (!jwtToken) return false;
+/** Drops the token and the profile and the cached data of the previous member. No page reload. */
+export function clearSession() {
+	removeJwtToken();
+	userVar(null);
+	initializeApollo().clearStore().catch(() => undefined);
+}
 
-	const claims = decodeJWT<CustomJwtPayload>(jwtToken);
-	userVar({
-		_id: claims._id ?? '',
-		memberType: claims.memberType ?? '',
-		memberStatus: claims.memberStatus ?? '',
-		memberAuthType: claims.memberAuthType,
-		memberPhone: claims.memberPhone ?? '',
-		memberNick: claims.memberNick ?? '',
-		memberFullName: claims.memberFullName ?? '',
-		memberImage:
-			claims.memberImage === null || claims.memberImage === undefined
-				? '/img/profile/defaultUser.svg'
-				: `${claims.memberImage}`,
-		memberAddress: claims.memberAddress ?? '',
-		memberDesc: claims.memberDesc ?? '',
-		memberProperties: claims.memberProperties,
-		memberRank: claims.memberRank,
-		memberArticles: claims.memberArticles,
-		memberPoints: claims.memberPoints,
-		memberLikes: claims.memberLikes,
-		memberViews: claims.memberViews,
-		memberWarnings: claims.memberWarnings,
-		memberBlocks: claims.memberBlocks,
-	});
-};
-
-export const logOut = () => {
-	deleteStorage();
-	deleteUserInfo();
-	window.location.reload();
-};
-
-const deleteStorage = () => {
-	localStorage.removeItem('accessToken');
-	window.localStorage.setItem('logout', Date.now().toString());
-};
-
-const deleteUserInfo = () => {
-	userVar({
-		_id: '',
-		memberType: '',
-		memberStatus: '',
-		memberAuthType: '',
-		memberPhone: '',
-		memberNick: '',
-		memberFullName: '',
-		memberImage: '',
-		memberAddress: '',
-		memberDesc: '',
-		memberProperties: 0,
-		memberRank: 0,
-		memberArticles: 0,
-		memberPoints: 0,
-		memberLikes: 0,
-		memberViews: 0,
-		memberWarnings: 0,
-		memberBlocks: 0,
-	});
-};
+export const logOut = clearSession;

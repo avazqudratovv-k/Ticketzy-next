@@ -4,58 +4,33 @@ import { gql } from '@apollo/client';
  *         MEMBER         *
  *************************/
 
-export const SIGN_UP = gql`
-	mutation Signup($input: MemberInput!) {
-		signup(input: $input) {
-			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberArticles
-			memberPoints
-			memberLikes
-			memberViews
-			deletedAt
-			createdAt
-			updatedAt
-			accessToken
-		}
-	}
-`;
+// The token only holds _id and memberType, so these return just enough to load the profile with GET_MEMBER.
 
 export const LOGIN = gql`
 	mutation Login($input: LoginInput!) {
 		login(input: $input) {
 			_id
 			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberPoints
-			memberLikes
-			memberViews
-			deletedAt
-			createdAt
-			updatedAt
+			accessToken
+		}
+	}
+`;
+
+export const SIGNUP_USER = gql`
+	mutation SignupUser($input: MemberInput!) {
+		signupUser(input: $input) {
+			_id
+			memberType
+			accessToken
+		}
+	}
+`;
+
+export const SIGNUP_ORGANIZER = gql`
+	mutation SignupOrganizer($input: MemberInput!) {
+		signupOrganizer(input: $input) {
+			_id
+			memberType
 			accessToken
 		}
 	}

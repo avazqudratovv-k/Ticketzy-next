@@ -1,20 +1,14 @@
-import React, { useEffect } from 'react';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
+import React from 'react';
 import Head from 'next/head';
+import { useTranslation } from 'next-i18next';
 import Top from '../Top';
 import Footer from '../Footer';
-import { Stack } from '@mui/material';
-import { getJwtToken, updateUserInfo } from '../../auth';
+import PendingBanner from '../common/PendingBanner';
 
+/** Public layout: navbar, content column, footer. */
 const withLayoutBasic = (Component: any) => {
-	return (props: any) => {
-		const device = useDeviceDetect();
-
-		/** LIFECYCLES **/
-		useEffect(() => {
-			const jwt = getJwtToken();
-			if (jwt) updateUserInfo(jwt);
-		}, []);
+	const WithLayoutBasic = (props: any) => {
+		const { t } = useTranslation('common');
 
 		return (
 			<>
@@ -22,22 +16,21 @@ const withLayoutBasic = (Component: any) => {
 					<title>Ticketzy</title>
 					<meta name={'title'} content={'Ticketzy'} />
 				</Head>
-				<Stack id={device == 'mobile' ? 'mobile-wrap' : 'pc-wrap'}>
-					<Stack id={'top'}>
-						<Top />
-					</Stack>
-
-					<Stack id={'main'}>
+				<div className="tz-app">
+					<a className="tz-skip" href="#main">
+						{t('skipToContent')}
+					</a>
+					<Top />
+					<PendingBanner />
+					<main id="main">
 						<Component {...props} />
-					</Stack>
-
-					<Stack id={'footer'}>
-						<Footer />
-					</Stack>
-				</Stack>
+					</main>
+					<Footer />
+				</div>
 			</>
 		);
 	};
+	return WithLayoutBasic;
 };
 
 export default withLayoutBasic;

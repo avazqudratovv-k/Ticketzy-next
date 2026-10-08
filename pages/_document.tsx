@@ -1,5 +1,8 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 
+// Runs before first paint so the saved theme never flashes. Dark is the default (tokens.css).
+const themeScript = `try{var t=localStorage.getItem('ticketzy-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}`;
+
 export default function Document() {
 	return (
 		<Html lang="en">
@@ -9,6 +12,7 @@ export default function Document() {
 
 				{/* SEO */}
 				<meta name={'description'} content={'Ticketzy - discover events and buy tickets'} />
+				<script dangerouslySetInnerHTML={{ __html: themeScript }} />
 			</Head>
 			<body>
 				<Main />

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { ApolloClient, ApolloLink, InMemoryCache, from, NormalizedCacheObject } from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { onError } from '@apollo/client/link/error';
-import { getJwtToken } from '../libs/auth';
+import { getJwtToken } from '../libs/auth/token';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
@@ -13,6 +13,7 @@ function getHeaders(): Record<string, string> {
 
 function createIsomorphicLink() {
 	if (typeof window !== 'undefined') {
+		// Bearer token on every request; the chat WebSocket will send it in its first `auth` message instead.
 		const authLink = new ApolloLink((operation, forward) => {
 			operation.setContext(({ headers = {} }) => ({
 				headers: {
@@ -27,7 +28,7 @@ function createIsomorphicLink() {
 			uri: process.env.NEXT_PUBLIC_API_GRAPHQL_URL,
 		});
 
-		// Errors are handled by the callers; log them in development only.
+		// No popups here: errors reach the caller (see parseApiError in libs/errors). Logged in development only.
 		const errorLink = onError(({ graphQLErrors, networkError }) => {
 			if (process.env.NODE_ENV !== 'development') return;
 			graphQLErrors?.forEach(({ message, locations, path }) =>

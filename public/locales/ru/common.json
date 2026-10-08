@@ -1,22 +1,108 @@
 {
-	"Home": "Главная",
-	"Properties": "Имущество",
-	"Agents": "Агенты",
-	"Community": "Сообщество",
-	"My Page": "Моя страница",
-	"CS": "Обслуживание",
-	"Login": "Логин",
-	"Register": "регистрация",
-	"Location": "Расположение",
-	"Property type": "Тип недвижимости",
-	"Rooms": "Комната",
-	"Advanced": "Расширенные",
-	"Property Search": "поиск Имущество",
-	"We are glad to see you again!": "Мы рады видеть вас снова!",
-	"Home / For Rent": "Дом / В аренду",
-	"Agent Page": "Страница агента",
-	"my page": "моя страница",
-	"Community Detail": "Детали сообщества",
-	"Login/Signup": "Логин/регистрация",
-	"Member Page": "Страница участника"
+  "skipToContent": "Перейти к содержимому",
+  "nav": {
+    "events": "События",
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню",
+    "mainLabel": "Основное меню"
+  },
+  "header": {
+    "login": "Войти",
+    "signup": "Регистрация",
+    "languageLabel": "Язык",
+    "language": "Язык: {{name}}",
+    "themeToLight": "Включить светлую тему",
+    "themeToDark": "Включить тёмную тему",
+    "accountMenu": "Меню аккаунта"
+  },
+  "account": {
+    "myTickets": "Мои билеты",
+    "orders": "История заказов",
+    "settings": "Профиль и настройки",
+    "organizerDashboard": "Панель организатора",
+    "organizerEvents": "Мои события",
+    "organizerProfile": "Профиль организатора",
+    "adminDashboard": "Обзор администратора",
+    "reviewQueue": "Очередь проверки",
+    "logout": "Выйти",
+    "role": {
+      "USER": "Покупатель",
+      "ORGANIZER": "Организатор",
+      "ADMIN": "Администратор"
+    }
+  },
+  "banner": {
+    "pendingTitle": "Аккаунт организатора на проверке.",
+    "pendingText": "Создавать события можно будет после одобрения администратором."
+  },
+  "footer": {
+    "tagline": "Билеты на концерты, футбол и стендап. Покупка за минуту, сканирование на входе.",
+    "discover": "Обзор",
+    "organizers": "Организаторам",
+    "help": "Помощь",
+    "events": "Все события",
+    "sellTickets": "Продавать билеты",
+    "organizerSignIn": "Вход для организаторов",
+    "faq": "Вопросы и ответы",
+    "contact": "Связаться с поддержкой",
+    "about": "О Ticketzy",
+    "terms": "Условия",
+    "privacy": "Конфиденциальность",
+    "copyright": "© {{year}} Ticketzy"
+  },
+  "dashboard": {
+    "organizer": "Организатор",
+    "admin": "Админ",
+    "openSidebar": "Открыть навигацию",
+    "closeSidebar": "Закрыть навигацию",
+    "createEvent": "Создать событие",
+    "createEventLocked": "Станет доступно после одобрения аккаунта.",
+    "helpAndSupport": "Помощь и поддержка",
+    "auditLog": "Журнал аудита",
+    "backToSite": "Вернуться на Ticketzy",
+    "comingSoon": "Эта страница скоро появится.",
+    "groups": {
+      "moderation": "Модерация",
+      "money": "Деньги",
+      "platform": "Платформа"
+    },
+    "nav": {
+      "overview": "Обзор",
+      "events": "События",
+      "attendees": "Гости",
+      "checkIn": "Проверка билетов",
+      "payouts": "Выплаты",
+      "analytics": "Аналитика",
+      "profile": "Профиль",
+      "reviewQueue": "Очередь проверки",
+      "allEvents": "Все события",
+      "organizers": "Организаторы",
+      "messages": "Сообщения",
+      "orders": "Заказы",
+      "refunds": "Возвраты",
+      "users": "Пользователи",
+      "catalog": "Категории и площадки",
+      "settings": "Настройки платформы"
+    },
+    "overviewTitle": "Обзор",
+    "adminOverviewTitle": "Обзор платформы"
+  },
+  "home": {
+    "title": "Билеты на вечера, ради которых стоит выйти из дома",
+    "subtitle": "Концерты, футбол и стендап. Найдите событие, оплатите за минуту и храните QR-коды в одном месте.",
+    "browse": "Смотреть события",
+    "sell": "Продавать билеты",
+    "categories": "Категории",
+    "concerts": "Концерты",
+    "concertsText": "Туры, фестивали, клубные вечера",
+    "football": "Футбол",
+    "footballText": "Матчи лиг и кубков",
+    "comedy": "Стендап",
+    "comedyText": "Стендап и импровизация"
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "text": "Такой страницы нет, или она переехала.",
+    "back": "На главную"
+  }
 }

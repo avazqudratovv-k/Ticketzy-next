@@ -1,61 +1,148 @@
-/** IMPORTS **/
-@import 'variables.scss';
-@import 'reset.scss';
+/** BASE: tokens.css is imported before this file in _app. Everything below reads tokens only. **/
+
+:root {
+	/* next/font exposes the loaded families as --font-onest etc. (set in _app). Tokens keep the design's fallbacks. */
+	--font-sans: var(--font-onest), var(--font-noto-kr), system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-mono: var(--font-jetbrains), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+/* Hangul never breaks mid-word; Uzbek has no browser hyphenation (design: Four languages). */
+:lang(ko) {
+	word-break: keep-all;
+}
 
 a {
-	white-space: nowrap;
+	color: inherit;
 	text-decoration: none;
-	color: #212121;
-}
-button {
-	text-transform: none;
-	box-shadow: none;
-	padding: 0;
-}
-button.outline {
-	border: 1px solid #eee;
-}
-button.contain {
-	color: #fff;
-}
-span,
-p {
-	line-height: 1.2;
-}
-body {
-	font-family: $font;
-	&::-webkit-scrollbar {
-		width: 9px;
-	}
-	&::-webkit-scrollbar-thumb {
-		height: 30%;
-		background: #bdbdbd;
-		border-radius: 10px;
-	}
-	&::-webkit-scrollbar-track {
-		background: #eee;
-	}
-
-	.MuiPopover-paper {
-		box-shadow: none;
-	}
-}
-hr {
-	border-width: 0;
-	border-bottom-width: thin;
-	border-color: #eee;
-	margin: auto;
 }
 
-/** VERSION: PC **/
-#pc-wrap {
+.tz-link {
+	color: var(--accent-text);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	font-weight: 600;
+	&:hover {
+		color: var(--ink);
+	}
+}
+
+.tz-skip {
+	position: absolute;
+	inset-inline-start: var(--space-2);
+	top: -100px;
+	z-index: var(--z-toast);
+	padding: var(--space-2) var(--space-4);
+	background: var(--surface-raised);
+	border: 1px solid var(--border-control);
+	border-radius: var(--radius-sm);
+	&:focus {
+		top: var(--space-2);
+	}
+}
+
+.tz-container {
 	width: 100%;
-	height: 100%;
+	max-width: var(--container-max);
+	margin-inline: auto;
+	padding-inline: var(--space-4);
+	@media (min-width: 768px) {
+		padding-inline: var(--space-6);
+	}
+	@media (min-width: 1024px) {
+		padding-inline: var(--space-10);
+	}
+}
 
-	.container {
-		position: relative;
-		width: 1300px;
-		margin: 0 auto;
+.tz-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	flex: none;
+	color: var(--ink);
+	font: 800 20px/24px var(--font-sans);
+	letter-spacing: -0.02em;
+	&__dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 0 1px var(--accent-edge);
+	}
+}
+
+.tz-rolebadge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	padding: 3px var(--space-2);
+	border-radius: var(--radius-xs);
+	background: var(--neutral-soft);
+	color: var(--neutral-text);
+	font: var(--text-badge);
+	white-space: nowrap;
+}
+
+/** FIELDS **/
+.tz-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	min-width: 0;
+	&__label {
+		font: var(--text-label);
+		color: var(--ink);
+	}
+	&__hint {
+		font: var(--text-body-sm);
+		color: var(--ink-muted);
+	}
+	&__error {
 		display: flex;
+		gap: var(--space-2);
+		align-items: flex-start;
+		font: 500 14px/20px var(--font-sans);
+		color: var(--danger-text);
+	}
+}
+
+/** ALERT (inline, status tones) **/
+.tz-alert {
+	display: flex;
+	gap: var(--space-3);
+	align-items: flex-start;
+	padding: var(--space-4);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	background: var(--surface-raised);
+	color: var(--ink);
+	font: var(--text-body-sm);
+	&__icon {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+	}
+	&__title {
+		font: var(--text-label);
+	}
+	&__text {
+		color: var(--ink-muted);
+	}
+	&--danger &__icon {
+		background: var(--danger-soft);
+		color: var(--danger-text);
+	}
+	&--danger &__title {
+		font-weight: 600;
+	}
+	&--warning &__icon {
+		background: var(--warning-soft);
+		color: var(--warning-text);
 	}
 }

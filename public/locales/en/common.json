@@ -1,22 +1,108 @@
 {
-  "Home": "Home",
-  "Properties": "Properties",
-  "Agents": "Agents",
-  "Community": "Community",
-  "My Page": "My Page",
-  "CS": "CS",
-  "Login": "Login",
-  "Register": "Register",
-  "Location": "Location",
-  "Property type": "Property type",
-  "Rooms": "Rooms",
-  "Advanced": "Advanced",
-  "Property Search": "Property Search",
-  "We are glad to see you again!": "We are glad to see you again!",
-  "Home / For Rent": "Home / For Rent",
-  "Agent Page": "Agent Page",
-  "my page": "my page",
-  "Community Detail": "Community Detail",
-  "Login/Signup": "Login/Signup",
-  "Member Page": "Member Page"
+  "skipToContent": "Skip to content",
+  "nav": {
+    "events": "Events",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainLabel": "Main"
+  },
+  "header": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "languageLabel": "Language",
+    "language": "Language: {{name}}",
+    "themeToLight": "Switch to light theme",
+    "themeToDark": "Switch to dark theme",
+    "accountMenu": "Account menu"
+  },
+  "account": {
+    "myTickets": "My tickets",
+    "orders": "Order history",
+    "settings": "Profile and settings",
+    "organizerDashboard": "Organizer dashboard",
+    "organizerEvents": "My events",
+    "organizerProfile": "Organizer profile",
+    "adminDashboard": "Admin overview",
+    "reviewQueue": "Review queue",
+    "logout": "Log out",
+    "role": {
+      "USER": "Buyer",
+      "ORGANIZER": "Organizer",
+      "ADMIN": "Admin"
+    }
+  },
+  "banner": {
+    "pendingTitle": "Your organizer account is being reviewed.",
+    "pendingText": "You can create events once an admin approves it."
+  },
+  "footer": {
+    "tagline": "Tickets for concerts, football and comedy. Bought in a minute, scanned at the door.",
+    "discover": "Discover",
+    "organizers": "Organizers",
+    "help": "Help",
+    "events": "All events",
+    "sellTickets": "Sell tickets",
+    "organizerSignIn": "Organizer sign in",
+    "faq": "FAQ",
+    "contact": "Contact support",
+    "about": "About Ticketzy",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "copyright": "© {{year}} Ticketzy"
+  },
+  "dashboard": {
+    "organizer": "Organizer",
+    "admin": "Admin",
+    "openSidebar": "Open navigation",
+    "closeSidebar": "Close navigation",
+    "createEvent": "Create event",
+    "createEventLocked": "Available once your account is approved.",
+    "helpAndSupport": "Help and support",
+    "auditLog": "Audit log",
+    "backToSite": "Back to Ticketzy",
+    "comingSoon": "This page is coming soon.",
+    "groups": {
+      "moderation": "Moderation",
+      "money": "Money",
+      "platform": "Platform"
+    },
+    "nav": {
+      "overview": "Overview",
+      "events": "Events",
+      "attendees": "Attendees",
+      "checkIn": "Check-in",
+      "payouts": "Payouts",
+      "analytics": "Analytics",
+      "profile": "Profile",
+      "reviewQueue": "Review queue",
+      "allEvents": "All events",
+      "organizers": "Organizers",
+      "messages": "Messages",
+      "orders": "Orders",
+      "refunds": "Refunds",
+      "users": "Users",
+      "catalog": "Categories and venues",
+      "settings": "Platform settings"
+    },
+    "overviewTitle": "Overview",
+    "adminOverviewTitle": "Platform overview"
+  },
+  "home": {
+    "title": "Tickets for the nights worth leaving home for",
+    "subtitle": "Concerts, football and comedy. Find an event, pay in a minute and keep your QR codes in one place.",
+    "browse": "Browse events",
+    "sell": "Sell tickets",
+    "categories": "Browse by category",
+    "concerts": "Concerts",
+    "concertsText": "Tours, festivals, club nights",
+    "football": "Football",
+    "footballText": "League and cup matches",
+    "comedy": "Comedy",
+    "comedyText": "Stand-up and improv"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "This page does not exist or has moved.",
+    "back": "Back to home"
+  }
 }

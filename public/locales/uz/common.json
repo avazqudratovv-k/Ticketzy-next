@@ -1,22 +1,108 @@
 {
-  "Home": "Home",
-  "Properties": "Properties",
-  "Agents": "Agents",
-  "Community": "Community",
-  "My Page": "My Page",
-  "CS": "CS",
-  "Login": "Login",
-  "Register": "Register",
-  "Location": "Location",
-  "Property type": "Property type",
-  "Rooms": "Rooms",
-  "Advanced": "Advanced",
-  "Property Search": "Property Search",
-  "We are glad to see you again!": "We are glad to see you again!",
-  "Home / For Rent": "Home / For Rent",
-  "Agent Page": "Agent Page",
-  "my page": "my page",
-  "Community Detail": "Community Detail",
-  "Login/Signup": "Login/Signup",
-  "Member Page": "Member Page"
+  "skipToContent": "Asosiy qismga oʻtish",
+  "nav": {
+    "events": "Tadbirlar",
+    "openMenu": "Menyuni ochish",
+    "closeMenu": "Menyuni yopish",
+    "mainLabel": "Asosiy menyu"
+  },
+  "header": {
+    "login": "Kirish",
+    "signup": "Roʻyxatdan oʻtish",
+    "languageLabel": "Til",
+    "language": "Til: {{name}}",
+    "themeToLight": "Yorugʻ mavzuga oʻtish",
+    "themeToDark": "Qorongʻi mavzuga oʻtish",
+    "accountMenu": "Akkaunt menyusi"
+  },
+  "account": {
+    "myTickets": "Chiptalarim",
+    "orders": "Buyurtmalar tarixi",
+    "settings": "Profil va sozlamalar",
+    "organizerDashboard": "Tashkilotchi paneli",
+    "organizerEvents": "Tadbirlarim",
+    "organizerProfile": "Tashkilotchi profili",
+    "adminDashboard": "Administrator sharhi",
+    "reviewQueue": "Tekshiruv navbati",
+    "logout": "Chiqish",
+    "role": {
+      "USER": "Xaridor",
+      "ORGANIZER": "Tashkilotchi",
+      "ADMIN": "Administrator"
+    }
+  },
+  "banner": {
+    "pendingTitle": "Tashkilotchi akkauntingiz tekshirilmoqda.",
+    "pendingText": "Administrator tasdiqlagach, tadbir yaratishingiz mumkin boʻladi."
+  },
+  "footer": {
+    "tagline": "Konsert, futbol va komediya chiptalari. Bir daqiqada sotib olinadi, kirishda skanerlanadi.",
+    "discover": "Kashf etish",
+    "organizers": "Tashkilotchilar",
+    "help": "Yordam",
+    "events": "Barcha tadbirlar",
+    "sellTickets": "Chipta sotish",
+    "organizerSignIn": "Tashkilotchi kirishi",
+    "faq": "Koʻp beriladigan savollar",
+    "contact": "Yordam xizmatiga murojaat",
+    "about": "Ticketzy haqida",
+    "terms": "Shartlar",
+    "privacy": "Maxfiylik",
+    "copyright": "© {{year}} Ticketzy"
+  },
+  "dashboard": {
+    "organizer": "Tashkilotchi",
+    "admin": "Admin",
+    "openSidebar": "Navigatsiyani ochish",
+    "closeSidebar": "Navigatsiyani yopish",
+    "createEvent": "Tadbir yaratish",
+    "createEventLocked": "Akkauntingiz tasdiqlangach ochiladi.",
+    "helpAndSupport": "Yordam va qoʻllab-quvvatlash",
+    "auditLog": "Audit jurnali",
+    "backToSite": "Ticketzyga qaytish",
+    "comingSoon": "Bu sahifa tez orada qoʻshiladi.",
+    "groups": {
+      "moderation": "Moderatsiya",
+      "money": "Pul",
+      "platform": "Platforma"
+    },
+    "nav": {
+      "overview": "Sharh",
+      "events": "Tadbirlar",
+      "attendees": "Ishtirokchilar",
+      "checkIn": "Chipta tekshiruvi",
+      "payouts": "Toʻlovlar",
+      "analytics": "Tahlil",
+      "profile": "Profil",
+      "reviewQueue": "Tekshiruv navbati",
+      "allEvents": "Barcha tadbirlar",
+      "organizers": "Tashkilotchilar",
+      "messages": "Xabarlar",
+      "orders": "Buyurtmalar",
+      "refunds": "Qaytarishlar",
+      "users": "Foydalanuvchilar",
+      "catalog": "Turkumlar va maydonlar",
+      "settings": "Platforma sozlamalari"
+    },
+    "overviewTitle": "Sharh",
+    "adminOverviewTitle": "Platforma sharhi"
+  },
+  "home": {
+    "title": "Uydan chiqishga arziydigan oqshomlar uchun chiptalar",
+    "subtitle": "Konsertlar, futbol va komediya. Tadbirni toping, bir daqiqada toʻlang va QR kodlaringizni bir joyda saqlang.",
+    "browse": "Tadbirlarni koʻrish",
+    "sell": "Chipta sotish",
+    "categories": "Turkumlar boʻyicha",
+    "concerts": "Konsertlar",
+    "concertsText": "Gastrollar, festivallar, klub kechalari",
+    "football": "Futbol",
+    "footballText": "Liga va kubok oʻyinlari",
+    "comedy": "Komediya",
+    "comedyText": "Stend-ap va improvizatsiya"
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "text": "Bunday sahifa yoʻq yoki koʻchirilgan.",
+    "back": "Bosh sahifaga"
+  }
 }

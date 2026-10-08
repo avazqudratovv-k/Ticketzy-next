@@ -1,22 +1,108 @@
 {
-  "Home": "홈",
-  "Properties": "매물",
-  "Agents": "에이전트",
-  "Community": "커뮤니티",
-  "My Page": "마이 페이지",
-  "CS": "고객센터",
-  "Login": "로그인",
-  "Register": "가입",
-  "Location": "위치",
-  "Property type": "매물 유형",
-  "Rooms": "방",
-  "Advanced": "고급 필터",
-  "Property Search": "매물 찾기",
-  "We are glad to see you again!": "다시 만나서 반갑습니다!",
-  "Home / For Rent": "홈 / 임대용",
-  "Agent Page": "에이전트 페이지",
-  "my page": "마이 페이지",
-  "Community Detail": "커뮤니티 디테일",
-  "Login/Signup": "로그인/가입",
-  "Member Page": "멤버 페이지"
+  "skipToContent": "본문으로 건너뛰기",
+  "nav": {
+    "events": "이벤트",
+    "openMenu": "메뉴 열기",
+    "closeMenu": "메뉴 닫기",
+    "mainLabel": "주요 메뉴"
+  },
+  "header": {
+    "login": "로그인",
+    "signup": "회원가입",
+    "languageLabel": "언어",
+    "language": "언어: {{name}}",
+    "themeToLight": "라이트 테마로 전환",
+    "themeToDark": "다크 테마로 전환",
+    "accountMenu": "계정 메뉴"
+  },
+  "account": {
+    "myTickets": "내 티켓",
+    "orders": "주문 내역",
+    "settings": "프로필 및 설정",
+    "organizerDashboard": "주최자 대시보드",
+    "organizerEvents": "내 이벤트",
+    "organizerProfile": "주최자 프로필",
+    "adminDashboard": "관리자 개요",
+    "reviewQueue": "검토 대기열",
+    "logout": "로그아웃",
+    "role": {
+      "USER": "구매자",
+      "ORGANIZER": "주최자",
+      "ADMIN": "관리자"
+    }
+  },
+  "banner": {
+    "pendingTitle": "주최자 계정을 검토하고 있어요.",
+    "pendingText": "관리자가 승인하면 이벤트를 만들 수 있어요."
+  },
+  "footer": {
+    "tagline": "콘서트, 축구, 코미디 티켓을 1분 만에 구매하고 현장에서 바로 스캔하세요.",
+    "discover": "둘러보기",
+    "organizers": "주최자",
+    "help": "도움말",
+    "events": "모든 이벤트",
+    "sellTickets": "티켓 판매",
+    "organizerSignIn": "주최자 로그인",
+    "faq": "자주 묻는 질문",
+    "contact": "고객 지원 문의",
+    "about": "Ticketzy 소개",
+    "terms": "이용약관",
+    "privacy": "개인정보 처리방침",
+    "copyright": "© {{year}} Ticketzy"
+  },
+  "dashboard": {
+    "organizer": "주최자",
+    "admin": "관리자",
+    "openSidebar": "내비게이션 열기",
+    "closeSidebar": "내비게이션 닫기",
+    "createEvent": "이벤트 만들기",
+    "createEventLocked": "계정이 승인되면 사용할 수 있어요.",
+    "helpAndSupport": "도움말 및 지원",
+    "auditLog": "감사 로그",
+    "backToSite": "Ticketzy로 돌아가기",
+    "comingSoon": "이 페이지는 곧 제공됩니다.",
+    "groups": {
+      "moderation": "검수",
+      "money": "정산",
+      "platform": "플랫폼"
+    },
+    "nav": {
+      "overview": "개요",
+      "events": "이벤트",
+      "attendees": "참석자",
+      "checkIn": "체크인",
+      "payouts": "정산금",
+      "analytics": "분석",
+      "profile": "프로필",
+      "reviewQueue": "검토 대기열",
+      "allEvents": "모든 이벤트",
+      "organizers": "주최자",
+      "messages": "메시지",
+      "orders": "주문",
+      "refunds": "환불",
+      "users": "사용자",
+      "catalog": "카테고리 및 장소",
+      "settings": "플랫폼 설정"
+    },
+    "overviewTitle": "개요",
+    "adminOverviewTitle": "플랫폼 개요"
+  },
+  "home": {
+    "title": "집을 나설 만한 밤을 위한 티켓",
+    "subtitle": "콘서트, 축구, 코미디. 이벤트를 찾고 1분 만에 결제하고 QR 코드를 한곳에서 관리하세요.",
+    "browse": "이벤트 둘러보기",
+    "sell": "티켓 판매",
+    "categories": "카테고리별 보기",
+    "concerts": "콘서트",
+    "concertsText": "투어, 페스티벌, 클럽 나이트",
+    "football": "축구",
+    "footballText": "리그 및 컵 대회 경기",
+    "comedy": "코미디",
+    "comedyText": "스탠드업과 즉흥 코미디"
+  },
+  "notFound": {
+    "title": "페이지를 찾을 수 없어요",
+    "text": "페이지가 없거나 이동되었어요.",
+    "back": "홈으로 돌아가기"
+  }
 }

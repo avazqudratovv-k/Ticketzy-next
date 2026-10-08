@@ -1,0 +1,218 @@
+.pg-auth {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6);
+	width: 100%;
+	max-width: 472px;
+	margin-inline: auto;
+	padding: var(--space-8) var(--space-4) var(--space-16);
+	@media (min-width: 768px) {
+		padding-block: var(--space-16);
+	}
+	&--wide {
+		max-width: 528px;
+	}
+	&__head {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		h1 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+			color: var(--ink-muted);
+			font: var(--text-body-lg);
+		}
+	}
+	&__form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-6);
+		@media (min-width: 768px) {
+			padding: var(--space-8);
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: var(--radius-xl);
+		}
+	}
+	&__divider {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		margin: 0;
+		color: var(--ink-muted);
+		font: var(--text-caption);
+		&::before,
+		&::after {
+			content: '';
+			flex: 1;
+			height: 1px;
+			background: var(--border);
+		}
+	}
+	&__switch {
+		margin: 0;
+		text-align: center;
+		color: var(--ink-muted);
+	}
+	&__terms {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-1);
+		margin: 0;
+		color: var(--ink-muted);
+		font: var(--text-body-sm);
+		.MuiCheckbox-root {
+			padding: var(--space-2);
+			margin: calc(var(--space-2) * -1) 0 calc(var(--space-2) * -1) calc(var(--space-2) * -1);
+		}
+		label {
+			padding-top: var(--space-1);
+		}
+	}
+}
+
+.pg-roles {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+	gap: var(--space-3);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	min-width: 0;
+}
+
+.pg-roles__label {
+	margin-bottom: var(--space-2);
+	font: var(--text-label);
+}
+
+.pg-role {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	min-height: 132px;
+	padding: var(--space-4);
+	border: 1px solid var(--border-control);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	color: var(--ink);
+	font: var(--text-body-sm);
+	text-align: start;
+	cursor: pointer;
+	&:hover {
+		border-color: var(--ink);
+	}
+	&[aria-selected='true'] {
+		border-color: var(--ink);
+		box-shadow: inset 0 0 0 1px var(--ink);
+		background: var(--surface-raised);
+	}
+	&__top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-2);
+	}
+	&__check {
+		display: grid;
+		place-items: center;
+		width: 24px;
+		height: 24px;
+		border: 2px solid var(--border-control);
+		border-radius: 50%;
+		color: transparent;
+	}
+	&[aria-selected='true'] &__check {
+		border-color: var(--ink);
+		background: var(--ink);
+		color: var(--bg);
+	}
+	&__title {
+		font: var(--text-label-lg);
+	}
+	&__desc {
+		color: var(--ink-muted);
+	}
+}
+
+.pg-pending {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	align-items: flex-start;
+	&__icon {
+		display: grid;
+		place-items: center;
+		width: 64px;
+		height: 64px;
+		border-radius: var(--radius-lg);
+		background: var(--warning-soft);
+		color: var(--warning-text);
+	}
+	&__badge {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-1);
+		padding: 3px var(--space-2);
+		border-radius: var(--radius-full);
+		background: var(--warning-soft);
+		color: var(--warning-text);
+		font: var(--text-badge);
+	}
+	h1 {
+		margin: 0;
+	}
+	p {
+		margin: 0;
+		color: var(--ink-muted);
+	}
+	&__steps {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		width: 100%;
+		margin: 0;
+		padding: var(--space-4);
+		list-style: none;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		li {
+			display: flex;
+			gap: var(--space-3);
+			align-items: flex-start;
+			color: var(--ink-muted);
+		}
+		li[aria-current='step'] {
+			color: var(--ink);
+			font-weight: 600;
+		}
+	}
+	&__num {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 24px;
+		height: 24px;
+		border: 1px solid var(--border-control);
+		border-radius: 50%;
+		font: var(--text-badge);
+	}
+	li[aria-current='step'] &__num {
+		background: var(--ink);
+		border-color: var(--ink);
+		color: var(--bg);
+	}
+	&__done {
+		background: var(--success-soft);
+		border-color: var(--success-soft);
+		color: var(--success-text);
+	}
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+	}
+}

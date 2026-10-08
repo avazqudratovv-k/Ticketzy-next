@@ -1,0 +1,28 @@
+import { MemberProfile } from './types/member';
+import { MemberType } from './enums/member.enum';
+
+export const ROUTES = {
+	home: '/',
+	events: '/events',
+	login: '/account/login',
+	signup: '/account/signup',
+	organizerDashboard: '/organizer',
+	adminDashboard: '/admin',
+} as const;
+
+/** Where a member lands after signing in when no returnTo is given. */
+export const homeFor = (user: Pick<MemberProfile, 'memberType'>): string => {
+	if (user.memberType === MemberType.ADMIN) return ROUTES.adminDashboard;
+	if (user.memberType === MemberType.ORGANIZER) return ROUTES.organizerDashboard;
+	return ROUTES.home;
+};
+
+/** Only same-site paths are accepted as returnTo, so a crafted link cannot send the member elsewhere. */
+export const safeReturnTo = (value: string | string[] | undefined): string | null => {
+	const path = Array.isArray(value) ? value[0] : value;
+	if (!path || !path.startsWith('/') || path.startsWith('//') || path.includes('\\')) return null;
+	return path;
+};
+
+export const loginUrl = (returnTo?: string) =>
+	returnTo ? `${ROUTES.login}?returnTo=${encodeURIComponent(returnTo)}` : ROUTES.login;
