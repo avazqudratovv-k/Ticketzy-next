@@ -1,0 +1,111 @@
+{
+  "page": {
+    "title": "메시지",
+    "subtitleOrganizer": "이벤트나 계정에 관해 Ticketzy 관리자 팀과 이야기해 보세요. 대화는 이벤트별로, 또는 일반 지원으로 나뉩니다.",
+    "subtitleAdmin": "주최자와의 대화입니다. 이벤트 대화는 스레드 맨 위에 해당 이벤트가 표시됩니다."
+  },
+  "loading": "대화 불러오는 중",
+  "loadError": {
+    "title": "메시지를 불러오지 못했어요",
+    "text": "연결 상태를 확인하고 다시 시도해 주세요."
+  },
+  "errors": {
+    "retry": "다시 시도",
+    "network": "Ticketzy에 연결할 수 없어요. 연결 상태를 확인하고 다시 시도해 주세요.",
+    "generic": "문제가 생겼어요. 다시 시도해 주세요."
+  },
+  "serverErrors": {
+    "notAllowed": "이 대화를 사용할 권한이 없어요.",
+    "supportOnly": "현재 계정은 지원 대화만 사용할 수 있어요.",
+    "eventNotYours": "본인의 이벤트에 대해서만 대화를 시작할 수 있어요.",
+    "organizersOnly": "대화는 주최자만 시작할 수 있어요.",
+    "empty": "메시지를 입력해 주세요.",
+    "tooLong": "메시지는 최대 2000자까지 보낼 수 있어요.",
+    "tooFast": "메시지를 너무 빠르게 보내고 있어요. 잠시 후에 다시 시도해 주세요.",
+    "noData": "대화를 찾을 수 없어요.",
+    "notAuthenticated": "다시 로그인해 주세요.",
+    "generic": "문제가 생겼어요. 다시 시도해 주세요."
+  },
+  "empty": {
+    "organizer": {
+      "title": "아직 메시지가 없어요",
+      "text": "계정이나 이벤트에 관해 궁금한 점이 있나요? Ticketzy 관리자 팀에 문의하면 여기에서 답변해 드려요.",
+      "action": "지원 문의",
+      "starting": "여는 중…"
+    },
+    "admin": {
+      "title": "아직 대화가 없어요",
+      "text": "대화는 주최자가 메시지 페이지에서 시작해요. 주최자가 글을 남기면 여기에 표시돼요."
+    }
+  },
+  "list": {
+    "label": "대화",
+    "searchOrganizer": "대화 검색",
+    "searchAdmin": "주최자로 검색",
+    "filterLabel": "대화 필터",
+    "filterAll": "전체",
+    "filterUnread": "읽지 않음",
+    "adminTeam": "Ticketzy 관리자 팀",
+    "support": "일반 지원",
+    "event": "이벤트",
+    "unknownOrganizer": "주최자",
+    "noMessages": "아직 메시지가 없어요",
+    "you": "나: {{text}}",
+    "yesterday": "어제",
+    "unread_other": "읽지 않은 메시지 {{count}}개",
+    "none": {
+      "title": "일치하는 대화가 없어요",
+      "text": "다른 이름으로 검색하거나 모든 대화를 표시해 보세요.",
+      "clear": "필터 지우기"
+    }
+  },
+  "thread": {
+    "label": "{{title}}와(과)의 대화",
+    "logLabel": "메시지",
+    "back": "대화 목록으로",
+    "pick": "읽을 대화를 선택하세요.",
+    "organizer": "주최자",
+    "admin": "Ticketzy 관리자",
+    "you": "나",
+    "handling": "{{name}} 님이 담당하고 있어요",
+    "handlingTeam": "관리자 팀이 담당하고 있어요",
+    "noAdminYet": "관리자가 여기에서 답변해 드려요",
+    "supportNote": "일반 지원: 특정 이벤트와 관련 없는 계정 문의입니다.",
+    "supportNoteAdmin": "일반 지원 대화입니다. 특정 이벤트와 관련이 없어요.",
+    "editEvent": "이벤트 수정",
+    "openEvent": "이벤트 열기",
+    "today": "오늘",
+    "yesterday": "어제",
+    "empty": "아직 메시지가 없어요. 아래에 첫 메시지를 남겨 보세요.",
+    "loadOlder": "이전 메시지 더 보기",
+    "loadingOlder": "불러오는 중…",
+    "olderError": "이전 메시지를 불러오지 못했어요. 다시 시도해 주세요.",
+    "typing": "{{name}} 님이 입력 중…",
+    "newBelow": "새 메시지",
+    "fallback": "실시간 업데이트를 사용할 수 없어요. 새 메시지를 10초마다 확인해요.",
+    "loadError": {
+      "title": "대화를 불러오지 못했어요",
+      "text": "연결 상태를 확인하고 다시 시도해 주세요."
+    },
+    "notFound": {
+      "title": "대화를 찾을 수 없어요",
+      "text": "대화가 없거나 접근 권한이 없을 수 있어요."
+    },
+    "state": {
+      "sending": "보내는 중…",
+      "sent": "전송됨",
+      "read": "읽음",
+      "failed": "전송 실패",
+      "retry": "다시 시도",
+      "remove": "삭제"
+    }
+  },
+  "composer": {
+    "label": "메시지 입력",
+    "placeholder": "메시지를 입력하세요",
+    "send": "보내기",
+    "sending": "보내는 중…",
+    "hint": "Enter로 보내기, Shift+Enter로 줄 바꿈",
+    "counter": "{{count}} / {{max}}"
+  }
+}

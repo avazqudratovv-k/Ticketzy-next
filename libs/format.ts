@@ -228,3 +228,10 @@ export function daysAgo(iso: string): number {
 	const day = (date: Date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 	return Math.round((day(new Date()) - day(new Date(iso))) / 86_400_000);
 }
+
+/** "2 Oct" (or "2 Oct 2025") on the viewer's clock, for lists. */
+export function formatViewerDay(iso: string, locale?: string, withYear = false): string {
+	const zone = safeZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+	if (locale === 'uz') return uzDate(new Date(iso), zone, withYear, false);
+	return new Intl.DateTimeFormat(intlLocale(locale), { timeZone: zone, day: 'numeric', month: 'short', ...(withYear ? { year: 'numeric' } : {}) }).format(new Date(iso));
+}

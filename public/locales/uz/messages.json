@@ -1,0 +1,112 @@
+{
+  "page": {
+    "title": "Xabarlar",
+    "subtitleOrganizer": "Tadbir yoki hisobingiz haqida Ticketzy administratorlar jamoasi bilan gaplashing. Har bir suhbat bitta tadbir yoki umumiy yordam haqida.",
+    "subtitleAdmin": "Tashkilotchilar bilan suhbatlar. Tadbir suhbatida tadbir yuqorida koʻrsatiladi."
+  },
+  "loading": "Suhbatlar yuklanmoqda",
+  "loadError": {
+    "title": "Xabarlarni yuklab boʻlmadi",
+    "text": "Ulanishni tekshirib, qayta urinib koʻring."
+  },
+  "errors": {
+    "retry": "Qayta urinish",
+    "network": "Ticketzy bilan aloqa yoʻq. Ulanishni tekshirib, qayta urinib koʻring.",
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+  },
+  "serverErrors": {
+    "notAllowed": "Bu suhbatdan foydalanishga ruxsatingiz yoʻq.",
+    "supportOnly": "Hisobingiz faqat yordam suhbatidan foydalana oladi.",
+    "eventNotYours": "Suhbatni faqat oʻz tadbiringiz haqida boshlash mumkin.",
+    "organizersOnly": "Suhbatni faqat tashkilotchilar boshlay oladi.",
+    "empty": "Xabar boʻsh boʻlishi mumkin emas.",
+    "tooLong": "Xabar eng koʻpi bilan 2000 belgidan iborat boʻlishi mumkin.",
+    "tooFast": "Xabarlarni juda tez yubormoqdasiz. Bir necha soniya kuting.",
+    "noData": "Suhbat topilmadi.",
+    "notAuthenticated": "Qaytadan kiring.",
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+  },
+  "empty": {
+    "organizer": {
+      "title": "Hozircha xabarlar yoʻq",
+      "text": "Hisobingiz yoki tadbir haqida savolingiz bormi? Ticketzy administratorlar jamoasiga yozing, javob shu yerda boʻladi.",
+      "action": "Yordamga yozish",
+      "starting": "Ochilmoqda…"
+    },
+    "admin": {
+      "title": "Hozircha suhbatlar yoʻq",
+      "text": "Suhbatni tashkilotchilar oʻz xabarlar sahifasidan boshlaydi. Kimdir yozishi bilan u shu yerda paydo boʻladi."
+    }
+  },
+  "list": {
+    "label": "Suhbatlar",
+    "searchOrganizer": "Suhbatlardan qidirish",
+    "searchAdmin": "Tashkilotchi boʻyicha qidirish",
+    "filterLabel": "Suhbatlarni saralash",
+    "filterAll": "Hammasi",
+    "filterUnread": "Oʻqilmagan",
+    "adminTeam": "Ticketzy administratorlar jamoasi",
+    "support": "Umumiy yordam",
+    "event": "Tadbir",
+    "unknownOrganizer": "Tashkilotchi",
+    "noMessages": "Hozircha xabarlar yoʻq",
+    "you": "Siz: {{text}}",
+    "yesterday": "Kecha",
+    "unread_one": "{{count}} ta oʻqilmagan xabar",
+    "unread_other": "{{count}} ta oʻqilmagan xabar",
+    "none": {
+      "title": "Mos suhbat topilmadi",
+      "text": "Boshqa ism bilan qidiring yoki barcha suhbatlarni koʻrsating.",
+      "clear": "Filtrlarni tozalash"
+    }
+  },
+  "thread": {
+    "label": "{{title}} bilan suhbat",
+    "logLabel": "Xabarlar",
+    "back": "Suhbatlarga qaytish",
+    "pick": "Oʻqish uchun suhbatni tanlang.",
+    "organizer": "Tashkilotchi",
+    "admin": "Ticketzy administratori",
+    "you": "Siz",
+    "handling": "Bu bilan {{name}} shugʻullanmoqda",
+    "handlingTeam": "Bu bilan administratorlar jamoasi shugʻullanmoqda",
+    "noAdminYet": "Administrator shu yerda javob beradi",
+    "supportNote": "Umumiy yordam: bitta tadbirga bogʻliq boʻlmagan hisob savollari.",
+    "supportNoteAdmin": "Umumiy yordam suhbati. U bitta tadbirga bogʻliq emas.",
+    "editEvent": "Tadbirni tahrirlash",
+    "openEvent": "Tadbirni ochish",
+    "today": "Bugun",
+    "yesterday": "Kecha",
+    "empty": "Hozircha xabarlar yoʻq. Birinchisini quyida yozing.",
+    "loadOlder": "Oldingi xabarlarni yuklash",
+    "loadingOlder": "Yuklanmoqda…",
+    "olderError": "Oldingi xabarlarni yuklab boʻlmadi. Qayta urinib koʻring.",
+    "typing": "{{name}} yozmoqda…",
+    "newBelow": "Yangi xabarlar",
+    "fallback": "Jonli yangilanishlar mavjud emas. Yangi xabarlar har 10 soniyada tekshiriladi.",
+    "loadError": {
+      "title": "Suhbatni yuklab boʻlmadi",
+      "text": "Ulanishni tekshirib, qayta urinib koʻring."
+    },
+    "notFound": {
+      "title": "Suhbat topilmadi",
+      "text": "U mavjud emas yoki unga kirish huquqingiz yoʻq."
+    },
+    "state": {
+      "sending": "Yuborilmoqda…",
+      "sent": "Yuborildi",
+      "read": "Oʻqildi",
+      "failed": "Yuborilmadi",
+      "retry": "Qayta urinish",
+      "remove": "Oʻchirish"
+    }
+  },
+  "composer": {
+    "label": "Xabar yozing",
+    "placeholder": "Xabar yozing",
+    "send": "Yuborish",
+    "sending": "Yuborilmoqda…",
+    "hint": "Enter — yuborish, Shift+Enter — yangi qator",
+    "counter": "{{count}} / {{max}}"
+  }
+}

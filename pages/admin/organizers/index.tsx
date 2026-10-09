@@ -12,6 +12,7 @@ import StateBlock from '../../../libs/components/states/StateBlock';
 import Pagination from '../../../libs/components/events/Pagination';
 import MemberStatusBadge from '../../../libs/components/admin/MemberStatusBadge';
 import OrganizerDrawer from '../../../libs/components/admin/OrganizerDrawer';
+import MessageOrganizer from '../../../libs/components/admin/MessageOrganizer';
 import useListParams from '../../../libs/admin/useListParams';
 import {
 	isOrganizerSortKey,
@@ -215,6 +216,7 @@ const AdminOrganizers: NextPage = () => {
 										<button type="button" className="tz-link org-linkbtn" onClick={() => { setNotice(null); setSelected(organizer); }}>
 											{organizer.memberStatus === 'PENDING' ? t('organizers.actions.review') : t('organizers.actions.open')}
 										</button>
+										<MessageOrganizer organizerId={organizer._id} variant="link" />
 									</div>
 								</div>
 							);

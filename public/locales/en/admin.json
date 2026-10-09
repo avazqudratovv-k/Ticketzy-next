@@ -414,6 +414,12 @@
     "error": {
       "title": "Organizers could not be loaded",
       "text": "Ticketzy could not read the organizer list. Try again in a moment."
+    },
+    "message": {
+      "action": "Message organizer",
+      "short": "Message",
+      "none": "No messages yet",
+      "noneHint": "Organizers start conversations from their own Messages page. You can reply as soon as this organizer writes."
     }
   },
   "members": {

@@ -470,6 +470,7 @@ export const GET_MY_NOTIFICATIONS = gql`
 				notificationDesc
 				eventId
 				orderId
+				conversationId
 				createdAt
 			}
 			metaCounter {

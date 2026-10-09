@@ -414,6 +414,12 @@
     "error": {
       "title": "Tashkilotchilarni yuklab boʻlmadi",
       "text": "Ticketzy tashkilotchilar roʻyxatini oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    },
+    "message": {
+      "action": "Tashkilotchiga yozish",
+      "short": "Yozish",
+      "none": "Xabarlar yoʻq",
+      "noneHint": "Suhbatni tashkilotchilar oʻz xabarlar sahifasidan boshlaydi. Bu tashkilotchi yozishi bilan unga javob berishingiz mumkin."
     }
   },
   "members": {

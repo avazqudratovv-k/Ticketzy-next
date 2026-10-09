@@ -1,0 +1,112 @@
+{
+  "page": {
+    "title": "Messages",
+    "subtitleOrganizer": "Talk to the Ticketzy admin team about an event or your account. Each conversation is about one event, or general support.",
+    "subtitleAdmin": "Conversations with organizers. An event conversation shows its event at the top of the thread."
+  },
+  "loading": "Loading conversations",
+  "loadError": {
+    "title": "We could not load your messages",
+    "text": "Check your connection and try again."
+  },
+  "errors": {
+    "retry": "Try again",
+    "network": "Cannot reach Ticketzy. Check your connection and try again.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "serverErrors": {
+    "notAllowed": "You are not allowed to use this conversation.",
+    "supportOnly": "Your account can only use the support conversation.",
+    "eventNotYours": "You can only start a conversation about your own event.",
+    "organizersOnly": "Only organizers can start a conversation.",
+    "empty": "The message cannot be empty.",
+    "tooLong": "A message can have at most 2000 characters.",
+    "tooFast": "You are sending messages too fast. Please wait a few seconds.",
+    "noData": "This conversation was not found.",
+    "notAuthenticated": "Please sign in again.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "empty": {
+    "organizer": {
+      "title": "No messages yet",
+      "text": "Questions about your account or an event? Contact the Ticketzy admin team and they will reply here.",
+      "action": "Contact support",
+      "starting": "Opening…"
+    },
+    "admin": {
+      "title": "No conversations yet",
+      "text": "Organizers start conversations from their Messages page. They will appear here as soon as one writes."
+    }
+  },
+  "list": {
+    "label": "Conversations",
+    "searchOrganizer": "Search conversations",
+    "searchAdmin": "Search by organizer",
+    "filterLabel": "Filter conversations",
+    "filterAll": "All",
+    "filterUnread": "Unread",
+    "adminTeam": "Ticketzy admin team",
+    "support": "General support",
+    "event": "Event",
+    "unknownOrganizer": "Organizer",
+    "noMessages": "No messages yet",
+    "you": "You: {{text}}",
+    "yesterday": "Yesterday",
+    "unread_one": "{{count}} unread message",
+    "unread_other": "{{count}} unread messages",
+    "none": {
+      "title": "No conversations match",
+      "text": "Try another name, or show all conversations.",
+      "clear": "Clear filters"
+    }
+  },
+  "thread": {
+    "label": "Conversation with {{title}}",
+    "logLabel": "Messages",
+    "back": "Back to conversations",
+    "pick": "Choose a conversation to read it.",
+    "organizer": "Organizer",
+    "admin": "Ticketzy admin",
+    "you": "You",
+    "handling": "{{name}} is handling this",
+    "handlingTeam": "The admin team is handling this",
+    "noAdminYet": "An admin will reply here",
+    "supportNote": "General support: questions about your account that are not tied to one event.",
+    "supportNoteAdmin": "General support conversation. It is not tied to one event.",
+    "editEvent": "Edit event",
+    "openEvent": "Open event",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "empty": "No messages yet. Write the first one below.",
+    "loadOlder": "Load older messages",
+    "loadingOlder": "Loading…",
+    "olderError": "Could not load older messages. Try again.",
+    "typing": "{{name}} is typing…",
+    "newBelow": "New messages",
+    "fallback": "Live updates are not available. New messages are checked every 10 seconds.",
+    "loadError": {
+      "title": "We could not load this conversation",
+      "text": "Check your connection and try again."
+    },
+    "notFound": {
+      "title": "Conversation not found",
+      "text": "It may not exist, or you may not have access to it."
+    },
+    "state": {
+      "sending": "Sending…",
+      "sent": "Sent",
+      "read": "Read",
+      "failed": "Not sent",
+      "retry": "Try again",
+      "remove": "Remove"
+    }
+  },
+  "composer": {
+    "label": "Write a message",
+    "placeholder": "Write a message",
+    "send": "Send",
+    "sending": "Sending…",
+    "hint": "Enter to send, Shift+Enter for a new line",
+    "counter": "{{count}} / {{max}}"
+  }
+}

@@ -93,7 +93,9 @@
       "members": "Members"
     },
     "overviewTitle": "Overview",
-    "adminOverviewTitle": "Platform overview"
+    "adminOverviewTitle": "Platform overview",
+    "unreadMessages_one": "{{count}} unread message",
+    "unreadMessages_other": "{{count}} unread messages"
   },
   "notFound": {
     "title": "Page not found",

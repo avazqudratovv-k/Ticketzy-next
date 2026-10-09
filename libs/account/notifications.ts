@@ -41,6 +41,10 @@ export function notificationHref(item: NotificationItem, memberType?: MemberType
 			return buyer && item.orderId ? `/orders/${item.orderId}` : null;
 		case 'EVENT_REMINDER':
 			return buyer ? '/tickets' : item.eventId ? eventUrl(item.eventId) : null;
+		case 'NEW_MESSAGE':
+			// only organizers and admins have conversations; the thread opens from the id
+			if (!item.conversationId || buyer) return null;
+			return `${memberType === MemberType.ADMIN ? '/admin' : '/organizer'}/messages?c=${encodeURIComponent(item.conversationId)}`;
 		case 'EVENT_CANCELLED':
 		case 'LIKE':
 		case 'COMMENT':

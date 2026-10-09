@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { CheckCircle, Prohibit, ArrowCounterClockwise, WarningCircle, X, XCircle } from 'phosphor-react';
 import MemberStatusBadge from './MemberStatusBadge';
 import ReasonDialog from './ReasonDialog';
+import MessageOrganizer from './MessageOrganizer';
 import {
 	REINSTATE_ORGANIZER_BY_ADMIN,
 	REJECT_ORGANIZER_BY_ADMIN,
@@ -184,6 +185,7 @@ const OrganizerDrawer = ({ organizer, onClose, onChanged }: Props) => {
 										{busy === 'reinstate' ? t('organizers.sending') : t('organizers.actions.reinstate')}
 									</Button>
 								)}
+								<MessageOrganizer organizerId={organizer._id} />
 								{organizer.memberStatus === 'ACTIVE' && (
 									<Button component={Link} href={`/admin/commission?q=${encodeURIComponent(organizer.memberNick || organizer.memberEmail || '')}`} variant="outlined">
 										{t('organizers.actions.commission')}

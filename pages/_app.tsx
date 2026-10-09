@@ -7,6 +7,7 @@ import { appWithTranslation } from 'next-i18next';
 import { useApollo } from '../apollo/client';
 import { restoreSession } from '../libs/auth';
 import { TOKEN_STORAGE_KEY } from '../libs/auth/token';
+import MessagingLifecycle from '../libs/components/messages/MessagingLifecycle';
 import { ThemeModeProvider } from '../libs/theme/ThemeModeProvider';
 import { isLocale, LOCALE_STORAGE_KEY } from '../libs/i18n';
 import '../scss/tokens.css';
@@ -20,6 +21,7 @@ import '../scss/account.scss';
 import '../scss/organizer.scss';
 import '../scss/venues.scss';
 import '../scss/admin.scss';
+import '../scss/messages.scss';
 
 // Latin and Cyrillic from Onest (Uzbek needs latin-ext for oʻ and gʻ), Hangul from Noto Sans KR, codes in JetBrains Mono.
 const onest = Onest({ subsets: ['latin', 'latin-ext', 'cyrillic'], display: 'swap' });
@@ -65,6 +67,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 				}
 			`}</style>
 			<ApolloProvider client={client}>
+				<MessagingLifecycle />
 				<ThemeModeProvider>
 					<Component {...pageProps} />
 				</ThemeModeProvider>

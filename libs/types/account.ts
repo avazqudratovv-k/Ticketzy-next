@@ -93,5 +93,6 @@ export interface NotificationItem {
 	notificationDesc?: string | null;
 	eventId?: string | null;
 	orderId?: string | null;
+	conversationId?: string | null;
 	createdAt: string;
 }

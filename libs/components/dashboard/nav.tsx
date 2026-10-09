@@ -7,6 +7,7 @@ import {
 	CheckCircle,
 	CreditCard,
 	Calendar,
+	ChatCircleDots,
 	Receipt,
 	Scan,
 	Shield,
@@ -24,6 +25,8 @@ export interface NavItem {
 	icon: React.ReactNode;
 	/** exact match only (the overview pages) */
 	exact?: boolean;
+	/** shows the unread message count */
+	messages?: boolean;
 }
 
 export interface NavGroup {
@@ -44,6 +47,7 @@ export const ORGANIZER_NAV: NavGroup[] = [
 			{ href: '/organizer', label: 'dashboard.nav.overview', icon: icon(SquaresFour), exact: true },
 			{ href: '/organizer/events', label: 'dashboard.nav.events', icon: icon(Calendar) },
 			{ href: '/organizer/venues', label: 'dashboard.nav.venues', icon: icon(MapPin) },
+			{ href: '/organizer/messages', label: 'dashboard.nav.messages', icon: icon(ChatCircleDots), messages: true },
 			{ href: '/organizer/attendees', label: 'dashboard.nav.attendees', icon: icon(UsersThree) },
 			{ href: '/organizer/check-in', label: 'dashboard.nav.checkIn', icon: icon(Scan) },
 			{ href: '/organizer/payouts', label: 'dashboard.nav.payouts', icon: icon(CreditCard) },
@@ -60,6 +64,7 @@ export const ADMIN_NAV: NavGroup[] = [
 			{ href: '/admin', label: 'dashboard.nav.overview', icon: icon(SquaresFour), exact: true },
 			{ href: '/admin/events', label: 'dashboard.nav.eventApprovals', icon: icon(CheckCircle) },
 			{ href: '/admin/organizers', label: 'dashboard.nav.organizers', icon: icon(Users) },
+			{ href: '/admin/messages', label: 'dashboard.nav.messages', icon: icon(ChatCircleDots), messages: true },
 		],
 	},
 	{

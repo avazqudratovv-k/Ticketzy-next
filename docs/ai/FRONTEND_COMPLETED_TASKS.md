@@ -301,3 +301,37 @@ Goal: clear commission override, admin orders filters, member error messages. No
 - **Not tested:** the three member refusals (own account, another admin, assigning ADMIN) in the browser: the UI guards stop them, and my attempt to send them through the API from the page was blocked, so the mapping is verified by code and key parity only. Event filter select and the order drawer were not clicked. ko, ru and uz pages not looked at (translations written without native review). `yarn build` not run.
 - Test data left behind: Hanbit Live Entertainment had a 7% override set and cleared (audit entries, two notifications). No override remains on it.
 
+
+## Prompt 9a: organizer-admin messaging (2026-10-09)
+Goal: inboxes for organizers and admins, thread, real time, unread badges, notifications link. Not committed. Decisions F171 to F184.
+
+### Schema
+`docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql`. No change in the SDL (the file is rewritten by the same introspection query; only whitespace and ordering of meta fields differ).
+
+### Operations used (exact names)
+Queries: `getMyConversations(input: OrdinaryInquiry)`, `getConversation(conversationId)`, `getMessages(conversationId, input)` (newest first), `getMyNotifications` (now also reads `conversationId`), `getUnreadNotificationCount`. Mutations: `startConversation(eventId?)`, `sendMessage(conversationId, body)`, `markConversationRead(conversationId)`, `markNotificationRead`. Documents in `apollo/messaging.ts`.
+Socket (raw WebSocket, `NEXT_PUBLIC_API_WS_URL`): client `auth` (first message, token), `joinConversation`, `leaveConversation`, `typing`; server `authenticated`, `joined`, `left`, `message`, `unread`, `read`, `typing`, `error`.
+
+### Added or changed
+- Pages: `/organizer/messages`, `/admin/messages` (shared `libs/components/messages/Inbox.tsx`; `?c=<id>` selects a thread).
+- `libs/messaging/`: `socket.ts` (the one shared socket), `sync.ts` (conversation store, polling, bell refresh, mark-notifications-read), `useThread.ts`, `hooks.ts`, `format.ts`, `errors.ts`, `types.ts`. Reactive vars in `apollo/store.ts`.
+- `libs/components/messages/`: `Inbox`, `ConversationList`, `Thread`, `Composer`, `PartyAvatar`, `MessagingLifecycle` (mounted in `_app`), `labels`.
+- Sidebar "Messages" with an unread badge for both roles (`dashboard/nav.tsx`, `DashboardShell.tsx`); "Message organizer" in the admin organizer drawer and as a row link (`components/admin/MessageOrganizer.tsx`).
+- Notifications: `NEW_MESSAGE` links to the thread (`libs/account/notifications.ts`), `conversationId` in the query and type.
+- `scss/messages.scss`; `libs/format.ts` got `formatViewerDay`.
+- i18n: new `messages.json` in en, ko, ru, uz (keys and placeholders checked identical by script, plural forms per language); `organizers.message.*` in `admin.json`, `dashboard.unreadMessages` in `common.json`, plus `thread.handlingTeam`.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds (scratch copy with `node_modules` linked, deleted afterwards).
+- Browser on `http://localhost:3000`. Two sessions in one browser share `localStorage`, and `127.0.0.1:3000` is refused by the API's CORS, so the browser played one side at a time and the other side was a Node script using the real GraphQL API and WebSocket (`organizer@ticketzy.demo` and `admin@ticketzy.com`):
+  - Admin UI: list, event card, live incoming message in the open thread, live reorder and unread badge in another conversation, sidebar badge, typing indicator, Enter sends, Shift+Enter adds a line, Sent turning into Read when the organizer read it, unread cleared and bell count lowered when the thread is open and focused, load older (30 then 41 messages, position kept, button gone at the end), fallback with the socket blocked (banner, a message arrived by polling within 10 s), socket back after restoring.
+  - Organizer UI: list and thread, live badge and reorder, bell dropdown entry opening the thread and clearing both badges, typing indicator from the admin, failed send (offline) then Try again, dark theme, 390 px list and thread (iframe, no horizontal overflow).
+  - Guards: a buyer signed in through the form is sent to `/` from both inbox pages (in-app navigation); a buyer socket is refused with 4401 (script); logout closes the socket.
+- Light theme was seen on the admin and organizer inbox at desktop width.
+
+### Not tested
+- ko, ru, uz pages visually (keys and placeholders by script only; translations written without native review).
+- "Message organizer" in the admin organizer list and drawer: compiled, typed and built, but not looked at in the browser (the browser tab became too slow to switch back to the admin session).
+- Contact support / empty state (every demo organizer I could use already had conversations); an organizer opening `/admin/messages` (same guard as `/admin/events`, tested in Prompt 8); the 2000 character counter; the rate-limit message; a REJECTED or SUSPENDED organizer.
+- Hard page loads in the automation tab were slow and sometimes blank for 15 to 60 seconds, also on pages that already existed (the tab reports `visibilityState: hidden`, which throttles the dev server's hydration). To test mark-as-read in a hidden tab I overrode `document.visibilityState` and `document.hasFocus` in the page; the app itself is unchanged by that.
+- Test data left behind: about 45 messages in the two demo conversations between `hanbit_live` and the admin (bulk messages 1 to 35 and a few others) and their notifications. The admin session of the browser was replaced by the organizer one (the browser is signed in as `organizer@ticketzy.demo`).

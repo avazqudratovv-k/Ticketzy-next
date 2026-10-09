@@ -8,6 +8,7 @@ import { useTranslation } from 'next-i18next';
 import { MemberType } from '../../enums/member.enum';
 import { useRequireRole } from '../../auth/guards';
 import useAuth from '../../hooks/useAuth';
+import { useMessagingUnread } from '../../messaging/hooks';
 import Brand from '../common/Brand';
 import LanguageSwitcher from '../common/LanguageSwitcher';
 import ThemeToggle from '../common/ThemeToggle';
@@ -27,6 +28,7 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 	const { organizerAccess } = useAuth();
 	const createLocked = organizerAccess !== null && organizerAccess !== 'active';
 	const { user, allowed } = useRequireRole(role);
+	const unreadMessages = useMessagingUnread();
 	const [open, setOpen] = useState(false);
 	const isAdmin = role === MemberType.ADMIN;
 	const groups: NavGroup[] = isAdmin ? ADMIN_NAV : ORGANIZER_NAV;
@@ -44,6 +46,14 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 			<Link href={item.href} className="tz-navitem" aria-current={current === item ? 'page' : undefined}>
 				{item.icon}
 				<span>{t(item.label)}</span>
+				{item.messages && unreadMessages > 0 && (
+					<>
+						<span className="tz-navitem__count" aria-hidden="true">
+							{unreadMessages > 99 ? '99+' : unreadMessages}
+						</span>
+						<span className="tz-sr">{t('dashboard.unreadMessages', { count: unreadMessages })}</span>
+					</>
+				)}
 			</Link>
 		</li>
 	);

@@ -93,7 +93,11 @@
       "members": "Участники"
     },
     "overviewTitle": "Обзор",
-    "adminOverviewTitle": "Обзор платформы"
+    "adminOverviewTitle": "Обзор платформы",
+    "unreadMessages_one": "{{count}} непрочитанное сообщение",
+    "unreadMessages_few": "{{count}} непрочитанных сообщения",
+    "unreadMessages_many": "{{count}} непрочитанных сообщений",
+    "unreadMessages_other": "{{count}} непрочитанных сообщений"
   },
   "notFound": {
     "title": "Страница не найдена",

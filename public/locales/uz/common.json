@@ -93,7 +93,9 @@
       "members": "Aʼzolar"
     },
     "overviewTitle": "Sharh",
-    "adminOverviewTitle": "Platforma sharhi"
+    "adminOverviewTitle": "Platforma sharhi",
+    "unreadMessages_one": "{{count}} ta oʻqilmagan xabar",
+    "unreadMessages_other": "{{count}} ta oʻqilmagan xabar"
   },
   "notFound": {
     "title": "Sahifa topilmadi",
