@@ -3,6 +3,7 @@ import { ApolloClient, ApolloLink, InMemoryCache, from, NormalizedCacheObject } 
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { onError } from '@apollo/client/link/error';
 import { getJwtToken } from '../libs/auth/token';
+import { fetchWithTimeout, retryLink, timeoutLink, trackLink } from './resilience';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
@@ -26,6 +27,8 @@ function createIsomorphicLink() {
 
 		const uploadLink = createUploadLink({
 			uri: process.env.NEXT_PUBLIC_API_GRAPHQL_URL,
+			// Deadline per request (queries 20 s); uploads and the websocket are exempt, see resilience.ts
+			fetch: fetchWithTimeout,
 			// Apollo Server's CSRF protection rejects multipart uploads without this header
 			headers: { 'apollo-require-preflight': 'true' },
 		});
@@ -41,7 +44,7 @@ function createIsomorphicLink() {
 			if (networkError) console.error(`[Network error]: ${networkError}`);
 		});
 
-		return from([errorLink, authLink.concat(uploadLink)]);
+		return from([errorLink, trackLink, retryLink, authLink, timeoutLink, uploadLink]);
 	}
 }
 

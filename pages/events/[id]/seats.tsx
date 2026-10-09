@@ -14,6 +14,7 @@ import GeneralPicker from '../../../libs/components/seats/GeneralPicker';
 import SeatPicker from '../../../libs/components/seats/SeatPicker';
 import Steps from '../../../libs/components/seats/Steps';
 import { useRequireAuth } from '../../../libs/auth/guards';
+import useBuyerOnlyRedirect from '../../../libs/hooks/useBuyerOnlyRedirect';
 import { localizedEvent, saleState } from '../../../libs/events';
 import { formatEventWhen } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
@@ -32,7 +33,9 @@ const Seats: NextPage = () => {
 	const { locale } = router;
 	const { allowed } = useRequireAuth();
 	const eventId = typeof router.query.id === 'string' ? router.query.id : '';
-	const skip = !router.isReady || !allowed;
+	// Organizer and admin accounts cannot buy: back to the event page with the message (skeleton for that moment)
+	const blocked = useBuyerOnlyRedirect(router.isReady && eventId ? eventUrl(eventId) : null);
+	const skip = !router.isReady || !allowed || blocked;
 
 	const { data, error, refetch } = useQuery(GET_EVENT, { variables: { eventId }, skip, fetchPolicy: 'network-only' });
 	const { data: ticketData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip, fetchPolicy: 'network-only' });

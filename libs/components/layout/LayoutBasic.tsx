@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import Top from '../Top';
 import Footer from '../Footer';
 import PendingBanner from '../common/PendingBanner';
+import WakeNote from '../common/WakeNote';
 
 // The chat panel is not needed for the first paint; it loads after hydration
 const AssistantWidget = dynamic(() => import('../assistant/AssistantWidget'), { ssr: false });
@@ -28,6 +29,7 @@ const withLayoutBasic = (Component: any) => {
 					<PendingBanner />
 					<main id="main">
 						<Component {...props} />
+						<WakeNote contained />
 					</main>
 					<Footer />
 					<AssistantWidget />

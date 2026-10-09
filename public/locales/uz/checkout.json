@@ -226,7 +226,8 @@
     "retryTaken": "Siz yoʻqligingizda baʼzi oʻrinlar olib qoʻyildi. Oʻrinlarni qayta tanlang.",
     "eventEnded": "Tadbir tugadi, endi chipta sotib olib boʻlmaydi.",
     "salesNotStarted": "Bu tadbir uchun chipta sotuvi hali boshlanmagan.",
-    "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan."
+    "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan.",
+    "buyerOnly": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi."
   },
   "countdown": {
     "announce_one": "{{count}} soniya qoldi",

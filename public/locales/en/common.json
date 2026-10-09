@@ -233,5 +233,9 @@
   },
   "payoutList": {
     "showing": "Showing {{from}}–{{to}} of {{total}}"
-  }
+  },
+  "buyerOnly": {
+    "message": "Only buyer accounts can buy tickets. Organizer and admin accounts cannot."
+  },
+  "wakeNote": "Waking up the server, this can take up to a minute on the demo."
 }

@@ -603,3 +603,18 @@ tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (por
 ### Not tested / left
 - Admin/organizer sidebar was not looked at in the browser (same component as the navbar). CLS was not measured with a tool; the image has fixed width and height. 1440 was checked on the dev window (about 1470 px) only for en.
 
+
+## Prompt 14: buyer-only purchasing, loading resilience, stuck skeleton
+
+### Built / fixed
+- **Buyer-only UI** (F290-F292): organizer and admin see the event page button dimmed and `aria-disabled` with a spoken explanation on click; seats and checkout URLs redirect with the message; the backend refusal text is mapped and translated (en, ko, ru, uz).
+- **Loading resilience** (F293-F295): 20 s query deadline (60 s for mutations, none for uploads and the websocket), one retry for dropped or aborted queries, the "Waking up the server" line after 4 s (once per page load), Retry refetches without reload.
+- **Stuck skeleton** (F296): cause was `clearStore()` on sign-out (cancels in-flight queries, re-sends none). Now `resetStore()`; sign-in refetches active queries.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean; `yarn build` of a scratch copy passes.
+- Against a scratch mock API (the real backend was down): old code, sign out while the page loads, skeleton still showing after 16 s with a 6 s API; fixed code, skeleton gone after about 5 s with the data. Sign-in with `returnTo=/` under a 4 s delay lands on a loaded home. A 25 s answer: wake line at 4 s, error state with Try again at 20 s, Try again loads without a reload. Closed port: error state with Try again. Organizer: button `aria-disabled`, message on click, hides after 6 s, on outside click and on Escape, no navigation; seats URL redirects to the event page with the message; checkout URL redirects to `/events` with the message. Buyer and visitor: still a link to the seats page. Admin: gated like the organizer. axe 4.10.2 on the event page with the message shown: no violations (1456 px, dark). 390 px light in en and ko: message fits. No React warnings in the console.
+
+### Not tested / left
+- **Real accounts were not used** (the backend on 3007 was not running; it was being edited by the parallel Prompt 13 work). The three roles were tested against the mock, in one tab one after another instead of private windows. The real backend refusal path (a hold attempted by an organizer) was not exercised, only mapped.
+- Not every width, language and theme combination; the signed-up organizer path and the settings logout were reasoned from the shared `clearSession`, not clicked. The event page navbar for a signed-in organizer overflows the 386 px iframe by about 20 px (navbar actions, not touched here).

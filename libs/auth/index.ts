@@ -51,6 +51,7 @@ async function startSession({ _id, accessToken }: TokenResult): Promise<MemberPr
 	try {
 		const profile = await loadProfile(_id);
 		userVar(profile);
+		refreshActiveQueries();
 		return profile;
 	} catch (err) {
 		clearSession();
@@ -111,11 +112,32 @@ export async function restoreSession(): Promise<void> {
 	}
 }
 
+/**
+ * Queries on screen were sent with the old identity (or none). They are fetched again, never dropped: `clearStore()`
+ * cancels the requests in flight and re-sends nothing, which left pages on their skeleton until a manual refresh.
+ */
+function refreshActiveQueries() {
+	initializeApollo()
+		.refetchQueries({ include: 'active' })
+		.catch(() => undefined);
+}
+
+/** One reset at a time: a second sign-out while the first one is still refetching waits for it. */
+let resetting: Promise<unknown> = Promise.resolve();
+
+/**
+ * Empties the cache of the previous member and fetches every active query again (`resetStore`, not `clearStore`).
+ * The requests cancelled by the reset are the ones sent again, so nothing stays in loading.
+ */
+function resetCache() {
+	resetting = resetting.then(() => initializeApollo().resetStore()).catch(() => undefined);
+}
+
 /** Drops the token and the profile and the cached data of the previous member. No page reload. */
 export function clearSession() {
 	removeJwtToken();
 	userVar(null);
-	initializeApollo().clearStore().catch(() => undefined);
+	resetCache();
 }
 
 export const logOut = clearSession;

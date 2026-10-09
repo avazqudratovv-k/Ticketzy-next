@@ -17,6 +17,7 @@ import OrderSummary, { SeatLine } from '../../libs/components/seats/OrderSummary
 import Steps from '../../libs/components/seats/Steps';
 import { clearSession } from '../../libs/auth';
 import { useRequireAuth } from '../../libs/auth/guards';
+import useBuyerOnlyRedirect from '../../libs/hooks/useBuyerOnlyRedirect';
 import { formatPrice, formatRefundDeadlineDay } from '../../libs/format';
 import { useSessionWatch } from '../../libs/hooks/useSessionWatch';
 import { useSeatMap } from '../../libs/hooks/useSeatMap';
@@ -403,8 +404,18 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 const Checkout: NextPage = () => {
 	const router = useRouter();
 	const { allowed } = useRequireAuth();
+	// The order belongs to a buyer; the event is not known without reading it, so the event list shows the message
+	const blocked = useBuyerOnlyRedirect(router.isReady ? ROUTES.events : null);
 	const orderId = typeof router.query.orderId === 'string' ? router.query.orderId : '';
 	if (!allowed || !router.isReady || !orderId) return null;
+	if (blocked) {
+		return (
+			<div className="tz-container checkout" aria-busy="true">
+				<span className="tz-skel tz-skel--title" style={{ width: '30%', height: 40 }} />
+				<span className="tz-skel tz-skel--block" style={{ height: 320, marginTop: 24 }} />
+			</div>
+		);
+	}
 	// Keyed by order: a retry moves to a new order on the same page and must start from a clean state
 	return <CheckoutInner key={orderId} orderId={orderId} />;
 };

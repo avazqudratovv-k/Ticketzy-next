@@ -8,6 +8,7 @@ import { Check, FunnelSimple, MagnifyingGlass, SquaresFour, WarningCircle } from
 import { GET_EVENTS, GET_VENUES } from '../../apollo/user/query';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Seo from '../../libs/components/common/Seo';
+import BuyerNoticeBanner from '../../libs/components/events/BuyerNoticeBanner';
 import StateBlock from '../../libs/components/states/StateBlock';
 import EventCard, { EventGridSkeleton } from '../../libs/components/events/EventCard';
 import Pagination from '../../libs/components/events/Pagination';
@@ -95,6 +96,7 @@ const Events: NextPage = () => {
 				}
 				description={t('list.seoDescription')}
 			/>
+			<BuyerNoticeBanner />
 			<h1 className="browse__title">{t('list.title')}</h1>
 
 			<form

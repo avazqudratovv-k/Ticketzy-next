@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -5,6 +6,9 @@ import { Button } from '@mui/material';
 import { formatEventDate, formatPrice } from '../../format';
 import { SaleState, ticketAvailability as availabilityOf } from '../../events';
 import { seatsUrl } from '../../routes';
+import { isBlockedBuyer } from '../../buyerGate';
+import useAuth from '../../hooks/useAuth';
+import useBuyerNotice from '../../hooks/useBuyerNotice';
 import { EventItem, TicketTypeItem } from '../../types/event';
 
 const LOW_STOCK = 10;
@@ -19,7 +23,13 @@ interface Props {
 /** Ticket types with prices and availability, and the one primary action: go to seat / ticket selection. */
 const TicketPanel = ({ event, ticketTypes, loading, state }: Props) => {
 	const { t } = useTranslation('events');
+	const { t: tc } = useTranslation('common');
 	const { locale } = useRouter();
+	const { user } = useAuth();
+	const buyButton = useRef<HTMLButtonElement>(null);
+	// Organizer and admin accounts cannot buy: the button stays (focusable, aria-disabled) and explains itself on click
+	const blocked = isBlockedBuyer(user);
+	const notice = useBuyerNotice(buyButton, true);
 	const zone = event.venueData?.venueTimezone;
 	const canBuy = state === 'onSale';
 	const reserved = event.seatingType === 'RESERVED';
@@ -65,7 +75,29 @@ const TicketPanel = ({ event, ticketTypes, loading, state }: Props) => {
 			</ul>
 			{!loading && ticketTypes.length === 0 && <p className="tickets__none">{t('detail.noTickets')}</p>}
 
-			{canBuy ? (
+			{canBuy && blocked ? (
+				<>
+					<Button
+						ref={buyButton}
+						variant="contained"
+						size="large"
+						fullWidth
+						className="tickets__buy is-blocked"
+						aria-disabled="true"
+						aria-describedby="buyer-only-note"
+						onClick={notice.show}
+					>
+						{reserved ? t('detail.selectSeats') : t('detail.selectTickets')}
+					</Button>
+					<div id="buyer-only-note" role="status" className="tickets__note-live">
+						{notice.visible && (
+							<p className="tickets__blocked">
+								{tc('buyerOnly.message')}
+							</p>
+						)}
+					</div>
+				</>
+			) : canBuy ? (
 				<Button component={Link} href={seatsUrl(event._id)} variant="contained" size="large" fullWidth>
 					{reserved ? t('detail.selectSeats') : t('detail.selectTickets')}
 				</Button>

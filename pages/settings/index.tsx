@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Avatar as MuiAvatar, Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -45,7 +45,6 @@ const Settings: NextPage = () => {
 	const { t } = useTranslation('account');
 	const router = useRouter();
 	const { locale } = router;
-	const client = useApolloClient();
 	const { user } = useAuth();
 	const [values, setValues] = useState<ProfileValues>(() => (user ? valuesOf(user) : { memberFullName: '', memberNick: '', memberPhone: '' }));
 	const [file, setFile] = useState<File | null>(null);
@@ -139,7 +138,6 @@ const Settings: NextPage = () => {
 		// Leave the page first so the guard does not bounce to the login screen with a returnTo
 		await router.push(ROUTES.home);
 		logOut();
-		client.clearStore().catch(() => undefined);
 	};
 
 	return (

@@ -15,6 +15,7 @@ import ThemeToggle from '../common/ThemeToggle';
 import AccountMenu from '../common/AccountMenu';
 import NotificationBell from '../notifications/NotificationBell';
 import PendingBanner from '../common/PendingBanner';
+import WakeNote from '../common/WakeNote';
 import { ADMIN_BADGE_ICON, ADMIN_NAV, NavGroup, NavItem, ORGANIZER_NAV } from './nav';
 
 type DashboardRole = MemberType.ORGANIZER | MemberType.ADMIN;
@@ -141,6 +142,7 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 						<PendingBanner />
 						<main id="main" className="tz-content">
 							{children}
+							<WakeNote />
 						</main>
 					</div>
 				</div>

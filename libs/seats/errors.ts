@@ -1,4 +1,5 @@
 import { ApiError, NETWORK_ERROR } from '../errors';
+import { BUYER_ONLY_API_MESSAGE } from '../buyerGate';
 
 /**
  * The checkout and seat operations answer with plain messages and no codes. This is the ONE place that maps a
@@ -19,6 +20,8 @@ const MESSAGES: Record<string, string> = {
 	'Ticket sales for this event are closed!': 'errors.salesClosed',
 	// createCheckout and holdSeats answer this for ended, not-yet-on-sale, sold-out and inactive accounts alike
 	'Not Allowed Request!': 'errors.notAllowed',
+	// An organizer or admin account that got past the UI (stale session, old tab) is refused by the backend
+	[BUYER_ONLY_API_MESSAGE]: 'errors.buyerOnly',
 	'No data found!': 'errors.notFound',
 	'Something went wrong!': 'errors.generic',
 };

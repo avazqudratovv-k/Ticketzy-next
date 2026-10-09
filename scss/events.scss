@@ -236,6 +236,16 @@
 	}
 }
 
+/** WAKE NOTE: quiet line under a skeleton while the server wakes up **/
+.tz-wake {
+	&__text {
+		margin: var(--space-4) 0 0;
+		font: var(--text-body-sm);
+		color: var(--ink-muted);
+		animation: tz-fade var(--dur-slow) var(--ease-out) both;
+	}
+}
+
 /** SKELETON **/
 .tz-skel {
 	display: block;
@@ -1071,6 +1081,33 @@
 		margin: 0;
 		color: var(--ink-subtle);
 		font: var(--text-body-sm);
+	}
+	// Organizer and admin accounts: the button stays, focusable and clickable, but is not the primary lime action
+	.MuiButton-root.is-blocked {
+		background: var(--surface-sunken);
+		border-color: var(--border-control);
+		color: var(--ink-muted);
+		cursor: default;
+		&:hover,
+		&:active {
+			background: var(--surface-sunken);
+			transform: none;
+		}
+	}
+	// The live region exists before the text so screen readers announce it; empty, it takes no room in the column
+	&__note-live:empty {
+		height: 0;
+		margin-top: calc(var(--space-4) * -1);
+	}
+	&__blocked {
+		margin: 0;
+		padding: var(--space-3) var(--space-4);
+		border: 1px solid var(--border-control);
+		border-radius: var(--radius-md);
+		background: var(--surface-raised);
+		color: var(--ink);
+		font: var(--text-body-sm);
+		animation: tz-fade var(--dur-base) var(--ease-out) both;
 	}
 }
 

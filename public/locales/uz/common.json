@@ -233,5 +233,9 @@
   },
   "payoutList": {
     "showing": "{{total}} tadan {{from}}–{{to}} ko‘rsatilmoqda"
-  }
+  },
+  "buyerOnly": {
+    "message": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi."
+  },
+  "wakeNote": "Server uygʻonmoqda, demoda bu bir daqiqagacha vaqt olishi mumkin."
 }
