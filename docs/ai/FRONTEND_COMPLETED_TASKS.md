@@ -551,3 +551,23 @@ Shared by all pages 254 kB to 255 kB; total of all 51 routes 13,375 kB to 13,344
 - Uzbek number grouping follows the browser's ICU data (comma), which may differ from CLDR in other browsers.
 - The backend's "No data found!" for an empty list nulls a whole query document; only the admin overview was split. Other admin pages that combine several lists in one query were not checked for the same wrong zeros.
 - The 255 kB shared bundle and the large translation payloads of some admin pages are unchanged.
+
+## Prompt 10c: home polish and two leftover bugs
+
+### Built / fixed
+- **Scroll reveal** on the home page (F274): `libs/components/common/Reveal.tsx`, CSS in `scss/motion.scss`. Visible without JS and with reduced motion; CLS stays 0.000.
+- **Category tiles** (F276): keyboard focus lifts like hover.
+- **Login/sign-up first-input bug** (F277): `libs/hooks/useAdoptTypedValues.ts`, used by `LoginForm` and `SignupForm`.
+- **Admin events tab counts** (F278): `libs/admin/useAdminEventCounts.ts`, `GET_ADMIN_EVENT_COUNT` replaces `GET_ADMIN_EVENT_COUNTS`.
+- **Demand badges: not done** (F275). The events queries return no stock data; backend field needed.
+
+### Pages checked for several lists in one query
+Admin: overview (already split), events (fixed), orders (counts and list are `getAllOrdersByAdmin`, a facet that never errors; event filter is one `getEventsByAdmin`), organizers (facet), members (facet), commission, messages. Organizer: dashboard, events, event orders (counts), check-in (counts), analytics, payouts, attendees, venues, profile, messages: all use facet endpoints or `getTicketTypes` aliases (which only fail for an unknown event or a non-active organizer). Public: home (`getEvents` x5 plus organizers, all facets; an empty category returns `[]`, checked against the backend).
+
+### Verified
+tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (port 3000): home reveal at 1440 (sections hidden below the fold, shown after scrolling, CLS 0.0000) and in a 390 px dark ru iframe; tile focus (transform and ring) in ko; sign-in with text present before hydration (page rebuilt with scripts held back): button disabled, values kept, submit used them.
+
+### Not tested / left
+- No admin password, so the admin events counts fix was not run against real data; the organizer and buyer logins were not exercised (a credential probe was denied), so the organizer pages were audited from code and the backend source only.
+- Reduced motion was checked by code path (`Reveal` never hides), not with an OS setting; 768 px, light theme for reveal and en/uz not separately run.
+- Pre-existing dev warnings on home: next/image "loader does not implement width" for picsum images at width 1200 (not a React warning, not changed).

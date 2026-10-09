@@ -139,12 +139,21 @@ main {
 			transform: scale(1.05);
 		}
 	}
-	.home__cat {
-		transition: border-color var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-out);
-		&:hover {
-			border-color: var(--border-control);
-			transform: translateY(-2px);
-		}
+	.home__cat:hover {
+		border-color: var(--border-control);
+		transform: translateY(-2px);
+	}
+}
+// category tiles: keyboard focus gets the same lift as hover (the outline comes from the global focus ring)
+.home__cat {
+	transition: border-color var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-out),
+		box-shadow var(--dur-base) var(--ease-out);
+	&:focus-visible {
+		border-color: var(--border-control);
+		transform: translateY(-2px);
+	}
+	&:active {
+		transform: translateY(-1px) scale(0.99);
 	}
 }
 .tz-event-card:not(.tz-event-card--skel):active {
@@ -156,6 +165,35 @@ main {
 	@for $i from 2 through 8 {
 		&:nth-child(#{$i}) {
 			animation-delay: #{($i - 1) * 30}ms;
+		}
+	}
+}
+
+/** SCROLL REVEAL (home, see Reveal.tsx): a section that starts below the fold is hidden by `data-reveal="hidden"` (set by
+    script only, so without JS or with reduced motion everything stays visible), then fades and rises once. Opacity and
+    transform only, so the layout never moves. Cards, tiles and organizers inside rise in a stagger of at most six steps. **/
+[data-reveal='hidden'] {
+	opacity: 0;
+	transform: translateY(16px);
+}
+[data-reveal='shown'] {
+	transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
+[data-reveal] .tz-grid > .tz-event-card {
+	animation: none;
+}
+[data-reveal='shown'] {
+	.tz-grid > .tz-event-card,
+	.home__cats > .home__cat,
+	.home__orgs > * {
+		animation: tz-rise var(--dur-slow) var(--ease-out) backwards;
+		@for $i from 2 through 6 {
+			&:nth-child(#{$i}) {
+				animation-delay: #{($i - 1) * 40}ms;
+			}
+		}
+		&:nth-child(n + 7) {
+			animation-delay: 200ms;
 		}
 	}
 }

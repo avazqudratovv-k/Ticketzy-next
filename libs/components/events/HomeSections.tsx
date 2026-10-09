@@ -10,6 +10,7 @@ import { eventUrl, organizerUrl, ROUTES } from '../../routes';
 import CategoryChip from './CategoryChip';
 import EventImage from './EventImage';
 import EventCard from './EventCard';
+import Reveal from '../common/Reveal';
 import Avatar from '../common/OrganizerAvatar';
 
 export const Hero = ({ event }: { event: EventItem }) => {
@@ -64,7 +65,7 @@ export const EventSection = ({ id, title, events, seeAllHref }: SectionProps) =>
 	const { t } = useTranslation('events');
 	if (!events.length) return null;
 	return (
-		<section className="home__section" aria-labelledby={id}>
+		<Reveal className="home__section" aria-labelledby={id}>
 			<div className="home__section-head">
 				<h2 id={id}>{title}</h2>
 				<Link href={seeAllHref} className="tz-link">
@@ -76,7 +77,7 @@ export const EventSection = ({ id, title, events, seeAllHref }: SectionProps) =>
 					<EventCard key={event._id} event={event} />
 				))}
 			</div>
-		</section>
+		</Reveal>
 	);
 };
 
@@ -92,7 +93,7 @@ export interface OrganizerCardData {
 export const OrganizersBlock = ({ organizers }: { organizers: OrganizerCardData[] }) => {
 	const { t } = useTranslation('events');
 	return (
-		<section className="home__section" aria-labelledby="home-organizers">
+		<Reveal className="home__section" aria-labelledby="home-organizers">
 			<h2 id="home-organizers">{t('home.organizers')}</h2>
 			<div className="home__orgs">
 				{organizers.map((org) => (
@@ -113,6 +114,6 @@ export const OrganizersBlock = ({ organizers }: { organizers: OrganizerCardData[
 					</Button>
 				</div>
 			</div>
-		</section>
+		</Reveal>
 	);
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -8,6 +8,7 @@ import { logIn } from '../../auth';
 import { ApiError, isApiError, parseApiError } from '../../errors';
 import { ROUTES } from '../../routes';
 import { EMAIL_PATTERN } from './validation';
+import useAdoptTypedValues from '../../hooks/useAdoptTypedValues';
 
 const LoginForm = () => {
 	const { t } = useTranslation('auth');
@@ -16,6 +17,8 @@ const LoginForm = () => {
 	const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
 	const [formError, setFormError] = useState<ApiError | null>(null);
 	const [busy, setBusy] = useState(false);
+	const form = useRef<HTMLFormElement>(null);
+	const hydrated = useAdoptTypedValues(form, { email: setEmail, password: setPassword });
 
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -39,7 +42,7 @@ const LoginForm = () => {
 	};
 
 	return (
-		<form className="pg-auth__form" onSubmit={submit} noValidate>
+		<form ref={form} className="pg-auth__form" method="post" onSubmit={submit} noValidate>
 			<AuthError error={formError} />
 			<Field
 				label={t('fields.email')}
@@ -63,7 +66,7 @@ const LoginForm = () => {
 				error={fieldErrors.password}
 				disabled={busy}
 			/>
-			<Button type="submit" variant="contained" size="large" fullWidth disabled={busy}>
+			<Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !hydrated}>
 				{busy ? t('login.submitting') : t('login.submit')}
 			</Button>
 			<p className="pg-auth__divider">{t('login.newHere')}</p>

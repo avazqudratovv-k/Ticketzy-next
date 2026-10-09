@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Button, Checkbox } from '@mui/material';
 import { Trans, useTranslation } from 'next-i18next';
@@ -10,6 +10,7 @@ import { ApiError, isApiError, parseApiError } from '../../errors';
 import { MemberType } from '../../enums/member.enum';
 import { ROUTES } from '../../routes';
 import { EMAIL_PATTERN, MIN_PASSWORD_LENGTH } from './validation';
+import useAdoptTypedValues from '../../hooks/useAdoptTypedValues';
 
 type Role = MemberType.USER | MemberType.ORGANIZER;
 type FieldName = 'fullName' | 'organization' | 'email' | 'password' | 'terms';
@@ -31,6 +32,8 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 	const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
 	const [formError, setFormError] = useState<ApiError | null>(null);
 	const [busy, setBusy] = useState(false);
+	const form = useRef<HTMLFormElement>(null);
+	const hydrated = useAdoptTypedValues(form, { fullName: setFullName, email: setEmail, password: setPassword });
 	const isOrganizer = role === MemberType.ORGANIZER;
 
 	const validate = () => {
@@ -92,7 +95,7 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 	);
 
 	return (
-		<form className="pg-auth__form" onSubmit={submit} noValidate>
+		<form ref={form} className="pg-auth__form" method="post" onSubmit={submit} noValidate>
 			<div>
 				<div className="pg-roles__label" id="signup-roles-label">
 					{t('signup.whatBringsYou')}
@@ -190,7 +193,7 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 						</span>
 					)}
 				</div>
-				<Button type="submit" variant="contained" size="large" fullWidth disabled={busy}>
+				<Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !hydrated}>
 					{busy ? t('signup.submitting') : isOrganizer ? t('signup.submitOrganizer') : t('signup.submitBuyer')}
 				</Button>
 				<p className="pg-auth__switch">

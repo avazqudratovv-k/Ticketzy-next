@@ -14,10 +14,11 @@ import Pagination from '../../../libs/components/events/Pagination';
 import EventStatusBadge from '../../../libs/components/organizer/EventStatusBadge';
 import { moderationSummary } from '../../../libs/components/admin/ModerationPanel';
 import useListParams from '../../../libs/admin/useListParams';
+import useAdminEventCounts from '../../../libs/admin/useAdminEventCounts';
 import { EVENT_SORTS, EVENT_TABS, EventSortKey, EventTab, EVENTS_PAGE_SIZE, isEventSortKey, isEventTab, tabStatus } from '../../../libs/admin/events';
 import { isOnlyNoData } from '../../../libs/admin/errors';
 import { AdminEventRow, organizerName } from '../../../libs/admin/types';
-import { GET_ADMIN_EVENT_COUNTS, GET_ADMIN_EVENTS } from '../../../apollo/admin/query';
+import { GET_ADMIN_EVENTS } from '../../../apollo/admin/query';
 import { localizedEvent } from '../../../libs/events';
 import { formatEventWhen, formatNumber, formatViewerDate } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
@@ -49,7 +50,7 @@ const AdminEvents: NextPage = () => {
 		return () => window.clearTimeout(id);
 	}, [search, values.q, update]);
 
-	const { data: countData } = useQuery(GET_ADMIN_EVENT_COUNTS, { skip: !ready, errorPolicy: 'all', fetchPolicy: 'cache-and-network' });
+	const countData = useAdminEventCounts(!ready);
 	const status = tabStatus(tab);
 	const sort = EVENT_SORTS[sortKey];
 	const text = values.q.trim();
@@ -71,7 +72,7 @@ const AdminEvents: NextPage = () => {
 	const rows: AdminEventRow[] = useMemo(() => data?.getEventsByAdmin?.list ?? [], [data]);
 	const total: number = data?.getEventsByAdmin?.metaCounter?.[0]?.total ?? 0;
 	const pageCount = Math.max(1, Math.ceil(total / EVENTS_PAGE_SIZE));
-	const count = (key: EventTab) => countData?.[key === 'all' ? 'ALL' : key.toUpperCase()]?.metaCounter?.[0]?.total ?? 0;
+	const count = (key: EventTab) => countData[key === 'all' ? 'ALL' : (key.toUpperCase() as keyof typeof countData)];
 
 	// "No data found!" is how the backend says an empty list (or a page past the end)
 	const noData = isOnlyNoData(error);

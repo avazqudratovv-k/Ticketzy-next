@@ -71,21 +71,17 @@ export const GET_ADMIN_EVENTS = gql`
 
 export const ADMIN_EVENT_STATUS_KEYS = ['DRAFT', 'PENDING', 'APPROVED', 'REJECTED', 'CANCELLED', 'ENDED'] as const;
 
-/** One count per status in one request (limit 1: only `metaCounter` is read). An empty status errors, so run with errorPolicy "all" and read a missing alias as 0. */
-export const GET_ADMIN_EVENT_COUNTS = gql`
-	query GetAdminEventCounts {
-		ALL: getEventsByAdmin(input: { page: 1, limit: 1, search: {} }) {
+/**
+ * One count of `getEventsByAdmin` (limit 1: only `metaCounter` is read). Run one request per status (see `useAdminEventCounts`):
+ * an empty status answers "No data found!", which nulls a whole document, so statuses must not share a request.
+ */
+export const GET_ADMIN_EVENT_COUNT = gql`
+	query GetAdminEventCount($input: EventsByAdminInquiry!) {
+		getEventsByAdmin(input: $input) {
 			metaCounter {
 				total
 			}
 		}
-		${ADMIN_EVENT_STATUS_KEYS.map(
-			(status) => `${status}: getEventsByAdmin(input: { page: 1, limit: 1, search: { eventStatus: ${status} } }) {
-			metaCounter {
-				total
-			}
-		}`,
-		).join('\n')}
 	}
 `;
 

@@ -8,6 +8,7 @@ import { WarningCircle } from 'phosphor-react';
 import { GET_HOME } from '../apollo/user/query';
 import withLayoutHome from '../libs/components/layout/LayoutHome';
 import Seo from '../libs/components/common/Seo';
+import Reveal from '../libs/components/common/Reveal';
 import StateBlock from '../libs/components/states/StateBlock';
 import EventCard, { EventCardSkeleton, EventGridSkeleton } from '../libs/components/events/EventCard';
 import { categoryIcon } from '../libs/components/events/CategoryChip';
@@ -105,7 +106,7 @@ const Home: NextPage = () => {
 				</div>
 			)}
 
-			<section className="home__section" aria-labelledby="home-categories">
+			<Reveal className="home__section" aria-labelledby="home-categories">
 				<h2 id="home-categories">{t('events:home.categories')}</h2>
 				<div className="home__cats">
 					{CATEGORY_SLUGS.map((slug) => (
@@ -116,7 +117,7 @@ const Home: NextPage = () => {
 						</Link>
 					))}
 				</div>
-			</section>
+			</Reveal>
 
 			{!data && loading ? (
 				<section className="home__section" aria-busy="true">
