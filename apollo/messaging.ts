@@ -96,6 +96,16 @@ export const START_CONVERSATION = gql`
 	${CONVERSATION_FIELDS}
 `;
 
+/** ADMIN only. Idempotent: returns the organizer's support conversation, creating it the first time. */
+export const START_CONVERSATION_WITH_ORGANIZER = gql`
+	mutation StartConversationWithOrganizerByAdmin($organizerId: String!) {
+		startConversationWithOrganizerByAdmin(organizerId: $organizerId) {
+			...ConversationFields
+		}
+	}
+	${CONVERSATION_FIELDS}
+`;
+
 export const SEND_MESSAGE = gql`
 	mutation SendMessage($conversationId: String!, $body: String!) {
 		sendMessage(conversationId: $conversationId, body: $body) {

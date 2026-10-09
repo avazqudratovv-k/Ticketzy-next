@@ -29,17 +29,3 @@ export function useMessagingUnread(): number {
 export const useMessagingReady = (): boolean => useReactiveVar(messagingReadyVar);
 export const useMessagingFailed = (): boolean => useReactiveVar(messagingErrorVar);
 export const useSocketStatus = (): SocketStatus => useReactiveVar(socketStatusVar);
-
-/**
- * The conversation to open for an organizer: their support conversation, else the most recent one.
- * `ready` is false until the first list has loaded.
- */
-export function useOrganizerConversation(organizerId: string | undefined): { ready: boolean; conversationId: string | null } {
-	const entries = useConversationEntries();
-	const ready = useMessagingReady();
-	return useMemo(() => {
-		const mine = entries.filter((entry) => entry.conversation.organizerId === organizerId);
-		const best = mine.find((entry) => entry.conversation.isSupport) ?? mine[0];
-		return { ready, conversationId: best?.conversation._id ?? null };
-	}, [entries, ready, organizerId]);
-}

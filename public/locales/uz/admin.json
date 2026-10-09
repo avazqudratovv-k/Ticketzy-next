@@ -418,8 +418,14 @@
     "message": {
       "action": "Tashkilotchiga yozish",
       "short": "Yozish",
-      "none": "Xabarlar yoʻq",
-      "noneHint": "Suhbatni tashkilotchilar oʻz xabarlar sahifasidan boshlaydi. Bu tashkilotchi yozishi bilan unga javob berishingiz mumkin."
+      "opening": "Ochilmoqda…",
+      "errors": {
+        "adminOnly": "Tashkilotchiga faqat administrator yozishi mumkin.",
+        "notFound": "Tashkilotchi topilmadi. Roʻyxatni yangilab, qayta urinib koʻring.",
+        "notAllowed": "Bu suhbatni ochishga ruxsatingiz yoʻq.",
+        "network": "Ticketzy bilan aloqa oʻrnatib boʻlmadi. Ulanishni tekshirib, qayta urinib koʻring.",
+        "generic": "Suhbatni ochib boʻlmadi. Qayta urinib koʻring."
+      }
     }
   },
   "members": {

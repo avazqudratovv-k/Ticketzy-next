@@ -38,6 +38,23 @@ export function upsertConversation(conversation: Conversation, memberType: Membe
 	});
 }
 
+/**
+ * Ids added by `addConversation`. A list request that started before the conversation existed must not drop it
+ * (and release its room); the id leaves the set once a list contains it.
+ */
+const localAdds = new Set<string>();
+
+/**
+ * A conversation this member just created or opened through a mutation (no socket event announces it): it goes into
+ * the list at once, its room is joined, and it sorts by the server's `lastMessageAt`. Safe to call for one that is
+ * already listed (the preview is kept).
+ */
+export function addConversation(conversation: Conversation, memberType: MemberType): void {
+	localAdds.add(conversation._id);
+	upsertConversation(conversation, memberType);
+	syncRooms();
+}
+
 export function setUnread(conversationId: string, unread: number): void {
 	const entry = entries()[conversationId];
 	if (!entry || entry.unread === unread) return;
@@ -115,6 +132,10 @@ export async function syncConversations(client: ApolloClient<unknown>, memberTyp
 		if (gen !== generation) return;
 		const prev = entries();
 		const next: Record<string, ConversationEntry> = {};
+		localAdds.forEach((id) => {
+			if (list.some((c) => c._id === id)) localAdds.delete(id);
+			else if (prev[id]) next[id] = prev[id];
+		});
 		for (const conversation of list) {
 			const old = prev[conversation._id];
 			// a live unread event may be newer than this answer only if a message came in meanwhile; the list is fresher after a fetch
@@ -206,6 +227,7 @@ export async function markThreadNotificationsRead(client: ApolloClient<unknown>,
 export function startMessaging(client: ApolloClient<unknown>, memberId: string, memberType: MemberType): () => void {
 	generation += 1;
 	running = false;
+	localAdds.clear();
 	messagingReadyVar(false);
 	messagingErrorVar(false);
 	setEntries({});
@@ -238,6 +260,7 @@ export function startMessaging(client: ApolloClient<unknown>, memberId: string, 
 	return () => {
 		generation += 1;
 		running = false;
+		localAdds.clear();
 		clearTimeout(timer);
 		if (bellTimer) clearTimeout(bellTimer);
 		document.removeEventListener('visibilitychange', onVisible);

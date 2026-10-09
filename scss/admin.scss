@@ -180,6 +180,12 @@
 		flex: 1 1 auto;
 	}
 }
+.adm-actions__error {
+	flex: 1 1 100%;
+	margin: 0;
+	font: var(--text-body-sm);
+	color: var(--danger-text);
+}
 
 /** EVENT DETAIL **/
 .adm-detail__grid {

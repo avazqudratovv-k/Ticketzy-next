@@ -19,6 +19,7 @@
     "supportOnly": "Hisobingiz faqat yordam suhbatidan foydalana oladi.",
     "eventNotYours": "Suhbatni faqat oʻz tadbiringiz haqida boshlash mumkin.",
     "organizersOnly": "Suhbatni faqat tashkilotchilar boshlay oladi.",
+    "adminOrganizersOnly": "Tashkilotchi bilan suhbatni faqat administrator boshlay oladi.",
     "empty": "Xabar boʻsh boʻlishi mumkin emas.",
     "tooLong": "Xabar eng koʻpi bilan 2000 belgidan iborat boʻlishi mumkin.",
     "tooFast": "Xabarlarni juda tez yubormoqdasiz. Bir necha soniya kuting.",

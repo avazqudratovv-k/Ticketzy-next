@@ -335,3 +335,32 @@ Socket (raw WebSocket, `NEXT_PUBLIC_API_WS_URL`): client `auth` (first message, 
 - Contact support / empty state (every demo organizer I could use already had conversations); an organizer opening `/admin/messages` (same guard as `/admin/events`, tested in Prompt 8); the 2000 character counter; the rate-limit message; a REJECTED or SUSPENDED organizer.
 - Hard page loads in the automation tab were slow and sometimes blank for 15 to 60 seconds, also on pages that already existed (the tab reports `visibilityState: hidden`, which throttles the dev server's hydration). To test mark-as-read in a hidden tab I overrode `document.visibilityState` and `document.hasFocus` in the page; the app itself is unchanged by that.
 - Test data left behind: about 45 messages in the two demo conversations between `hanbit_live` and the admin (bulk messages 1 to 35 and a few others) and their notifications. The admin session of the browser was replaced by the organizer one (the browser is signed in as `organizer@ticketzy.demo`).
+
+## Prompt 9b: admin starts a conversation with an organizer (2026-10-09)
+Goal: "Message organizer" always works. Not committed. Decisions F185 to F190.
+
+### Schema
+`docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql`. New: mutation `startConversationWithOrganizerByAdmin(organizerId: String!): Conversation!`. Nothing else changed.
+
+### Added or changed
+- `apollo/messaging.ts`: `START_CONVERSATION_WITH_ORGANIZER` (same `ConversationFields` fragment).
+- `libs/messaging/sync.ts`: `addConversation` and the `localAdds` guard in `syncConversations` (F186, F187).
+- `libs/components/admin/MessageOrganizer.tsx`: calls the mutation, adds the conversation, `router.push` to `/admin/messages?c=<id>`, inline error, busy state. Same component for the table link and the drawer button.
+- `libs/messaging/errors.ts` and `public/locales/{en,ko,ru,uz}/{admin,messages}.json`: new strings (`organizers.message.opening`, `organizers.message.errors.*`, `serverErrors.adminOrganizersOnly`); `none` and `noneHint` removed. Keys identical in the four languages (ko, ru, uz written without native review).
+- `libs/messaging/hooks.ts`: `useOrganizerConversation` removed (unused).
+- `scss/admin.scss` (`.adm-actions__error`), `scss/organizer.scss` (disabled `.org-linkbtn`).
+
+### Verified
+- `yarn tsc --noEmit` and `yarn lint`: clean.
+- Browser, `http://localhost:3000`, dark theme, signed in as `admin@ticketzy.com`:
+  - "Message" for New Stage Productions (no conversation before): opened `/admin/messages?c=...` with an empty "General support" thread selected and first in the list; sent a message (Sent, preview in the list).
+  - Signed in as that organizer (`pending@ticketzy.demo`): the thread and message were there, and the bell listed two `NEW_MESSAGE` notifications ("An admin opened a conversation with you." and the message); opening the thread marked both read. The admin then saw the message as Read.
+  - "Message" again for the same organizer: same conversation id, still 3 conversations in the list, no duplicate.
+  - Drawer button for Ghost Tickets Co. (REJECTED, no conversation): created and opened, first in the list.
+  - Errors: with the mutation answered by a stubbed `fetch` in the page, each of the three server messages showed its translated text under the link.
+  - 390 px (same-origin iframe, the window cannot be resized): organizer list with the link and an error line, and the thread, no horizontal overflow.
+
+### Not tested
+- Live delivery into a conversation created by this button: the rejected organizer cannot sign in (`ACCOUNT_NOT_VERIFIED`) and the other two already had a conversation, so I could not send a message from the organizer side into a just-created conversation while the admin stayed on another page. Room join by `addConversation` is by code reading only.
+- ko, ru, uz visually; light theme; a suspended or pending (unapproved) organizer.
+- Test data left behind: two support conversations (New Stage Productions with one admin message, Ghost Tickets Co. empty). The browser is signed in as the admin.

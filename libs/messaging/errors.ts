@@ -6,6 +6,7 @@ const KNOWN: Record<string, string> = {
 	'Your account can only use the support conversation!': 'supportOnly',
 	'You can only start a conversation about your own event!': 'eventNotYours',
 	'Only organizers can start a conversation!': 'organizersOnly',
+	'An admin can only start a conversation with an organizer!': 'adminOrganizersOnly',
 	'The message cannot be empty!': 'empty',
 	'A message can have at most 2000 characters!': 'tooLong',
 	'You are sending messages too fast, please slow down!': 'tooFast',

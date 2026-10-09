@@ -418,8 +418,14 @@
     "message": {
       "action": "Message organizer",
       "short": "Message",
-      "none": "No messages yet",
-      "noneHint": "Organizers start conversations from their own Messages page. You can reply as soon as this organizer writes."
+      "opening": "Opening…",
+      "errors": {
+        "adminOnly": "Only an admin can message an organizer.",
+        "notFound": "This organizer was not found. Refresh the list and try again.",
+        "notAllowed": "You are not allowed to open this conversation.",
+        "network": "Can’t reach Ticketzy. Check your connection and try again.",
+        "generic": "The conversation could not be opened. Please try again."
+      }
     }
   },
   "members": {

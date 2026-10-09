@@ -19,6 +19,7 @@
     "supportOnly": "Your account can only use the support conversation.",
     "eventNotYours": "You can only start a conversation about your own event.",
     "organizersOnly": "Only organizers can start a conversation.",
+    "adminOrganizersOnly": "Only an admin can start a conversation with an organizer.",
     "empty": "The message cannot be empty.",
     "tooLong": "A message can have at most 2000 characters.",
     "tooFast": "You are sending messages too fast. Please wait a few seconds.",
