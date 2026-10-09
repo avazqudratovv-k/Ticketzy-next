@@ -364,3 +364,28 @@ Goal: "Message organizer" always works. Not committed. Decisions F185 to F190.
 - Live delivery into a conversation created by this button: the rejected organizer cannot sign in (`ACCOUNT_NOT_VERIFIED`) and the other two already had a conversation, so I could not send a message from the organizer side into a just-created conversation while the admin stayed on another page. Room join by `addConversation` is by code reading only.
 - ko, ru, uz visually; light theme; a suspended or pending (unapproved) organizer.
 - Test data left behind: two support conversations (New Stage Productions with one admin message, Ghost Tickets Co. empty). The browser is signed in as the admin.
+
+## Prompt 10: desktop layout of the order detail page and dashboards (2026-10-09)
+Goal: fix `/orders/[id]` at desktop widths and check related pages. Not committed. Decisions F191 to F196. No backend change.
+
+### Found
+- `/orders/[id]` (and every shared account page: `/tickets/[id]`, `/notifications`, `/settings`) broke for **organizer and admin sessions**: no menu column, so the page sat in the 240px column and the 380px refund column overlapped it (F191). As a buyer the page was already correct at 1440, 1280, 1024, 768, 390, but the buyer's main column was only about 376px wide at 1100 to 1280px.
+- Organizer orders table (`/organizer/events/[id]/orders`) at 1024 to about 1200px: buyer and tickets columns 45 to 57px wide, text one character per line. The same window breakpoint was used by the organizer events list and all admin tables (F194).
+- Admin orders (7 columns) was cramped at 1200 to 1280px (F195).
+- No problem found: `/orders`, `/tickets`, `/tickets/[id]` (single column below 820px content, as before), `/checkout/[orderId]`, `/events/[id]`, `/organizer` overview, `/organizer/events`, `/admin/events`.
+
+### Added or changed
+- `libs/components/account/AccountShell.tsx`: `acct--solo` for non-buyers.
+- `scss/account.scss`: `.acct__content` container, `.acct--solo`, `.acct__cols` and `--ticket` on `@container acct (min-width: 820px)`, refund column 340px, `.acct__stack--sticky`.
+- `scss/seats.scss`: `.order__lines li` first child `flex: 1 1 0; min-width: 0`, last child `flex: none; nowrap`.
+- `pages/orders/[orderId]/index.tsx`: refund column uses `acct__stack--sticky`.
+- `scss/layout.scss`: `.tz-content` container `dash`.
+- `scss/organizer.scss`, `scss/admin.scss`: window media queries replaced by `@container dash` (900px tables, 820px columns, 940px admin detail), admin orders column minimums.
+
+### Verified
+- `yarn tsc --noEmit` and `yarn lint`: clean.
+- `http://localhost:3000`, widths 1440, 1280, 1200, 1024, 768, 390, tested in a same-origin iframe (the browser window cannot be resized), both themes (the theme only changes colour tokens): order detail as buyer (paid, 2 tickets plus one cloned row), as admin (paid, 3 tickets, refund card), `/orders`, `/tickets`, `/tickets/[id]`, `/checkout/[orderId]` (live hold, 3 seats), `/events/[id]`, `/organizer`, `/organizer/events`, `/organizer/events/[id]/orders`, `/notifications` as organizer, `/admin/events`, `/admin/orders`, `/admin/events/[id]`. Checks: no horizontal overflow, no text squeezed into narrow boxes, element boxes do not overlap, screenshots. Sticky: with a 420px-high viewport and a 300px scroll the refund column stayed at 88px from the top and above the bottom of the main column.
+
+### Not tested
+- ko, ru, uz (longer words) and a very long ticket type name.
+- Test data left behind: two unpaid checkout holds on Midnight Jazz Sessions (expire by themselves).

@@ -198,7 +198,7 @@ const OrderDetail: NextPage = () => {
 						)}
 					</section>
 				</div>
-				<div className="acct__stack">
+				<div className="acct__stack acct__stack--sticky">
 					<RefundPanel order={order} />
 				</div>
 			</div>

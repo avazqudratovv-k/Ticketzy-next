@@ -37,7 +37,7 @@ const AccountShell = ({ children }: { children: React.ReactNode }) => {
 	}
 
 	return (
-		<div className="tz-container acct">
+		<div className={`tz-container acct${user.memberType === MemberType.USER ? '' : ' acct--solo'}`}>
 			{user.memberType === MemberType.USER && (
 				<nav className="acct__nav" aria-label={t('nav.label')}>
 					<ul>

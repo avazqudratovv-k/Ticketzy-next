@@ -138,7 +138,7 @@
 	display: grid;
 	gap: var(--space-5);
 	align-items: start;
-	@media (min-width: 1024px) {
+	@container dash (min-width: 900px) {
 		grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
 	}
 }
@@ -339,7 +339,7 @@ input.tz-input[type='time'] {
 		font: var(--text-label);
 		color: var(--ink-muted);
 	}
-	@media (min-width: 1024px) {
+	@container dash (min-width: 900px) {
 		grid-template-columns: minmax(0, 3fr) minmax(130px, 1.3fr) minmax(130px, 1.3fr) 90px minmax(160px, 1.6fr);
 		align-items: center;
 		gap: var(--space-4);
@@ -391,7 +391,7 @@ input.tz-input[type='time'] {
 	&__label {
 		color: var(--ink-muted);
 		margin-inline-end: var(--space-2);
-		@media (min-width: 1024px) {
+		@container dash (min-width: 900px) {
 			display: none;
 		}
 	}
@@ -404,7 +404,7 @@ input.tz-input[type='time'] {
 }
 .org-num {
 	font-variant-numeric: tabular-nums;
-	@media (min-width: 1024px) {
+	@container dash (min-width: 900px) {
 		text-align: end;
 	}
 }
@@ -1052,7 +1052,7 @@ input.tz-input[type='time'] {
 }
 
 .org-table--orders .org-row {
-	@media (min-width: 1024px) {
+	@container dash (min-width: 900px) {
 		grid-template-columns: minmax(0, 1.6fr) minmax(0, 2fr) minmax(110px, 1fr) minmax(100px, 0.9fr) minmax(140px, 1.1fr) minmax(130px, 1.1fr);
 	}
 	.org-linkbtn {
@@ -1192,7 +1192,7 @@ input.tz-input[type='time'] {
 		display: grid;
 		gap: var(--space-5);
 		align-items: start;
-		@media (min-width: 1024px) {
+		@container dash (min-width: 900px) {
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		}
 	}

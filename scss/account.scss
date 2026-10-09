@@ -104,6 +104,14 @@
 		flex-direction: column;
 		gap: var(--space-4);
 		min-width: 0;
+		// Two-column blocks inside (order, ticket) react to the width left beside the account menu, not to the window
+		container: acct / inline-size;
+	}
+	// No account menu (organizer or admin on a shared page): the page takes the whole row, not the 240px menu column
+	&--solo {
+		@media (min-width: 1024px) {
+			grid-template-columns: minmax(0, 1fr);
+		}
 	}
 	&__head {
 		display: flex;
@@ -140,12 +148,12 @@
 	&__cols {
 		display: grid;
 		gap: var(--space-6);
-		@media (min-width: 1100px) {
-			grid-template-columns: minmax(0, 1fr) 380px;
+		@container acct (min-width: 820px) {
+			grid-template-columns: minmax(0, 1fr) 340px;
 			align-items: start;
 		}
 		&--ticket {
-			@media (min-width: 1100px) {
+			@container acct (min-width: 820px) {
 				grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
 			}
 		}
@@ -155,6 +163,13 @@
 		flex-direction: column;
 		gap: var(--space-4);
 		min-width: 0;
+		// Side column that follows the scroll beside the main one, never over it
+		&--sticky {
+			@container acct (min-width: 820px) {
+				position: sticky;
+				top: calc(var(--navbar-height) + var(--space-6));
+			}
+		}
 	}
 	&__pager {
 		display: flex;

@@ -445,6 +445,8 @@
 .tz-content {
 	width: 100%;
 	max-width: 1200px;
+	// Tables and two-column blocks react to the room left beside the sidebar, not to the window
+	container: dash / inline-size;
 	padding: var(--space-4);
 	@media (min-width: 768px) {
 		padding: var(--space-6);

@@ -944,6 +944,14 @@
 			padding: var(--space-3) 0;
 			border-top: 1px solid var(--border);
 			font-variant-numeric: tabular-nums;
+			> :first-child {
+				flex: 1 1 0;
+				min-width: 0;
+			}
+			> :last-child {
+				flex: none;
+				white-space: nowrap;
+			}
 		}
 	}
 	&__line-title {
