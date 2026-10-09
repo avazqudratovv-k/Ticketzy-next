@@ -254,6 +254,10 @@
         "RESERVED": "Guests pick exact seats on the venue’s seat map. Each tier of the map has its own ticket type and price.",
         "GENERAL": "No assigned seats. Guests choose a quantity and you set how many tickets are available."
       },
+      "seatingHint": {
+      	"RESERVED": "Best for football matches and seated concerts.",
+      	"GENERAL": "Best for standing shows and comedy clubs."
+      },
       "reservedUnavailable": "This venue has no seated section, so it can only host general admission events.",
       "locked": {
         "approved": "The venue and the seating type are locked because the event was approved: its seats and orders belong to them.",

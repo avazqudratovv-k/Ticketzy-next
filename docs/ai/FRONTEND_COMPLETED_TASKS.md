@@ -618,3 +618,14 @@ tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (por
 ### Not tested / left
 - **Real accounts were not used** (the backend on 3007 was not running; it was being edited by the parallel Prompt 13 work). The three roles were tested against the mock, in one tab one after another instead of private windows. The real backend refusal path (a hold attempted by an organizer) was not exercised, only mapped.
 - Not every width, language and theme combination; the signed-up organizer path and the settings logout were reasoned from the shared `clearSession`, not clicked. The event page navbar for a signed-in organizer overflows the 386 px iframe by about 20 px (navbar actions, not touched here).
+
+## Prompt 14b: "best for" hints on the ticketing choice
+
+### Built
+- `StepVenue.tsx`: hint line with a Lightbulb icon under each seating card, `aria-describedby` on the radio (description + hint). `scss/organizer.scss`: `.org-radio__hint` (bold, `--warning-text`). `seatingHint` keys in en, ko, ru, uz (DECISIONS F298).
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean; `yarn build` passes in a scratch copy; scratch server on 3100 started and stopped (nothing on 3000 touched). Contrast computed from the tokens.
+
+### Not tested / left
+- **Not checked in a browser**: the form needs an organizer sign-in and no test credentials were given, so 390/768/1440 px layout, dark theme, keyboard use and the console were not exercised.

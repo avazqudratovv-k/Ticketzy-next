@@ -254,6 +254,10 @@
         "RESERVED": "Mehmonlar joyning oʻrindiqlar sxemasidan aniq oʻrindiqlarni tanlaydi. Sxemaning har bir toifasi uchun alohida chipta turi va narx bor.",
         "GENERAL": "Belgilangan oʻrindiqlar yoʻq. Mehmonlar miqdorni tanlaydi, nechta chipta mavjudligini esa siz belgilaysiz."
       },
+      "seatingHint": {
+      	"RESERVED": "Futbol o‘yinlari va o‘rindiqli konsertlar uchun qulay.",
+      	"GENERAL": "Tik turib tomosha qilinadigan shoular va komediya klublari uchun qulay."
+      },
       "reservedUnavailable": "Bu joyda oʻrindiqli boʻlim yoʻq, shuning uchun u faqat umumiy kirishli tadbirlarni oʻtkaza oladi.",
       "locked": {
         "approved": "Tadbir tasdiqlangani uchun joy va joylashtirish turi bloklangan: oʻrindiqlar va buyurtmalar ularga bogʻlangan.",

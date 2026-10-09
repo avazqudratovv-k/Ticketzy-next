@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { Lock, MapPin, WarningCircle } from 'phosphor-react';
+import { Lightbulb, Lock, MapPin, WarningCircle } from 'phosphor-react';
 import { formatEventSummary, formatNumber, formatZoneName } from '../../../format';
 import { addHours, dateOrderErrors, impliedEndDate, saleWindowConflicts, tiersOfVenue, venueSupportsReserved } from '../../../organizer/form';
 import { zonedToIso } from '../../../organizer/zoned';
@@ -12,6 +12,7 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 	const { t } = useTranslation('organizer');
 	const { locale } = useRouter();
 	const text = useErrorText();
+	const radioId = useId();
 	const { values, errors, setField, venues, venue, venuesLoading, venuesError, refetchVenues, mode, rows } = editor;
 	const hasTicketTypes = rows.some((row) => row.id);
 	// APPROVED events have seats and orders; with ticket types the venue's tiers are already in use (see DECISIONS F98)
@@ -147,6 +148,8 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 				<legend className="tz-field__label">{t('form.venue.seating')}</legend>
 				{(['RESERVED', 'GENERAL'] as const).map((type) => {
 					const unavailable = type === 'RESERVED' && !reservedOk;
+					const textId = `${radioId}-${type}-text`;
+					const hintId = `${radioId}-${type}-hint`;
 					return (
 						<label key={type} className={`org-radio ${values.seatingType === type ? 'is-on' : ''} ${unavailable ? 'is-off' : ''}`}>
 							<input
@@ -155,10 +158,17 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 								value={type}
 								checked={values.seatingType === type}
 								disabled={unavailable || locked}
+								aria-describedby={`${textId} ${hintId}`}
 								onChange={() => setField('seatingType', type)}
 							/>
 							<span className="org-radio__title">{t(`form.venue.seatingType.${type}`)}</span>
-							<span className="org-radio__text">{unavailable ? t('form.venue.reservedUnavailable') : t(`form.venue.seatingText.${type}`)}</span>
+							<span id={textId} className="org-radio__text">
+								{unavailable ? t('form.venue.reservedUnavailable') : t(`form.venue.seatingText.${type}`)}
+							</span>
+							<span id={hintId} className="org-radio__hint">
+								<Lightbulb size={16} weight="fill" aria-hidden="true" />
+								<span>{t(`form.venue.seatingHint.${type}`)}</span>
+							</span>
 						</label>
 					);
 				})}
