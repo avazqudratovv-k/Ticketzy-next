@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useTranslation } from 'next-i18next';
-import { Info, WarningCircle } from 'phosphor-react';
+import { WarningCircle } from 'phosphor-react';
 import { SET_COMMISSION_OVERRIDE_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { effectiveRate, overrideActive, parseRate } from '../../admin/commission';
 import { AdminError, describeAdminError } from '../../admin/errors';
@@ -22,7 +22,7 @@ type FieldErrors = { rate?: 'empty' | 'range'; end?: 'past'; reason?: 'required'
 
 /**
  * `setCommissionOverrideByAdmin` (rate 0 to 100, optional end date that must be in the future, reason required).
- * Two steps: fill in the form, then confirm the summary. The backend has no operation to remove an override.
+ * Two steps: fill in the form, then confirm the summary.
  */
 const CommissionDialog = ({ organizer, onClose, onSaved }: Props) => {
 	const { t } = useTranslation('admin');
@@ -152,10 +152,6 @@ const CommissionDialog = ({ organizer, onClose, onSaved }: Props) => {
 								{errors.reason ? t('commission.dialog.errors.reason_required') : t('commission.dialog.reasonHint')}
 							</span>
 						</div>
-						<p className="tz-alert tz-alert--info" role="note">
-							<Info size={20} aria-hidden="true" />
-							<span>{t('commission.dialog.noReset')}</span>
-						</p>
 					</>
 				) : (
 					parsed.ok && (

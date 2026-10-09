@@ -34,7 +34,13 @@
     "notAllowed": "You are not allowed to do that.",
     "notAuthenticated": "Your session has ended. Please sign in again.",
     "badRequest": "The request was not accepted. Please check what you entered.",
-    "generic": "Something went wrong. Please try again."
+    "generic": "Something went wrong. Please try again.",
+    "commissionClearReason": "A reason is required to clear a commission override.",
+    "noOverride": "This organizer has no commission override to clear.",
+    "dateRange": "The start date must not be after the end date.",
+    "ownAccess": "You can’t change your own status or role.",
+    "adminAccess": "The status and role of an admin account can’t be changed.",
+    "assignAdmin": "The admin role can’t be assigned here. Admin accounts are created only by the server."
   },
   "memberStatus": {
     "PENDING": "Waiting for approval",
@@ -544,10 +550,12 @@
     "overrideExpired": "An earlier override of {{rate}}% has ended.",
     "actions": {
       "set": "Set override",
-      "change": "Change override"
+      "change": "Change override",
+      "clear": "Clear override"
     },
     "notice": {
-      "saved": "{{name}} now pays {{rate}}% commission."
+      "saved": "{{name}} now pays {{rate}}% commission.",
+      "cleared": "{{name}}’s {{previous}}% override was cleared. They now pay the automatic {{rate}}%."
     },
     "empty": {
       "title": "No organizers yet",
@@ -563,7 +571,6 @@
       "endHint": "The override ends at the end of this day (Seoul time). Leave it empty for no end date.",
       "reason": "Reason",
       "reasonHint": "Required. Up to 500 characters. The organizer is notified with this reason.",
-      "noReset": "An override can’t be removed early. It ends on its end date, or you can set a new rate. Ticketzy has no “reset” operation yet.",
       "review": "Review",
       "edit": "Edit",
       "newRate": "New rate",
@@ -577,6 +584,17 @@
         "end_past": "The end date must be in the future.",
         "reason_required": "A reason is required."
       }
+    },
+    "clear": {
+      "title": "Clear commission override",
+      "reasonLabel": "Reason",
+      "reasonHint": "Required. Up to 500 characters. The organizer is notified with this reason.",
+      "reasonRequired": "A reason is required.",
+      "previous": "Override being removed",
+      "falls": "Falls back to",
+      "text": "From now on, paid orders use the automatic tier rate. Past orders keep the rate they were paid with. This is recorded in the audit log.",
+      "confirm": "Clear override",
+      "sending": "Clearing…"
     }
   },
   "orders": {
@@ -599,14 +617,15 @@
       "status": "Status",
       "amount": "Amount",
       "commission": "Commission",
-      "date": "Placed"
+      "date": "Placed",
+      "buyer": "Buyer"
     },
     "eventGone": "Event no longer exists",
     "showing": "Showing {{from}}–{{to}} of {{total}}",
     "loading": "Loading orders",
     "drawer": {
       "close": "Close order details",
-      "buyer": "Buyer ID",
+      "buyer": "Buyer",
       "placed": "Placed",
       "paid": "Paid",
       "refunded": "Refunded",
@@ -632,6 +651,16 @@
       "title": "Orders could not be loaded",
       "text": "Ticketzy could not read the orders. Try again in a moment."
     },
-    "tickets": "Tickets: {{count}}"
+    "tickets": "Tickets: {{count}}",
+    "search": "Search orders",
+    "searchPlaceholder": "Buyer name or email",
+    "eventFilter": "Filter by event",
+    "allEvents": "All events",
+    "dateFrom": "Orders placed from",
+    "dateTo": "Orders placed until",
+    "clearFilters": "Clear filters",
+    "buyerGone": "Unknown buyer",
+    "from": "From",
+    "to": "To"
   }
 }

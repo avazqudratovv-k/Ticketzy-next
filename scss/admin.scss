@@ -28,6 +28,11 @@
 		text-underline-offset: 3px;
 	}
 }
+.adm-date {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
 .adm-short {
 	max-width: 220px;
 }
@@ -82,7 +87,7 @@
 }
 .adm-table--orders .org-row {
 	@media (min-width: 1024px) {
-		grid-template-columns: minmax(0, 1.8fr) minmax(0, 2.2fr) minmax(120px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(130px, 1.1fr);
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.8fr) minmax(0, 1.5fr) minmax(110px, 0.9fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(120px, 1fr);
 	}
 }
 .adm-table .org-row__title.adm-plain {

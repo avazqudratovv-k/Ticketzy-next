@@ -34,7 +34,13 @@
     "notAllowed": "이 작업을 할 권한이 없어요.",
     "notAuthenticated": "세션이 끝났어요. 다시 로그인해 주세요.",
     "badRequest": "요청이 받아들여지지 않았어요. 입력한 내용을 확인해 주세요.",
-    "generic": "문제가 생겼어요. 다시 시도해 주세요."
+    "generic": "문제가 생겼어요. 다시 시도해 주세요.",
+    "commissionClearReason": "예외 수수료를 해제하려면 사유가 필요해요.",
+    "noOverride": "이 주최자에게는 해제할 예외 수수료가 없어요.",
+    "dateRange": "시작일은 종료일보다 늦을 수 없어요.",
+    "ownAccess": "내 계정의 상태나 역할은 변경할 수 없어요.",
+    "adminAccess": "관리자 계정의 상태와 역할은 변경할 수 없어요.",
+    "assignAdmin": "여기서는 관리자 역할을 부여할 수 없어요. 관리자 계정은 서버에서만 만들어져요."
   },
   "memberStatus": {
     "PENDING": "승인 대기",
@@ -544,10 +550,12 @@
     "overrideExpired": "이전의 {{rate}}% 예외 수수료는 종료되었어요.",
     "actions": {
       "set": "예외 설정",
-      "change": "예외 변경"
+      "change": "예외 변경",
+      "clear": "예외 수수료 해제"
     },
     "notice": {
-      "saved": "{{name}}의 수수료율이 이제 {{rate}}%예요."
+      "saved": "{{name}}의 수수료율이 이제 {{rate}}%예요.",
+      "cleared": "{{name}}님의 {{previous}}% 예외 수수료를 해제했어요. 이제 자동 수수료 {{rate}}%가 적용돼요."
     },
     "empty": {
       "title": "아직 주최자가 없어요",
@@ -563,7 +571,6 @@
       "endHint": "이 날의 끝(서울 시간)에 예외가 끝나요. 비워 두면 종료일이 없어요.",
       "reason": "사유",
       "reasonHint": "필수예요. 500자까지 입력할 수 있어요. 이 사유와 함께 주최자에게 알림이 가요.",
-      "noReset": "예외 수수료는 중간에 없앨 수 없어요. 종료일에 끝나거나 새 수수료율을 설정할 수 있어요. Ticketzy에는 아직 ‘초기화’ 기능이 없어요.",
       "review": "검토",
       "edit": "수정",
       "newRate": "새 수수료율",
@@ -577,6 +584,17 @@
         "end_past": "종료일은 미래의 날짜여야 해요.",
         "reason_required": "사유가 필요해요."
       }
+    },
+    "clear": {
+      "title": "예외 수수료 해제",
+      "reasonLabel": "사유",
+      "reasonHint": "필수예요. 500자까지 입력할 수 있어요. 주최자에게 이 사유와 함께 알림이 가요.",
+      "reasonRequired": "사유를 입력해 주세요.",
+      "previous": "해제할 예외 수수료",
+      "falls": "해제 후 적용 수수료",
+      "text": "지금부터 결제되는 주문에는 자동 등급 수수료가 적용돼요. 이미 결제된 주문은 결제 당시 수수료를 유지해요. 감사 로그에 기록돼요.",
+      "confirm": "예외 수수료 해제",
+      "sending": "해제하는 중…"
     }
   },
   "orders": {
@@ -599,7 +617,8 @@
       "status": "상태",
       "amount": "금액",
       "commission": "수수료",
-      "date": "주문 시각"
+      "date": "주문 시각",
+      "buyer": "구매자"
     },
     "tickets": "티켓 {{count}}장",
     "eventGone": "삭제된 이벤트",
@@ -607,7 +626,7 @@
     "loading": "주문을 불러오는 중",
     "drawer": {
       "close": "주문 정보 닫기",
-      "buyer": "구매자 ID",
+      "buyer": "구매자",
       "placed": "주문 시각",
       "paid": "결제 시각",
       "refunded": "환불 시각",
@@ -632,6 +651,16 @@
     "error": {
       "title": "주문을 불러오지 못했어요",
       "text": "Ticketzy가 주문을 읽지 못했어요. 잠시 후 다시 시도해 주세요."
-    }
+    },
+    "search": "주문 검색",
+    "searchPlaceholder": "구매자 이름 또는 이메일",
+    "eventFilter": "이벤트로 필터",
+    "allEvents": "모든 이벤트",
+    "dateFrom": "주문 시작일",
+    "dateTo": "주문 종료일",
+    "clearFilters": "필터 초기화",
+    "buyerGone": "알 수 없는 구매자",
+    "from": "시작",
+    "to": "종료"
   }
 }

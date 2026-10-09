@@ -242,7 +242,7 @@ export const GET_ADMIN_ORGANIZER_COUNTS = gql`
 
 /** Orders of the whole platform. The list carries the event and its venue, not the buyer (only `buyerId`). */
 export const ADMIN_ORDER_FIELDS = gql`
-	fragment AdminOrderFields on Order {
+	fragment AdminOrderFields on AdminOrder {
 		_id
 		orderNumber
 		orderStatus
@@ -261,6 +261,9 @@ export const ADMIN_ORDER_FIELDS = gql`
 		paidAt
 		refundedAt
 		createdAt
+		buyerNick
+		buyerEmail
+		eventTitle
 		eventData {
 			_id
 			eventTitle
@@ -274,7 +277,7 @@ export const ADMIN_ORDER_FIELDS = gql`
 `;
 
 export const GET_ADMIN_ORDERS = gql`
-	query GetAdminOrders($input: OrdersInquiry!) {
+	query GetAdminOrders($input: AdminOrdersInquiry!) {
 		getAllOrdersByAdmin(input: $input) {
 			list {
 				...AdminOrderFields
@@ -289,20 +292,38 @@ export const GET_ADMIN_ORDERS = gql`
 
 export const ADMIN_ORDER_STATUS_KEYS = ['PAID', 'REFUNDED', 'PENDING_PAYMENT', 'FAILED', 'CANCELLED', 'EXPIRED'] as const;
 
+/** Counts per status under the same filters as the list (event, buyer text, date range), so the tabs add up with the rows. */
+const ORDER_FILTER = 'eventId: $eventId, text: $text, dateFrom: $dateFrom, dateTo: $dateTo';
 export const GET_ADMIN_ORDER_COUNTS = gql`
-	query GetAdminOrderCounts {
-		ALL: getAllOrdersByAdmin(input: { page: 1, limit: 1 }) {
+	query GetAdminOrderCounts($eventId: String, $text: String, $dateFrom: DateTime, $dateTo: DateTime) {
+		ALL: getAllOrdersByAdmin(input: { page: 1, limit: 1, ${ORDER_FILTER} }) {
 			metaCounter {
 				total
 			}
 		}
 		${ADMIN_ORDER_STATUS_KEYS.map(
-			(status) => `${status}: getAllOrdersByAdmin(input: { page: 1, limit: 1, orderStatus: ${status} }) {
+			(status) => `${status}: getAllOrdersByAdmin(input: { page: 1, limit: 1, orderStatus: ${status}, ${ORDER_FILTER} }) {
 			metaCounter {
 				total
 			}
 		}`,
 		).join('\n')}
+	}
+`;
+
+/** Events for the order filter (any status: cancelled and ended events keep their orders). */
+export const GET_ADMIN_ORDER_EVENTS = gql`
+	query GetAdminOrderEvents {
+		getEventsByAdmin(input: { page: 1, limit: 200, sort: "startAt", direction: DESC, search: {} }) {
+			list {
+				_id
+				eventTitle
+				eventTranslations {
+					locale
+					title
+				}
+			}
+		}
 	}
 `;
 

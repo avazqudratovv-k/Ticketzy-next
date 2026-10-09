@@ -34,7 +34,13 @@
     "notAllowed": "Bu amalga ruxsatingiz yoʻq.",
     "notAuthenticated": "Seans tugadi. Qaytadan kiring.",
     "badRequest": "Soʻrov qabul qilinmadi. Kiritilgan maʼlumotlarni tekshiring.",
-    "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring.",
+    "commissionClearReason": "Alohida stavkani olib tashlash uchun sabab kerak.",
+    "noOverride": "Bu tashkilotchida olib tashlanadigan alohida stavka yo‘q.",
+    "dateRange": "Boshlanish sanasi tugash sanasidan keyin bo‘lmasligi kerak.",
+    "ownAccess": "O‘z hisobingiz holati yoki rolini o‘zgartira olmaysiz.",
+    "adminAccess": "Administrator hisobining holati va rolini o‘zgartirib bo‘lmaydi.",
+    "assignAdmin": "Bu yerda administrator rolini berib bo‘lmaydi. Administrator hisoblarini faqat server yaratadi."
   },
   "memberStatus": {
     "PENDING": "Tasdiqlanishi kutilmoqda",
@@ -544,10 +550,12 @@
     "overrideExpired": "Oldingi {{rate}}% alohida stavka tugagan.",
     "actions": {
       "set": "Alohida stavka belgilash",
-      "change": "Alohida stavkani oʻzgartirish"
+      "change": "Alohida stavkani oʻzgartirish",
+      "clear": "Alohida stavkani olib tashlash"
     },
     "notice": {
-      "saved": "{{name}} komissiyasi endi {{rate}}%."
+      "saved": "{{name}} komissiyasi endi {{rate}}%.",
+      "cleared": "{{name}}ning {{previous}}% alohida stavkasi olib tashlandi. Endi avtomatik {{rate}}% amal qiladi."
     },
     "empty": {
       "title": "Hali tashkilotchilar yoʻq",
@@ -563,7 +571,6 @@
       "endHint": "Alohida stavka shu kunning oxirigacha amal qiladi (Seul vaqti). Muddatsiz boʻlsa, boʻsh qoldiring.",
       "reason": "Sabab",
       "reasonHint": "Majburiy. 500 belgigacha. Tashkilotchiga shu sabab bilan bildirishnoma yuboriladi.",
-      "noReset": "Alohida stavkani muddatidan oldin olib tashlab boʻlmaydi. U tugash sanasida tugaydi yoki siz yangi stavka belgilashingiz mumkin. Ticketzyda hali “bekor qilish” amali yoʻq.",
       "review": "Koʻrib chiqish",
       "edit": "Tahrirlash",
       "newRate": "Yangi stavka",
@@ -577,6 +584,17 @@
         "end_past": "Tugash sanasi kelajakda boʻlishi kerak.",
         "reason_required": "Sabab kerak."
       }
+    },
+    "clear": {
+      "title": "Alohida komissiya stavkasini olib tashlash",
+      "reasonLabel": "Sabab",
+      "reasonHint": "Majburiy. 500 belgigacha. Tashkilotchiga shu sabab bilan xabar yuboriladi.",
+      "reasonRequired": "Sababni kiriting.",
+      "previous": "Olib tashlanadigan alohida stavka",
+      "falls": "Qaytadigan stavka",
+      "text": "Endi to‘lanadigan buyurtmalar avtomatik daraja stavkasi bo‘yicha hisoblanadi. Avvalgi buyurtmalar to‘langan stavkasini saqlab qoladi. Amal audit jurnaliga yoziladi.",
+      "confirm": "Stavkani olib tashlash",
+      "sending": "Olib tashlanmoqda…"
     }
   },
   "orders": {
@@ -599,7 +617,8 @@
       "status": "Holat",
       "amount": "Summa",
       "commission": "Komissiya",
-      "date": "Berilgan"
+      "date": "Berilgan",
+      "buyer": "Xaridor"
     },
     "tickets": "Chiptalar: {{count}}",
     "eventGone": "Tadbir oʻchirilgan",
@@ -607,7 +626,7 @@
     "loading": "Buyurtmalar yuklanmoqda",
     "drawer": {
       "close": "Buyurtma maʼlumotlarini yopish",
-      "buyer": "Xaridor ID",
+      "buyer": "Xaridor",
       "placed": "Berilgan",
       "paid": "Toʻlangan",
       "refunded": "Qaytarilgan",
@@ -632,6 +651,16 @@
     "error": {
       "title": "Buyurtmalarni yuklab boʻlmadi",
       "text": "Ticketzy buyurtmalarni oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
-    }
+    },
+    "search": "Buyurtmalarni qidirish",
+    "searchPlaceholder": "Xaridor ismi yoki email",
+    "eventFilter": "Tadbir bo‘yicha filtr",
+    "allEvents": "Barcha tadbirlar",
+    "dateFrom": "Buyurtmalar sanasi (dan)",
+    "dateTo": "Buyurtmalar sanasi (gacha)",
+    "clearFilters": "Filtrlarni tozalash",
+    "buyerGone": "Noma’lum xaridor",
+    "from": "Dan",
+    "to": "Gacha"
   }
 }

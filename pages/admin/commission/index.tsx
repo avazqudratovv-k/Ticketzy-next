@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -10,6 +10,7 @@ import { CheckCircle, MagnifyingGlass, Percent, UsersThree, WarningCircle } from
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import StateBlock from '../../../libs/components/states/StateBlock';
 import Pagination from '../../../libs/components/events/Pagination';
+import ReasonDialog from '../../../libs/components/admin/ReasonDialog';
 import CommissionDialog from '../../../libs/components/admin/CommissionDialog';
 import useListParams from '../../../libs/admin/useListParams';
 import { COMMISSION_TIERS, effectiveRate, overrideActive, tierIdOf, tierRate } from '../../../libs/admin/commission';
@@ -17,6 +18,7 @@ import { isOrganizerSortKey, ORGANIZER_SORTS, OrganizerSortKey, ORGANIZERS_PAGE_
 import { isOnlyNoData } from '../../../libs/admin/errors';
 import { AdminOrganizer, organizerName } from '../../../libs/admin/types';
 import { GET_ADMIN_ORGANIZERS } from '../../../apollo/admin/query';
+import { CLEAR_COMMISSION_OVERRIDE_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { formatNumber, formatViewerDate } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 
@@ -42,6 +44,8 @@ const AdminCommission: NextPage = () => {
 	const sortKey = values.sort as OrganizerSortKey;
 	const [search, setSearch] = useState(values.q);
 	const [target, setTarget] = useState<AdminOrganizer | null>(null);
+	const [clearTarget, setClearTarget] = useState<AdminOrganizer | null>(null);
+	const client = useApolloClient();
 	const [notice, setNotice] = useState<string | null>(null);
 
 	useEffect(() => setSearch(values.q), [values.q]);
@@ -240,6 +244,18 @@ const AdminCommission: NextPage = () => {
 												{override && active ? t('commission.actions.change') : t('commission.actions.set')}
 											</button>
 										) : null}
+										{override && organizer.memberStatus !== 'DELETE' ? (
+											<button
+												type="button"
+												className="tz-link org-linkbtn"
+												onClick={() => {
+													setNotice(null);
+													setClearTarget(organizer);
+												}}
+											>
+												{t('commission.actions.clear')}
+											</button>
+										) : null}
 									</div>
 								</div>
 							);
@@ -257,6 +273,63 @@ const AdminCommission: NextPage = () => {
 					</div>
 				</>
 			)}
+
+			<ReasonDialog
+				open={Boolean(clearTarget)}
+				title={t('commission.clear.title')}
+				subject={organizerName(clearTarget)}
+				reasonLabel={t('commission.clear.reasonLabel')}
+				reasonHint={t('commission.clear.reasonHint')}
+				reasonRequired={t('commission.clear.reasonRequired')}
+				confirmLabel={t('commission.clear.confirm')}
+				sendingLabel={t('commission.clear.sending')}
+				cancelLabel={t('actions.back')}
+				onClose={() => setClearTarget(null)}
+				onSubmit={async (reason) => {
+					if (!clearTarget) return;
+					const result = await client.mutate({
+						mutation: CLEAR_COMMISSION_OVERRIDE_BY_ADMIN,
+						variables: { input: { memberId: clearTarget._id, reason } },
+					});
+					const cleared = result.data.clearCommissionOverrideByAdmin;
+					setClearTarget(null);
+					setNotice(
+						t('commission.notice.cleared', {
+							name: organizerName(cleared.member),
+							previous: formatNumber(cleared.previousOverride.rate, locale),
+							rate: formatNumber(cleared.automaticRate, locale),
+						}),
+					);
+					await refetch();
+				}}
+			>
+				{clearTarget?.commissionOverride && (
+					<>
+						<dl className="org-dl adm-dl">
+							<div>
+								<dt>{t('commission.clear.previous')}</dt>
+								<dd>
+									{t('percent', { value: formatNumber(clearTarget.commissionOverride.rate, locale) })} ·{' '}
+									{clearTarget.commissionOverride.endsAt
+										? overrideActive(clearTarget.commissionOverride)
+											? t('commission.until', { date: formatViewerDate(clearTarget.commissionOverride.endsAt, locale) })
+											: t('commission.expired', { date: formatViewerDate(clearTarget.commissionOverride.endsAt, locale) })
+										: t('commission.noEnd')}
+									<span className="org-row__meta adm-block">{clearTarget.commissionOverride.reason}</span>
+								</dd>
+							</div>
+							<div>
+								<dt>{t('commission.clear.falls')}</dt>
+								<dd>
+									{t('percent', { value: formatNumber(tierRate(clearTarget.completedEvents), locale) })} ·{' '}
+									{t(`commission.tiers.${tierIdOf(clearTarget.completedEvents)}.name`)}
+								</dd>
+							</div>
+						</dl>
+						<p className="adm-muted">{t('commission.clear.text')}</p>
+					</>
+				)}
+			</ReasonDialog>
 
 			<CommissionDialog
 				organizer={target}

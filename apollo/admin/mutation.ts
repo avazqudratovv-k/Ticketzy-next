@@ -112,6 +112,26 @@ export const SET_COMMISSION_OVERRIDE_BY_ADMIN = gql`
 	${ADMIN_ORGANIZER_FIELDS}
 `;
 
+/** Back to the automatic tier rate. The answer carries what was removed and the rate the organizer falls back to. */
+export const CLEAR_COMMISSION_OVERRIDE_BY_ADMIN = gql`
+	mutation ClearCommissionOverrideByAdmin($input: ClearCommissionOverrideInput!) {
+		clearCommissionOverrideByAdmin(input: $input) {
+			member {
+				...AdminOrganizerFields
+			}
+			previousOverride {
+				rate
+				endsAt
+				reason
+			}
+			automaticRate
+			reason
+			clearedAt
+		}
+	}
+	${ADMIN_ORGANIZER_FIELDS}
+`;
+
 /** Only `memberStatus` is ever sent from the UI. The backend refuses it for organizers (use the organizer operations). */
 export const UPDATE_MEMBER_BY_ADMIN = gql`
 	mutation UpdateMemberByAdmin($input: MemberUpdate!) {

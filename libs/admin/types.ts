@@ -145,6 +145,9 @@ export interface AdminOrder {
 	paidAt?: string | null;
 	refundedAt?: string | null;
 	createdAt: string;
+	buyerNick?: string | null;
+	buyerEmail?: string | null;
+	eventTitle?: string | null;
 	eventData?: { _id: string; eventTitle: string; eventTranslations?: { locale: EventLocaleCode; title: string }[]; organizerId: string } | null;
 }
 

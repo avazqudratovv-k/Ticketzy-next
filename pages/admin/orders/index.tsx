@@ -7,18 +7,18 @@ import { useQuery } from '@apollo/client';
 import { Button, Drawer, IconButton } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Receipt, WarningCircle, X } from 'phosphor-react';
+import { MagnifyingGlass, Receipt, WarningCircle, X } from 'phosphor-react';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import StateBlock from '../../../libs/components/states/StateBlock';
 import Pagination from '../../../libs/components/events/Pagination';
 import OrderStatusBadge from '../../../libs/components/organizer/orders/OrderStatusBadge';
 import useListParams from '../../../libs/admin/useListParams';
 import { isOrderSortKey, isOrderTab, ORDER_SORTS, ORDER_TABS, OrderSortKey, orderCountKey, OrderTab, orderTabStatus, ORDERS_PAGE_SIZE } from '../../../libs/admin/orders';
-import { isOnlyNoData } from '../../../libs/admin/errors';
+import { describeAdminError, isOnlyNoData } from '../../../libs/admin/errors';
 import { AdminOrder } from '../../../libs/admin/types';
-import { GET_ADMIN_ORDER_COUNTS, GET_ADMIN_ORDERS } from '../../../apollo/admin/query';
+import { GET_ADMIN_ORDER_COUNTS, GET_ADMIN_ORDER_EVENTS, GET_ADMIN_ORDERS } from '../../../apollo/admin/query';
 import { localizedEvent } from '../../../libs/events';
-import { formatNumber, formatPrice, formatViewerDate } from '../../../libs/format';
+import { dayBoundaryIso, formatNumber, formatPrice, formatViewerDate } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -27,24 +27,55 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const DEFAULTS = { tab: 'all', sort: 'newest' };
+const DEFAULTS = { tab: 'all', sort: 'newest', event: '', q: '', from: '', to: '' };
+const isDay = (value: string) => /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value));
+const isObjectId = (value: string) => /^[a-f\d]{24}$/i.test(value);
 
-/** The backend lists orders with a status filter and a sort only (no text search, no event filter), so that is all this page offers. */
+/** Filters of `getAllOrdersByAdmin`: status (tabs), event, buyer text (nick, full name, email) and a createdAt range (Seoul days). All live in the URL. */
 const AdminOrders: NextPage = () => {
 	const { t } = useTranslation('admin');
 	const { t: to } = useTranslation('organizer');
 	const { locale } = useRouter();
-	const { values, page, update, ready } = useListParams(DEFAULTS, { tab: isOrderTab, sort: isOrderSortKey });
+	const { values, page, update, ready } = useListParams(DEFAULTS, { tab: isOrderTab, sort: isOrderSortKey, event: isObjectId, from: isDay, to: isDay });
 	const tab = values.tab as OrderTab;
 	const sortKey = values.sort as OrderSortKey;
 	const [selected, setSelected] = useState<AdminOrder | null>(null);
 
-	const { data: countData } = useQuery(GET_ADMIN_ORDER_COUNTS, { skip: !ready, errorPolicy: 'all', fetchPolicy: 'cache-and-network' });
+	const [search, setSearch] = useState(values.q);
+	useEffect(() => setSearch(values.q), [values.q]);
+	useEffect(() => {
+		if (search === values.q) return undefined;
+		const id = window.setTimeout(() => update({ q: search }, 'replace'), 300);
+		return () => window.clearTimeout(id);
+	}, [search, values.q, update]);
+
+	const text = values.q.trim();
+	const rangeInvalid = Boolean(values.from && values.to && values.from > values.to);
+	// an inverted range is refused by the backend, so it is caught here and nothing is requested
+	const filter = {
+		eventId: values.event || null,
+		text: text || null,
+		dateFrom: values.from && !rangeInvalid ? dayBoundaryIso(values.from, false) : null,
+		dateTo: values.to && !rangeInvalid ? dayBoundaryIso(values.to, true) : null,
+	};
+	const filtered = Boolean(values.event || text || values.from || values.to);
+
+	const { data: eventData } = useQuery(GET_ADMIN_ORDER_EVENTS, { skip: !ready, errorPolicy: 'all' });
+	const eventOptions: { _id: string; title: string }[] = useMemo(
+		() =>
+			(eventData?.getEventsByAdmin?.list ?? []).map((event: any) => ({
+				_id: event._id,
+				title: localizedEvent({ eventTitle: event.eventTitle, eventDesc: null, eventTranslations: event.eventTranslations ?? [] }, locale).title,
+			})),
+		[eventData, locale],
+	);
+
+	const { data: countData } = useQuery(GET_ADMIN_ORDER_COUNTS, { variables: filter, skip: !ready || rangeInvalid, errorPolicy: 'all', fetchPolicy: 'cache-and-network' });
 	const status = orderTabStatus(tab);
 	const sort = ORDER_SORTS[sortKey];
 	const { data, loading, error, refetch } = useQuery(GET_ADMIN_ORDERS, {
-		variables: { input: { page, limit: ORDERS_PAGE_SIZE, sort: sort.sort, direction: sort.direction, ...(status ? { orderStatus: status } : {}) } },
-		skip: !ready,
+		variables: { input: { page, limit: ORDERS_PAGE_SIZE, sort: sort.sort, direction: sort.direction, ...(status ? { orderStatus: status } : {}), ...(values.event ? { eventId: values.event } : {}), ...(text ? { text } : {}), ...(filter.dateFrom ? { dateFrom: filter.dateFrom } : {}), ...(filter.dateTo ? { dateTo: filter.dateTo } : {}) } },
+		skip: !ready || rangeInvalid,
 		fetchPolicy: 'cache-and-network',
 	});
 
@@ -52,12 +83,19 @@ const AdminOrders: NextPage = () => {
 	const total: number = data?.getAllOrdersByAdmin?.metaCounter?.[0]?.total ?? 0;
 	const pageCount = Math.max(1, Math.ceil(total / ORDERS_PAGE_SIZE));
 	const count = (key: OrderTab) => countData?.[orderCountKey(key)]?.metaCounter?.[0]?.total ?? 0;
-	const failed = Boolean(error) && !isOnlyNoData(error) && !data?.getAllOrdersByAdmin;
+	const failed = !rangeInvalid && Boolean(error) && !isOnlyNoData(error) && !data?.getAllOrdersByAdmin;
+	const serverError = error ? describeAdminError(error) : null;
 	const networkError = error ? parseApiError(error).code === NETWORK_ERROR : false;
-	const firstLoad = !ready || (loading && !data && !error);
-	const empty = !firstLoad && !failed && rows.length === 0;
+	const firstLoad = !rangeInvalid && (!ready || (loading && !data && !error));
+	const empty = !rangeInvalid && !firstLoad && !failed && rows.length === 0;
+	const clearAll = () => update({ tab: 'all', event: '', q: '', from: '', to: '' });
 	const money = (amount: number, currency?: string | null) => formatPrice(amount, locale, currency || 'KRW');
-	const eventTitle = (order: AdminOrder) => (order.eventData ? localizedEvent({ eventTitle: order.eventData.eventTitle, eventDesc: null, eventTranslations: order.eventData.eventTranslations ?? [] }, locale).title : t('orders.eventGone'));
+	const eventTitle = (order: AdminOrder) =>
+		order.eventData
+			? localizedEvent({ eventTitle: order.eventData.eventTitle, eventDesc: null, eventTranslations: order.eventData.eventTranslations ?? [] }, locale).title
+			: order.eventTitle || t('orders.eventGone');
+
+	const buyerName = (order: AdminOrder) => order.buyerNick || order.buyerEmail || t('orders.buyerGone');
 
 	useEffect(() => {
 		if (data && page > pageCount) update({ page: pageCount }, 'replace');
@@ -85,6 +123,33 @@ const AdminOrders: NextPage = () => {
 			</div>
 
 			<div className="org-toolbar">
+				<label className="org-search">
+					<MagnifyingGlass size={20} aria-hidden="true" />
+					<span className="org-visually-hidden">{t('orders.search')}</span>
+					<input type="search" className="tz-input" value={search} placeholder={t('orders.searchPlaceholder')} maxLength={100} onChange={(event) => setSearch(event.target.value)} />
+				</label>
+				<label className="org-select">
+					<span className="org-visually-hidden">{t('orders.eventFilter')}</span>
+					<select className="tz-input" value={values.event} onChange={(event) => update({ event: event.target.value })}>
+						<option value="">{t('orders.allEvents')}</option>
+						{values.event && !eventOptions.some((option) => option._id === values.event) && <option value={values.event}>{t('orders.eventGone')}</option>}
+						{eventOptions.map((option) => (
+							<option key={option._id} value={option._id}>
+								{option.title}
+							</option>
+						))}
+					</select>
+				</label>
+				<label className="org-select adm-date">
+					<span className="org-visually-hidden">{t('orders.dateFrom')}</span>
+					<span aria-hidden="true" className="adm-muted">{t('orders.from')}</span>
+					<input type="date" className="tz-input" value={values.from} max={values.to || undefined} onChange={(event) => update({ from: event.target.value })} />
+				</label>
+				<label className="org-select adm-date">
+					<span className="org-visually-hidden">{t('orders.dateTo')}</span>
+					<span aria-hidden="true" className="adm-muted">{t('orders.to')}</span>
+					<input type="date" className="tz-input" value={values.to} min={values.from || undefined} onChange={(event) => update({ to: event.target.value })} />
+				</label>
 				<label className="org-select">
 					<span className="org-visually-hidden">{t('orders.sort')}</span>
 					<select className="tz-input" value={sortKey} onChange={(event) => update({ sort: event.target.value })}>
@@ -97,12 +162,25 @@ const AdminOrders: NextPage = () => {
 				</label>
 			</div>
 
-			{failed ? (
+			{filtered && (
+				<p className="adm-muted">
+					<button type="button" className="tz-link org-linkbtn" onClick={clearAll}>
+						{t('orders.clearFilters')}
+					</button>
+				</p>
+			)}
+
+			{rangeInvalid ? (
+				<p className="tz-alert tz-alert--error" role="alert">
+					<WarningCircle size={20} aria-hidden="true" />
+					<span>{t('serverErrors.dateRange')}</span>
+				</p>
+			) : failed ? (
 				<StateBlock
 					alert
 					icon={<WarningCircle size={28} />}
 					title={t('orders.error.title')}
-					text={networkError ? t('errors.network') : t('orders.error.text')}
+					text={networkError ? t('errors.network') : serverError?.key ? t(`serverErrors.${serverError.key}`) : t('orders.error.text')}
 					actions={
 						<Button variant="outlined" onClick={() => refetch()}>
 							{t('errors.retry')}
@@ -120,12 +198,12 @@ const AdminOrders: NextPage = () => {
 			) : empty ? (
 				<StateBlock
 					icon={<Receipt size={28} />}
-					title={tab === 'all' ? t('orders.empty.title') : t('orders.none.title')}
-					text={tab === 'all' ? t('orders.empty.text') : t('orders.none.text')}
+					title={tab === 'all' && !filtered ? t('orders.empty.title') : t('orders.none.title')}
+					text={tab === 'all' && !filtered ? t('orders.empty.text') : t('orders.none.text')}
 					actions={
-						tab !== 'all' ? (
-							<Button variant="outlined" onClick={() => update({ tab: 'all' })}>
-								{t('orders.none.clear')}
+						tab !== 'all' || filtered ? (
+							<Button variant="outlined" onClick={clearAll}>
+								{filtered ? t('orders.clearFilters') : t('orders.none.clear')}
 							</Button>
 						) : undefined
 					}
@@ -136,6 +214,7 @@ const AdminOrders: NextPage = () => {
 						<div className="org-row org-row--head" role="row">
 							<span role="columnheader">{t('orders.cols.order')}</span>
 							<span role="columnheader">{t('orders.cols.event')}</span>
+							<span role="columnheader">{t('orders.cols.buyer')}</span>
 							<span role="columnheader">{t('orders.cols.status')}</span>
 							<span role="columnheader" className="org-num">
 								{t('orders.cols.amount')}
@@ -155,6 +234,11 @@ const AdminOrders: NextPage = () => {
 								</div>
 								<div role="cell" className="org-row__event">
 									<span className="org-row__title adm-plain">{eventTitle(order)}</span>
+								</div>
+								<div role="cell" className="org-row__event">
+									<span className="org-row__label">{t('orders.cols.buyer')}</span>
+									<span className="org-row__title adm-plain">{buyerName(order)}</span>
+									{order.buyerNick && order.buyerEmail && <span className="org-row__meta">{order.buyerEmail}</span>}
 								</div>
 								<div role="cell" className="org-row__status">
 									<OrderStatusBadge status={order.orderStatus} />
@@ -217,7 +301,10 @@ const AdminOrders: NextPage = () => {
 								</div>
 								<div>
 									<dt>{t('orders.drawer.buyer')}</dt>
-									<dd className="adm-mono">{selected.buyerId}</dd>
+									<dd>
+										{buyerName(selected)}
+										{selected.buyerNick && selected.buyerEmail && <span className="org-row__meta adm-block">{selected.buyerEmail}</span>}
+									</dd>
 								</div>
 								<div>
 									<dt>{t('orders.drawer.placed')}</dt>
