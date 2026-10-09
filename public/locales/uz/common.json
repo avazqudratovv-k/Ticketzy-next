@@ -146,5 +146,48 @@
       "ORDER_REFUNDED": "Buyurtma qaytarildi",
       "NEW_MESSAGE": "Sizda yangi xabar bor"
     }
+  },
+  "assistant": {
+    "fab": "Ticketzyga savol bering",
+    "hide": "Yordamchini yashirish",
+    "title": "Ticketzy yordamchisi",
+    "note": "AI yordamchi. U xato qilishi mumkin, shuning uchun xarid qilishdan oldin tadbir sahifasini tekshiring. U buyurtma va toʻlovlarni oʻzgartira olmaydi.",
+    "close": "Yordamchini yopish",
+    "newChat": "Yangi suhbat",
+    "log": "Suhbat",
+    "greeting": "Salom! Tadbirlarni topish, chipta narxlarini solishtirish va qaytarish qoidalarini tushuntirishda yordam beraman. Nimani qidiryapsiz?",
+    "suggestions": "Tavsiya etilgan savollar",
+    "suggest": {
+      "comedy": "Shu dam olish kunlaridagi komediya shoularini top",
+      "refunds": "Pulni qaytarish qanday ishlaydi?",
+      "cheapest": "Futbolga eng arzon chipta qaysi?",
+      "seats": "Oʻrin tanlashga yordam ber"
+    },
+    "you": "Siz",
+    "assistant": "Yordamchi",
+    "thinking": "Yordamchi oʻylayapti",
+    "slow": "Hali javob izlayapman. Bu yarim daqiqagacha vaqt olishi mumkin.",
+    "inputLabel": "Yordamchiga xabar",
+    "placeholder": "Tadbirlar, narxlar yoki qaytarish haqida soʻrang",
+    "hint": "Enter — yuborish, Shift+Enter — yangi qator",
+    "counter": "{{count}} / {{max}}",
+    "tooLong": "Juda uzun. Uni {{max}} belgigacha qisqartiring.",
+    "send": "Xabarni yuborish",
+    "retry": "Qayta urinish",
+    "dismiss": "Yopish",
+    "errors": {
+      "unavailable": "Yordamchi hozir mavjud emas. Tadbirlarni koʻrish va chipta olish odatdagidek ishlaydi.",
+      "rateLimit": "Siz juda tez soʻrayapsiz. Bir daqiqa kutib, qayta urinib koʻring.",
+      "busy": "Yordamchi hozir band. Birozdan keyin qayta urinib koʻring.",
+      "failed": "Yordamchi hozir javob bera olmadi. Qayta urinib koʻring.",
+      "timeout": "Yordamchi javob berishga juda uzoq vaqt oldi. Qayta urinib koʻring yoki qisqaroq soʻrang.",
+      "invalid": "Bu xabarni yuborib boʻlmaydi. U boʻsh emasligini va 1000 belgidan qisqaligini tekshiring.",
+      "notAllowed": "Yordamchi bu hisob uchun mavjud emas.",
+      "network": "Ticketzy bilan aloqa yoʻq. Internetni tekshirib, qayta urinib koʻring."
+    },
+    "card": {
+      "from": "Dan",
+      "view": "Tadbirni koʻrish"
+    }
   }
 }

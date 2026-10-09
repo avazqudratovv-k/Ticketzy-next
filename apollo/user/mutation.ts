@@ -179,3 +179,31 @@ export const IMAGE_UPLOADER = gql`
 		imageUploader(file: $file, target: $target)
 	}
 `;
+
+/** `askAssistant(input: AskAssistantInput!)`: open to visitors and members; the events are the public ones the answer is based on. */
+export const ASK_ASSISTANT = gql`
+	mutation AskAssistant($input: AskAssistantInput!) {
+		askAssistant(input: $input) {
+			answer
+			events {
+				_id
+				eventCategory
+				eventTitle
+				eventTranslations {
+					locale
+					title
+				}
+				eventImages
+				eventMinPrice
+				startAt
+				endAt
+				venueData {
+					_id
+					venueName
+					venueCity
+					venueTimezone
+				}
+			}
+		}
+	}
+`;

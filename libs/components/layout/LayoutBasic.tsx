@@ -4,8 +4,9 @@ import { useTranslation } from 'next-i18next';
 import Top from '../Top';
 import Footer from '../Footer';
 import PendingBanner from '../common/PendingBanner';
+import AssistantWidget from '../assistant/AssistantWidget';
 
-/** Public layout: navbar, content column, footer. */
+/** Public layout: navbar, content column, footer, and the assistant button (public and buyer pages; the dashboards have their own shell). */
 const withLayoutBasic = (Component: any) => {
 	const WithLayoutBasic = (props: any) => {
 		const { t } = useTranslation('common');
@@ -26,6 +27,7 @@ const withLayoutBasic = (Component: any) => {
 						<Component {...props} />
 					</main>
 					<Footer />
+					<AssistantWidget />
 				</div>
 			</>
 		);

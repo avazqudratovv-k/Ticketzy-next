@@ -146,5 +146,48 @@
       "ORDER_REFUNDED": "An order was refunded",
       "NEW_MESSAGE": "You have a new message"
     }
+  },
+  "assistant": {
+    "fab": "Ask Ticketzy",
+    "hide": "Hide assistant",
+    "title": "Ticketzy assistant",
+    "note": "AI assistant. It can get things wrong, so check the event page before you buy. It can't change orders or payments.",
+    "close": "Close assistant",
+    "newChat": "New chat",
+    "log": "Conversation",
+    "greeting": "Hi. I can help you find events, compare ticket prices and explain refunds. What are you looking for?",
+    "suggestions": "Suggested questions",
+    "suggest": {
+      "comedy": "Find comedy shows this weekend",
+      "refunds": "How do refunds work?",
+      "cheapest": "What is the cheapest ticket for football?",
+      "seats": "Help me pick seats"
+    },
+    "you": "You",
+    "assistant": "Assistant",
+    "thinking": "The assistant is thinking",
+    "slow": "Still working on it. This can take up to half a minute.",
+    "inputLabel": "Message the assistant",
+    "placeholder": "Ask about events, prices or refunds",
+    "hint": "Enter to send, Shift+Enter for a new line",
+    "counter": "{{count}} / {{max}}",
+    "tooLong": "Too long. Shorten it to {{max}} characters.",
+    "send": "Send message",
+    "retry": "Try again",
+    "dismiss": "Dismiss",
+    "errors": {
+      "unavailable": "The assistant is not available right now. You can still browse events and buy tickets as usual.",
+      "rateLimit": "You are asking too fast. Please wait a minute and try again.",
+      "busy": "The assistant is busy right now. Please try again in a moment.",
+      "failed": "The assistant could not answer right now. Please try again.",
+      "timeout": "The assistant took too long to answer. Please try again, or ask a shorter question.",
+      "invalid": "That message cannot be sent. Check that it is not empty and is under 1,000 characters.",
+      "notAllowed": "The assistant is not available for this account.",
+      "network": "No connection to Ticketzy. Check your internet and try again."
+    },
+    "card": {
+      "from": "From",
+      "view": "View event"
+    }
   }
 }

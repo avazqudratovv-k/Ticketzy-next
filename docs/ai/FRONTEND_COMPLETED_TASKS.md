@@ -389,3 +389,41 @@ Goal: fix `/orders/[id]` at desktop widths and check related pages. Not committe
 ### Not tested
 - ko, ru, uz (longer words) and a very long ticket type name.
 - Test data left behind: two unpaid checkout holds on Midnight Jazz Sessions (expire by themselves).
+
+## Prompt 9b (assistant): the AI assistant widget (2026-10-09)
+Goal: floating "Ask Ticketzy" button and chat panel on public and buyer pages, on the backend's `askAssistant`. Not committed.
+
+### Contract (read from `apps/ticketzy-api/src/components/ai`, `libs/dto/ai`, backend `docs/ai`; `docs/ai/schema.json` re-fetched, no type added or removed)
+- `askAssistant(input: AskAssistantInput!): AssistantAnswer!` is a **mutation**. `AskAssistantInput { message: String! (1 to 1000 chars), history: [AssistantHistoryInput!] (max 10), locale: EventLocale (EN|KO|RU|UZ, default EN) }`, `AssistantHistoryInput { role: AssistantRole (USER|ASSISTANT), content: String (max 1000) }`. Returns `{ answer: String!, events: [Event!]! }` (public events the tools found, at most 5; answer at most 2000 chars).
+- Who: `WithoutGuard`, so **visitors and every member type**. A visitor is rate limited by IP, a member by id (`AI_RATE_LIMIT_PER_MINUTE`, in memory). There is no role limit.
+- Tools (all read-only): `search_events`, `get_event`, `get_refund_policy`, `get_my_tickets` (caller's own tickets only; says to log in for visitors). The assistant cannot change orders or payments, so the label says so.
+- Errors (`Message.AI_*`): off or not configured (503), rate limited (429), failed or invalid answer, busy (503, after one retry), timeout (no longer returned since decision #63). Validation errors (empty, too long, bad history) come back only as `BAD_REQUEST` / "Bad Request Exception", with no detail.
+- Time: the provider times out at about 15 s and is retried once after 1 s on 503/504/timeout, so a slow call can take about 31 s before `AI_BUSY`.
+
+### Added
+- `apollo/user/mutation.ts`: `ASK_ASSISTANT` (answer plus the card fields of each event).
+- `libs/types/assistant.ts`, `libs/assistant/errors.ts` (limits, message to kind mapping), `libs/assistant/store.ts` (reactive var for the chat, sessionStorage with try/catch, request, retry, history), `libs/assistant/richText.tsx` (safe renderer).
+- `libs/components/assistant/AssistantWidget.tsx` (button and panel), `AssistantCard.tsx` (row event card), `AssistantLifecycle.tsx` (mounted in `_app`).
+- `scss/assistant.scss` (design classes `pg-chat`, `pg-fab`, `pg-chatpanel`, `pg-msg`, `pg-chatcards`, `pg-thinking`, tokens only), imported in `_app`.
+- `LayoutBasic` renders the widget: every public and buyer page. The organizer and admin dashboards have their own shell and do not get it.
+- i18n: `assistant.*` in `common.json` for en, ko, ru, uz (the `common` namespace is on every page).
+
+### Behaviour
+- Panel: dialog 380 by 560 above the button on desktop, full-height sheet under 768px. Greeting, suggestions on an empty chat (translated: comedy this weekend, refunds, cheapest football ticket, pick seats), user and assistant bubbles, thinking dots, "New chat", close, multi-line field (Enter sends, Shift+Enter newline, not during IME composition), send disabled while waiting or empty or too long, counter from 800 characters, over-limit message.
+- The chat lives in a module reactive var (survives page changes) and in sessionStorage (survives reload). It belongs to one identity (`guest` or the member id): it is dropped on logout (also from a dashboard), on login as someone else, and by "New chat".
+- Answers: paragraphs, bullet and numbered lists, bold, `[text](url)`, bare https URLs and bare `/events/...` paths. Links only to app routes (`/events`, `/orders`, `/tickets`, `/notifications`, `/account`, `/settings`, `/organizers`, `/`) or `https:`; anything else (javascript:, data:, http:, `//host`, other paths) is shown as plain text. HTML is never parsed (React text). Event cards link to `/events/[id]` (locale kept by next/link).
+- Errors: unavailable, rate limit, busy, failed, timeout, invalid, not allowed, no connection, each translated, with "Try again" (retry the same question) or "Dismiss" when asking again cannot help. Slow note after 10 s ("up to half a minute"). The browser gives up after 40 s (`AbortController`) and shows the timeout text.
+- Accessibility: button `aria-expanded` / `aria-haspopup`, panel `role="dialog"`, focus into the field on open and back to the button on close, Escape closes (document level), Tab trapped inside the sheet on phones, log is `role="log"` `aria-live="polite"`, thinking text for screen readers, `prefers-reduced-motion` removes the panel and dot animations.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`: clean. `yarn build` in a scratch copy: succeeds (scratch copy deleted).
+- `http://localhost:3000`, signed out: refund question matches `getRefundPolicyText`; "cheapest ticket for football" answered Harbor Cup Semi-Final 18,000 and showed two cards (18,000 and 22,000, matching `getEvents` for FOOTBALL); comedy question returned three real events earlier from curl. As an ADMIN session (the browser had one; same code path as any member): Korean UI, Korean question, Korean answer with a matching card (seng part, 4,141). Chat survived reload and page change, reset on logout.
+- Stubbed in the page (`window.fetch`, backend untouched): busy, rate limit, failed, no connection, bad request (Dismiss), AI off, a request that never answers (slow note at 10 s, timeout text at 40 s), recovery by "Try again" with the real fetch. A hostile answer (`<img onerror>`, `<b>`, `javascript:`, `data:`, `//evil.com`, `/admin`, `http://`) rendered as text, no script ran, only `/events/..` and `https://` links remained, https link has `target=_blank rel="noopener noreferrer"`.
+- Empty and whitespace messages: send disabled, Enter does nothing. 1001 characters: send disabled, message and red counter. 850 characters: counter shown.
+- Dark and light themes. 390 px in a same-origin iframe (the window cannot be made that narrow): full-height sheet, focus in the field, body scroll locked; the button is hidden on `/events/[id]/seats` and `/checkout/[orderId]` below 1024px (their own bottom sheets).
+
+### Not tested
+- Signed in as `buyer@ticketzy.demo` (DEMO_PASSWORD not available; no password was entered). `get_my_tickets` was therefore not exercised for a buyer.
+- A real rate limit (not triggered, to avoid cost; only the stubbed response), a real timeout from the backend, ru and uz answers (strings only checked in code), Safari.
+- Screen reader run, real IME input.
+- Test data: none created. The tab's login was removed and put back during the logout check; a stale `ticketzy-assistant` chat may remain in that tab's sessionStorage.
