@@ -589,3 +589,17 @@ tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (por
 
 ### Not tested / left
 - No organizer picker for the admin list (F281). No demo event reaches a seat-badge threshold, so the badge was not seen on real data (F286). The refusal texts other than "already paid out" were mapped from the backend source, not triggered. Not every width, language and theme combination was run (listed above). The notification link was not clicked (the page it leads to was already open).
+
+## Prompt 12b: ticket logo across the site
+
+### Built / fixed
+- **Logo** component (F288) replaces the lime dot inside the shared `Brand` link. Places where dot + wordmark appeared (all go through `Brand`): navbar (`Top.tsx`, desktop and mobile), footer (`Footer.tsx`), organizer and admin sidebar (`DashboardShell.tsx`), error screen (`ErrorBoundary.tsx`). Login, sign-up and organizer join show no wordmark of their own (they sit under the navbar), so nothing to change there.
+- Dark theme ring (F289). Icons, og image and manifest already used the same artwork; unchanged.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean (see the build line below).
+- Browser (dev server): navbar logo 28 px, footer 24 px, link still 44 px tall at 390; at 390 and 768 in ko and en, light and dark the logo, wordmark and header icons fit; the dark ring was seen.
+
+### Not tested / left
+- Admin/organizer sidebar was not looked at in the browser (same component as the navbar). CLS was not measured with a tool; the image has fixed width and height. 1440 was checked on the dev window (about 1470 px) only for en.
+

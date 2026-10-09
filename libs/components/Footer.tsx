@@ -40,7 +40,7 @@ const Footer = () => {
 			<div className="tz-container">
 				<div className="tz-footer__grid">
 					<div className="tz-footer__about">
-						<Brand />
+						<Brand size={24} />
 						<p>{t('footer.tagline')}</p>
 					</div>
 					<div>

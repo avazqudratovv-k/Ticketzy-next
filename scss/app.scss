@@ -65,12 +65,15 @@ a {
 	color: var(--ink);
 	font: 800 20px/24px var(--font-sans);
 	letter-spacing: -0.02em;
-	&__dot {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		background: var(--accent);
-		box-shadow: 0 0 0 1px var(--accent-edge);
+}
+
+.tz-logo {
+	flex: none;
+	display: block;
+	border-radius: 22%; // the artwork's own corner (112 / 512)
+	// the icon's tile is the dark page colour: a hairline keeps its shape on a dark navbar
+	[data-theme='dark'] & {
+		box-shadow: 0 0 0 1px var(--border);
 	}
 }
 

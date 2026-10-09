@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { ROUTES } from '../../routes';
+import Logo from './Logo';
 
-/** There is no logo yet: the brand is the word Ticketzy with a Volt dot (design: FOUNDATIONS, Iconography). */
-const Brand = ({ href = ROUTES.home }: { href?: string }) => (
+/** The ticket logo and the word Ticketzy as one home link. `wordmark={false}` shows the logo alone, labelled. */
+const Brand = ({ href = ROUTES.home, size = 28, wordmark = true }: { href?: string; size?: number; wordmark?: boolean }) => (
 	<Link href={href} className="tz-brand" aria-label="Ticketzy">
-		<span className="tz-brand__dot" aria-hidden="true" />
-		Ticketzy
+		<Logo size={size} label={wordmark ? undefined : 'Ticketzy'} />
+		{wordmark && 'Ticketzy'}
 	</Link>
 );
 
