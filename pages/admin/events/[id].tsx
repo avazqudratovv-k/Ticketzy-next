@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -16,6 +16,8 @@ import EventImage from '../../../libs/components/events/EventImage';
 import ReasonDialog from '../../../libs/components/admin/ReasonDialog';
 import ModerationPanel from '../../../libs/components/admin/ModerationPanel';
 import MemberStatusBadge from '../../../libs/components/admin/MemberStatusBadge';
+import VenueConflictPanel from '../../../libs/components/admin/VenueConflictPanel';
+import { bookedParams } from '../../../libs/venueConflict';
 
 import {
 	APPROVE_EVENT_BY_ADMIN,
@@ -71,6 +73,11 @@ const AdminEventDetail: NextPage = () => {
 	const [approveOpen, setApproveOpen] = useState(false);
 	const [approving, setApproving] = useState(false);
 	const [approveError, setApproveError] = useState<AdminError | null>(null);
+	const approveErrorRef = useRef<HTMLParagraphElement>(null);
+	// the dialog scrolls on small screens: bring the refusal into view
+	useEffect(() => {
+		if (approveError) approveErrorRef.current?.scrollIntoView({ block: 'nearest' });
+	}, [approveError]);
 	const [checking, setChecking] = useState(false);
 	const [refundError, setRefundError] = useState<AdminError | null>(null);
 	const [summary, setSummary] = useState<RefundSummary | null>(null);
@@ -174,6 +181,7 @@ const AdminEventDetail: NextPage = () => {
 	const startPassed = new Date(event.startAt).getTime() < Date.now();
 	const organizerHidden = organizer && organizer.memberStatus !== 'ACTIVE';
 	const typesHidden = Boolean(typeError) && isOnlyNoData(typeError);
+	const hasConflicts = (event.possibleVenueConflicts?.length ?? 0) > 0;
 
 	return (
 		<div className="org-page adm-detail">
@@ -216,6 +224,8 @@ const AdminEventDetail: NextPage = () => {
 					</span>
 				</p>
 			)}
+
+			<VenueConflictPanel conflicts={event.possibleVenueConflicts} timeZone={zone} />
 
 			<div className="adm-detail__grid">
 				<div className="adm-detail__main">
@@ -524,6 +534,9 @@ const AdminEventDetail: NextPage = () => {
 						{event.seatingType === 'RESERVED' && <li>{t('event.approve.points.seats')}</li>}
 						<li>{t('event.approve.points.notify')}</li>
 					</ul>
+					{hasConflicts && (
+						<VenueConflictPanel conflicts={event.possibleVenueConflicts} timeZone={zone} compact id="approve-conflicts" />
+					)}
 					{organizerHidden && (
 						<p className="tz-alert tz-alert--warning" role="note">
 							<WarningCircle size={20} aria-hidden="true" />
@@ -531,9 +544,17 @@ const AdminEventDetail: NextPage = () => {
 						</p>
 					)}
 					{approveError && (
-						<p className="tz-alert tz-alert--error" role="alert">
+						<p ref={approveErrorRef} className="tz-alert tz-alert--error" role="alert">
 							<WarningCircle size={20} aria-hidden="true" />
-							<span>{approveError.network ? t('errors.network') : approveError.key ? t(`serverErrors.${approveError.key}`) : approveError.raw || t('errors.generic')}</span>
+							<span>
+								{approveError.network
+									? t('errors.network')
+									: approveError.booked
+									? t('serverErrors.venueBooked', bookedParams(approveError.booked, locale))
+									: approveError.key
+									? t(`serverErrors.${approveError.key}`)
+									: approveError.raw || t('errors.generic')}
+							</span>
 						</p>
 					)}
 				</DialogContent>
@@ -542,7 +563,7 @@ const AdminEventDetail: NextPage = () => {
 						{t('actions.back')}
 					</Button>
 					<Button variant="contained" onClick={approve} disabled={approving}>
-						{approving ? t('event.approve.sending') : t('event.approve.confirm')}
+						{approving ? t('event.approve.sending') : hasConflicts ? t('event.approve.anyway') : t('event.approve.confirm')}
 					</Button>
 				</DialogActions>
 			</Dialog>

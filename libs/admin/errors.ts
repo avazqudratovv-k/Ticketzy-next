@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { ApiError, NETWORK_ERROR, parseApiError } from '../errors';
+import { parseVenueBooked, VenueBooked } from '../venueConflict';
 
 /**
  * Server messages (backend libs/enums/common.enum.ts) shown translated. Keys are under `serverErrors` in admin.json.
@@ -63,6 +64,8 @@ export interface AdminError {
 	network: boolean;
 	raw: string;
 	code: string;
+	/** set for the venue double-booking refusal (key `venueBooked`) */
+	booked?: VenueBooked;
 }
 
 const flat = (message: unknown): string => (Array.isArray(message) ? message.join(' ') : String(message ?? ''));
@@ -70,6 +73,8 @@ const flat = (message: unknown): string => (Array.isArray(message) ? message.joi
 export function describeAdminError(err: unknown, kind: 'server' | 'ai' = 'server'): AdminError {
 	const parsed: ApiError = parseApiError(err);
 	const raw = flat(parsed.message);
+	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
+	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
 	return { key: (kind === 'ai' ? AI : KNOWN)[raw], network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
 

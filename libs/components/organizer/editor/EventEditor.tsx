@@ -23,6 +23,7 @@ import {
 } from '../../../organizer/form';
 import { OrgEvent, OrgTicketType } from '../../../organizer/types';
 import { intlLocale } from '../../../format';
+import { describedText } from '../../../organizer/errors';
 import { useSalesClock } from '../../../salesWindow';
 import SalesNotice from '../../events/SalesNotice';
 import { eventUrl, organizerEventEditUrl, organizerEventsUrl, organizerVenueNewUrl } from '../../../routes';
@@ -78,6 +79,26 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 		if (!savedAt) return;
 		setSavedLabel(new Intl.DateTimeFormat(intlLocale(locale), { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(savedAt));
 	}, [savedAt, locale]);
+
+	// The venue double-booking refusal belongs on the venue step. While the submit dialog is open it is shown there instead (with its own button).
+	const submitOpenRef = useRef(false);
+	submitOpenRef.current = submitOpen;
+	useEffect(() => {
+		if (serverError?.booked && !submitOpenRef.current) setStepState('venue');
+	}, [serverError]);
+	const focusVenue = useRef(false);
+	useEffect(() => {
+		if (!focusVenue.current || step !== 'venue' || submitOpen) return undefined;
+		focusVenue.current = false;
+		// after the dialog has given the focus back to its opener
+		const id = window.setTimeout(() => document.querySelector<HTMLElement>('[data-venue-field]')?.focus(), 50);
+		return () => window.clearTimeout(id);
+	}, [step, submitOpen]);
+	const fixBooked = () => {
+		focusVenue.current = true;
+		setSubmitOpen(false);
+		setStep('venue');
+	};
 
 	const index = STEPS.indexOf(step);
 	const setStep = (next: StepId) => {
@@ -254,10 +275,10 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 
 			<section className="org-panel" aria-labelledby="step-title">
 				<h2 id="step-title">{t(`form.steps.${step}`)}</h2>
-				{serverError && (
+				{serverError && !(serverError.booked && step === 'venue') && (
 					<p className="tz-alert tz-alert--error" role="alert">
 						<WarningCircle size={20} aria-hidden="true" />
-						<span>{serverError.network ? t('errors.network') : serverError.key ? t(`serverErrors.${serverError.key}`) : serverError.raw || t('errors.generic')}</span>
+						<span>{describedText(t, serverError, locale)}</span>
 					</p>
 				)}
 				{errorCount > 0 && !readOnly && (
@@ -327,6 +348,8 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 				error={serverError}
 				onClose={() => setSubmitOpen(false)}
 				onConfirm={confirmSubmit}
+				onFix={serverError?.booked ? fixBooked : undefined}
+				fixBookedLabel={t('submit.fixBooked')}
 			/>
 			{event && (
 				<CancelDialog

@@ -52,7 +52,8 @@
     "salesNotStarted": "Ticket sales for this event haven’t started yet.",
     "salesClosed": "Ticket sales for this event are closed.",
     "cancelReasonRequired": "Write a reason for cancelling. Buyers see it.",
-    "alreadyClosed": "This event is already cancelled or has ended, so it can’t be cancelled again."
+    "alreadyClosed": "This event is already cancelled or has ended, so it can’t be cancelled again.",
+    "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. Choose another venue or another time."
   },
   "blocked": {
     "reason": "Reason given: {{reason}}",
@@ -255,8 +256,8 @@
         "GENERAL": "No assigned seats. Guests choose a quantity and you set how many tickets are available."
       },
       "seatingHint": {
-      	"RESERVED": "Best for football matches and seated concerts.",
-      	"GENERAL": "Best for standing shows and comedy clubs."
+        "RESERVED": "Best for football matches and seated concerts.",
+        "GENERAL": "Best for standing shows and comedy clubs."
       },
       "reservedUnavailable": "This venue has no seated section, so it can only host general admission events.",
       "locked": {
@@ -282,7 +283,11 @@
         "saleConflict": "The new dates conflict with the ticket sale window. Check it in the Tickets step."
       },
       "fromDate": "From date",
-      "toDate": "To date"
+      "toDate": "To date",
+      "booked": {
+        "venue": "Choose another venue",
+        "date": "Choose another time"
+      }
     },
     "tickets": {
       "introGeneral": "Add one ticket type per price: for example Standard and VIP. Guests choose a quantity, and you set how many are available.",
@@ -410,7 +415,8 @@
     "cancel": "Not yet",
     "confirm": "Submit for approval",
     "sending": "Submitting…",
-    "fix": "Fix the event"
+    "fix": "Fix the event",
+    "fixBooked": "Change venue or time"
   },
   "cancel": {
     "title": "Cancel this event?",

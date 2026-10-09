@@ -45,7 +45,8 @@
     "payoutNotDue": "Bu tadbirning to‘lov sanasi hali kelmagan.",
     "payoutNothing": "Bu tadbir uchun to‘lanadigan summa yo‘q.",
     "payoutNoEvent": "Tadbir topilmadi.",
-    "payoutDateRange": "To‘lov sanasi oralig‘ining boshi oxiridan keyin bo‘lmasligi kerak."
+    "payoutDateRange": "To‘lov sanasi oralig‘ining boshi oxiridan keyin bo‘lmasligi kerak.",
+    "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Vaqt ustma-ust tushar ekan, tadbirni tasdiqlab bo‘lmaydi."
   },
   "memberStatus": {
     "PENDING": "Tasdiqlanishi kutilmoqda",
@@ -241,7 +242,8 @@
         "notify": "Tashkilotchiga bildirishnoma yuboriladi."
       },
       "confirm": "Tadbirni tasdiqlash",
-      "sending": "Tasdiqlanmoqda…"
+      "sending": "Tasdiqlanmoqda…",
+      "anyway": "Baribir tasdiqlash"
     },
     "reject": {
       "title": "Bu tadbirni rad etasizmi?",
@@ -738,5 +740,13 @@
       "sending": "Saqlanmoqda…",
       "confirm": "To‘langan deb belgilash"
     }
+  },
+  "conflicts": {
+    "title": "Maydon bandligi ehtimoli",
+    "by": "tashkilotchi {{name}}",
+    "intro_one": "Bu maydonda ustma-ust tushadigan vaqtda boshqa tadbir bor. Bu faqat ogohlantirish, qarorni to‘smaydi.",
+    "intro_other": "Bu maydonda ustma-ust tushadigan vaqtda yana {{count}} ta tadbir bor. Bu faqat ogohlantirish, qarorni to‘smaydi.",
+    "badge_one": "{{count}} ta maydon bandligi ehtimoli",
+    "badge_other": "{{count}} ta maydon bandligi ehtimoli"
   }
 }

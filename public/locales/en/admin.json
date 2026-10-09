@@ -45,7 +45,8 @@
     "payoutNotDue": "The payout date of this event has not been reached yet.",
     "payoutNothing": "There is nothing to pay out for this event.",
     "payoutNoEvent": "This event could not be found.",
-    "payoutDateRange": "The start of the payout date range must not be after its end."
+    "payoutDateRange": "The start of the payout date range must not be after its end.",
+    "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. The event can’t be approved while the times overlap."
   },
   "memberStatus": {
     "PENDING": "Waiting for approval",
@@ -241,7 +242,8 @@
         "notify": "The organizer gets a notification."
       },
       "confirm": "Approve event",
-      "sending": "Approving…"
+      "sending": "Approving…",
+      "anyway": "Approve anyway"
     },
     "reject": {
       "title": "Reject this event?",
@@ -738,5 +740,13 @@
       "sending": "Saving…",
       "confirm": "Mark as paid out"
     }
+  },
+  "conflicts": {
+    "title": "Possible venue conflict",
+    "by": "by {{name}}",
+    "intro_one": "Another event is booked at this venue at an overlapping time. This is a warning only; it doesn’t block your decision.",
+    "intro_other": "{{count}} other events are booked at this venue at overlapping times. This is a warning only; it doesn’t block your decision.",
+    "badge_one": "{{count}} possible venue conflict",
+    "badge_other": "{{count}} possible venue conflicts"
   }
 }

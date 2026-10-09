@@ -45,7 +45,8 @@
     "payoutNotDue": "이 이벤트의 지급일이 아직 되지 않았어요.",
     "payoutNothing": "이 이벤트에는 지급할 금액이 없어요.",
     "payoutNoEvent": "이벤트를 찾을 수 없어요.",
-    "payoutDateRange": "지급일 시작은 종료보다 늦을 수 없어요."
+    "payoutDateRange": "지급일 시작은 종료보다 늦을 수 없어요.",
+    "venueBooked": "이 장소는 {{start}}부터 {{end}}까지 「{{title}}」 행사로 이미 예약되어 있습니다. 시간이 겹치는 동안은 승인할 수 없습니다."
   },
   "memberStatus": {
     "PENDING": "승인 대기",
@@ -241,7 +242,8 @@
         "notify": "주최자에게 알림이 가요."
       },
       "confirm": "이벤트 승인",
-      "sending": "승인하는 중…"
+      "sending": "승인하는 중…",
+      "anyway": "그래도 승인"
     },
     "reject": {
       "title": "이 이벤트를 반려할까요?",
@@ -738,5 +740,13 @@
       "sending": "저장 중…",
       "confirm": "지급 완료로 표시"
     }
+  },
+  "conflicts": {
+    "title": "장소 중복 가능성",
+    "by": "주최자 {{name}}",
+    "intro_one": "같은 장소에 시간이 겹치는 다른 행사가 있습니다. 경고일 뿐이며 승인 결정을 막지는 않습니다.",
+    "intro_other": "같은 장소에 시간이 겹치는 다른 행사가 {{count}}개 있습니다. 경고일 뿐이며 승인 결정을 막지는 않습니다.",
+    "badge_one": "장소 중복 가능성 {{count}}건",
+    "badge_other": "장소 중복 가능성 {{count}}건"
   }
 }

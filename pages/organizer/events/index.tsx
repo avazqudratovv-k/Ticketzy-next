@@ -356,7 +356,8 @@ const OrganizerEvents: NextPage = () => {
 				error={submitError}
 				onClose={() => setSubmitTarget(null)}
 				onConfirm={confirmSubmit}
-				onFix={submitTarget ? () => router.push(organizerEventEditUrl(submitTarget._id)) : undefined}
+				onFix={submitTarget ? () => router.push(`${organizerEventEditUrl(submitTarget._id)}${submitError?.booked ? '?step=venue' : ''}`) : undefined}
+				fixBookedLabel={t('submit.fixBooked')}
 			/>
 			<CancelDialog
 				open={Boolean(cancelTarget)}

@@ -1,5 +1,6 @@
 import { EventCategory, EventLocaleCode, EventStatus } from '../types/event';
 import { LayoutSection } from '../seats/types';
+import { VenueConflict } from '../venueConflict';
 import { MemberStatus, MemberType } from '../enums/member.enum';
 
 /** Shapes of the admin operations (see apollo/admin/query.ts). */
@@ -58,6 +59,8 @@ export interface AdminEventRow {
 	eventModeration?: Moderation | null;
 	memberData?: Pick<AdminOrganizerRef, '_id' | 'memberNick' | 'memberFullName' | 'memberStatus'> | null;
 	venueData?: { _id: string; venueName: string; venueCity: string; venueTimezone: string } | null;
+	/** admin-only: null = not checked (or not requested), [] = checked and nothing found */
+	possibleVenueConflicts?: VenueConflict[] | null;
 }
 
 export interface AdminVenue {

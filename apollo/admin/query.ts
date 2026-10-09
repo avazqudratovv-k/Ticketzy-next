@@ -56,10 +56,20 @@ export const ADMIN_EVENT_ROW_FIELDS = gql`
 
 /** `getEventsByAdmin` answers "No data found!" for an empty list, so callers treat that error as "no events". */
 export const GET_ADMIN_EVENTS = gql`
-	query GetAdminEvents($input: EventsByAdminInquiry!) {
+	query GetAdminEvents($input: EventsByAdminInquiry!, $withConflicts: Boolean = false) {
 		getEventsByAdmin(input: $input) {
 			list {
 				...AdminEventRowFields
+				# admin-only; asked for on the pending tab only, so other lists stay cheap
+				possibleVenueConflicts @include(if: $withConflicts) {
+					eventId
+					eventTitle
+					eventStatus
+					organizerNick
+					venueName
+					startAt
+					endAt
+				}
 			}
 			metaCounter {
 				total
@@ -112,6 +122,15 @@ export const GET_ADMIN_EVENT = gql`
 			cancelReason
 			createdAt
 			updatedAt
+			possibleVenueConflicts {
+				eventId
+				eventTitle
+				eventStatus
+				organizerNick
+				venueName
+				startAt
+				endAt
+			}
 			eventModeration {
 				...AdminModerationFields
 			}

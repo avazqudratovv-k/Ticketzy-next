@@ -650,3 +650,23 @@ tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (por
 - The final status of "QA Test Comedy Night" is APPROVED (it was REJECTED); an approval cannot be undone from the UI.
 - 390 px: the signed-in navbar overflows the frame by about 16 px on the event page (known, not touched). Not every language / theme / width combination was clicked.
 - Sessions were switched one after another (no private window available).
+
+## Prompt 14e: venue double-booking errors and admin conflict warning
+
+### Done
+- `libs/venueConflict.ts`: parser for "This venue is already booked for {title} from {start} to {end}.", venue-clock formatting, `VenueConflict` type. `describeError` and `describeAdminError` return `key: 'venueBooked'` plus the parts; `describedText()` renders any described error (F307).
+- Organizer editor: inline `role="alert"` on the venue step with "Choose another venue / time" buttons that focus the fields; jumps to the venue step after a failed save; cleared when the venue or a date changes; submit dialog shows it with "Change venue or time"; the list's submit dialog goes to `?step=venue` (F308).
+- Admin: `VenueConflictPanel` on the event page, warning badge with the count on the pending list, conflicts listed in the approve dialog with "Approve anyway", translated refusal in the dialog (F309, F311).
+- `possibleVenueConflicts` only in the admin detail query and the pending-tab list query (`@include`) (F310).
+- Keys: organizer `serverErrors.venueBooked`, `submit.fixBooked`, `form.venue.booked.*`; admin `serverErrors.venueBooked`, `event.approve.anyway`, `conflicts.*` in en, ko, ru, uz.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean; `yarn build` passes in a scratch copy (3100, `/graphql` proxied).
+- Real backend as organizer: a new event overlapping "seng part" at the same venue answered with the refusal; alert shown with localized dates, form kept, both buttons focus the right field (select / date input). As admin: pending list badge, panel on the event page, approve dialog with the list and "Approve anyway".
+- Submit-dialog and approve-dialog refusals were shown by faking only that mutation's reply with the backend's text (F312); the approve error scrolls into view.
+- 390 px in ko (event page and pending list): no horizontal overflow; dark theme on the approve dialog; no console warnings or errors on the admin pages.
+
+### Not tested / left
+- A real same-venue refusal on submit or approve (needs a second organizer's overlapping event); en/ko only were looked at, ru and uz strings are unchecked on screen (plural forms follow the app's existing pattern).
+- The organizer form at 390 px and in dark was not screenshotted; the alert uses the existing `tz-alert` styles.
+- Test data created: see the report (venue "QA Comedy Cellar" at 99 Lookalike-ro, event "ZZ Venue Clash Test").

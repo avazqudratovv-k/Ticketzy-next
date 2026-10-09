@@ -2,7 +2,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { useTranslation } from 'next-i18next';
 import { CheckCircle, Circle, WarningCircle } from 'phosphor-react';
 import { Check, CheckId } from '../../organizer/form';
-import { Described } from '../../organizer/errors';
+import { useRouter } from 'next/router';
+import { Described, describedText } from '../../organizer/errors';
 
 const ALL_CHECKS: CheckId[] = ['title', 'image', 'dates', 'venue', 'ticketType'];
 
@@ -19,11 +20,14 @@ interface Props {
 	onConfirm: () => void;
 	/** offered when the server refused: takes the organizer to the form */
 	onFix?: () => void;
+	/** text of the fix button when the refusal is the venue double-booking */
+	fixBookedLabel?: string;
 }
 
 /** What will be checked and what happens next, before `submitEventForApproval` (backend DECISIONS #36). */
-const SubmitDialog = ({ open, eventTitle, checks, loading, error, onClose, onConfirm, onFix }: Props) => {
+const SubmitDialog = ({ open, eventTitle, checks, loading, error, onClose, onConfirm, onFix, fixBookedLabel }: Props) => {
 	const { t } = useTranslation('organizer');
+	const { locale } = useRouter();
 	const list = checks ?? ALL_CHECKS.map((id) => ({ id, ok: true }));
 	const blocked = Boolean(checks && checks.some((check) => !check.ok));
 
@@ -48,7 +52,7 @@ const SubmitDialog = ({ open, eventTitle, checks, loading, error, onClose, onCon
 				{error && (
 					<p className="tz-alert tz-alert--error" role="alert">
 						<WarningCircle size={20} aria-hidden="true" />
-						<span>{error.network ? t('errors.network') : error.key ? t(`serverErrors.${error.key}`) : error.raw || t('errors.generic')}</span>
+						<span>{describedText(t, error, locale)}</span>
 					</p>
 				)}
 			</DialogContent>
@@ -58,7 +62,7 @@ const SubmitDialog = ({ open, eventTitle, checks, loading, error, onClose, onCon
 				</Button>
 				{error && onFix ? (
 					<Button variant="contained" onClick={onFix}>
-						{t('submit.fix')}
+						{error.booked && fixBookedLabel ? fixBookedLabel : t('submit.fix')}
 					</Button>
 				) : (
 					<Button variant="contained" onClick={onConfirm} disabled={loading || blocked}>

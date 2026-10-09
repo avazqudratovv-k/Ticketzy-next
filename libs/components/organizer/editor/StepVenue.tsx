@@ -1,6 +1,7 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { Lightbulb, Lock, MapPin, WarningCircle } from 'phosphor-react';
+import { describedText } from '../../../organizer/errors';
 import { formatEventSummary, formatNumber, formatZoneName } from '../../../format';
 import { addHours, dateOrderErrors, impliedEndDate, saleWindowConflicts, tiersOfVenue, venueSupportsReserved } from '../../../organizer/form';
 import { zonedToIso } from '../../../organizer/zoned';
@@ -13,7 +14,7 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 	const { locale } = useRouter();
 	const text = useErrorText();
 	const radioId = useId();
-	const { values, errors, setField, venues, venue, venuesLoading, venuesError, refetchVenues, mode, rows } = editor;
+	const { serverError, values, errors, setField, venues, venue, venuesLoading, venuesError, refetchVenues, mode, rows } = editor;
 	const hasTicketTypes = rows.some((row) => row.id);
 	// APPROVED events have seats and orders; with ticket types the venue's tiers are already in use (see DECISIONS F98)
 	const lockedBy = mode === 'review' ? 'approved' : hasTicketTypes ? 'tickets' : null;
@@ -26,6 +27,12 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 	// One day: Date, Start time, End time (the end date follows the start date, or the next day for an overnight show).
 	// Several days: From and To date, and the same daily hours on every day (DECISIONS F129).
 	const multi = values.multiDay;
+	const booked = serverError?.booked ? serverError : null;
+	const bookedRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		bookedRef.current?.scrollIntoView({ block: 'nearest' });
+	}, [booked]);
+	const focusField = (selector: string) => document.querySelector<HTMLElement>(selector)?.focus();
 	const [endTouched, setEndTouched] = useState(() => Boolean(values.endTime));
 	const syncEnd = (startDate: string, startTime: string, endTime: string) => {
 		if (!multi) setField('endDate', impliedEndDate(startDate, startTime, endTime));
@@ -71,6 +78,26 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 
 	return (
 		<div className="org-fields">
+			{booked && (
+				<div ref={bookedRef} className="tz-alert tz-alert--error org-booked" role="alert">
+					<WarningCircle size={20} aria-hidden="true" />
+					<span>
+						{describedText(t, booked, locale)}
+						{!readOnly && (
+							<span className="org-booked__actions">
+								{!locked && (
+									<button type="button" className="tz-link org-linkbtn" onClick={() => focusField('[data-venue-field]')}>
+										{t('form.venue.booked.venue')}
+									</button>
+								)}
+								<button type="button" className="tz-link org-linkbtn" onClick={() => focusField('[data-date-field]')}>
+									{t('form.venue.booked.date')}
+								</button>
+							</span>
+						)}
+					</span>
+				</div>
+			)}
 			{venuesError && venues.length === 0 && (
 				<p className="tz-alert tz-alert--error" role="alert">
 					<WarningCircle size={20} aria-hidden="true" />
@@ -96,6 +123,7 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 			>
 				<select
 					className="tz-input"
+					data-venue-field=""
 					value={values.venueId}
 					disabled={locked || venuesLoading}
 					onChange={(event) => {
@@ -187,7 +215,7 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 						<fieldset className="org-when__group">
 							<legend className="tz-field__label">{t('form.venue.when.dates')}</legend>
 							<FormField label={t('form.venue.fromDate')} required error={text(startError)}>
-								<input type="date" className="tz-input" value={values.startDate} onChange={(event) => onStartDate(event.target.value)} />
+								<input type="date" className="tz-input" data-date-field="" value={values.startDate} onChange={(event) => onStartDate(event.target.value)} />
 							</FormField>
 							<FormField label={t('form.venue.toDate')} required error={text(endDateError)}>
 								<input type="date" className="tz-input" value={values.endDate} min={values.startDate || undefined} onChange={(event) => setField('endDate', event.target.value)} />
@@ -206,7 +234,7 @@ const StepVenue = ({ editor, readOnly, onCreateVenue }: StepProps & { onCreateVe
 				) : (
 					<div className="org-grid3">
 						<FormField label={t('form.venue.date')} required error={text(startError)}>
-							<input type="date" className="tz-input" value={values.startDate} onChange={(event) => onStartDate(event.target.value)} />
+							<input type="date" className="tz-input" data-date-field="" value={values.startDate} onChange={(event) => onStartDate(event.target.value)} />
 						</FormField>
 						<FormField label={t('form.venue.startTime')} required>
 							<input type="time" className="tz-input" value={values.startTime} onChange={(event) => onStartTime(event.target.value)} />

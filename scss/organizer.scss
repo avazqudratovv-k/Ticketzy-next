@@ -1694,3 +1694,10 @@ input.tz-input[type='time'] {
 		margin-block: var(--space-2);
 	}
 }
+
+.org-booked__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-1) var(--space-4);
+	margin-top: var(--space-2);
+}

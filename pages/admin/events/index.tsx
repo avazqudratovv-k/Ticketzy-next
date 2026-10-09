@@ -7,7 +7,7 @@ import { useQuery } from '@apollo/client';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CalendarBlank, Calendar, MagnifyingGlass, Robot, WarningCircle } from 'phosphor-react';
+import { CalendarBlank, Calendar, MagnifyingGlass, Robot, Warning, WarningCircle } from 'phosphor-react';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import StateBlock from '../../../libs/components/states/StateBlock';
 import Pagination from '../../../libs/components/events/Pagination';
@@ -63,6 +63,8 @@ const AdminEvents: NextPage = () => {
 				direction: sort.direction,
 				search: { ...(status ? { eventStatus: status } : {}), ...(text ? { text } : {}) },
 			},
+			// the venue conflict check only matters for events waiting for a decision
+			withConflicts: tab === 'pending',
 		},
 		skip: !ready,
 		fetchPolicy: 'cache-and-network',
@@ -196,6 +198,12 @@ const AdminEvents: NextPage = () => {
 									</div>
 									<div role="cell" className="org-row__status">
 										<EventStatusBadge status={event.eventStatus} />
+										{(event.possibleVenueConflicts?.length ?? 0) > 0 && (
+											<Link href={`/admin/events/${event._id}#venue-conflicts`} className="adm-conflictbadge">
+												<Warning size={14} weight="fill" aria-hidden="true" />
+												{t('conflicts.badge', { count: event.possibleVenueConflicts?.length ?? 0 })}
+											</Link>
+										)}
 										{event.eventStatus === 'REJECTED' && event.rejectReason && <span className="org-row__reason">{event.rejectReason}</span>}
 										{event.eventStatus === 'CANCELLED' && event.cancelReason && <span className="org-row__reason">{event.cancelReason}</span>}
 									</div>

@@ -52,7 +52,8 @@
     "salesNotStarted": "Bu tadbir uchun chipta sotuvi hali boshlanmagan.",
     "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan.",
     "cancelReasonRequired": "Bekor qilish sababini yozing. Xaridorlar uni koʻradi.",
-    "alreadyClosed": "Tadbir allaqachon bekor qilingan yoki tugagan, shuning uchun uni qayta bekor qilib boʻlmaydi."
+    "alreadyClosed": "Tadbir allaqachon bekor qilingan yoki tugagan, shuning uchun uni qayta bekor qilib boʻlmaydi.",
+    "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Boshqa maydon yoki boshqa vaqtni tanlang."
   },
   "blocked": {
     "reason": "Koʻrsatilgan sabab: {{reason}}",
@@ -255,8 +256,8 @@
         "GENERAL": "Belgilangan oʻrindiqlar yoʻq. Mehmonlar miqdorni tanlaydi, nechta chipta mavjudligini esa siz belgilaysiz."
       },
       "seatingHint": {
-      	"RESERVED": "Futbol o‘yinlari va o‘rindiqli konsertlar uchun qulay.",
-      	"GENERAL": "Tik turib tomosha qilinadigan shoular va komediya klublari uchun qulay."
+        "RESERVED": "Futbol o‘yinlari va o‘rindiqli konsertlar uchun qulay.",
+        "GENERAL": "Tik turib tomosha qilinadigan shoular va komediya klublari uchun qulay."
       },
       "reservedUnavailable": "Bu joyda oʻrindiqli boʻlim yoʻq, shuning uchun u faqat umumiy kirishli tadbirlarni oʻtkaza oladi.",
       "locked": {
@@ -282,7 +283,11 @@
         "saleConflict": "Yangi sanalar chipta sotuvi davriga mos kelmaydi. Uni “Chiptalar” bosqichida tekshiring."
       },
       "fromDate": "Boshlanish sanasi",
-      "toDate": "Tugash sanasi"
+      "toDate": "Tugash sanasi",
+      "booked": {
+        "venue": "Boshqa maydonni tanlash",
+        "date": "Boshqa vaqtni tanlash"
+      }
     },
     "tickets": {
       "introGeneral": "Har bir narx uchun bittadan chipta turini qoʻshing, masalan Standart va VIP. Mehmonlar miqdorni tanlaydi, nechta chipta mavjudligini esa siz belgilaysiz.",
@@ -410,7 +415,8 @@
     "cancel": "Hozir emas",
     "confirm": "Tasdiqlash uchun yuborish",
     "sending": "Yuborilmoqda…",
-    "fix": "Tadbirni tuzatish"
+    "fix": "Tadbirni tuzatish",
+    "fixBooked": "Maydon yoki vaqtni o‘zgartirish"
   },
   "cancel": {
     "title": "Bu tadbir bekor qilinsinmi?",

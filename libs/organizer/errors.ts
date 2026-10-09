@@ -1,4 +1,6 @@
 import { ApiError, NETWORK_ERROR, parseApiError } from '../errors';
+import { TFunction } from 'next-i18next';
+import { bookedParams, parseVenueBooked, VenueBooked } from '../venueConflict';
 
 /**
  * Server messages (backend libs/enums/common.enum.ts) shown translated. Keys are in organizer.json under `serverErrors`.
@@ -65,6 +67,8 @@ export interface Described {
 	/** the server's own words (class-validator sends a list), for unknown messages */
 	raw: string;
 	code: string;
+	/** set for the venue double-booking refusal (key `venueBooked`): the parts of its text */
+	booked?: VenueBooked;
 }
 
 const flat = (message: unknown): string => (Array.isArray(message) ? message.join(' ') : String(message ?? ''));
@@ -73,5 +77,17 @@ export function describeError(err: unknown, kind: 'server' | 'ai' = 'server'): D
 	const parsed: ApiError = parseApiError(err);
 	const raw = flat(parsed.message);
 	const table = kind === 'ai' ? AI : KNOWN;
+	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
+	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
 	return { key: table[raw], network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
+
+/** The sentence for a described error (organizer namespace): network, known (with the double-booking parts filled in), or the server's own words. */
+export const describedText = (t: TFunction, error: Described, locale?: string): string =>
+	error.network
+		? t('errors.network')
+		: error.booked
+		? t('serverErrors.venueBooked', bookedParams(error.booked, locale))
+		: error.key
+		? t(`serverErrors.${error.key}`)
+		: error.raw || t('errors.generic');
