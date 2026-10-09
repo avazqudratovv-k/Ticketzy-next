@@ -49,6 +49,13 @@
 			transform: rotate(10deg);
 		}
 	}
+	// event detail and organizer pages: subtle text (--ink-subtle) sits on the bare page over a mark; 0.11 gives 4.14:1 on the
+	// light square, 0.07 gives 4.6:1 (0.09 would still be 4.33:1). Dark theme is unchanged (5.0:1 at 0.12).
+	&--soft &__mark {
+		[data-theme='light'] & {
+			opacity: 0.07;
+		}
+	}
 }
 
 .tz-navbar {

@@ -36,12 +36,15 @@ const Mark = ({ className }: { className: string }) => (
 	</svg>
 );
 
+// Routes whose bare-page text includes --ink-subtle: the light-theme marks are fainter there (layout.scss, `--soft`).
+const SOFT_ROUTES: readonly string[] = ['/events/[id]', '/organizers/[id]'];
+
 /** Two large faint ticket marks behind the page, at 1200 px and wider. Decorative only (CSS: layout.scss). */
 const Backdrop = () => {
 	const { pathname } = useRouter();
 	if (!BACKDROP_ROUTES.includes(pathname)) return null;
 	return (
-		<div className="tz-backdrop" aria-hidden="true">
+		<div className={`tz-backdrop${SOFT_ROUTES.includes(pathname) ? ' tz-backdrop--soft' : ''}`} aria-hidden="true">
 			<Mark className="tz-backdrop__mark--left" />
 			<Mark className="tz-backdrop__mark--right" />
 		</div>

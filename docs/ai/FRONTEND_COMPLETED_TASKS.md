@@ -737,3 +737,28 @@ Frontend only, not committed. Decision F320 (values updated).
 
 ### Not tested / left
 - Other backdrop routes (event detail, organizer, info pages) were not re-run in axe; any bare-page subtle text over a light-theme mark there would be 4.1:1, under AA.
+
+## Part X: background mark contrast check, light and dark (2026-10-09)
+Frontend only, not committed. Decision F320 (extended). Closes the "other backdrop routes not re-run" note of 14i.
+
+### Done
+- `Backdrop.tsx` adds `tz-backdrop--soft` on `/events/[id]` and `/organizers/[id]`; `scss/layout.scss` sets the light-theme mark opacity to 0.07 there. Nothing else changed: other routes stay 0.11 (light) / 0.12 (dark), dark stays 0.12 everywhere.
+- Why not the two options in the brief: 0.09 for all routes still fails (4.33:1 on the event page; 0.075 gives 4.47). Moving a mark does not work: the layer is `position: fixed` and the text scrolls under it; on these pages the subtle text (`Starts`, `Ends`, `Times are shown in...`, `Prices include fees`, the comments count, the `@` handle) sits at the content edge, which the marks overlap at 1200 to 1600 px.
+
+### Method
+- axe (wcag2a, wcag2aa, wcag21aa, best-practice) plus a DOM scan on all nine routes, both themes, 1333 to 1633 px wide. The scan scrolls the page in thirds of the viewport, forces `data-reveal` sections shown, takes every text node with no own background up to the page, maps sample points through the mark's inverse transform to its shape (square, ticket, notches, bars), composites the fill at the mark opacity on the page colour and computes the ratio with the real text colour.
+
+### Lowest contrast of text on the bare page over a mark (before, then after)
+| Route | Light | Dark |
+|---|---|---|
+| `/` | 5.13 (green "See all" link) | 12.15 |
+| `/events` | 6.38 (muted "From"/"To") | 7.82 |
+| `/events/[id]` | 4.14 fail, now 4.52 (subtle "Starts") | 4.99 (subtle "Starts"; 7.82 at 1600 px) |
+| `/organizers/[id]` | 4.14 fail, now 4.52 (subtle "@") | 14.11 (only text over a mark) |
+| `/about`, `/faq`, `/contact`, `/privacy`, `/terms` | no bare text over a mark | no bare text over a mark |
+
+axe: 0 violations on every route in both themes after the change (lowest passing ratio on the page: 5.24 to 5.67 light, 5.87 to 8.29 dark). One `color-contrast` hit on `.pg-fab` ("Ask Ticketzy") on `/` appeared once, right after a theme switch, and not in the later runs (a transition read mid-way; not related to the marks).
+
+### Not tested / left
+- Event detail and organizer were measured for one event / one organizer; other content moves the text but the worst surface (square at 0.07) bounds the ratio, 4.52:1 for `--ink-subtle` (#63676f), so the margin is 0.02 at the tightest.
+- Dev server in a tab that is not visible: pages stay hidden until a screenshot wakes the tab; numbers are calculated from fills and opacity, not from a pixel read-back.
