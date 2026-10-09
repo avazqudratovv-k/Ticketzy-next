@@ -177,6 +177,22 @@ export const GET_ORGANIZER = gql`
 	}
 `;
 
+/** Follower count and whether the signed-in member follows this organizer (`meFollowed` is empty when signed out). */
+export const GET_ORGANIZER_FOLLOW = gql`
+	query GetOrganizerFollow($memberId: String!) {
+		getMember(memberId: $memberId) {
+			_id
+			memberType
+			memberFollowers
+			meFollowed {
+				followingId
+				followerId
+				myFollowing
+			}
+		}
+	}
+`;
+
 /**************************
  *         SEATS          *
  *************************/

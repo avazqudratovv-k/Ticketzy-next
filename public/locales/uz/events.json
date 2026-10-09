@@ -203,5 +203,23 @@
     "noEventsText": "Bu tashkilotchida hozir sotuvda tadbir yo‘q.",
     "moreInList_one": "Yana {{count}} ta tadbir bu yerda ko‘rsatilmagan.",
     "moreInList_other": "Yana {{count}} ta tadbir bu yerda ko‘rsatilmagan."
+  },
+  "follow": {
+    "follow": "Kuzatish",
+    "following": "Kuzatilmoqda",
+    "followLabel": "{{name}}ni kuzatish",
+    "unfollowLabel": "{{name}}ni kuzatishni bekor qilish",
+    "signIn": "Kuzatish uchun kiring",
+    "followers_one": "{{n}} kuzatuvchi",
+    "followers_other": "{{n}} kuzatuvchi",
+    "buyersOnly": "Tashkilotchilarni faqat xaridor akkauntlari kuzatishi mumkin.",
+    "own": "Bu sizning tashkilotchi sahifangiz.",
+    "working": "Saqlanmoqda…",
+    "errors": {
+      "follow": "Kuzatib bo‘lmadi. Qayta urinib ko‘ring.",
+      "unfollow": "Kuzatuvni bekor qilib bo‘lmadi. Qayta urinib ko‘ring.",
+      "self": "O‘zingizni kuzata olmaysiz.",
+      "organizerOnly": "Faqat tashkilotchilarni kuzatish mumkin."
+    }
   }
 }

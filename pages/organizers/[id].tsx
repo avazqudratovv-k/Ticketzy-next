@@ -11,6 +11,7 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Seo from '../../libs/components/common/Seo';
 import StateBlock from '../../libs/components/states/StateBlock';
 import EventCard, { EventGridSkeleton } from '../../libs/components/events/EventCard';
+import FollowButton from '../../libs/components/events/FollowButton';
 import Avatar from '../../libs/components/common/OrganizerAvatar';
 import { formatNumber } from '../../libs/format';
 import { ROUTES } from '../../libs/routes';
@@ -122,6 +123,7 @@ const OrganizerPage: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 							})}
 						</li>
 					</ul>
+					<FollowButton organizerId={member._id} name={name} />
 				</div>
 			</header>
 

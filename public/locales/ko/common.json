@@ -19,21 +19,21 @@
     "accountMenu": "계정 메뉴"
   },
   "account": {
-    "myTickets": "내 티켓",
-    "orders": "주문 내역",
-    "settings": "프로필 및 설정",
-    "organizerDashboard": "주최자 대시보드",
-    "organizerEvents": "내 이벤트",
-    "organizerProfile": "주최자 프로필",
-    "adminDashboard": "관리자 개요",
-    "reviewQueue": "검토 대기열",
+    "myTickets": "티켓",
+    "orders": "주문",
+    "settings": "설정",
+    "organizerDashboard": "대시보드",
+    "organizerEvents": "이벤트",
     "logout": "로그아웃",
     "role": {
       "USER": "구매자",
       "ORGANIZER": "주최자",
       "ADMIN": "관리자"
     },
-    "notifications": "알림"
+    "notifications": "알림",
+    "following": "팔로잉",
+    "messages": "메시지",
+    "adminPanel": "관리자 패널"
   },
   "banner": {
     "pendingTitle": "주최자 계정을 검토하고 있어요.",
@@ -50,7 +50,10 @@
     "concerts": "콘서트",
     "football": "축구",
     "comedy": "코미디",
-    "other": "기타 이벤트"
+    "other": "기타 이벤트",
+    "organizerDashboard": "주최자 대시보드",
+    "adminPanel": "관리자 패널",
+    "messages": "메시지"
   },
   "dashboard": {
     "organizer": "주최자",

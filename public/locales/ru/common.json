@@ -19,21 +19,21 @@
     "accountMenu": "Меню аккаунта"
   },
   "account": {
-    "myTickets": "Мои билеты",
-    "orders": "История заказов",
-    "settings": "Профиль и настройки",
-    "organizerDashboard": "Панель организатора",
-    "organizerEvents": "Мои события",
-    "organizerProfile": "Профиль организатора",
-    "adminDashboard": "Обзор администратора",
-    "reviewQueue": "Очередь проверки",
+    "myTickets": "Билеты",
+    "orders": "Заказы",
+    "settings": "Настройки",
+    "organizerDashboard": "Панель",
+    "organizerEvents": "События",
     "logout": "Выйти",
     "role": {
       "USER": "Покупатель",
       "ORGANIZER": "Организатор",
       "ADMIN": "Администратор"
     },
-    "notifications": "Уведомления"
+    "notifications": "Уведомления",
+    "following": "Подписки",
+    "messages": "Сообщения",
+    "adminPanel": "Панель администратора"
   },
   "banner": {
     "pendingTitle": "Аккаунт организатора на проверке.",
@@ -50,7 +50,10 @@
     "concerts": "Концерты",
     "football": "Футбол",
     "comedy": "Комедия",
-    "other": "Другие события"
+    "other": "Другие события",
+    "organizerDashboard": "Панель организатора",
+    "adminPanel": "Панель администратора",
+    "messages": "Сообщения"
   },
   "dashboard": {
     "organizer": "Организатор",

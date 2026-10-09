@@ -12,6 +12,7 @@ export const ROUTES = {
 	settings: '/settings',
 	login: '/account/login',
 	signup: '/account/signup',
+	sell: '/sell',
 	organizerDashboard: '/organizer',
 	adminDashboard: '/admin',
 } as const;

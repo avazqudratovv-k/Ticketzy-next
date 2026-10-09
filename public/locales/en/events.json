@@ -203,5 +203,23 @@
     "noEventsText": "This organizer has nothing on sale right now.",
     "moreInList_one": "{{count}} more event is not shown here.",
     "moreInList_other": "{{count}} more events are not shown here."
+  },
+  "follow": {
+    "follow": "Follow",
+    "following": "Following",
+    "followLabel": "Follow {{name}}",
+    "unfollowLabel": "Stop following {{name}}",
+    "signIn": "Sign in to follow",
+    "followers_one": "{{n}} follower",
+    "followers_other": "{{n}} followers",
+    "buyersOnly": "Only buyer accounts can follow organizers.",
+    "own": "This is your own organizer page.",
+    "working": "Saving…",
+    "errors": {
+      "follow": "Couldn’t follow this organizer. Try again.",
+      "unfollow": "Couldn’t unfollow this organizer. Try again.",
+      "self": "You can’t follow yourself.",
+      "organizerOnly": "Only organizers can be followed."
+    }
   }
 }

@@ -195,5 +195,22 @@
     "noEventsTitle": "예정된 이벤트가 없어요",
     "noEventsText": "이 주최자는 지금 판매 중인 이벤트가 없어요.",
     "moreInList_other": "이벤트 {{count}}개가 더 있지만 여기에는 표시되지 않아요."
+  },
+  "follow": {
+    "follow": "팔로우",
+    "following": "팔로잉",
+    "followLabel": "{{name}} 팔로우",
+    "unfollowLabel": "{{name}} 팔로우 취소",
+    "signIn": "로그인하고 팔로우",
+    "followers_other": "팔로워 {{n}}명",
+    "buyersOnly": "구매자 계정만 주최자를 팔로우할 수 있어요.",
+    "own": "내 주최자 페이지예요.",
+    "working": "저장 중…",
+    "errors": {
+      "follow": "팔로우하지 못했어요. 다시 시도해 주세요.",
+      "unfollow": "팔로우를 취소하지 못했어요. 다시 시도해 주세요.",
+      "self": "자기 자신은 팔로우할 수 없어요.",
+      "organizerOnly": "주최자만 팔로우할 수 있어요."
+    }
   }
 }

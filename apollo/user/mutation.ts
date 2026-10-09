@@ -207,3 +207,27 @@ export const ASK_ASSISTANT = gql`
 		}
 	}
 `;
+
+/**************************
+ *         FOLLOW         *
+ *************************/
+
+export const SUBSCRIBE = gql`
+	mutation Subscribe($input: String!) {
+		subscribe(input: $input) {
+			_id
+			followingId
+			followerId
+		}
+	}
+`;
+
+export const UNSUBSCRIBE = gql`
+	mutation Unsubscribe($input: String!) {
+		unsubscribe(input: $input) {
+			_id
+			followingId
+			followerId
+		}
+	}
+`;

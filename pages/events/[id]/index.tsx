@@ -27,6 +27,7 @@ import LikeButton from '../../../libs/components/events/LikeButton';
 import TicketPanel from '../../../libs/components/events/TicketPanel';
 import Comments from '../../../libs/components/events/Comments';
 import Avatar from '../../../libs/components/common/OrganizerAvatar';
+import FollowButton from '../../../libs/components/events/FollowButton';
 import useAuth from '../../../libs/hooks/useAuth';
 import { CATEGORY_SLUGS, categoryHref, localizedEvent, saleState } from '../../../libs/events';
 import {
@@ -336,6 +337,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 									<Link href={organizerUrl(organizer._id)} className="tz-link">
 										{t('detail.moreFrom', { name: organizer.memberFullName || organizer.memberNick })}
 									</Link>
+									<FollowButton organizerId={organizer._id} name={organizer.memberFullName || organizer.memberNick || ''} />
 								</div>
 							</div>
 						</section>

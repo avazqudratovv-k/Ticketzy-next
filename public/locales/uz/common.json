@@ -19,21 +19,21 @@
     "accountMenu": "Akkaunt menyusi"
   },
   "account": {
-    "myTickets": "Chiptalarim",
-    "orders": "Buyurtmalar tarixi",
-    "settings": "Profil va sozlamalar",
-    "organizerDashboard": "Tashkilotchi paneli",
-    "organizerEvents": "Tadbirlarim",
-    "organizerProfile": "Tashkilotchi profili",
-    "adminDashboard": "Administrator sharhi",
-    "reviewQueue": "Tekshiruv navbati",
+    "myTickets": "Chiptalar",
+    "orders": "Buyurtmalar",
+    "settings": "Sozlamalar",
+    "organizerDashboard": "Panel",
+    "organizerEvents": "Tadbirlar",
     "logout": "Chiqish",
     "role": {
       "USER": "Xaridor",
       "ORGANIZER": "Tashkilotchi",
       "ADMIN": "Administrator"
     },
-    "notifications": "Bildirishnomalar"
+    "notifications": "Bildirishnomalar",
+    "following": "Kuzatayotganlarim",
+    "messages": "Xabarlar",
+    "adminPanel": "Admin paneli"
   },
   "banner": {
     "pendingTitle": "Tashkilotchi akkauntingiz tekshirilmoqda.",
@@ -50,7 +50,10 @@
     "concerts": "Konsertlar",
     "football": "Futbol",
     "comedy": "Komediya",
-    "other": "Boshqa tadbirlar"
+    "other": "Boshqa tadbirlar",
+    "organizerDashboard": "Tashkilotchi paneli",
+    "adminPanel": "Admin paneli",
+    "messages": "Xabarlar"
   },
   "dashboard": {
     "organizer": "Tashkilotchi",

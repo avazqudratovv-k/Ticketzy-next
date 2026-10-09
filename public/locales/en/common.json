@@ -19,21 +19,21 @@
     "accountMenu": "Account menu"
   },
   "account": {
-    "myTickets": "My tickets",
-    "orders": "Order history",
-    "settings": "Profile and settings",
-    "organizerDashboard": "Organizer dashboard",
-    "organizerEvents": "My events",
-    "organizerProfile": "Organizer profile",
-    "adminDashboard": "Admin overview",
-    "reviewQueue": "Review queue",
+    "myTickets": "Tickets",
+    "orders": "Orders",
+    "settings": "Settings",
+    "organizerDashboard": "Dashboard",
+    "organizerEvents": "Events",
     "logout": "Log out",
     "role": {
       "USER": "Buyer",
       "ORGANIZER": "Organizer",
       "ADMIN": "Admin"
     },
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "following": "Following",
+    "messages": "Messages",
+    "adminPanel": "Admin panel"
   },
   "banner": {
     "pendingTitle": "Your organizer account is being reviewed.",
@@ -50,7 +50,10 @@
     "concerts": "Concerts",
     "football": "Football",
     "comedy": "Comedy",
-    "other": "Other events"
+    "other": "Other events",
+    "organizerDashboard": "Organizer dashboard",
+    "adminPanel": "Admin panel",
+    "messages": "Messages"
   },
   "dashboard": {
     "organizer": "Organizer",

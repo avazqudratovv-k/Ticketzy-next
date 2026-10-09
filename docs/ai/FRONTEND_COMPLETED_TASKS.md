@@ -427,3 +427,26 @@ Goal: floating "Ask Ticketzy" button and chat panel on public and buyer pages, o
 - A real rate limit (not triggered, to avoid cost; only the stubbed response), a real timeout from the backend, ru and uz answers (strings only checked in code), Safari.
 - Screen reader run, real IME input.
 - Test data: none created. The tab's login was removed and put back during the logout check; a stale `ticketzy-assistant` chat may remain in that tab's sessionStorage.
+
+## Prompt 9c: role-aware footer and menu, auth redirect, follow (2026-10-09)
+
+Goal: small role fixes and follow / unfollow. Not committed. Decisions F210 to F219 in `DECISIONS.md`.
+
+### Schema
+`docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql` (standard introspection; follow operations unchanged).
+
+### Added / changed
+- `apollo/user/mutation.ts`: `SUBSCRIBE`, `UNSUBSCRIBE`. `apollo/user/query.ts`: `GET_ORGANIZER_FOLLOW`.
+- `libs/components/events/FollowButton.tsx` (used in the event detail organizer card and on `/organizers/[id]`); styles `.follow` in `scss/events.scss`.
+- `libs/components/Footer.tsx` (role-aware Organizers column), `libs/components/common/AccountMenu.tsx` (links per role), `pages/sell.tsx` (new), `libs/routes.ts` (`ROUTES.sell`), `libs/hooks/useRedirectIfSignedIn.ts`.
+- i18n in en, ko, ru, uz: `common` (`account.*`, `footer.*`), `events` (`follow.*`), `auth` (`sell.*`).
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`: clean.
+- `http://localhost:3000`, by DOM checks and screenshots: signed out footer (both links) and "Sign in to follow" with returnTo; buyer: menu, footer (Sell tickets to /sell), /sell text, login and sign-up (also with `returnTo=/orders`) go to `/`, follow on the event page (state, count 0 to 1, backend count 1), the organizer page showed Following, the Following list showed the organizer, unfollow on the organizer page (count back to 0, list empty); rollback with a stubbed failing `subscribe` (state and count restored, error text shown); organizer: signs in to `/organizer`, menu and footer, every menu link opens without a role redirect, login and sign-up go to `/organizer`, own page shows the reason; admin: same checks, login and sign-up go to `/admin`, hint "Only buyer accounts can follow organizers."
+- Dark theme (organizer page as admin) and 390 px (event page in a same-origin iframe, no horizontal overflow, organizer card wraps).
+
+### Not tested
+- ko, ru, uz visually (strings only). The buyer's Follow / Following button at 390 px and in dark (only the admin hint was seen there). The "No data found!" unfollow race. Real `Self subscription` / `Only organizers` responses (cannot be reached from the UI).
+- The browser window was hidden, so a fresh page load did not hydrate; all pages were opened by client navigation after one load.
+- Test data: the buyer followed and unfollowed the one demo organizer (follower count is back at 0). The tab ended signed in as admin.
