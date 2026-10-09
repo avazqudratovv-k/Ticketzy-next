@@ -99,7 +99,7 @@ const Home: NextPage = () => {
 					{sideEvents.length > 0 && (
 						<div className="home__side">
 							{sideEvents.map((event) => (
-								<EventCard key={event._id} event={event} variant="row" />
+								<EventCard key={event._id} event={event} variant="row" eager />
 							))}
 						</div>
 					)}

@@ -20,7 +20,12 @@
     "OTHER": "기타"
   },
   "card": {
-    "from": "최저가"
+    "from": "최저가",
+    "seats": {
+      "soldOut": "매진",
+      "fewLeft": "잔여 좌석 적음",
+      "sellingFast": "빠르게 판매 중"
+    }
   },
   "pagination": {
     "label": "페이지 이동",

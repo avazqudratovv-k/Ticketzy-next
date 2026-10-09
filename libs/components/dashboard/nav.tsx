@@ -71,6 +71,7 @@ export const ADMIN_NAV: NavGroup[] = [
 		title: 'dashboard.groups.money',
 		items: [
 			{ href: '/admin/orders', label: 'dashboard.nav.orders', icon: icon(Receipt) },
+			{ href: '/admin/payouts', label: 'dashboard.nav.payouts', icon: icon(CreditCard) },
 			{ href: '/admin/commission', label: 'dashboard.nav.commission', icon: icon(Percent) },
 		],
 	},

@@ -21,10 +21,11 @@ import { EventMoney, moneyByEvent, TypeSales } from '../../libs/organizer/payout
 import { formatEventDate, formatNumber, formatPrice } from '../../libs/format';
 import { organizerEventOrdersUrl } from '../../libs/routes';
 import CountUp from '../../libs/components/common/CountUp';
+import MyPayouts from '../../libs/components/organizer/payouts/MyPayouts';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'organizer'])),
+		...(await serverSideTranslations(locale, ['common', 'organizer', 'events'])),
 	},
 });
 
@@ -156,6 +157,8 @@ const Payouts: NextPage = () => {
 						<p className="org-hint">{t('payouts.allTime')}</p>
 						{earnings.length > 1 && <p className="org-hint">{t('dashboard.otherCurrencies', { currencies: earnings.filter((e) => e !== main).map((e) => e.currency).join(', ') })}</p>}
 					</section>
+
+					<MyPayouts skip={skip} />
 
 					<section className="org-card" aria-labelledby="pay-split">
 						<div className="org-card__head">

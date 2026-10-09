@@ -156,7 +156,8 @@
       "EVENT_CANCELLED": "An event was cancelled",
       "REFUND_COMPLETED": "Your order was refunded",
       "ORDER_REFUNDED": "An order was refunded",
-      "NEW_MESSAGE": "You have a new message"
+      "NEW_MESSAGE": "You have a new message",
+      "PAYOUT_PAID": "A payout was recorded"
     }
   },
   "assistant": {
@@ -214,5 +215,23 @@
     "serverText": "The page could not be shown. Try again in a moment, or go back to the events.",
     "retry": "Try again",
     "browseEvents": "Browse events"
+  },
+  "payoutStatus": {
+    "ALL": "All",
+    "NOT_YET_DUE": "Not yet due",
+    "DUE": "Due",
+    "PAID_OUT": "Paid out",
+    "NOTHING_TO_PAY": "Nothing to pay"
+  },
+  "payoutTiles": {
+    "paid": "Paid out",
+    "paidHint": "Net, recorded as paid",
+    "due": "Due now",
+    "dueHint": "Net, waiting to be paid out",
+    "upcoming": "Upcoming",
+    "upcomingHint": "Net, payout date not reached"
+  },
+  "payoutList": {
+    "showing": "Showing {{from}}–{{to}} of {{total}}"
   }
 }

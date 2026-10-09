@@ -20,7 +20,12 @@
     "OTHER": "Boshqa"
   },
   "card": {
-    "from": "Narxi"
+    "from": "Narxi",
+    "seats": {
+      "soldOut": "Sotilib bo‘lgan",
+      "fewLeft": "Joylar oz qoldi",
+      "sellingFast": "Tez sotilmoqda"
+    }
   },
   "pagination": {
     "label": "Sahifalash",

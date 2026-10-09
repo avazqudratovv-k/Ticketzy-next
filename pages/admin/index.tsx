@@ -7,7 +7,7 @@ import { useQuery } from '@apollo/client';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CheckCircle, WarningCircle } from 'phosphor-react';
+import { CheckCircle, CreditCard, WarningCircle } from 'phosphor-react';
 import withAdminLayout from '../../libs/components/layout/LayoutAdmin';
 import StateBlock from '../../libs/components/states/StateBlock';
 import MemberStatusBadge from '../../libs/components/admin/MemberStatusBadge';
@@ -24,6 +24,7 @@ import { AdminEventRow, AdminOrganizer, organizerName } from '../../libs/admin/t
 import { localizedEvent } from '../../libs/events';
 import { formatNumber, formatPrice, formatViewerDate } from '../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
+import { GET_ADMIN_PAYOUT_TOTALS } from '../../apollo/payouts';
 import CountUp from '../../libs/components/common/CountUp';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -50,6 +51,10 @@ const Overview: NextPage = () => {
 	const pendingOrganizersQuery = useQuery(GET_ADMIN_PENDING_ORGANIZERS, options);
 	const orderCountQuery = useQuery(GET_ADMIN_ORDER_COUNT, options);
 	const paid = useQuery(GET_ADMIN_PAID_ORDERS, options);
+	// a side figure: if it fails the overview shows nothing for it and stays as it was
+	const payoutsQuery = useQuery(GET_ADMIN_PAYOUT_TOTALS, options);
+	const dueBlock = payoutsQuery.data?.getPayoutsByAdmin;
+	const dueCount: number = dueBlock?.metaCounter?.[0]?.total ?? 0;
 	const overview = [pendingEventsQuery, activeEventsQuery, pendingOrganizersQuery, orderCountQuery];
 
 	const merged = { ...pendingEventsQuery.data, ...activeEventsQuery.data, ...pendingOrganizersQuery.data, ...orderCountQuery.data };
@@ -139,6 +144,7 @@ const Overview: NextPage = () => {
 							onClick={() => {
 								overview.forEach((q) => q.refetch());
 								paid.refetch();
+								payoutsQuery.refetch();
 							}}
 						>
 							{t('errors.retry')}
@@ -155,6 +161,19 @@ const Overview: NextPage = () => {
 						{tile(t('overview.revenue'), moneyValue('revenue'), undefined, moneyFailed ? t('overview.moneyFailed') : t('overview.revenueHint', { paid: formatNumber(paidTotal, locale) }))}
 						{tile(t('overview.commission'), moneyValue('commission'), '/admin/commission', t('overview.commissionHint'))}
 					</ul>
+					{dueBlock && (
+						<p className="adm-due-link">
+							<CreditCard size={20} aria-hidden="true" />
+							<span>
+								{dueCount > 0
+									? t('overview.payoutsDue', { n: formatNumber(dueCount, locale), amount: formatPrice(dueBlock.totals?.totalDue ?? 0, locale, 'KRW') })
+									: t('overview.payoutsNone')}
+							</span>
+							<Link href={dueCount > 0 ? '/admin/payouts?status=DUE' : '/admin/payouts'} className="tz-link">
+								{t('overview.payoutsOpen')}
+							</Link>
+						</p>
+					)}
 					{paidTotal > paidLoaded && paidLoaded > 0 && <p className="org-hint">{t('overview.moneyCap', { limit: formatNumber(PAID_SUM_LIMIT, locale), total: formatNumber(paidTotal, locale) })}</p>}
 
 					<div className="adm-queues">

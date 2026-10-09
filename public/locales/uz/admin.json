@@ -40,7 +40,12 @@
     "dateRange": "Boshlanish sanasi tugash sanasidan keyin bo‘lmasligi kerak.",
     "ownAccess": "O‘z hisobingiz holati yoki rolini o‘zgartira olmaysiz.",
     "adminAccess": "Administrator hisobining holati va rolini o‘zgartirib bo‘lmaydi.",
-    "assignAdmin": "Bu yerda administrator rolini berib bo‘lmaydi. Administrator hisoblarini faqat server yaratadi."
+    "assignAdmin": "Bu yerda administrator rolini berib bo‘lmaydi. Administrator hisoblarini faqat server yaratadi.",
+    "payoutAlreadyPaid": "Bu to‘lov allaqachon to‘langan deb belgilangan.",
+    "payoutNotDue": "Bu tadbirning to‘lov sanasi hali kelmagan.",
+    "payoutNothing": "Bu tadbir uchun to‘lanadigan summa yo‘q.",
+    "payoutNoEvent": "Tadbir topilmadi.",
+    "payoutDateRange": "To‘lov sanasi oralig‘ining boshi oxiridan keyin bo‘lmasligi kerak."
   },
   "memberStatus": {
     "PENDING": "Tasdiqlanishi kutilmoqda",
@@ -75,7 +80,10 @@
     "error": {
       "title": "Sharhni yuklab boʻlmadi",
       "text": "Ticketzy platforma koʻrsatkichlarini oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
-    }
+    },
+    "payoutsDue": "To‘lanishi kerak bo‘lgan to‘lovlar: {{n}} · {{amount}}",
+    "payoutsNone": "To‘lanishi kerak bo‘lgan to‘lov yo‘q.",
+    "payoutsOpen": "To‘lovlarni ochish"
   },
   "events": {
     "title": "Tadbirlarni tasdiqlash",
@@ -674,5 +682,61 @@
     "buyerGone": "Noma’lum xaridor",
     "from": "Dan",
     "to": "Gacha"
+  },
+  "payouts": {
+    "title": "To‘lovlar",
+    "subtitle": "Barcha tashkilotchilarning to‘lovlari: tadbir tugaganidan 3 kun o‘tgach sof summa to‘lanishi kerak bo‘ladi. To‘langach, shu yerda yozib qo‘ying.",
+    "totals": "To‘lov jami",
+    "search": "Tadbirlarni qidirish",
+    "searchPlaceholder": "Tadbir nomi bo‘yicha qidirish",
+    "statusFilter": "To‘lov holati",
+    "dateFrom": "To‘lov sanasi (dan)",
+    "dateTo": "To‘lov sanasi (gacha)",
+    "from": "Dan",
+    "to": "Gacha",
+    "sort": "To‘lov sanasi bo‘yicha tartiblash",
+    "newest": "Avval yangilari",
+    "oldest": "Avval eskilari",
+    "error": {
+      "title": "To‘lovlarni yuklab bo‘lmadi"
+    },
+    "loading": "To‘lovlar yuklanmoqda",
+    "none": {
+      "title": "Mos to‘lov topilmadi",
+      "text": "Filtrlarni o‘zgartiring yoki tozalang.",
+      "clear": "Filtrlarni tozalash"
+    },
+    "empty": {
+      "title": "Hozircha to‘lovlar yo‘q",
+      "text": "Tadbirda to‘langan buyurtmalar paydo bo‘lganda ko‘rinadi."
+    },
+    "cols": {
+      "event": "Tadbir / tashkilotchi",
+      "organizer": "Tashkilotchi",
+      "date": "To‘lov sanasi",
+      "status": "Holati",
+      "gross": "Umumiy tushum",
+      "commission": "Komissiya",
+      "net": "Sof summa",
+      "orders": "Buyurtmalar",
+      "paid": "To‘langan"
+    },
+    "mark": "To‘langan deb belgilash",
+    "markAria": "To‘langan deb belgilash: {{title}}",
+    "paidBy": "Yozgan: {{id}}",
+    "notPaid": "Hali to‘lanmagan",
+    "notice": {
+      "paid": "To‘langan deb belgilandi: {{title}}, {{amount}}."
+    },
+    "dialog": {
+      "title": "To‘lovni to‘langan deb belgilash",
+      "net": "Sof to‘lov",
+      "orders": "Buyurtmalar: {{n}}",
+      "demo": "Bu faqat Ticketzy’da to‘lovni yozib qo‘yadi va tashkilotchiga bildirishnoma yuboradi. Haqiqiy pul o‘tkazilmaydi.",
+      "noteLabel": "Izoh (ixtiyoriy)",
+      "noteHint": "Masalan, o‘tkazma raqami.",
+      "sending": "Saqlanmoqda…",
+      "confirm": "To‘langan deb belgilash"
+    }
   }
 }

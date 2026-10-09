@@ -23,6 +23,7 @@ export const KNOWN_TYPES = [
 	'REFUND_COMPLETED',
 	'ORDER_REFUNDED',
 	'NEW_MESSAGE',
+	'PAYOUT_PAID',
 ] as const;
 
 /** ORDER_PAID goes to the buyer ("Payment received") and to the organizer ("New ticket sale"). */
@@ -45,6 +46,9 @@ export function notificationHref(item: NotificationItem, memberType?: MemberType
 			// only organizers and admins have conversations; the thread opens from the id
 			if (!item.conversationId || buyer) return null;
 			return `${memberType === MemberType.ADMIN ? '/admin' : '/organizer'}/messages?c=${encodeURIComponent(item.conversationId)}`;
+		case 'PAYOUT_PAID':
+			// only organizers get it; their payouts page lists the paid event
+			return buyer ? null : memberType === MemberType.ADMIN ? '/admin/payouts' : '/organizer/payouts';
 		case 'EVENT_CANCELLED':
 		case 'LIKE':
 		case 'COMMENT':

@@ -40,7 +40,12 @@
     "dateRange": "The start date must not be after the end date.",
     "ownAccess": "You can’t change your own status or role.",
     "adminAccess": "The status and role of an admin account can’t be changed.",
-    "assignAdmin": "The admin role can’t be assigned here. Admin accounts are created only by the server."
+    "assignAdmin": "The admin role can’t be assigned here. Admin accounts are created only by the server.",
+    "payoutAlreadyPaid": "This payout has already been marked as paid out.",
+    "payoutNotDue": "The payout date of this event has not been reached yet.",
+    "payoutNothing": "There is nothing to pay out for this event.",
+    "payoutNoEvent": "This event could not be found.",
+    "payoutDateRange": "The start of the payout date range must not be after its end."
   },
   "memberStatus": {
     "PENDING": "Waiting for approval",
@@ -75,7 +80,10 @@
     "error": {
       "title": "The overview could not be loaded",
       "text": "Ticketzy could not read the platform figures. Try again in a moment."
-    }
+    },
+    "payoutsDue": "Payouts due: {{n}} · {{amount}} to pay out",
+    "payoutsNone": "No payouts are due.",
+    "payoutsOpen": "Open payouts"
   },
   "events": {
     "title": "Event approvals",
@@ -674,5 +682,61 @@
     "buyerGone": "Unknown buyer",
     "from": "From",
     "to": "To"
+  },
+  "payouts": {
+    "title": "Payouts",
+    "subtitle": "Payouts of all organizers: 3 days after an event ends, the net amount is due. Record it here once it is paid.",
+    "totals": "Payout totals",
+    "search": "Search events",
+    "searchPlaceholder": "Search by event title",
+    "statusFilter": "Payout status",
+    "dateFrom": "Payout date from",
+    "dateTo": "Payout date to",
+    "from": "From",
+    "to": "To",
+    "sort": "Sort by payout date",
+    "newest": "Newest first",
+    "oldest": "Oldest first",
+    "error": {
+      "title": "The payouts could not be loaded"
+    },
+    "loading": "Loading payouts",
+    "none": {
+      "title": "No payouts match",
+      "text": "Change or clear the filters.",
+      "clear": "Clear filters"
+    },
+    "empty": {
+      "title": "No payouts yet",
+      "text": "Payouts appear once an event has paid orders."
+    },
+    "cols": {
+      "event": "Event / organizer",
+      "organizer": "Organizer",
+      "date": "Payout date",
+      "status": "Status",
+      "gross": "Gross",
+      "commission": "Commission",
+      "net": "Net",
+      "orders": "Orders",
+      "paid": "Paid out"
+    },
+    "mark": "Mark as paid out",
+    "markAria": "Mark as paid out: {{title}}",
+    "paidBy": "Recorded by {{id}}",
+    "notPaid": "Not paid out yet",
+    "notice": {
+      "paid": "Marked as paid out: {{title}}, {{amount}}."
+    },
+    "dialog": {
+      "title": "Mark payout as paid out",
+      "net": "Net payout",
+      "orders": "Orders: {{n}}",
+      "demo": "This only records the payout in Ticketzy and sends the organizer a notification. No real money moves.",
+      "noteLabel": "Note (optional)",
+      "noteHint": "For example a transfer reference.",
+      "sending": "Saving…",
+      "confirm": "Mark as paid out"
+    }
   }
 }

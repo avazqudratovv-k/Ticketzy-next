@@ -996,7 +996,7 @@
   "payouts": {
     "title": "Toʻlovlar",
     "subtitle": "Ticketzy komissiyasi ayirilgandan keyin chipta sotuvidan topgan daromadingiz.",
-    "notTracked": "Ticketzy hozircha toʻlov oʻtkazmalarini yozib bormaydi, shuning uchun “toʻlangan” yoki “kutilmoqda” holati va toʻlov sanasi yoʻq. Quyidagi summalar toʻlangan buyurtmalardan hisoblangan, sotuvlaringiz keltirgan daromaddir.",
+    "notTracked": "Xulosa va quyidagi jadvallar to‘langan buyurtmalar asosida hisoblanadi. To‘lov jadvali har bir tadbir qachon to‘lanishini va administrator uni yozib qo‘yganini ko‘rsatadi.",
     "summary": "Daromad xulosasi",
     "gross": "Yalpi savdo",
     "grossSub": "Sotilgan chiptalar: {{n}}",
@@ -1041,6 +1041,33 @@
     },
     "error": {
       "title": "Daromadni yuklab boʻlmadi"
+    },
+    "schedule": {
+      "title": "To‘lov jadvali",
+      "explain": "To‘lov tadbir tugaganidan 3 kun keyinga belgilanadi. Summalar har bir buyurtmada saqlangan komissiya bo‘yicha hisoblanadi.",
+      "demo": "Demo: administrator to‘lovlarni Ticketzy’da yozib qo‘yadi, haqiqiy pul o‘tkazilmaydi.",
+      "totals": "To‘lov jami",
+      "statusFilter": "To‘lov holati",
+      "sort": "To‘lov sanasi bo‘yicha tartiblash",
+      "newest": "Avval yangilari",
+      "oldest": "Avval eskilari",
+      "error": "To‘lovlarni yuklab bo‘lmadi",
+      "loading": "To‘lovlar yuklanmoqda",
+      "none": {
+        "title": "Hozircha to‘lovlar yo‘q",
+        "text": "Tadbiringizda to‘langan buyurtmalar paydo bo‘lganda to‘lov shu yerda ko‘rinadi."
+      },
+      "noneFiltered": {
+        "title": "Bu holatdagi to‘lov yo‘q",
+        "text": "Boshqa holatni tanlang."
+      },
+      "clear": "Hammasini ko‘rsatish",
+      "cols": {
+        "date": "To‘lov sanasi",
+        "orders": "Buyurtmalar",
+        "paid": "To‘langan sana"
+      },
+      "notPaid": "Hali to‘lanmagan"
     }
   },
   "analytics": {

@@ -571,3 +571,21 @@ tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (por
 - No admin password, so the admin events counts fix was not run against real data; the organizer and buyer logins were not exercised (a credential probe was denied), so the organizer pages were audited from code and the backend source only.
 - Reduced motion was checked by code path (`Reveal` never hides), not with an OS setting; 768 px, light theme for reveal and en/uz not separately run.
 - Pre-existing dev warnings on home: next/image "loader does not implement width" for picsum images at width 1200 (not a React warning, not changed).
+
+## Prompt 12: payouts UI, seat badges, console cleanup
+
+### Built / fixed
+- **Organizer payouts** (F280): schedule section on `/organizer/payouts` with totals, status filter, sort, table and cards, explanation and demo note, empty, error and skeleton states.
+- **Admin payouts** (F281, F282): `/admin/payouts` with tiles, filters (status, event text, payout date range, sort), pagination, table and cards, Mark as paid out dialog; Due line on the overview (F284).
+- **Notification** PAYOUT_PAID in the bell and list, four languages (F285).
+- **Seat badges** on event cards (F286); **console**: image loader width, LCP priority (F287).
+- Strings in en, ko, ru, uz (`common`, `organizer`, `admin`, `events`). `Pagination` needs the `events` namespace, so the two payouts pages load it.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean; `yarn build` in a scratch copy passes (only the existing page-data size warnings).
+- Real backend: admin list, status filter, inverted date range (backend text shown), DUE row marked as paid out with a note (the one DUE demo row, "Spring Stand-Up Showcase", is now PAID_OUT; a second API attempt answers "already paid out"), tiles and list refreshed, double-click sent one request (one payout row). Organizer sees the row as Paid out with the paid date and the totals moved; the bell shows "A payout was recorded" with the amount.
+- axe (4.10.2, no violations at all): `/admin/payouts`, `/organizer/payouts`, and the open confirm dialog. Dialog: Escape closes, focus returns to the button.
+- Layout: organizer payouts at 390 ko dark, 768 ru light, 1440 uz dark; admin payouts at 390 uz dark, 1024 en light, 1440 ko dark; no page overflow, no control under 44 px at 390. Two column fixes found in uz (orders header, wrapping commission).
+
+### Not tested / left
+- No organizer picker for the admin list (F281). No demo event reaches a seat-badge threshold, so the badge was not seen on real data (F286). The refusal texts other than "already paid out" were mapped from the backend source, not triggered. Not every width, language and theme combination was run (listed above). The notification link was not clicked (the page it leads to was already open).

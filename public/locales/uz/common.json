@@ -156,7 +156,8 @@
       "EVENT_CANCELLED": "Tadbir bekor qilindi",
       "REFUND_COMPLETED": "Buyurtmangiz qaytarildi",
       "ORDER_REFUNDED": "Buyurtma qaytarildi",
-      "NEW_MESSAGE": "Sizda yangi xabar bor"
+      "NEW_MESSAGE": "Sizda yangi xabar bor",
+      "PAYOUT_PAID": "To‘lov yozib qo‘yildi"
     }
   },
   "assistant": {
@@ -214,5 +215,23 @@
     "serverText": "Sahifani koʻrsatib boʻlmadi. Birozdan soʻng qayta urinib koʻring yoki tadbirlarga qayting.",
     "retry": "Qayta urinish",
     "browseEvents": "Tadbirlarni koʻrish"
+  },
+  "payoutStatus": {
+    "ALL": "Hammasi",
+    "NOT_YET_DUE": "Muddati kelmagan",
+    "DUE": "To‘lanishi kerak",
+    "PAID_OUT": "To‘langan",
+    "NOTHING_TO_PAY": "To‘lanadigan summa yo‘q"
+  },
+  "payoutTiles": {
+    "paid": "To‘langan",
+    "paidHint": "Sof summa, to‘langan deb yozilgan",
+    "due": "Hozir to‘lanishi kerak",
+    "dueHint": "Sof summa, to‘lovni kutmoqda",
+    "upcoming": "Kutilayotgan",
+    "upcomingHint": "Sof summa, to‘lov sanasi kelmagan"
+  },
+  "payoutList": {
+    "showing": "{{total}} tadan {{from}}–{{to}} ko‘rsatilmoqda"
   }
 }

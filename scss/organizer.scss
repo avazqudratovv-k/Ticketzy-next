@@ -1426,6 +1426,37 @@ input.tz-input[type='time'] {
 		text-align: start;
 	}
 }
+.org-stats--three {
+	grid-template-columns: 1fr;
+	@media (min-width: 640px) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	@media (min-width: 1200px) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.org-stat__value {
+		white-space: nowrap;
+	}
+}
+.org-pay {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	.org-subtitle,
+	.org-hint,
+	.tz-alert {
+		margin: 0;
+	}
+}
+.org-table--schedule .org-num,
+.adm-table--payouts .org-num {
+	white-space: nowrap;
+}
+.org-table--schedule .org-row {
+	@container dash (min-width: 900px) {
+		grid-template-columns: minmax(0, 2fr) minmax(110px, 1fr) minmax(150px, 1.1fr) minmax(120px, 1fr) minmax(110px, 1fr) minmax(120px, 1fr) 92px minmax(100px, 0.9fr);
+	}
+}
 .org-table--payouts .org-row {
 	@container dash (min-width: 900px) {
 		grid-template-columns: minmax(0, 2.2fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(100px, 1fr) minmax(120px, 1fr) minmax(100px, 0.9fr);

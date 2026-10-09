@@ -20,7 +20,12 @@
     "OTHER": "Другое"
   },
   "card": {
-    "from": "От"
+    "from": "От",
+    "seats": {
+      "soldOut": "Распродано",
+      "fewLeft": "Мало мест",
+      "sellingFast": "Быстро раскупают"
+    }
   },
   "pagination": {
     "label": "Постраничная навигация",

@@ -432,3 +432,35 @@
 	color: var(--success-text);
 	font: var(--text-body-sm);
 }
+
+/** PAYOUTS **/
+.adm-table--payouts .org-row {
+	@container dash (min-width: 900px) {
+		align-items: start;
+		grid-template-columns: minmax(0, 1.8fr) minmax(100px, 0.9fr) minmax(150px, 1.1fr) minmax(110px, 0.9fr) minmax(110px, 0.9fr) minmax(110px, 0.9fr) 92px minmax(130px, 1.3fr);
+	}
+}
+.adm-counter {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--space-3);
+	font-variant-numeric: tabular-nums;
+}
+.adm-paid {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	min-width: 0;
+}
+.adm-due-link {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2) var(--space-3);
+	margin: 0;
+	font: var(--text-body-sm);
+	a {
+		font: var(--text-label);
+	}
+}

@@ -47,6 +47,9 @@ export interface EventItem {
 	eventImages: string[];
 	eventTranslations: EventTranslation[];
 	eventMinPrice: number;
+	/** null when unknown, or for standing sections of a reserved venue */
+	eventTotalSeats?: number | null;
+	eventSoldSeats?: number | null;
 	eventViews: number;
 	eventLikes: number;
 	eventComments: number;

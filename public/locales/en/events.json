@@ -20,7 +20,12 @@
     "OTHER": "Other"
   },
   "card": {
-    "from": "From"
+    "from": "From",
+    "seats": {
+      "soldOut": "Sold out",
+      "fewLeft": "Few seats left",
+      "sellingFast": "Selling fast"
+    }
   },
   "pagination": {
     "label": "Pagination",

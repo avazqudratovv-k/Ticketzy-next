@@ -32,6 +32,8 @@ export const EVENT_CARD_FIELDS = gql`
 			description
 		}
 		eventMinPrice
+		eventTotalSeats
+		eventSoldSeats
 		eventLikes
 		eventViews
 		eventComments

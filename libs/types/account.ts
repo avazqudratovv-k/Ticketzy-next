@@ -82,7 +82,8 @@ export type NotificationType =
 	| 'EVENT_CANCELLED'
 	| 'REFUND_COMPLETED'
 	| 'ORDER_REFUNDED'
-	| 'NEW_MESSAGE';
+	| 'NEW_MESSAGE'
+	| 'PAYOUT_PAID';
 
 export interface NotificationItem {
 	_id: string;

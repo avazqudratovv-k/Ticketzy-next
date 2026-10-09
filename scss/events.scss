@@ -140,6 +140,11 @@
 		top: var(--space-3);
 		inset-inline-start: var(--space-3);
 	}
+	&__seats {
+		position: absolute;
+		top: var(--space-3);
+		inset-inline-end: var(--space-3);
+	}
 	&__body {
 		display: flex;
 		flex: 1;
@@ -207,6 +212,11 @@
 	&--skel {
 		pointer-events: none;
 	}
+}
+
+/* seat-availability badge: sits on the picture or in the card foot, so the soft tones get a solid edge */
+.tz-seat-badge {
+	box-shadow: 0 0 0 1px var(--surface);
 }
 
 .tz-price {

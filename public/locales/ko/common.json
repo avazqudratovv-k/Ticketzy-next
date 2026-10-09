@@ -153,7 +153,8 @@
       "EVENT_CANCELLED": "이벤트가 취소되었습니다",
       "REFUND_COMPLETED": "주문이 환불되었습니다",
       "ORDER_REFUNDED": "주문이 환불되었습니다(주최자 알림)",
-      "NEW_MESSAGE": "새 메시지가 도착했습니다"
+      "NEW_MESSAGE": "새 메시지가 도착했습니다",
+      "PAYOUT_PAID": "정산금 지급이 기록되었어요"
     }
   },
   "assistant": {
@@ -211,5 +212,23 @@
     "serverText": "페이지를 표시할 수 없어요. 잠시 후 다시 시도하거나 이벤트 목록으로 이동해 주세요.",
     "retry": "다시 시도",
     "browseEvents": "이벤트 둘러보기"
+  },
+  "payoutStatus": {
+    "ALL": "전체",
+    "NOT_YET_DUE": "지급 예정 전",
+    "DUE": "지급 대기",
+    "PAID_OUT": "지급 완료",
+    "NOTHING_TO_PAY": "지급할 금액 없음"
+  },
+  "payoutTiles": {
+    "paid": "지급 완료",
+    "paidHint": "정산 금액, 지급 처리됨",
+    "due": "지금 지급 대기",
+    "dueHint": "정산 금액, 지급 대기 중",
+    "upcoming": "지급 예정",
+    "upcomingHint": "정산 금액, 지급일 전"
+  },
+  "payoutList": {
+    "showing": "{{total}}건 중 {{from}}–{{to}}번째"
   }
 }

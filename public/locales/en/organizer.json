@@ -996,7 +996,7 @@
   "payouts": {
     "title": "Payouts",
     "subtitle": "What you earn from ticket sales, after Ticketzy’s commission.",
-    "notTracked": "Ticketzy does not record payout transfers yet, so there is no paid or pending status and no payout date. The figures below are what your sales earn you, calculated from paid orders.",
+    "notTracked": "The summary and the tables further down are calculated from paid orders. The payout schedule shows when each event is paid out and whether an admin has recorded it.",
     "summary": "Earnings summary",
     "gross": "Gross sales",
     "grossSub": "Tickets sold: {{n}}",
@@ -1041,6 +1041,33 @@
     },
     "error": {
       "title": "We couldn’t load your earnings"
+    },
+    "schedule": {
+      "title": "Payout schedule",
+      "explain": "A payout is scheduled 3 days after the event ends. Amounts use the commission saved on each order.",
+      "demo": "Demo: an admin records payouts in Ticketzy and no real money moves.",
+      "totals": "Payout totals",
+      "statusFilter": "Payout status",
+      "sort": "Sort by payout date",
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "error": "We couldn’t load your payouts",
+      "loading": "Loading payouts",
+      "none": {
+        "title": "No payouts yet",
+        "text": "A payout appears here once one of your events has paid orders."
+      },
+      "noneFiltered": {
+        "title": "No payouts with this status",
+        "text": "Try another status."
+      },
+      "clear": "Show all",
+      "cols": {
+        "date": "Payout date",
+        "orders": "Orders",
+        "paid": "Paid out on"
+      },
+      "notPaid": "Not paid out yet"
     }
   },
   "analytics": {

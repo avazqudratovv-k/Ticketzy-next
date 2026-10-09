@@ -40,7 +40,12 @@
     "dateRange": "시작일은 종료일보다 늦을 수 없어요.",
     "ownAccess": "내 계정의 상태나 역할은 변경할 수 없어요.",
     "adminAccess": "관리자 계정의 상태와 역할은 변경할 수 없어요.",
-    "assignAdmin": "여기서는 관리자 역할을 부여할 수 없어요. 관리자 계정은 서버에서만 만들어져요."
+    "assignAdmin": "여기서는 관리자 역할을 부여할 수 없어요. 관리자 계정은 서버에서만 만들어져요.",
+    "payoutAlreadyPaid": "이미 지급 완료로 표시된 정산이에요.",
+    "payoutNotDue": "이 이벤트의 지급일이 아직 되지 않았어요.",
+    "payoutNothing": "이 이벤트에는 지급할 금액이 없어요.",
+    "payoutNoEvent": "이벤트를 찾을 수 없어요.",
+    "payoutDateRange": "지급일 시작은 종료보다 늦을 수 없어요."
   },
   "memberStatus": {
     "PENDING": "승인 대기",
@@ -75,7 +80,10 @@
     "error": {
       "title": "개요를 불러오지 못했어요",
       "text": "Ticketzy가 플랫폼 수치를 읽지 못했어요. 잠시 후 다시 시도해 주세요."
-    }
+    },
+    "payoutsDue": "지급 대기 정산: {{n}}건 · 지급할 금액 {{amount}}",
+    "payoutsNone": "지급 대기 중인 정산이 없어요.",
+    "payoutsOpen": "정산 열기"
   },
   "events": {
     "title": "이벤트 승인",
@@ -674,5 +682,61 @@
     "buyerGone": "알 수 없는 구매자",
     "from": "시작",
     "to": "종료"
+  },
+  "payouts": {
+    "title": "정산",
+    "subtitle": "모든 주최자의 정산 내역이에요. 이벤트가 끝나고 3일 뒤에 정산 금액이 지급 대기 상태가 되며, 지급하면 여기에서 기록해요.",
+    "totals": "정산 합계",
+    "search": "이벤트 검색",
+    "searchPlaceholder": "이벤트 제목으로 검색",
+    "statusFilter": "정산 상태",
+    "dateFrom": "지급일 시작",
+    "dateTo": "지급일 종료",
+    "from": "시작",
+    "to": "종료",
+    "sort": "지급일 기준 정렬",
+    "newest": "최신순",
+    "oldest": "오래된순",
+    "error": {
+      "title": "정산 내역을 불러오지 못했어요"
+    },
+    "loading": "정산 내역을 불러오는 중",
+    "none": {
+      "title": "조건에 맞는 정산이 없어요",
+      "text": "필터를 바꾸거나 초기화해 보세요.",
+      "clear": "필터 초기화"
+    },
+    "empty": {
+      "title": "아직 정산 내역이 없어요",
+      "text": "이벤트에 결제된 주문이 생기면 표시돼요."
+    },
+    "cols": {
+      "event": "이벤트 / 주최자",
+      "organizer": "주최자",
+      "date": "지급일",
+      "status": "상태",
+      "gross": "총매출",
+      "commission": "수수료",
+      "net": "정산 금액",
+      "orders": "주문",
+      "paid": "지급 완료"
+    },
+    "mark": "지급 완료로 표시",
+    "markAria": "지급 완료로 표시: {{title}}",
+    "paidBy": "기록자 {{id}}",
+    "notPaid": "아직 지급되지 않았어요",
+    "notice": {
+      "paid": "지급 완료로 표시했어요: {{title}}, {{amount}}."
+    },
+    "dialog": {
+      "title": "정산을 지급 완료로 표시",
+      "net": "정산 금액",
+      "orders": "주문: {{n}}건",
+      "demo": "Ticketzy에 지급을 기록하고 주최자에게 알림을 보낼 뿐, 실제로 돈이 움직이지는 않아요.",
+      "noteLabel": "메모 (선택)",
+      "noteHint": "예: 이체 참조 번호",
+      "sending": "저장 중…",
+      "confirm": "지급 완료로 표시"
+    }
   }
 }

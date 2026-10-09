@@ -323,8 +323,8 @@ const Events: NextPage = () => {
 
 					{list.length > 0 && (
 						<div className={`tz-grid tz-grid--browse${loading ? ' is-refreshing' : ''}`}>
-							{list.map((event) => (
-								<EventCard key={event._id} event={event} />
+							{list.map((event, index) => (
+								<EventCard key={event._id} event={event} eager={index < 4} />
 							))}
 						</div>
 					)}
