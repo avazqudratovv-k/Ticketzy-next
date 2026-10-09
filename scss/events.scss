@@ -1261,3 +1261,44 @@
 		border-radius: var(--radius-md, 8px);
 	}
 }
+
+/** SALES NOTICE: when ticket sales start (status message; info tone, AA in both themes) **/
+.sales-notice {
+	display: flex;
+	gap: var(--space-3);
+	align-items: flex-start;
+	padding: var(--space-3) var(--space-4);
+	border: 1px solid var(--info-text);
+	border-radius: var(--radius-md);
+	background: var(--info-soft);
+	color: var(--info-text);
+	font: var(--text-body-sm);
+	text-align: start;
+	animation: tz-fade var(--dur-base) var(--ease-out) both;
+	> svg {
+		flex: none;
+		margin-top: 1px;
+	}
+	&__line {
+		margin: 0;
+		font-weight: 600;
+		overflow-wrap: anywhere;
+	}
+	&__later {
+		margin: var(--space-2) 0 0;
+		padding: 0;
+		list-style: none;
+		font-weight: 400;
+		li + li {
+			margin-top: var(--space-1);
+		}
+	}
+	&--compact {
+		padding: var(--space-3);
+	}
+	// inside the centered empty state
+	.tz-empty & {
+		align-self: stretch;
+		margin-block: var(--space-2);
+	}
+}

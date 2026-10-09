@@ -40,6 +40,8 @@ export const EVENT_CARD_FIELDS = gql`
 		organizerId
 		startAt
 		endAt
+		saleStartAt
+		saleEndAt
 		venueData {
 			_id
 			venueName

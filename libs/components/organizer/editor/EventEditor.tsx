@@ -23,6 +23,8 @@ import {
 } from '../../../organizer/form';
 import { OrgEvent, OrgTicketType } from '../../../organizer/types';
 import { intlLocale } from '../../../format';
+import { useSalesClock } from '../../../salesWindow';
+import SalesNotice from '../../events/SalesNotice';
 import { eventUrl, organizerEventEditUrl, organizerEventsUrl, organizerVenueNewUrl } from '../../../routes';
 import EventStatusBadge from '../EventStatusBadge';
 import SubmitDialog from '../SubmitDialog';
@@ -67,6 +69,9 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 	});
 	const { event, status, mode, values, rows, venue, errors, setErrors, serverError, saving, dirty, savedAt, save, submit } = editor;
 	const readOnly = mode === 'locked';
+	// what buyers see about the sales window (the ticket types as loaded with the page)
+	const now = useSalesClock(event ?? undefined, ticketTypes);
+	const showSales = Boolean(event) && (status === 'DRAFT' || status === 'PENDING' || status === 'APPROVED');
 	allowRoute.current = useUnsavedGuard(dirty && !readOnly, t('form.leave')).allowNextRoute;
 
 	useEffect(() => {
@@ -182,6 +187,8 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 					<span role="status">{dirty && !readOnly ? t('form.unsaved') : savedLabel ? t('form.savedAt', { time: savedLabel }) : event ? t('form.allSaved') : t('form.notSavedYet')}</span>
 				</p>
 			</div>
+
+			{event && showSales && <SalesNotice event={event} ticketTypes={ticketTypes} now={now} />}
 
 			{justSubmitted && (
 				<p className="tz-alert tz-alert--success" role="status">

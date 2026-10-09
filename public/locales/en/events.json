@@ -25,7 +25,8 @@
       "soldOut": "Sold out",
       "fewLeft": "Few seats left",
       "sellingFast": "Selling fast"
-    }
+    },
+    "salesStart": "Sales start {{date}}"
   },
   "pagination": {
     "label": "Pagination",
@@ -226,5 +227,11 @@
       "self": "You can’t follow yourself.",
       "organizerOnly": "Only organizers can be followed."
     }
+  },
+  "sales": {
+    "startsOn": "Ticket sales start on {{day}} at {{time}} ({{zone}}).",
+    "endedOn": "Ticket sales ended on {{day}} at {{time}} ({{zone}}).",
+    "typeStarts": "{{name}}: on sale from {{day}} at {{time}}.",
+    "notYet": "Tickets are not on sale yet. Sales start on {{day}} at {{time}} ({{zone}})."
   }
 }

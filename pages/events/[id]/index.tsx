@@ -24,6 +24,7 @@ import StateBlock from '../../../libs/components/states/StateBlock';
 import CategoryChip, { categoryIcon } from '../../../libs/components/events/CategoryChip';
 import EventImage from '../../../libs/components/events/EventImage';
 import LikeButton from '../../../libs/components/events/LikeButton';
+import { useSalesClock } from '../../../libs/salesWindow';
 import TicketPanel from '../../../libs/components/events/TicketPanel';
 import Comments from '../../../libs/components/events/Comments';
 import Avatar from '../../../libs/components/common/OrganizerAvatar';
@@ -94,6 +95,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 
 	const event: EventItem | undefined = data?.getEvent;
 	const ticketTypes: TicketTypeItem[] = ticketData?.getTicketTypes ?? [];
+	const now = useSalesClock(event, ticketTypes);
 	const apiError = error && !event ? parseApiError(error) : null;
 
 	if (!event) {
@@ -146,7 +148,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 	const { title, description, lang, translated } = localizedEvent(event, locale);
 	const venue = event.venueData;
 	const zone = venue?.venueTimezone;
-	const state = saleState(event, ticketTypes);
+	const state = saleState(event, ticketTypes, now);
 	const category = CATEGORY_SLUGS.find((c) => c.list.includes(event.eventCategory)) ?? CATEGORY_SLUGS[3];
 	const images = event.eventImages ?? [];
 	const mapsUrl = venue
@@ -347,7 +349,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 				</article>
 
 				<div className="event__side">
-					<TicketPanel event={event} ticketTypes={ticketTypes} loading={ticketsLoading} state={state} />
+					<TicketPanel event={event} ticketTypes={ticketTypes} loading={ticketsLoading} state={state} now={now} />
 				</div>
 			</div>
 		</div>

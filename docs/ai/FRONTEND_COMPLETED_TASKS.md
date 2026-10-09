@@ -629,3 +629,24 @@ tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (por
 
 ### Not tested / left
 - **Not checked in a browser**: the form needs an organizer sign-in and no test credentials were given, so 390/768/1440 px layout, dark theme, keyboard use and the console were not exercised.
+
+## Prompt 14c: show when ticket sales start
+
+### Built
+- `libs/salesWindow.ts` (effective window per ticket type = event window and own window, `salesInfo`, `useSalesClock` with one timer per page), `saleState` / `ticketAvailability` now take a server-time `now` and honour the event window (DECISIONS F299, F300).
+- `SalesNotice` (`role="status"`, venue time zone, four languages) on the seats page (new `extra` slot in `StateBlock`), the event page ticket box, and the organizer editor (F301, F303).
+- Dimmed `aria-disabled` ticket button with a click message while sales have not started (F302).
+- "Sales start 10 Oct" chip on `EventCard` in place of the seat badge; `saleStartAt/saleEndAt` added to `EVENT_CARD_FIELDS`, no extra request (F304).
+- `formatSalesMoment`, `formatShortDay` in `libs/format.ts`; `sales.*` and `card.salesStart` in en, ko, ru, uz.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean; `yarn build` passes in a scratch copy (port 3100, `/graphql` proxied because the backend allows CORS only from 3000; F306).
+- Real backend, "QA Test Comedy Night" (it was REJECTED with no sales window): start set to 03:40 (Seoul) in the editor, resubmitted, approved by the admin in the UI. Organizer editor showed the line. Buyer seats page showed "Ticket sales start on Sat, 10 Oct 2026 at 03:40 (Asia/Seoul)." and at 03:40:01, with no reload (same document), the notice went and the seat map appeared. Then the window was cleared again in the editor, resubmitted and re-approved: sales window is back to none.
+- Event page (not started): line in the ticket box, button `aria-disabled="true"`, click shows the message in the status region, no navigation. As admin both the not-started and the buyer-only messages show. Cards: ru "Продажа с 15 окт." / "Продажа с 28 окт.". ko and uz text checked in a 390 px frame; the notice is 316 px wide and fits. Contrast 8.8:1 dark, 5.9:1 light (measured). Dev server (scratch, 3100): no React warnings on `/en/events` and the ko event page.
+
+### Not tested / left
+- Event page live unlock and the card chip expiring are not timed in a browser (same hook as the seats page; cards have no timer by design).
+- The translated backend refusal (clock off by seconds) was not triggered; the text is mapped since F292.
+- The final status of "QA Test Comedy Night" is APPROVED (it was REJECTED); an approval cannot be undone from the UI.
+- 390 px: the signed-in navbar overflows the frame by about 16 px on the event page (known, not touched). Not every language / theme / width combination was clicked.
+- Sessions were switched one after another (no private window available).

@@ -25,7 +25,8 @@
       "soldOut": "Sotilib bo‘lgan",
       "fewLeft": "Joylar oz qoldi",
       "sellingFast": "Tez sotilmoqda"
-    }
+    },
+    "salesStart": "Sotuv {{date}} dan"
   },
   "pagination": {
     "label": "Sahifalash",
@@ -226,5 +227,11 @@
       "self": "O‘zingizni kuzata olmaysiz.",
       "organizerOnly": "Faqat tashkilotchilarni kuzatish mumkin."
     }
+  },
+  "sales": {
+    "startsOn": "Chiptalar sotuvi {{day}} kuni soat {{time}} da ({{zone}}) boshlanadi.",
+    "endedOn": "Chiptalar sotuvi {{day}} kuni soat {{time}} da ({{zone}}) tugadi.",
+    "typeStarts": "{{name}}: {{day}} kuni soat {{time}} dan sotuvda.",
+    "notYet": "Chiptalar hali sotuvda emas. Sotuv {{day}} kuni soat {{time}} da ({{zone}}) boshlanadi."
   }
 }

@@ -1,3 +1,5 @@
+import { isOpenType, salesInfo, typeWindow } from './salesWindow';
+import { serverNow } from './seats/clock';
 import { EventCategory, EventItem, EventLocaleCode, TicketTypeItem } from './types/event';
 
 /** Categories the public site offers as filters and sections (design: Concerts, Football, Comedy, Other). */
@@ -48,26 +50,22 @@ export function localizedEvent(
 	return { title, description, translated: Boolean(own), lang: own ? wanted.toLowerCase() : 'en' };
 }
 
-const isFuture = (iso: string) => new Date(iso).getTime() > Date.now();
-
 export type SaleState = 'cancelled' | 'ended' | 'soldOut' | 'notStarted' | 'saleClosed' | 'onSale';
 
 /** What the visitor can do with an event, from its status, dates and ticket types. */
-export function saleState(event: Pick<EventItem, 'eventStatus' | 'endAt'>, ticketTypes: TicketTypeItem[]): SaleState {
+export function saleState(
+	event: Pick<EventItem, 'eventStatus' | 'endAt' | 'saleStartAt' | 'saleEndAt'>,
+	ticketTypes: TicketTypeItem[],
+	now: number = serverNow(),
+): SaleState {
 	if (event.eventStatus === 'CANCELLED') return 'cancelled';
-	if (event.eventStatus === 'ENDED' || !isFuture(event.endAt)) return 'ended';
+	if (event.eventStatus === 'ENDED' || new Date(event.endAt).getTime() <= now) return 'ended';
 	if (ticketTypes.length === 0) return 'onSale';
 	const soldOut = (tt: TicketTypeItem) => tt.ticketTypeStatus === 'SOLD_OUT' || tt.soldQuantity >= tt.totalQuantity;
 	if (ticketTypes.every(soldOut)) return 'soldOut';
-	const open = ticketTypes.filter((tt) => !soldOut(tt) && tt.ticketTypeStatus === 'ACTIVE');
-	const now = Date.now();
-	const live = open.filter(
-		(tt) =>
-			(!tt.saleStartAt || new Date(tt.saleStartAt).getTime() <= now) &&
-			(!tt.saleEndAt || new Date(tt.saleEndAt).getTime() > now),
-	);
-	if (live.length > 0) return 'onSale';
-	return open.some((tt) => tt.saleStartAt && new Date(tt.saleStartAt).getTime() > now) ? 'notStarted' : 'saleClosed';
+	if (!ticketTypes.some(isOpenType)) return 'saleClosed';
+	const { phase } = salesInfo(event, ticketTypes, now);
+	return phase === 'open' ? 'onSale' : phase === 'notStarted' ? 'notStarted' : 'saleClosed';
 }
 
 /** URL slugs of the category filter and the categories each one stands for ("other" groups the rest). */
@@ -83,12 +81,16 @@ export const categoryHref = (slug: CategorySlug) => `/events?category=${slug}`;
 
 export type TicketAvailability = 'available' | 'soldOut' | 'paused' | 'notStarted' | 'closed';
 
-/** Whether one ticket type can be bought right now (status, stock and sale window). */
-export const ticketAvailability = (tt: TicketTypeItem): TicketAvailability => {
-	const now = Date.now();
+/** Whether one ticket type can be bought right now (status, stock and sale window, the event's window included). */
+export const ticketAvailability = (
+	tt: TicketTypeItem,
+	now: number = serverNow(),
+	event?: Pick<EventItem, 'saleStartAt' | 'saleEndAt'>,
+): TicketAvailability => {
+	const { start, end } = typeWindow(event ?? {}, tt);
 	if (tt.ticketTypeStatus === 'SOLD_OUT' || tt.soldQuantity >= tt.totalQuantity) return 'soldOut';
 	if (tt.ticketTypeStatus === 'PAUSED') return 'paused';
-	if (tt.saleStartAt && new Date(tt.saleStartAt).getTime() > now) return 'notStarted';
-	if (tt.saleEndAt && new Date(tt.saleEndAt).getTime() <= now) return 'closed';
+	if (start !== null && start > now) return 'notStarted';
+	if (end !== null && end <= now) return 'closed';
 	return 'available';
 };

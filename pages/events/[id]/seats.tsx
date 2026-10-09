@@ -16,6 +16,8 @@ import Steps from '../../../libs/components/seats/Steps';
 import { useRequireAuth } from '../../../libs/auth/guards';
 import useBuyerOnlyRedirect from '../../../libs/hooks/useBuyerOnlyRedirect';
 import { localizedEvent, saleState } from '../../../libs/events';
+import { salesInfo, useSalesClock } from '../../../libs/salesWindow';
+import SalesNotice from '../../../libs/components/events/SalesNotice';
 import { formatEventWhen } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { eventUrl, ROUTES } from '../../../libs/routes';
@@ -44,6 +46,8 @@ const Seats: NextPage = () => {
 	const event: EventItem | undefined = data?.getEvent;
 	const ticketTypes: TicketTypeItem[] | undefined = ticketData?.getTicketTypes;
 	const config: SeatConfig | undefined = configData?.getSeatConfig;
+	// one timer: the page switches to the picker (or away from it) when a sales boundary passes
+	const now = useSalesClock(event, ticketTypes);
 	const back = (
 		<Button component={Link} href={eventUrl(eventId)} variant="outlined">
 			{t('page.back')}
@@ -90,8 +94,9 @@ const Seats: NextPage = () => {
 
 	const { title } = localizedEvent(event, locale);
 	const venue = event.venueData;
-	const state = saleState(event, ticketTypes);
+	const state = saleState(event, ticketTypes, now);
 	const reserved = event.seatingType === 'RESERVED';
+	const hasDate = (state === 'notStarted' || state === 'saleClosed') && salesInfo(event, ticketTypes, now).at !== null;
 
 	return (
 		<div className="tz-container checkout">
@@ -116,7 +121,8 @@ const Seats: NextPage = () => {
 				<StateBlock
 					icon={<CalendarX size={28} />}
 					title={t(`page.state.${state}.title`)}
-					text={t(`page.state.${state}.text`)}
+					text={hasDate ? undefined : t(`page.state.${state}.text`)}
+					extra={<SalesNotice event={event} ticketTypes={ticketTypes} now={now} />}
 					actions={back}
 				/>
 			)}

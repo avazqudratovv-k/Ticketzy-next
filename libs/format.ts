@@ -90,6 +90,20 @@ export function formatEventDay(iso: string, locale?: string, timeZone?: string |
 	return new Intl.DateTimeFormat(intlLocale(locale), { timeZone: zone, weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
 }
 
+/** "10 Oct" (no weekday, no year) on the venue's calendar: the short date of the "Sales start" chip. */
+export function formatShortDay(iso: string, locale?: string, timeZone?: string | null): string {
+	const zone = safeZone(timeZone);
+	if (locale === 'uz') return uzDate(new Date(iso), zone, false, false);
+	return new Intl.DateTimeFormat(intlLocale(locale), { timeZone: zone, day: 'numeric', month: 'short' }).format(new Date(iso));
+}
+
+/** Weekday and date, clock time and the venue's zone (e.g. "Asia/Seoul") of an instant: the parts of a sales-start line. */
+export const formatSalesMoment = (iso: string, locale?: string, timeZone?: string | null) => ({
+	day: formatEventDay(iso, locale, timeZone),
+	time: formatEventTime(iso, locale, timeZone),
+	zone: safeZone(timeZone),
+});
+
 export function formatEventTime(iso: string, locale?: string, timeZone?: string | null): string {
 	return new Intl.DateTimeFormat(intlLocale(locale), {
 		timeZone: safeZone(timeZone),

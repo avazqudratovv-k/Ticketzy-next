@@ -2,10 +2,11 @@ import { createElement } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { CalendarBlank, Fire, Hourglass, MapPin, Prohibit } from 'phosphor-react';
+import { CalendarBlank, CalendarCheck, Fire, Hourglass, MapPin, Prohibit } from 'phosphor-react';
 import { EventItem } from '../../types/event';
 import { localizedEvent } from '../../events';
-import { formatEventWhen, formatPrice } from '../../format';
+import { formatEventWhen, formatPrice, formatShortDay } from '../../format';
+import { serverNow } from '../../seats/clock';
 import { eventUrl } from '../../routes';
 import { SeatBadge, seatBadge } from '../../seatAvailability';
 import CategoryChip, { categoryIcon } from './CategoryChip';
@@ -36,7 +37,20 @@ const EventCard = ({ event, variant = 'card', eager }: Props) => {
 	const where = venue ? `${venue.venueName}, ${venue.venueCity}` : null;
 	const fallbackLang = translated ? undefined : lang;
 	const seats = seatBadge(event.eventTotalSeats, event.eventSoldSeats);
-	const seatChip = seats ? (
+	// Sales that have not started: a date chip in place of any seat-availability badge (nothing can be bought yet)
+	const salesStart =
+		event.saleStartAt &&
+		event.eventStatus !== 'CANCELLED' &&
+		event.eventStatus !== 'ENDED' &&
+		new Date(event.saleStartAt).getTime() > serverNow()
+			? event.saleStartAt
+			: null;
+	const seatChip = salesStart ? (
+		<span className="tz-badge tz-badge--info tz-seat-badge">
+			<CalendarCheck size={14} weight="bold" aria-hidden="true" />
+			{t('card.salesStart', { date: formatShortDay(salesStart, locale, zone) })}
+		</span>
+	) : seats ? (
 		<span className={`tz-badge tz-badge--${SEAT_BADGES[seats].tone} tz-seat-badge`}>
 			{createElement(SEAT_BADGES[seats].Icon, { size: 14, weight: 'bold', 'aria-hidden': true })}
 			{t(`card.seats.${seats}`)}

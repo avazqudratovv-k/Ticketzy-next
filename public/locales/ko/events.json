@@ -25,7 +25,8 @@
       "soldOut": "매진",
       "fewLeft": "잔여 좌석 적음",
       "sellingFast": "빠르게 판매 중"
-    }
+    },
+    "salesStart": "{{date}} 판매 시작"
   },
   "pagination": {
     "label": "페이지 이동",
@@ -217,5 +218,11 @@
       "self": "자기 자신은 팔로우할 수 없어요.",
       "organizerOnly": "주최자만 팔로우할 수 있어요."
     }
+  },
+  "sales": {
+    "startsOn": "티켓 판매는 {{day}} {{time}}({{zone}})에 시작됩니다.",
+    "endedOn": "티켓 판매가 {{day}} {{time}}({{zone}})에 종료되었습니다.",
+    "typeStarts": "{{name}}: {{day}} {{time}}부터 판매",
+    "notYet": "아직 티켓 판매 전입니다. {{day}} {{time}}({{zone}})에 판매가 시작됩니다."
   }
 }

@@ -56,6 +56,9 @@ export interface EventItem {
 	organizerId: string;
 	startAt: string;
 	endAt: string;
+	/** the event-wide sales window; a ticket type's own window applies as well */
+	saleStartAt?: string | null;
+	saleEndAt?: string | null;
 	cancelReason?: string | null;
 	venueData?: Venue | null;
 	memberData?: EventOrganizer | null;
