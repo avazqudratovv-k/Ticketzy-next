@@ -3,6 +3,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Top from '../Top';
+import Backdrop from './Backdrop';
 import Footer from '../Footer';
 import PendingBanner from '../common/PendingBanner';
 import WakeNote from '../common/WakeNote';
@@ -22,6 +23,7 @@ const withLayoutBasic = (Component: any) => {
 					<meta name={'title'} content={'Ticketzy'} />
 				</Head>
 				<div className="tz-app">
+					<Backdrop />
 					<a className="tz-skip" href="#main">
 						{t('skipToContent')}
 					</a>

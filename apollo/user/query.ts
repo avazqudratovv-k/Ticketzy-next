@@ -32,41 +32,9 @@ export const GET_EVENTS = gql`
 	${EVENT_CARD_FIELDS}
 `;
 
-/** One round trip for the home page; each alias is a `getEvents` call. */
-export const GET_HOME = gql`
-	query GetHome(
-		$upcoming: EventsInquiry!
-		$popular: EventsInquiry!
-		$concerts: EventsInquiry!
-		$football: EventsInquiry!
-		$comedy: EventsInquiry!
-		$organizers: OrganizersInquiry!
-	) {
-		upcoming: getEvents(input: $upcoming) {
-			list {
-				...EventCardFields
-			}
-		}
-		popular: getEvents(input: $popular) {
-			list {
-				...EventCardFields
-			}
-		}
-		concerts: getEvents(input: $concerts) {
-			list {
-				...EventCardFields
-			}
-		}
-		football: getEvents(input: $football) {
-			list {
-				...EventCardFields
-			}
-		}
-		comedy: getEvents(input: $comedy) {
-			list {
-				...EventCardFields
-			}
-		}
+/** The organizers block of the home page. The events come from GET_EVENTS (one query for the hero, one per category row). */
+export const GET_HOME_ORGANIZERS = gql`
+	query GetHomeOrganizers($organizers: OrganizersInquiry!) {
 		organizers: getOrganizers(input: $organizers) {
 			list {
 				_id
@@ -78,7 +46,6 @@ export const GET_HOME = gql`
 			}
 		}
 	}
-	${EVENT_CARD_FIELDS}
 `;
 
 export const GET_VENUES = gql`

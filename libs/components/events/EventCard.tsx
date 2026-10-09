@@ -1,22 +1,16 @@
-import { createElement } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { CalendarBlank, CalendarCheck, Fire, Hourglass, MapPin, Prohibit } from 'phosphor-react';
+import { CalendarBlank, MapPin } from 'phosphor-react';
 import { EventItem } from '../../types/event';
 import { localizedEvent } from '../../events';
 import { formatEventWhen, formatPrice, formatShortDay } from '../../format';
 import { serverNow } from '../../seats/clock';
 import { eventUrl } from '../../routes';
-import { SeatBadge, seatBadge } from '../../seatAvailability';
+import { seatBadge } from '../../seatAvailability';
 import CategoryChip, { categoryIcon } from './CategoryChip';
 import EventImage from './EventImage';
-
-const SEAT_BADGES: Record<SeatBadge, { tone: string; Icon: typeof Fire }> = {
-	soldOut: { tone: 'neutral', Icon: Prohibit },
-	fewLeft: { tone: 'danger', Icon: Hourglass },
-	sellingFast: { tone: 'warning', Icon: Fire },
-};
+import EventTag from './EventTag';
 
 interface Props {
 	event: EventItem;
@@ -45,16 +39,11 @@ const EventCard = ({ event, variant = 'card', eager }: Props) => {
 		new Date(event.saleStartAt).getTime() > serverNow()
 			? event.saleStartAt
 			: null;
-	const seatChip = salesStart ? (
-		<span className="tz-badge tz-badge--info tz-seat-badge">
-			<CalendarCheck size={14} weight="bold" aria-hidden="true" />
-			{t('card.salesStart', { date: formatShortDay(salesStart, locale, zone) })}
-		</span>
+	// one tag per card: the sales start date wins over seat availability (nothing can be bought yet)
+	const tag = salesStart ? (
+		<EventTag kind="salesStart">{t('card.salesStart', { date: formatShortDay(salesStart, locale, zone) })}</EventTag>
 	) : seats ? (
-		<span className={`tz-badge tz-badge--${SEAT_BADGES[seats].tone} tz-seat-badge`}>
-			{createElement(SEAT_BADGES[seats].Icon, { size: 14, weight: 'bold', 'aria-hidden': true })}
-			{t(`card.seats.${seats}`)}
-		</span>
+		<EventTag kind={seats}>{t(`card.seats.${seats}`)}</EventTag>
 	) : null;
 	// the compact cards sit beside the hero (h1) with no heading of their own, so they are second-level headings
 	const Heading = variant === 'row' ? 'h2' : 'h3';
@@ -63,13 +52,13 @@ const EventCard = ({ event, variant = 'card', eager }: Props) => {
 		<Link href={eventUrl(event._id)} className={`tz-event-card${variant === 'row' ? ' tz-event-card--row' : ''}`}>
 			<span className="tz-media">
 				<EventImage src={event.eventImages?.[0]} eager={eager} />
+				{tag}
 			</span>
 			{variant === 'card' && (
 				<span className="tz-event-card__chip">
 					<CategoryChip category={event.eventCategory} onImage />
 				</span>
 			)}
-			{variant === 'card' && seatChip && <span className="tz-event-card__seats">{seatChip}</span>}
 			<span className="tz-event-card__body">
 				<Heading className="tz-event-card__title tz-clamp-2" lang={fallbackLang}>
 					{title}
@@ -97,7 +86,6 @@ const EventCard = ({ event, variant = 'card', eager }: Props) => {
 						<span className="tz-price__label">{t('card.from')}</span>
 						<span className="tz-price__amount">{formatPrice(event.eventMinPrice, locale)}</span>
 					</span>
-					{variant === 'row' && seatChip}
 				</span>
 			</span>
 		</Link>

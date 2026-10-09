@@ -2,18 +2,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { Button } from '@mui/material';
-import { ArrowRight, CalendarBlank, MapPin } from 'phosphor-react';
+import { ArrowRight, CalendarBlank, MapPin, Star } from 'phosphor-react';
 import { EventItem } from '../../types/event';
 import { localizedEvent } from '../../events';
 import { formatEventWhen, formatPrice } from '../../format';
 import { eventUrl, organizerUrl, ROUTES } from '../../routes';
 import CategoryChip from './CategoryChip';
 import EventImage from './EventImage';
-import EventCard from './EventCard';
 import Reveal from '../common/Reveal';
 import Avatar from '../common/OrganizerAvatar';
 
-export const Hero = ({ event }: { event: EventItem }) => {
+export const Hero = ({ event, featured }: { event: EventItem; featured?: boolean }) => {
 	const { t } = useTranslation('events');
 	const { locale } = useRouter();
 	const { title, lang, translated } = localizedEvent(event, locale);
@@ -25,6 +24,12 @@ export const Hero = ({ event }: { event: EventItem }) => {
 				<CategoryChip category={event.eventCategory} onImage />
 			</span>
 			<div className="tz-hero__body">
+				{featured && (
+					<span className="tz-hero__eyebrow">
+						<Star size={14} weight="fill" aria-hidden="true" />
+						{t('home.featured')}
+					</span>
+				)}
 				<h1 id="hero-title" lang={translated ? undefined : lang}>
 					{title}
 				</h1>
@@ -51,33 +56,6 @@ export const Hero = ({ event }: { event: EventItem }) => {
 				</div>
 			</div>
 		</section>
-	);
-};
-
-interface SectionProps {
-	id: string;
-	title: string;
-	events: EventItem[];
-	seeAllHref: string;
-}
-
-export const EventSection = ({ id, title, events, seeAllHref }: SectionProps) => {
-	const { t } = useTranslation('events');
-	if (!events.length) return null;
-	return (
-		<Reveal className="home__section" aria-labelledby={id}>
-			<div className="home__section-head">
-				<h2 id={id}>{title}</h2>
-				<Link href={seeAllHref} className="tz-link">
-					{t('home.seeAll')}
-				</Link>
-			</div>
-			<div className="tz-grid">
-				{events.map((event) => (
-					<EventCard key={event._id} event={event} />
-				))}
-			</div>
-		</Reveal>
 	);
 };
 

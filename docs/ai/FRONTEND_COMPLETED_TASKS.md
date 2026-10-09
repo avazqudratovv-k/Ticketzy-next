@@ -670,3 +670,70 @@ tsc, lint, i18n:check clean; `yarn build` in a scratch copy passes. Browser (por
 - A real same-venue refusal on submit or approve (needs a second organizer's overlapping event); en/ko only were looked at, ru and uz strings are unchecked on screen (plural forms follow the app's existing pattern).
 - The organizer form at 390 px and in dark was not screenshotted; the alert uses the existing `tz-alert` styles.
 - Test data created: see the report (venue "QA Comedy Cellar" at 99 Lookalike-ro, event "ZZ Venue Clash Test").
+
+## Prompt 14f: home page upgrade (2026-10-09)
+Frontend only, not committed. Decisions F313 to F319.
+
+### Done
+- Step 0, the old rule: hero = the most viewed event (`getEvents` sorted by `eventViews`, limit 1), falling back to the first upcoming one; beside it the first three of 8 upcoming (soonest first) other than the hero. No check for ended, sold out, image or sales window, and no category mix.
+- New hero rule in `libs/homeFeatured.ts` (eligibility, ranking, category mix, fallback, example table); one `getEvents` query of 20; "Featured" label on the hero when it came from the eligible group.
+- Category rows (`CategoryRow.tsx`): Concert, Football, Comedy, Other; scroll-snap row, arrow buttons on pointer devices, keyboard, right-edge fade, skeletons, per-row error and Retry, hidden when empty, `Reveal` entrance.
+- Removed from the home page: the "Upcoming events" grid, the concerts, football and comedy 4-card grids (`EventSection`), the "Browse by category" tiles, the combined `GET_HOME` query (replaced by `GET_HOME_ORGANIZERS`), the old top-right and foot seat badges.
+- `Backdrop.tsx` (two faint ticket marks) in the public layout on the allowed routes only.
+- `EventTag.tsx`: one corner tag on every card.
+- Keys in en, ko, ru, uz; dead `home.*` keys removed.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean; `yarn build` passes in a scratch copy served on 3100 (`/graphql` proxied to 3007).
+- Browser (iframes at 390, 768, 1440; en, ko, ru, uz; light and dark): no horizontal overflow from the new content, all tags single line inside the picture, 10 px (8 px on side cards) from the top and right; dot colours and tag styles read from computed styles; row arrow keys, buttons, disabled and fade states; reduced motion scrolls instantly; axe (wcag2a, wcag2aa, wcag21aa, best-practice) 0 violations on `/` (light, dark), `/events` (light, dark), `/about`, event detail (dark); backdrop present on the allowed routes and absent on login, orders and the others; hidden at 1100 px.
+- Layout shift: two real shifts of the home content were found (skeletons shorter than the real cards: 0.02 at 768, 0.05 to 0.07 at 1440) and fixed (F316); the home content now measures 0. A 0.0004 to 0.0014 shift from the signed-in navbar actions remains (not part of this change).
+
+### Not tested / left
+- Touch swiping: the tooling cannot send touch gestures; the row is a plain `overflow-x: auto` scroller (`touch-action: auto`), so it is native.
+- The row error state and Retry were not triggered (the backend was up); the empty-row hiding was not seen on screen (all four categories have events).
+- The three seat tags (few seats, selling fast, sold out) have no demo data; only "Sales start" appeared on real cards. Their colours and sizes were checked on cloned tags; their texts in each language were measured (longest 146 px, fits the 164 px side picture).
+- Dead CSS for the old category tiles (`home__cat*`) is still in the stylesheets.
+
+## Prompt 14g: background ticket marks in the logo's colours (2026-10-09)
+Frontend only, not committed. Decision F320.
+
+### Done
+- `Backdrop.tsx`: the favicon artwork inline in its original colours; opacity 0.07 light, 0.09 dark on the SVG element (raised to 0.11 / 0.12 in 14i, below); marks cropped by 25% of their width at most (130 px) instead of 200 px (`scss/layout.scss`).
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint` clean; `yarn build` passes in a scratch copy (3100). `i18n:check` unchanged (no text changed).
+- Computed style: opacity 0.07 / 0.09, filter none, blend normal, fills #0a0b0d and #c8f53c only. Composited colours (calculated, a canvas read-back would not run in the test tab): light ticket rgb(243,246,230) on page rgb(246,246,243), square and bars rgb(229,230,227); dark ticket rgb(27,32,17) on page rgb(10,11,13). Body text on the worst of them: 14.6:1 (light) and 14.6:1 (dark), so no opacity change was needed.
+- axe (wcag2a, wcag2aa, wcag21aa, best-practice) 0 violations on `/` and `/events`, light and dark, at 1440. Screenshots of the left mark at 1440 in light and dark.
+
+### Not tested / left
+- The demo artifact was not opened. In dark the dark square equals the page colour, so only the ticket shows (dark olive) with the notches and bars as holes; in light the square shows as a soft grey and the ticket as a pale yellow-green.
+- No pixel read-back from a real render (the tab did not run an image decode); the numbers are calculated from the fills and opacities.
+
+## Prompt 14h: one-time peek on the home category rows (2026-10-09)
+Frontend only, not committed. Decision F321.
+
+### Done
+- `libs/hooks/useRailPeek.ts` (new) and one call in `Rail` (`CategoryRow.tsx`): see F321 for the rules (60% visible, 64 px, 450 ms + 150 ms + 450 ms, snap off during the motion, cancel on any interaction, skipped for reduced motion / nothing to scroll / not at start).
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check` clean; `yarn build` passes in a scratch copy served on 3100 (stopped afterwards).
+- Browser (same-origin iframes of 390, 768, 1440 px): every row that can scroll nudged once when scrolled to, one after another; peak 64 px (64.5 from device rounding), back to 0, inline snap removed. 390: 4 of 4 rows (all have more than one screen of cards); 768: the two rows with 4+ cards, the two 3-card rows correctly skipped; 1440: only the Football row (5 cards) is wider than the screen, the other three fit exactly and were skipped. Hover (real mouse), focus and a `touchstart` event each stopped a running nudge part-way (peaks 35 to 43 px), left the row at 0 with snap restored and it did not run again. With `prefers-reduced-motion` forced to true in the iframe no row moved. Page scroll position unchanged by the nudge; `layout-shift` entries 0 (CLS 0.0000).
+- Timing: the test tab reports `document.hidden`, so Chrome only gives frames while a screenshot is being taken. Durations are therefore from the code (timestamps of `requestAnimationFrame`, not frame counts) and the sampled positions follow the ease-out curve (4, 10.5, 17, 22.5 ... px in the first frames), but the 450 / 150 / 450 ms were not measured with a stopwatch on a visible tab.
+
+### Not tested / left
+- Real touch gestures and real arrow-button or keyboard clicks (touchstart and focus were sent as events or `focus()`; hover was a real mouse move). All use the same listener list.
+- Reduced motion was forced by replacing `matchMedia` in the iframe, not by the OS setting.
+- At 390 px the iframe's document was 16 px wider than the viewport, from the navbar actions (not the rows, which scroll inside their own box); not investigated here.
+
+## Prompt 14i: stronger background marks (2026-10-09)
+Frontend only, not committed. Decision F320 (values updated).
+
+### Done
+- `scss/layout.scss`: backdrop mark opacity 0.11 in light (was 0.07) and 0.12 in dark (was 0.09). Colours, 25% crop, 1200 px minimum and routes unchanged.
+
+### Verified
+- Computed opacity 0.11 / 0.12 in light / dark. axe (wcag2a, wcag2aa, wcag21aa, best-practice) at 1440: 0 violations on `/` and `/events` in light and dark. Lowest contrast axe measured: 5.67:1 light, 5.87:1 dark (both pages). axe lists 10 (`/`) and 16 (`/events`) colour-contrast checks as "incomplete" (it cannot decide over images), same as before.
+- Calculated worst cases (square / ticket composited on the page colour): light square rgb(220,220,218), ticket rgb(241,246,223); dark ticket rgb(33,39,19), square equals the page. Body text on the worst surface: 13.9:1 light, 14.1:1 dark; muted text 6.4:1 light, 7.8:1 dark; subtle text 4.1:1 on the light square (4.6 at the old 0.07), 5.0:1 on the dark ticket. No subtle text sits directly on the page over a mark on `/` or `/events`; on a card (own surface) it is unaffected.
+
+### Not tested / left
+- Other backdrop routes (event detail, organizer, info pages) were not re-run in axe; any bare-page subtle text over a light-theme mark there would be 4.1:1, under AA.

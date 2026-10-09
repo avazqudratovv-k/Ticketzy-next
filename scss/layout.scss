@@ -5,12 +5,49 @@
 	flex: 1;
 	min-height: 100vh;
 	position: relative;
+	// own stacking context: the backdrop (z-index -1) paints above this background and below all the content
+	isolation: isolate;
 	color: var(--ink);
 	background: var(--bg);
 	> main {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
+	}
+}
+
+/** BACKDROP (Backdrop.tsx): two faint ticket marks fixed behind the content. Static, no filters or blend modes, so scrolling
+    costs nothing; the layer is not painted below 1200 px. **/
+.tz-backdrop {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	overflow: hidden;
+	pointer-events: none;
+	contain: layout paint;
+	@media (min-width: 1200px) {
+		display: block;
+	}
+	&__mark {
+		position: absolute;
+		width: 520px;
+		height: auto;
+		// dark is the default theme (tokens.css)
+		opacity: 0.12;
+		[data-theme='light'] & {
+			opacity: 0.11;
+		}
+		&--left {
+			left: -130px;
+			top: 14%;
+			transform: rotate(-12deg);
+		}
+		&--right {
+			right: -130px;
+			top: 46%;
+			transform: rotate(10deg);
+		}
 	}
 }
 

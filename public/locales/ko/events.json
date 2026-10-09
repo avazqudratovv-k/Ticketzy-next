@@ -46,22 +46,20 @@
     "emptyTitle": "아직 판매 중인 이벤트가 없어요",
     "emptyText": "주최자가 이벤트를 공개하면 바로 여기에 표시돼요.",
     "browse": "이벤트 둘러보기",
-    "categories": "카테고리별 보기",
-    "categoryText": {
-      "CONCERT": "투어, 페스티벌, 클럽 공연",
-      "FOOTBALL": "리그전과 컵 대회",
-      "COMEDY": "스탠드업과 즉흥 코미디",
-      "OTHER": "연극, 강연, 마켓"
-    },
-    "upcoming": "다가오는 이벤트",
-    "concerts": "콘서트",
-    "football": "축구",
-    "comedy": "코미디",
     "seeAll": "전체 보기",
     "organizers": "주최자",
     "ctaTitle": "이벤트를 직접 열고 싶으신가요?",
     "ctaText": "내 콘서트, 경기, 공연의 티켓을 직접 판매하세요. 첫 이벤트가 공개되기 전에 모든 주최자를 검토합니다.",
-    "ctaButton": "티켓 판매하기"
+    "ctaButton": "티켓 판매하기",
+    "rows": {
+      "concert": "콘서트",
+      "football": "축구",
+      "comedy": "코미디",
+      "other": "기타 이벤트"
+    },
+    "featured": "추천",
+    "rowPrev": "{{title}}: 이전",
+    "rowNext": "{{title}}: 다음"
   },
   "list": {
     "title": "이벤트 둘러보기",

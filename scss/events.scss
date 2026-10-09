@@ -140,11 +140,6 @@
 		top: var(--space-3);
 		inset-inline-start: var(--space-3);
 	}
-	&__seats {
-		position: absolute;
-		top: var(--space-3);
-		inset-inline-end: var(--space-3);
-	}
 	&__body {
 		display: flex;
 		flex: 1;
@@ -199,10 +194,10 @@
 		.tz-media {
 			flex: none;
 			align-self: stretch;
-			width: 112px;
+			width: 164px;
 			aspect-ratio: auto;
 			@media (min-width: 480px) {
-				width: 140px;
+				width: 176px;
 			}
 		}
 		.tz-event-card__body {
@@ -214,9 +209,56 @@
 	}
 }
 
-/* seat-availability badge: sits on the picture or in the card foot, so the soft tones get a solid edge */
-.tz-seat-badge {
-	box-shadow: 0 0 0 1px var(--surface);
+/* STATUS TAG (EventTag.tsx): the one tag on an event card, top-right of the picture. Dark on the photo in both themes
+   (white on rgba(13, 14, 10, .78) is far above 4.5:1 even over a white photo); the dot is decoration, the text is the meaning. */
+.tz-tag {
+	position: absolute;
+	z-index: 1;
+	top: 10px;
+	inset-inline-end: 10px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	box-sizing: border-box;
+	max-width: calc(100% - 20px);
+	padding: 5px 10px;
+	border-radius: 8px;
+	background: rgba(13, 14, 10, 0.78);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.25;
+	white-space: nowrap;
+	&__dot {
+		flex: none;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #8a8a80;
+	}
+	&__text {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	&--fewLeft &__dot {
+		background: #c93a12;
+	}
+	&--sellingFast &__dot {
+		background: #f2b705;
+	}
+	&--salesStart &__dot {
+		background: #3a47b0;
+	}
+	&--soldOut &__dot {
+		background: #8a8a80;
+	}
+	// the small cards beside the hero
+	.tz-event-card--row & {
+		top: 8px;
+		inset-inline-end: 8px;
+		max-width: calc(100% - 16px);
+	}
 }
 
 .tz-price {
@@ -536,6 +578,8 @@
 		align-content: start;
 		@media (min-width: 768px) and (max-width: 1279px) {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
+			// the skeleton cards are shorter than real ones; a common minimum keeps the page from jumping when they load
+			grid-auto-rows: minmax(380px, auto);
 			.tz-event-card--row {
 				flex-direction: column;
 				.tz-media {
@@ -545,7 +589,8 @@
 			}
 		}
 		@media (min-width: 1280px) {
-			grid-auto-rows: 1fr;
+			// a minimum equal for skeleton and real cards: the hero stretches to this column, so it must not change on load
+			grid-auto-rows: minmax(260px, 1fr);
 		}
 	}
 	&__section-head {
@@ -629,6 +674,128 @@
 			margin: 0;
 			color: var(--ink-muted);
 		}
+	}
+}
+
+/** HERO EYEBROW: the small "Featured" label above the hero title **/
+.tz-hero__eyebrow {
+	display: inline-flex;
+	align-items: center;
+	align-self: flex-start;
+	gap: var(--space-1);
+	font: var(--text-badge);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--on-image);
+	opacity: 0.9;
+	svg {
+		color: #f2b705;
+	}
+}
+
+.home__see-all {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	flex: none;
+}
+
+/** CATEGORY ROWS (CategoryRow.tsx): native scrolling with snap; the arrows exist on pointer devices only **/
+.tz-rail {
+	position: relative;
+	// right-end fade: a gradient over the last pixels, switched off when the row is scrolled to its end
+	&::after {
+		content: '';
+		position: absolute;
+		inset-block: 0;
+		inset-inline-end: 0;
+		width: 48px;
+		background: linear-gradient(to right, transparent, var(--bg));
+		pointer-events: none;
+		opacity: 1;
+		transition: opacity var(--dur-base) var(--ease-standard);
+	}
+	&[data-end='true']::after {
+		opacity: 0;
+	}
+	&__track {
+		display: flex;
+		gap: var(--space-4);
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		// room for the hover lift, shadow and focus ring, which an overflow container would clip
+		padding: 8px 8px 20px;
+		margin: -8px -8px -20px;
+		scroll-padding-inline: 8px;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: -2px;
+			border-radius: var(--radius-lg);
+		}
+	}
+	&__item {
+		display: flex;
+		flex: 0 0 280px;
+		min-width: 0;
+		// every card (and skeleton) at least this tall, so cards with short titles and the skeletons give the row the same
+		// height and the page does not move when the events arrive; the cards stretch to the tallest in the row
+		min-height: 420px;
+		scroll-snap-align: start;
+		> * {
+			flex: 1;
+		}
+	}
+	&__btn {
+		display: none;
+		position: absolute;
+		z-index: 2;
+		top: calc(50% - 22px);
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid var(--border-control);
+		border-radius: 50%;
+		background: var(--surface);
+		color: var(--ink);
+		box-shadow: var(--shadow-md);
+		cursor: pointer;
+		&--prev {
+			inset-inline-start: -12px;
+		}
+		&--next {
+			inset-inline-end: -12px;
+		}
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: 2px;
+		}
+		&[aria-disabled='true'] {
+			opacity: 0.4;
+			cursor: default;
+			box-shadow: none;
+		}
+		// pointer devices only: touch screens swipe
+		@media (hover: hover) and (pointer: fine) {
+			display: inline-flex;
+		}
+	}
+	&__error {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--space-4);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		color: var(--ink-muted);
 	}
 }
 

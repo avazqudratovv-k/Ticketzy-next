@@ -46,22 +46,20 @@
     "emptyTitle": "No events on sale yet",
     "emptyText": "New events appear here as soon as organizers publish them.",
     "browse": "Browse events",
-    "categories": "Browse by category",
-    "categoryText": {
-      "CONCERT": "Tours, festivals, club nights",
-      "FOOTBALL": "League and cup matches",
-      "COMEDY": "Stand-up and improv",
-      "OTHER": "Theater, talks, markets"
-    },
-    "upcoming": "Upcoming events",
-    "concerts": "Concerts",
-    "football": "Football",
-    "comedy": "Comedy",
     "seeAll": "See all",
     "organizers": "Organizers",
     "ctaTitle": "Organize an event?",
     "ctaText": "Sell tickets to your own concert, match or show. We review every organizer before the first event goes live.",
-    "ctaButton": "Sell tickets"
+    "ctaButton": "Sell tickets",
+    "rows": {
+      "concert": "Concerts",
+      "football": "Football",
+      "comedy": "Comedy",
+      "other": "Other events"
+    },
+    "featured": "Featured",
+    "rowPrev": "{{title}}: previous",
+    "rowNext": "{{title}}: next"
   },
   "list": {
     "title": "Browse events",

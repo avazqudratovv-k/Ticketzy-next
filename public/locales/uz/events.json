@@ -46,22 +46,20 @@
     "emptyTitle": "Hozircha sotuvda tadbir yo‘q",
     "emptyText": "Tashkilotchilar e’lon qilishi bilanoq yangi tadbirlar shu yerda paydo bo‘ladi.",
     "browse": "Tadbirlarni ko‘rish",
-    "categories": "Turkumlar bo‘yicha",
-    "categoryText": {
-      "CONCERT": "Gastrollar, festivallar, klub kechalari",
-      "FOOTBALL": "Liga va kubok o‘yinlari",
-      "COMEDY": "Stend-ap va improvizatsiya",
-      "OTHER": "Teatr, suhbatlar, bozorlar"
-    },
-    "upcoming": "Yaqinlashayotgan tadbirlar",
-    "concerts": "Konsertlar",
-    "football": "Futbol",
-    "comedy": "Komediya",
     "seeAll": "Hammasi",
     "organizers": "Tashkilotchilar",
     "ctaTitle": "Tadbir o‘tkazmoqchimisiz?",
     "ctaText": "O‘z konsertingiz, o‘yiningiz yoki shoyingiz chiptalarini soting. Birinchi tadbir e’lon qilinishidan oldin har bir tashkilotchini tekshiramiz.",
-    "ctaButton": "Chipta sotish"
+    "ctaButton": "Chipta sotish",
+    "rows": {
+      "concert": "Konsertlar",
+      "football": "Futbol",
+      "comedy": "Komediya",
+      "other": "Boshqa tadbirlar"
+    },
+    "featured": "Tavsiya etamiz",
+    "rowPrev": "{{title}}: orqaga",
+    "rowNext": "{{title}}: oldinga"
   },
   "list": {
     "title": "Tadbirlar",
