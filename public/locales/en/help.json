@@ -1,0 +1,184 @@
+{
+  "faq": {
+    "title": "Frequently asked questions",
+    "lead": "Quick answers about buying tickets, seats, refunds and organizing events on Ticketzy.",
+    "jump": "Topics",
+    "groups": [
+      {
+        "id": "buying",
+        "title": "Buying tickets",
+        "items": [
+          {
+            "q": "How do I buy tickets?",
+            "a": "Open an event, choose your tickets or seats and continue to checkout. You need to be signed in to check out. Browsing events is open to everyone."
+          },
+          {
+            "q": "Is real money charged?",
+            "a": "No. Ticketzy is a portfolio demo and payments are simulated. No card is needed and no money moves."
+          },
+          {
+            "q": "Do prices include fees?",
+            "a": "The price you see is the price you pay. Ticketzy’s commission is taken from the organizer’s payout, it is never added on top of the ticket price."
+          }
+        ]
+      },
+      {
+        "id": "seats",
+        "title": "Seats and the {{seconds}}-second hold",
+        "items": [
+          {
+            "q": "How many seats can I pick?",
+            "a": "You can hold up to {{max}} seats at a time."
+          },
+          {
+            "q": "What is the {{seconds}}-second hold?",
+            "a": "When you pick seats and continue, they are held for you for {{seconds}} seconds so nobody else can take them while you pay. A countdown on the checkout page shows the time left."
+          },
+          {
+            "q": "What happens when the time runs out?",
+            "a": "The hold ends, the seats are released for other people and your unpaid order expires. Go back to the seat map and choose again. Nothing is charged."
+          },
+          {
+            "q": "A seat I wanted was taken. Why?",
+            "a": "Seats are first come, first served. If someone else held or bought a seat before you, the map shows it as unavailable and you can pick another one."
+          },
+          {
+            "q": "Why is the hold so short?",
+            "a": "{{seconds}} seconds is the default of this demo, so the hold is easy to see in action. It is a server setting that a real service would set longer."
+          }
+        ]
+      },
+      {
+        "id": "refunds",
+        "title": "Refunds",
+        "items": [
+          {
+            "q": "Can I get a refund?",
+            "a": "Yes, until 23:59 on the day before the event, in the time zone of the venue. For an event on 15 November in Seoul, you can refund until 23:59 Seoul time on 14 November. After that the order can no longer be refunded."
+          },
+          {
+            "q": "Can I refund only some of my tickets?",
+            "a": "No. A refund covers the whole order, and it is only possible while none of the tickets in the order have been used."
+          },
+          {
+            "q": "How do I ask for a refund?",
+            "a": "Open the order from Orders in your account and use the refund panel. It shows the deadline in the venue’s time zone and the amount before you confirm."
+          },
+          {
+            "q": "What if the event is cancelled?",
+            "a": "When an event is cancelled, its paid orders are refunded."
+          },
+          {
+            "q": "Do I get real money back?",
+            "a": "No. Payments are simulated, so refunds are too: the order and its tickets change status and no money moves."
+          }
+        ]
+      },
+      {
+        "id": "tickets",
+        "title": "Tickets and QR check-in",
+        "items": [
+          {
+            "q": "Where are my tickets?",
+            "a": "After payment, open Tickets in the account menu. Each ticket has its own page with a QR code."
+          },
+          {
+            "q": "How does check-in work?",
+            "a": "At the entrance, staff scan the QR code of your ticket with the organizer’s check-in page. A ticket works once: after it is scanned it shows as used."
+          },
+          {
+            "q": "Do I need to print my ticket?",
+            "a": "No. Show the QR code on your phone."
+          },
+          {
+            "q": "Is it safe to share a picture of my QR code?",
+            "a": "No. Whoever scans a valid code first gets in, so keep your QR codes private."
+          }
+        ]
+      },
+      {
+        "id": "organizers",
+        "title": "Organizers",
+        "items": [
+          {
+            "q": "How do I sell tickets?",
+            "a": "Sign up with an organizer account. An administrator checks the account before you can create events, and approves each event before it goes on sale."
+          },
+          {
+            "q": "What does Ticketzy charge organizers?",
+            "a": "A commission on each order, taken from the organizer’s payout: 10 % by default, 7 % after 5 completed events and 5 % after 20. An administrator can set a special rate for an account. Buyers never pay it."
+          },
+          {
+            "q": "How do I check people in?",
+            "a": "Use Check-in in the organizer dashboard. Scan the QR code of a ticket with the camera or type its code."
+          },
+          {
+            "q": "Can I contact the Ticketzy team?",
+            "a": "Yes. Signed-in organizers have a messaging inbox in the dashboard for conversations with the Ticketzy administrators."
+          },
+          {
+            "q": "Are payouts real?",
+            "a": "No. Payout figures are calculated from simulated orders and no money is sent."
+          }
+        ]
+      },
+      {
+        "id": "accounts",
+        "title": "Accounts",
+        "items": [
+          {
+            "q": "Do I need an account?",
+            "a": "You can browse events without one. You need an account to buy tickets, like events, follow organizers and write comments."
+          },
+          {
+            "q": "How do I create an account?",
+            "a": "Use Sign up, choose a buyer or an organizer account and enter your email and a password."
+          },
+          {
+            "q": "I forgot my password.",
+            "a": "Password reset is not available in this demo. You can create a new account with another email."
+          },
+          {
+            "q": "Which languages and themes are available?",
+            "a": "English, Korean, Russian and Uzbek, in a light or a dark theme. Use the buttons in the top bar; your choice is remembered on this device."
+          },
+          {
+            "q": "What data do you keep?",
+            "a": "See the Privacy page. It is sample text written for this demo."
+          }
+        ]
+      }
+    ],
+    "more": {
+      "title": "Still have a question?",
+      "text": "Look at the contact page.",
+      "cta": "Contact"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "lead": "Ticketzy is a portfolio project, so there is no support team behind it. This page says how to reach the person who built it.",
+    "note": {
+      "title": "Demo project",
+      "text": "The address below is a sample address for this demo and may not be monitored. Do not send personal or payment information."
+    },
+    "email": {
+      "title": "Email",
+      "text": "Write about the project, feedback or a bug.",
+      "cta": "Write an email"
+    },
+    "organizers": {
+      "title": "Organizers",
+      "text": "Signed-in organizers can message the Ticketzy administrators from the dashboard.",
+      "cta": "Open messages",
+      "signedOut": "Sign in to an organizer account to use the messaging inbox.",
+      "signIn": "Organizer sign in"
+    },
+    "faq": {
+      "title": "Common questions",
+      "text": "Refunds, the seat hold, tickets and check-in are explained in the FAQ.",
+      "cta": "Read the FAQ"
+    },
+    "response": "Replies are not guaranteed: this is a demo."
+  }
+}

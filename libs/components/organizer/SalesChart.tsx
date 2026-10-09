@@ -47,7 +47,7 @@ const SalesChart = ({ points, currency, locale }: Props) => {
 					<span className="org-hint">{t('dashboard.chart.hover')}</span>
 				)}
 			</div>
-			<svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} role="img" aria-label={t('dashboard.chart.label')} className="org-chart__svg" onMouseLeave={() => setActive(null)}>
+			<svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} role="group" aria-label={t('dashboard.chart.label')} className="org-chart__svg" onMouseLeave={() => setActive(null)}>
 				<line x1={PAD.left} x2={W - PAD.right} y1={H - PAD.bottom} y2={H - PAD.bottom} className="org-chart__axis" />
 				{points.map((p, i) => {
 					const h = p.revenue > 0 ? Math.max(3, (p.revenue / max) * innerH) : 0;
@@ -61,6 +61,7 @@ const SalesChart = ({ points, currency, locale }: Props) => {
 								width={step}
 								height={H - PAD.bottom}
 								fill="transparent"
+								role="img"
 								tabIndex={0}
 								aria-label={`${dayLabel(p.day, locale)}: ${money(p.revenue)}`}
 								onMouseEnter={() => setActive(i)}

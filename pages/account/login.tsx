@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
-import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Seo from '../../libs/components/common/Seo';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import LoginForm from '../../libs/components/auth/LoginForm';
 import useRedirectIfSignedIn from '../../libs/hooks/useRedirectIfSignedIn';
@@ -18,9 +18,7 @@ const Login: NextPage = () => {
 
 	return (
 		<>
-			<Head>
-				<title>{`${t('login.pageTitle')} · Ticketzy`}</title>
-			</Head>
+			<Seo title={t('login.pageTitle')} noindex />
 			<div className="pg-auth">
 				<div className="pg-auth__head">
 					<h1>{t('login.title')}</h1>

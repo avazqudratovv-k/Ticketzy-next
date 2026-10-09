@@ -170,7 +170,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 
 			<div className="event__gallery">
 				<div className={`event__hero${state === 'cancelled' || state === 'ended' ? ' is-muted' : ''}`}>
-					<EventImage src={images[imageIndex]} eager />
+					<EventImage src={images[imageIndex]} alt={title} eager />
 					<span className="event__hero-chip">
 						<CategoryChip category={event.eventCategory} onImage />
 					</span>

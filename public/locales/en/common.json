@@ -34,7 +34,8 @@
     "following": "Following",
     "messages": "Messages",
     "adminPanel": "Admin panel",
-    "organizerProfile": "Profile"
+    "organizerProfile": "Profile",
+    "help": "Help & FAQ"
   },
   "banner": {
     "pendingTitle": "Your organizer account is being reviewed.",
@@ -54,7 +55,14 @@
     "other": "Other events",
     "organizerDashboard": "Organizer dashboard",
     "adminPanel": "Admin panel",
-    "messages": "Messages"
+    "messages": "Messages",
+    "help": "Help",
+    "faq": "FAQ",
+    "about": "About",
+    "contact": "Contact",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "legalNav": "Legal"
   },
   "dashboard": {
     "organizer": "Organizer",
@@ -193,5 +201,18 @@
       "from": "From",
       "view": "View event"
     }
+  },
+  "doc": {
+    "noteLabel": "Notice"
+  },
+  "demo": {
+    "notice": "Demo project: payments are simulated, no real money is charged.",
+    "dismiss": "Dismiss the demo notice"
+  },
+  "errors": {
+    "serverTitle": "Something went wrong on our side",
+    "serverText": "The page could not be shown. Try again in a moment, or go back to the events.",
+    "retry": "Try again",
+    "browseEvents": "Browse events"
   }
 }

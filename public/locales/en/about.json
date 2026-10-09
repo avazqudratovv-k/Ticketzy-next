@@ -1,0 +1,33 @@
+{
+  "title": "About Ticketzy",
+  "lead": "Ticketzy is an event ticketing site for concerts, football matches and comedy shows, with live seat maps and QR tickets.",
+  "what": {
+    "title": "What it is",
+    "text": "You pick an event, choose seats on a map or a ticket type, pay, and get a QR ticket that is scanned at the door. Organizers build the seat layout of their venue, publish events and check people in. Everything works in English, Korean, Russian and Uzbek, in a light and a dark theme."
+  },
+  "who": {
+    "title": "Who it is for",
+    "items": [
+      {
+        "title": "Buyers",
+        "text": "Find events, hold seats for a short time while paying, keep tickets in one place and ask for a refund before the deadline."
+      },
+      {
+        "title": "Organizers",
+        "text": "Design venues, set ticket types, follow sales and payouts, message the team and scan tickets at the entrance."
+      },
+      {
+        "title": "Administrators",
+        "text": "Approve organizers and events, set commission rates, and handle orders and refunds."
+      }
+    ]
+  },
+  "portfolio": {
+    "title": "Built as a portfolio project",
+    "text": "Ticketzy is not a company and sells no real tickets. Events, venues and organizers are demo data, and payments and payouts are simulated, so no real money is ever charged or sent. It exists to show how a full ticketing flow can be built and designed."
+  },
+  "cta": {
+    "events": "Browse events",
+    "faq": "Read the FAQ"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "updated": "Sample text, last edited 9 October 2026.",
+  "note": {
+    "title": "Sample text for a demo project",
+    "text": "This page is sample text written for a portfolio project. It is not legal advice and not a real agreement. Ticketzy is not a company and sells no real tickets."
+  },
+  "terms": {
+    "title": "Terms of use",
+    "lead": "Sample rules for using the Ticketzy demo.",
+    "sections": [
+      {
+        "title": "About this service",
+        "p": [
+          "Ticketzy is a portfolio project that shows how an event ticketing site could work. It is not a company and does not sell real tickets.",
+          "The events, venues, organizers and prices are demo data."
+        ],
+        "list": []
+      },
+      {
+        "title": "Accounts",
+        "p": [
+          "You can browse events without an account. To buy tickets, like events or write comments you create a buyer account. To publish events you create an organizer account, which an administrator must verify."
+        ],
+        "list": [
+          "Use an email address you can access, because it is your login.",
+          "Keep your password private. You are responsible for what happens under your account.",
+          "An administrator can reject or suspend an account that breaks these terms."
+        ]
+      },
+      {
+        "title": "Orders and payments",
+        "p": [
+          "Payments are simulated. No card is charged, no money moves, and a paid order is only a record in the demo database."
+        ],
+        "list": [
+          "The price shown is the price of the order. Ticketzy’s commission is taken from the organizer’s payout, it is not added to the buyer’s price.",
+          "Prices are shown in the currency of the event.",
+          "Each ticket has a QR code that works once, at check-in."
+        ]
+      },
+      {
+        "title": "Seat holds",
+        "p": [
+          "Seats you pick are held for {{seconds}} seconds while you check out. This time is a server setting. An order that is not paid in time expires and its seats are released.",
+          "You can hold up to {{max}} seats at a time."
+        ],
+        "list": []
+      },
+      {
+        "title": "Refunds",
+        "p": [
+          "A paid order can be refunded as a whole until 23:59 on the day before the event, in the time zone of the venue, as long as none of its tickets has been used. When an event is cancelled, its paid orders are refunded.",
+          "Refunds are simulated, like payments."
+        ],
+        "list": []
+      },
+      {
+        "title": "Organizer responsibilities",
+        "p": [
+          "Organizers are responsible for their events being accurate and taking place."
+        ],
+        "list": [
+          "Give true titles, descriptions, dates, venues and prices.",
+          "Do not upload images or text you have no right to use.",
+          "Check attendees in with their QR codes.",
+          "Cancel an event as soon as you know it will not take place.",
+          "An administrator can reject, suspend or cancel events and accounts."
+        ]
+      },
+      {
+        "title": "Acceptable use",
+        "p": [
+          "Do not try to break, overload or misuse the demo, other people’s accounts or the data in it."
+        ],
+        "list": [
+          "No automated bulk purchases or scraping that harms the site.",
+          "No abusive, unlawful or misleading comments and messages."
+        ]
+      },
+      {
+        "title": "Changes and contact",
+        "p": [
+          "These sample terms can change at any time. For questions, use the contact page."
+        ],
+        "list": []
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "lead": "Sample text about what the Ticketzy demo stores and why.",
+    "sections": [
+      {
+        "title": "About this page",
+        "p": [
+          "This is sample text for a demo project. It is not a real privacy policy and not legal advice. It describes what this demo stores."
+        ],
+        "list": []
+      },
+      {
+        "title": "Data stored",
+        "p": [
+          "The demo database stores the following, only to make the features work:"
+        ],
+        "list": [
+          "Account: name or nickname, email, a hashed password, role (buyer, organizer or admin) and, if you add them, a photo and organizer profile details.",
+          "Orders, simulated payments, tickets and refunds, including seats and check-in status.",
+          "Likes, follows, comments and notifications.",
+          "Messages between organizers and administrators.",
+          "Events, venues and images created by organizers."
+        ]
+      },
+      {
+        "title": "Payments",
+        "p": [
+          "No payment details are collected. There is no card form, and no payment provider receives anything."
+        ],
+        "list": []
+      },
+      {
+        "title": "Cookies and local storage",
+        "p": [
+          "Ticketzy does not set cookies of its own. It uses the storage of your browser:"
+        ],
+        "list": [
+          "Local storage: the sign-in token (accessToken), your language (locale), your theme (ticketzy-theme) and whether you closed the demo notice (ticketzy-demo-notice).",
+          "Session storage, which is cleared when the tab closes: the assistant conversation (ticketzy-assistant), a clock offset for the seat countdown (tz:clock-skew) and unsent form drafts.",
+          "You can clear all of it in your browser settings. You will then need to sign in again."
+        ]
+      },
+      {
+        "title": "AI assistant",
+        "p": [
+          "Text you type to the assistant is sent to the Ticketzy server, which asks an AI model for the reply. Do not type personal, payment or secret information."
+        ],
+        "list": []
+      },
+      {
+        "title": "Sharing",
+        "p": [
+          "Your data is not sold and not shared with advertisers or analytics services. Organizers see the orders and attendees of their own events. Comments, likes and organizer profiles are visible to other visitors."
+        ],
+        "list": []
+      },
+      {
+        "title": "Keeping and deleting",
+        "p": [
+          "Demo data can be reset at any time. There is no self-service account deletion in this demo. Ask through the contact page."
+        ],
+        "list": []
+      },
+      {
+        "title": "Contact",
+        "p": [
+          "Use the contact page for questions about this sample policy."
+        ],
+        "list": []
+      }
+    ]
+  }
+}

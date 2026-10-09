@@ -61,7 +61,7 @@ export const getTheme = (mode: ThemeMode): Theme =>
 						overflowWrap: 'break-word',
 					},
 					'#__next': { minHeight: '100vh', display: 'flex', flexDirection: 'column' },
-					'a:focus-visible, button:focus-visible, [tabindex]:focus-visible, input:focus-visible': {
+					'a:focus-visible, button:focus-visible, [tabindex]:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible': {
 						outline: '2px solid var(--focus)',
 						outlineOffset: 2,
 					},

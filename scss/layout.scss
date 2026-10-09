@@ -217,7 +217,7 @@
 		gap: var(--space-6);
 		padding-block: var(--space-8);
 		@media (min-width: 768px) {
-			grid-template-columns: 2fr repeat(2, 1fr);
+			grid-template-columns: 2fr repeat(3, 1fr);
 		}
 	}
 	&__about {
@@ -258,6 +258,27 @@
 		gap: var(--space-3);
 		padding-block: var(--space-4);
 		border-top: 1px solid var(--border);
+	}
+	&__demo {
+		padding-block: var(--space-3);
+		border-top: 1px solid var(--border);
+	}
+	&__inline {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1) var(--space-4);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		a {
+			display: inline-block;
+			padding-block: 6px;
+			color: inherit;
+			&:hover {
+				color: var(--ink);
+				text-decoration: underline;
+			}
+		}
 	}
 	&__legal {
 		display: flex;

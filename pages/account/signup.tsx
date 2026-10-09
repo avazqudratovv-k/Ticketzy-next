@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Seo from '../../libs/components/common/Seo';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import SignupForm from '../../libs/components/auth/SignupForm';
 import PendingPanel from '../../libs/components/auth/PendingPanel';
@@ -39,9 +39,7 @@ const Signup: NextPage = () => {
 
 	return (
 		<>
-			<Head>
-				<title>{`${t('signup.pageTitle')} · Ticketzy`}</title>
-			</Head>
+			<Seo title={t('signup.pageTitle')} noindex />
 			<div className="pg-auth pg-auth--wide">
 				<div className="pg-auth__head">
 					<h1>{t('signup.title')}</h1>

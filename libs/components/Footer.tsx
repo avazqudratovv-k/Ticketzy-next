@@ -6,6 +6,7 @@ import useAuth from '../hooks/useAuth';
 import { MemberType } from '../enums/member.enum';
 import Brand from './common/Brand';
 import LanguageSwitcher from './common/LanguageSwitcher';
+import DemoNotice from './common/DemoNotice';
 
 /** The Organizers column depends on the session: only links the role can open without being redirected. */
 const organizerLinks = (type?: MemberType): { href: string; key: string }[] => {
@@ -30,7 +31,6 @@ const organizerLinks = (type?: MemberType): { href: string; key: string }[] => {
 	}
 };
 
-/** FAQ, contact, about, terms and privacy are left out until those pages exist. */
 const Footer = () => {
 	const { t } = useTranslation('common');
 	const { user, ready } = useAuth();
@@ -74,10 +74,37 @@ const Footer = () => {
 								))}
 						</ul>
 					</div>
+					<div>
+						<h2 className="tz-footer__title">{t('footer.help')}</h2>
+						<ul className="tz-footer__list">
+							<li>
+								<Link href="/faq">{t('footer.faq')}</Link>
+							</li>
+							<li>
+								<Link href="/about">{t('footer.about')}</Link>
+							</li>
+							<li>
+								<Link href="/contact">{t('footer.contact')}</Link>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div className="tz-footer__demo">
+					<DemoNotice variant="footer" />
 				</div>
 				<div className="tz-footer__bar">
 					<div className="tz-footer__legal">
 						<span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
+						<nav aria-label={t('footer.legalNav')}>
+							<ul className="tz-footer__inline">
+								<li>
+									<Link href="/terms">{t('footer.terms')}</Link>
+								</li>
+								<li>
+									<Link href="/privacy">{t('footer.privacy')}</Link>
+								</li>
+							</ul>
+						</nav>
 					</div>
 					<LanguageSwitcher variant="segmented" />
 				</div>

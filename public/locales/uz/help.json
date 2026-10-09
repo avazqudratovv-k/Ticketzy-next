@@ -1,0 +1,184 @@
+{
+  "faq": {
+    "title": "Koʻp beriladigan savollar",
+    "lead": "Ticketzy’da chipta sotib olish, oʻrindiqlar, qaytarish va tadbir tashkil qilish haqida qisqa javoblar.",
+    "jump": "Mavzular",
+    "groups": [
+      {
+        "id": "buying",
+        "title": "Chipta sotib olish",
+        "items": [
+          {
+            "q": "Chiptani qanday sotib olaman?",
+            "a": "Tadbirni oching, chipta yoki oʻrindiqlarni tanlang va toʻlovga oʻting. Rasmiylashtirish uchun tizimga kirish kerak, tadbirlarni koʻrish esa hamma uchun ochiq."
+          },
+          {
+            "q": "Haqiqiy pul yechiladimi?",
+            "a": "Yoʻq. Ticketzy — portfolio uchun demo loyiha, toʻlovlar taqlid qilinadi. Karta kerak emas va pul koʻchmaydi."
+          },
+          {
+            "q": "Narxga yigʻimlar kiradimi?",
+            "a": "Koʻrgan narxingiz — toʻlaydigan narxingiz. Ticketzy komissiyasi tashkilotchining toʻlovidan ushlab qolinadi va chipta narxiga hech qachon qoʻshilmaydi."
+          }
+        ]
+      },
+      {
+        "id": "seats",
+        "title": "Oʻrindiqlar va {{seconds}} soniyalik ushlab turish",
+        "items": [
+          {
+            "q": "Nechta oʻrindiq tanlay olaman?",
+            "a": "Bir vaqtda {{max}} tagacha oʻrindiqni ushlab turishingiz mumkin."
+          },
+          {
+            "q": "{{seconds}} soniyalik ushlab turish nima?",
+            "a": "Oʻrindiqlarni tanlab, keyingi bosqichga oʻtganingizda ular siz uchun {{seconds}} soniya ushlab turiladi, toʻlov paytida boshqa hech kim ularni ola olmaydi. Toʻlov sahifasidagi teskari hisob qolgan vaqtni koʻrsatadi."
+          },
+          {
+            "q": "Vaqt tugasa nima boʻladi?",
+            "a": "Ushlab turish tugaydi, oʻrindiqlar boshqalar uchun boʻshatiladi va toʻlanmagan buyurtma muddati oʻtadi. Oʻrindiqlar xaritasiga qaytib, qayta tanlang. Hech narsa yechilmaydi."
+          },
+          {
+            "q": "Kerakli oʻrindiq band boʻlib qoldi. Nega?",
+            "a": "Oʻrindiqlar kim birinchi boʻlsa, oʻshaniki. Kimdir sizdan oldin ushlab tursa yoki sotib olsa, xaritada u mavjud emas deb koʻrinadi — boshqasini tanlang."
+          },
+          {
+            "q": "Nega ushlab turish shunchalik qisqa?",
+            "a": "{{seconds}} soniya — bu demodagi standart qiymat, shunda ushlab turish jarayonini oson koʻrish mumkin. Bu server sozlamasi, haqiqiy xizmatda uzoqroq qoʻyilardi."
+          }
+        ]
+      },
+      {
+        "id": "refunds",
+        "title": "Pulni qaytarish",
+        "items": [
+          {
+            "q": "Pulni qaytarib olsam boʻladimi?",
+            "a": "Ha, tadbir oʻtadigan joyning vaqt mintaqasi boʻyicha tadbirdan oldingi kun 23:59 gacha. Seulda 15-noyabrdagi tadbir uchun 14-noyabr Seul vaqti bilan 23:59 gacha qaytarish mumkin. Undan keyin buyurtmani qaytarib boʻlmaydi."
+          },
+          {
+            "q": "Chiptalarning faqat bir qismini qaytarsam boʻladimi?",
+            "a": "Yoʻq. Qaytarish butun buyurtmaga tegishli va buyurtmadagi birorta chipta ishlatilmagan boʻlsagina mumkin."
+          },
+          {
+            "q": "Pulni qaytarishni qanday soʻrayman?",
+            "a": "Hisobingizdagi “Buyurtmalar” boʻlimidan buyurtmani oching va qaytarish panelidan foydalaning. U tasdiqlashdan oldin joyning vaqti boʻyicha muddatni va summani koʻrsatadi."
+          },
+          {
+            "q": "Tadbir bekor qilinsa-chi?",
+            "a": "Tadbir bekor qilinsa, u boʻyicha toʻlangan buyurtmalar qaytariladi."
+          },
+          {
+            "q": "Haqiqiy pul qaytadimi?",
+            "a": "Yoʻq. Toʻlovlar taqlid qilinadi, qaytarishlar ham: buyurtma va chiptalar holati oʻzgaradi, pul koʻchmaydi."
+          }
+        ]
+      },
+      {
+        "id": "tickets",
+        "title": "Chiptalar va QR orqali tekshiruv",
+        "items": [
+          {
+            "q": "Chiptalarim qayerda?",
+            "a": "Toʻlovdan keyin hisob menyusidagi “Chiptalar”ni oching. Har bir chiptaning QR kodli alohida sahifasi bor."
+          },
+          {
+            "q": "Kirishda tekshiruv qanday oʻtadi?",
+            "a": "Kirishda xodimlar chiptangizdagi QR kodni tashkilotchining tekshiruv sahifasi orqali skanerlaydi. Chipta bir marta amal qiladi: skanerlangach u ishlatilgan deb belgilanadi."
+          },
+          {
+            "q": "Chiptani chop etish kerakmi?",
+            "a": "Yoʻq. QR kodni telefoningizda koʻrsating."
+          },
+          {
+            "q": "QR kod rasmini boshqalarga yuborish xavfsizmi?",
+            "a": "Yoʻq. Haqiqiy kodni birinchi skanerlagan kishi kiradi, shuning uchun QR kodlarni oshkor qilmang."
+          }
+        ]
+      },
+      {
+        "id": "organizers",
+        "title": "Tashkilotchilar",
+        "items": [
+          {
+            "q": "Chiptalarni qanday sotaman?",
+            "a": "Tashkilotchi hisobi bilan roʻyxatdan oʻting. Tadbir yaratishdan oldin administrator hisobni tekshiradi, sotuv boshlanishidan oldin har bir tadbirni tasdiqlaydi."
+          },
+          {
+            "q": "Ticketzy tashkilotchilardan nima oladi?",
+            "a": "Har bir buyurtmadan komissiya oladi, u tashkilotchining toʻlovidan ushlab qolinadi: odatda 10 %, 5 ta yakunlangan tadbirdan keyin 7 %, 20 tadan keyin 5 %. Administrator hisob uchun alohida stavka belgilashi mumkin. Xaridorlar uni toʻlamaydi."
+          },
+          {
+            "q": "Kelganlarni qanday tekshiraman?",
+            "a": "Tashkilotchi panelidagi “Tekshiruv”dan foydalaning. Chiptadagi QR kodni kamera bilan skanerlang yoki kodini kiriting."
+          },
+          {
+            "q": "Ticketzy jamoasi bilan bogʻlansam boʻladimi?",
+            "a": "Ha. Tizimga kirgan tashkilotchilarning panelida Ticketzy administratorlari bilan yozishish uchun xabarlar qutisi bor."
+          },
+          {
+            "q": "Toʻlovlar haqiqiymi?",
+            "a": "Yoʻq. Toʻlov summalari taqlid qilingan buyurtmalardan hisoblanadi, pul yuborilmaydi."
+          }
+        ]
+      },
+      {
+        "id": "accounts",
+        "title": "Hisoblar",
+        "items": [
+          {
+            "q": "Hisob kerakmi?",
+            "a": "Tadbirlarni hisobsiz ham koʻrish mumkin. Chipta sotib olish, tadbirlarga yoqtirish bildirish, tashkilotchilarga obuna boʻlish va izoh yozish uchun hisob kerak."
+          },
+          {
+            "q": "Hisobni qanday yarataman?",
+            "a": "“Roʻyxatdan oʻtish”ni bosing, xaridor yoki tashkilotchi hisobini tanlab, email va parolni kiriting."
+          },
+          {
+            "q": "Parolimni unutdim.",
+            "a": "Bu demoda parolni tiklash mavjud emas. Boshqa email bilan yangi hisob yaratishingiz mumkin."
+          },
+          {
+            "q": "Qaysi tillar va mavzular mavjud?",
+            "a": "Ingliz, koreys, rus va oʻzbek tillari, yorugʻ va qorongʻi mavzu. Ularni yuqoridagi paneldagi tugmalar bilan almashtiring; tanlovingiz bu qurilmada eslab qolinadi."
+          },
+          {
+            "q": "Qanday maʼlumotlarni saqlaysiz?",
+            "a": "“Maxfiylik” sahifasiga qarang. U shu demo uchun yozilgan namunaviy matn."
+          }
+        ]
+      }
+    ],
+    "more": {
+      "title": "Savolingiz qoldimi?",
+      "text": "Aloqa sahifasiga qarang.",
+      "cta": "Aloqa"
+    }
+  },
+  "contact": {
+    "title": "Aloqa",
+    "lead": "Ticketzy — portfolio loyiha, shuning uchun uning ortida yordam xizmati yoʻq. Bu sahifada loyiha muallifi bilan qanday bogʻlanish aytilgan.",
+    "note": {
+      "title": "Demo loyiha",
+      "text": "Quyidagi manzil shu demo uchun namunaviy manzil va oʻqilmasligi mumkin. Shaxsiy yoki toʻlov maʼlumotlarini yubormang."
+    },
+    "email": {
+      "title": "Email",
+      "text": "Loyiha, fikr-mulohaza yoki xato haqida yozing.",
+      "cta": "Xat yozish"
+    },
+    "organizers": {
+      "title": "Tashkilotchilar",
+      "text": "Tizimga kirgan tashkilotchilar paneldan Ticketzy administratorlariga yozishi mumkin.",
+      "cta": "Xabarlarni ochish",
+      "signedOut": "Xabarlar qutisidan foydalanish uchun tashkilotchi hisobiga kiring.",
+      "signIn": "Tashkilotchi kirishi"
+    },
+    "faq": {
+      "title": "Koʻp beriladigan savollar",
+      "text": "Pulni qaytarish, oʻrindiqni ushlab turish, chiptalar va tekshiruv FAQ’da tushuntirilgan.",
+      "cta": "FAQ’ni oʻqish"
+    },
+    "response": "Javob kafolatlanmaydi: bu demo."
+  }
+}

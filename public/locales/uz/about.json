@@ -1,0 +1,33 @@
+{
+  "title": "Ticketzy haqida",
+  "lead": "Ticketzy — konsert, futbol oʻyinlari va komediya shoulari uchun jonli oʻrindiqlar xaritasi va QR chiptalarga ega tadbir chiptalari sayti.",
+  "what": {
+    "title": "Bu nima",
+    "text": "Tadbirni tanlaysiz, xaritadan oʻrindiq yoki chipta turini belgilaysiz, toʻlaysiz va kirishda skanerlanadigan QR chiptani olasiz. Tashkilotchilar oʻz zalining oʻrindiqlar sxemasini yaratadi, tadbirlarni eʼlon qiladi va kelganlarni tekshiradi. Hammasi ingliz, koreys, rus va oʻzbek tillarida, yorugʻ va qorongʻi mavzuda ishlaydi."
+  },
+  "who": {
+    "title": "Kim uchun",
+    "items": [
+      {
+        "title": "Xaridorlar",
+        "text": "Tadbirlarni topadi, toʻlov vaqtida oʻrindiqlarni qisqa muddat ushlab turadi, chiptalarni bir joyda saqlaydi va muddatdan oldin pulni qaytarishni soʻraydi."
+      },
+      {
+        "title": "Tashkilotchilar",
+        "text": "Zallarni loyihalaydi, chipta turlarini belgilaydi, sotuv va toʻlovlarni kuzatadi, jamoaga yozadi va kirishda chiptalarni skanerlaydi."
+      },
+      {
+        "title": "Administratorlar",
+        "text": "Tashkilotchilar va tadbirlarni tasdiqlaydi, komissiya stavkalarini belgilaydi, buyurtma va qaytarishlar bilan ishlaydi."
+      }
+    ]
+  },
+  "portfolio": {
+    "title": "Portfolio loyiha sifatida yaratilgan",
+    "text": "Ticketzy kompaniya emas va haqiqiy chipta sotmaydi. Tadbirlar, zallar va tashkilotchilar — demo maʼlumotlar, toʻlovlar va hisob-kitoblar taqlid qilinadi, shuning uchun haqiqiy pul yechilmaydi va yuborilmaydi. Loyiha chipta sotishning toʻliq jarayonini qanday qurish va loyihalash mumkinligini koʻrsatadi."
+  },
+  "cta": {
+    "events": "Tadbirlarni koʻrish",
+    "faq": "FAQ’ni oʻqish"
+  }
+}

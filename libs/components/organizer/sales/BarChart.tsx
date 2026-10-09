@@ -53,7 +53,7 @@ const BarChart = ({ points, label, valueHeader, format, hint }: Props) => {
 			<div className="org-chart__readout" aria-live="polite">
 				{current ? <strong>{current.text}</strong> : <span className="org-hint">{hint}</span>}
 			</div>
-			<svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} role="img" aria-label={label} className="org-chart__svg" onMouseLeave={() => setActive(null)}>
+			<svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} role="group" aria-label={label} className="org-chart__svg" onMouseLeave={() => setActive(null)}>
 				<line x1={PAD.left} x2={W - PAD.right} y1={H - PAD.bottom} y2={H - PAD.bottom} className="org-chart__axis" />
 				<line x1={PAD.left} x2={W - PAD.right} y1={PAD.top} y2={PAD.top} className="org-chart__grid" />
 				<text x={W - PAD.right} y={PAD.top - 2} textAnchor="end" className="org-chart__tick">
@@ -71,6 +71,7 @@ const BarChart = ({ points, label, valueHeader, format, hint }: Props) => {
 								width={step}
 								height={H - PAD.bottom}
 								fill="transparent"
+								role="img"
 								tabIndex={0}
 								aria-label={p.text}
 								onMouseEnter={() => setActive(i)}

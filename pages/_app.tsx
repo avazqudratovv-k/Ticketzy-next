@@ -8,6 +8,7 @@ import { useApollo } from '../apollo/client';
 import { restoreSession } from '../libs/auth';
 import { TOKEN_STORAGE_KEY } from '../libs/auth/token';
 import AssistantLifecycle from '../libs/components/assistant/AssistantLifecycle';
+import ErrorBoundary from '../libs/components/common/ErrorBoundary';
 import MessagingLifecycle from '../libs/components/messages/MessagingLifecycle';
 import { ThemeModeProvider } from '../libs/theme/ThemeModeProvider';
 import { isLocale, LOCALE_STORAGE_KEY } from '../libs/i18n';
@@ -24,6 +25,7 @@ import '../scss/venues.scss';
 import '../scss/admin.scss';
 import '../scss/messages.scss';
 import '../scss/assistant.scss';
+import '../scss/static.scss';
 
 // Latin and Cyrillic from Onest (Uzbek needs latin-ext for oʻ and gʻ), Hangul from Noto Sans KR, codes in JetBrains Mono.
 const onest = Onest({ subsets: ['latin', 'latin-ext', 'cyrillic'], display: 'swap' });
@@ -72,7 +74,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 				<MessagingLifecycle />
 				<AssistantLifecycle />
 				<ThemeModeProvider>
-					<Component {...pageProps} />
+					<ErrorBoundary>
+						<Component {...pageProps} />
+					</ErrorBoundary>
 				</ThemeModeProvider>
 			</ApolloProvider>
 		</>

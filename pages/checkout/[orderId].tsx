@@ -29,6 +29,7 @@ import { loadRetryInfo } from '../../libs/seats/retry';
 import { OrderData } from '../../libs/seats/types';
 import { confirmationUrl, checkoutUrl, eventUrl, ROUTES, seatsUrl } from '../../libs/routes';
 import { EventItem, TicketTypeItem } from '../../libs/types/event';
+import DemoNotice from '../../libs/components/common/DemoNotice';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout'])) },
@@ -305,6 +306,7 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 				{event?.seatingType === 'GENERAL' ? t('checkout.changeTickets') : t('checkout.changeSeats')}
 			</button>
 			<h1 className="checkout__title">{t('checkout.title')}</h1>
+			<DemoNotice />
 
 			<div className="checkout__timer">
 				<Countdown deadline={order.expiresAt} title={t('hold.left')} text={t('checkout.holdText')} onExpire={onExpire} />

@@ -34,7 +34,8 @@
     "following": "Kuzatayotganlarim",
     "messages": "Xabarlar",
     "adminPanel": "Admin paneli",
-    "organizerProfile": "Profil"
+    "organizerProfile": "Profil",
+    "help": "Yordam va FAQ"
   },
   "banner": {
     "pendingTitle": "Tashkilotchi akkauntingiz tekshirilmoqda.",
@@ -54,7 +55,14 @@
     "other": "Boshqa tadbirlar",
     "organizerDashboard": "Tashkilotchi paneli",
     "adminPanel": "Admin paneli",
-    "messages": "Xabarlar"
+    "messages": "Xabarlar",
+    "help": "Yordam",
+    "faq": "Koʻp beriladigan savollar",
+    "about": "Loyiha haqida",
+    "contact": "Aloqa",
+    "terms": "Shartlar",
+    "privacy": "Maxfiylik",
+    "legalNav": "Huquqiy maʼlumot"
   },
   "dashboard": {
     "organizer": "Tashkilotchi",
@@ -193,5 +201,18 @@
       "from": "Dan",
       "view": "Tadbirni koʻrish"
     }
+  },
+  "doc": {
+    "noteLabel": "Eslatma"
+  },
+  "demo": {
+    "notice": "Demo loyiha: toʻlovlar taqlid qilinadi, haqiqiy pul yechilmaydi.",
+    "dismiss": "Demo eslatmasini yopish"
+  },
+  "errors": {
+    "serverTitle": "Bizning tomonda xatolik yuz berdi",
+    "serverText": "Sahifani koʻrsatib boʻlmadi. Birozdan soʻng qayta urinib koʻring yoki tadbirlarga qayting.",
+    "retry": "Qayta urinish",
+    "browseEvents": "Tadbirlarni koʻrish"
   }
 }

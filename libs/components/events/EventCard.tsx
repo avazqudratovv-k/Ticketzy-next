@@ -25,6 +25,8 @@ const EventCard = ({ event, variant = 'card' }: Props) => {
 	const when = formatEventWhen(event.startAt, event.endAt, locale, zone);
 	const where = venue ? `${venue.venueName}, ${venue.venueCity}` : null;
 	const fallbackLang = translated ? undefined : lang;
+	// the compact cards sit beside the hero (h1) with no heading of their own, so they are second-level headings
+	const Heading = variant === 'row' ? 'h2' : 'h3';
 
 	return (
 		<Link href={eventUrl(event._id)} className={`tz-event-card${variant === 'row' ? ' tz-event-card--row' : ''}`}>
@@ -37,9 +39,9 @@ const EventCard = ({ event, variant = 'card' }: Props) => {
 				</span>
 			)}
 			<span className="tz-event-card__body">
-				<h3 className="tz-event-card__title tz-clamp-2" lang={fallbackLang}>
+				<Heading className="tz-event-card__title tz-clamp-2" lang={fallbackLang}>
 					{title}
-				</h3>
+				</Heading>
 				<ul className="tz-event-card__meta">
 					{variant === 'row' && (
 						<li>

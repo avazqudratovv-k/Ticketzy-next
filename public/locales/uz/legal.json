@@ -1,0 +1,161 @@
+{
+  "updated": "Namunaviy matn, oxirgi tahrir: 2026-yil 9-oktyabr.",
+  "note": {
+    "title": "Demo loyiha uchun namunaviy matn",
+    "text": "Bu sahifa portfolio loyiha uchun yozilgan namunaviy matn. U huquqiy maslahat emas va haqiqiy kelishuv ham emas. Ticketzy kompaniya emas va haqiqiy chipta sotmaydi."
+  },
+  "terms": {
+    "title": "Foydalanish shartlari",
+    "lead": "Ticketzy demosidan foydalanish uchun namunaviy qoidalar.",
+    "sections": [
+      {
+        "title": "Xizmat haqida",
+        "p": [
+          "Ticketzy — tadbir chiptalari sayti qanday ishlashi mumkinligini koʻrsatadigan portfolio loyiha. U kompaniya emas va haqiqiy chipta sotmaydi.",
+          "Tadbirlar, zallar, tashkilotchilar va narxlar — demo maʼlumotlar."
+        ],
+        "list": []
+      },
+      {
+        "title": "Hisoblar",
+        "p": [
+          "Tadbirlarni hisobsiz ham koʻrish mumkin. Chipta sotib olish, tadbirlarga yoqtirish bildirish yoki izoh yozish uchun xaridor hisobi kerak. Tadbirlarni eʼlon qilish uchun administrator tasdiqlashi kerak boʻlgan tashkilotchi hisobi kerak."
+        ],
+        "list": [
+          "Kira oladigan email manzildan foydalaning, chunki u sizning loginingiz.",
+          "Parolingizni sir saqlang. Hisobingizda sodir boʻlgan ishlarga oʻzingiz javobgarsiz.",
+          "Administrator shartlarni buzgan hisobni rad etishi yoki bloklashi mumkin."
+        ]
+      },
+      {
+        "title": "Buyurtmalar va toʻlovlar",
+        "p": [
+          "Toʻlovlar taqlid qilinadi. Karta yechilmaydi, pul koʻchmaydi, toʻlangan buyurtma esa demo maʼlumotlar bazasidagi yozuvdan boshqa narsa emas."
+        ],
+        "list": [
+          "Koʻrsatilgan narx — buyurtma narxi. Ticketzy komissiyasi tashkilotchining toʻlovidan ushlab qolinadi va xaridor narxiga qoʻshilmaydi.",
+          "Narxlar tadbir valyutasida koʻrsatiladi.",
+          "Har bir chiptaning QR kodi faqat bir marta, kirishdagi tekshiruvda ishlaydi."
+        ]
+      },
+      {
+        "title": "Oʻrindiqni ushlab turish",
+        "p": [
+          "Tanlagan oʻrindiqlaringiz toʻlov paytida {{seconds}} soniya ushlab turiladi. Bu vaqt server sozlamasi. Oʻz vaqtida toʻlanmagan buyurtma muddati tugaydi va oʻrindiqlar boʻshatiladi.",
+          "Bir vaqtda {{max}} tagacha oʻrindiqni ushlab turish mumkin."
+        ],
+        "list": []
+      },
+      {
+        "title": "Pulni qaytarish",
+        "p": [
+          "Toʻlangan buyurtma, agar uning birorta chiptasi ishlatilmagan boʻlsa, joyning vaqt mintaqasi boʻyicha tadbirdan oldingi kun 23:59 gacha butunlay qaytarilishi mumkin. Tadbir bekor qilinsa, u boʻyicha toʻlangan buyurtmalar qaytariladi.",
+          "Qaytarishlar ham toʻlovlar kabi taqlid qilinadi."
+        ],
+        "list": []
+      },
+      {
+        "title": "Tashkilotchilarning majburiyatlari",
+        "p": [
+          "Tashkilotchilar tadbirlari aniq maʼlumotli boʻlishi va oʻtkazilishi uchun javobgar."
+        ],
+        "list": [
+          "Sarlavha, tavsif, sana, zal va narxlarni toʻgʻri kiriting.",
+          "Foydalanish huquqingiz boʻlmagan rasm yoki matnlarni yuklamang.",
+          "Kelganlarni QR kodlari orqali tekshiring.",
+          "Tadbir oʻtmasligini bilishingiz bilan uni bekor qiling.",
+          "Administrator tadbir va hisoblarni rad etishi, bloklashi yoki bekor qilishi mumkin."
+        ]
+      },
+      {
+        "title": "Ruxsat etilgan foydalanish",
+        "p": [
+          "Demoni, boshqalarning hisoblarini va undagi maʼlumotlarni buzishga, ortiqcha yuklashga yoki suiiste’mol qilishga urinmang."
+        ],
+        "list": [
+          "Saytga zarar yetkazadigan avtomatik ommaviy xaridlar yoki skreping mumkin emas.",
+          "Haqoratli, noqonuniy yoki chalgʻituvchi izoh va xabarlar mumkin emas."
+        ]
+      },
+      {
+        "title": "Oʻzgarishlar va aloqa",
+        "p": [
+          "Bu namunaviy shartlar istalgan vaqtda oʻzgarishi mumkin. Savollar uchun aloqa sahifasidan foydalaning."
+        ],
+        "list": []
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Maxfiylik siyosati",
+    "lead": "Ticketzy demosi nimalarni va nima uchun saqlashi haqida namunaviy matn.",
+    "sections": [
+      {
+        "title": "Bu sahifa haqida",
+        "p": [
+          "Bu demo loyiha uchun namunaviy matn. U haqiqiy maxfiylik siyosati ham, huquqiy maslahat ham emas. U shu demo nimalarni saqlashini tasvirlaydi."
+        ],
+        "list": []
+      },
+      {
+        "title": "Saqlanadigan maʼlumotlar",
+        "p": [
+          "Demo maʼlumotlar bazasi quyidagilarni faqat funksiyalar ishlashi uchun saqlaydi:"
+        ],
+        "list": [
+          "Hisob: ism yoki taxallus, email, xeshlangan parol, rol (xaridor, tashkilotchi yoki admin) va qoʻshsangiz, rasm hamda tashkilotchi profili maʼlumotlari.",
+          "Buyurtmalar, taqlid qilingan toʻlovlar, chiptalar va qaytarishlar, shu jumladan oʻrindiqlar va tekshiruv holati.",
+          "Yoqtirishlar, obunalar, izohlar va bildirishnomalar.",
+          "Tashkilotchilar va administratorlar oʻrtasidagi xabarlar.",
+          "Tashkilotchilar yaratgan tadbirlar, zallar va rasmlar."
+        ]
+      },
+      {
+        "title": "Toʻlovlar",
+        "p": [
+          "Toʻlov maʼlumotlari yigʻilmaydi. Karta shakli yoʻq va hech bir toʻlov xizmati hech narsa olmaydi."
+        ],
+        "list": []
+      },
+      {
+        "title": "Cookie fayllar va mahalliy xotira",
+        "p": [
+          "Ticketzy oʻzining cookie fayllarini oʻrnatmaydi. U brauzeringiz xotirasidan foydalanadi:"
+        ],
+        "list": [
+          "Mahalliy xotira: kirish tokeni (accessToken), tilingiz (locale), mavzuingiz (ticketzy-theme) va demo eslatmasini yopgan-yopmaganingiz (ticketzy-demo-notice).",
+          "Varaq yopilganda tozalanadigan sessiya xotirasi: yordamchi bilan suhbat (ticketzy-assistant), oʻrindiq teskari hisobi uchun soat farqi (tz:clock-skew) va yuborilmagan shakl qoralamalari.",
+          "Hammasini brauzer sozlamalarida tozalash mumkin. Shunda qayta kirishingiz kerak boʻladi."
+        ]
+      },
+      {
+        "title": "AI yordamchi",
+        "p": [
+          "Yordamchiga yozgan matningiz Ticketzy serveriga yuboriladi, server esa javob uchun AI modeliga murojaat qiladi. Shaxsiy, toʻlov yoki sir maʼlumotlarni yozmang."
+        ],
+        "list": []
+      },
+      {
+        "title": "Ulashish",
+        "p": [
+          "Maʼlumotlaringiz sotilmaydi va reklama beruvchilar yoki tahlil xizmatlari bilan ulashilmaydi. Tashkilotchilar oʻz tadbirlarining buyurtmalari va kelganlarini koʻradi. Izohlar, yoqtirishlar va tashkilotchi profillari boshqa tashrif buyuruvchilarga koʻrinadi."
+        ],
+        "list": []
+      },
+      {
+        "title": "Saqlash va oʻchirish",
+        "p": [
+          "Demo maʼlumotlar istalgan vaqtda tozalanishi mumkin. Bu demoda hisobni oʻzingiz oʻchirish imkoni yoʻq — aloqa sahifasi orqali soʻrang."
+        ],
+        "list": []
+      },
+      {
+        "title": "Aloqa",
+        "p": [
+          "Bu namunaviy siyosat haqidagi savollar uchun aloqa sahifasidan foydalaning."
+        ],
+        "list": []
+      }
+    ]
+  }
+}

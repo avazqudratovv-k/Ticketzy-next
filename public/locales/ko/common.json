@@ -34,7 +34,8 @@
     "following": "팔로잉",
     "messages": "메시지",
     "adminPanel": "관리자 패널",
-    "organizerProfile": "프로필"
+    "organizerProfile": "프로필",
+    "help": "도움말 및 FAQ"
   },
   "banner": {
     "pendingTitle": "주최자 계정을 검토하고 있어요.",
@@ -54,7 +55,14 @@
     "other": "기타 이벤트",
     "organizerDashboard": "주최자 대시보드",
     "adminPanel": "관리자 패널",
-    "messages": "메시지"
+    "messages": "메시지",
+    "help": "도움말",
+    "faq": "자주 묻는 질문",
+    "about": "소개",
+    "contact": "문의",
+    "terms": "이용약관",
+    "privacy": "개인정보 처리방침",
+    "legalNav": "약관 및 정책"
   },
   "dashboard": {
     "organizer": "주최자",
@@ -190,5 +198,18 @@
       "from": "최저",
       "view": "이벤트 보기"
     }
+  },
+  "doc": {
+    "noteLabel": "안내"
+  },
+  "demo": {
+    "notice": "데모 프로젝트입니다. 결제는 모의로 처리되며 실제 금액은 청구되지 않아요.",
+    "dismiss": "데모 안내 닫기"
+  },
+  "errors": {
+    "serverTitle": "서비스에 문제가 생겼어요",
+    "serverText": "페이지를 표시할 수 없어요. 잠시 후 다시 시도하거나 이벤트 목록으로 이동해 주세요.",
+    "retry": "다시 시도",
+    "browseEvents": "이벤트 둘러보기"
   }
 }

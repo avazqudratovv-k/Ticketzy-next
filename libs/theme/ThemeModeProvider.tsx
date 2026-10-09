@@ -5,6 +5,9 @@ import { getTheme, ThemeMode } from '../../scss/MaterialTheme';
 
 export const THEME_STORAGE_KEY = 'ticketzy-theme';
 
+/** Browser bar colours (same values as the --bg tokens). */
+const THEME_COLORS: Record<ThemeMode, string> = { dark: '#0a0b0d', light: '#f6f6f3' };
+
 interface ThemeModeValue {
 	mode: ThemeMode;
 	toggleMode: () => void;
@@ -35,6 +38,10 @@ export const ThemeModeProvider = ({ children }: { children: React.ReactNode }) =
 			return next;
 		});
 	}, []);
+
+	useEffect(() => {
+		document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.setAttribute('content', THEME_COLORS[mode]));
+	}, [mode]);
 
 	const theme = useMemo(() => getTheme(mode), [mode]);
 	const value = useMemo(() => ({ mode, toggleMode }), [mode, toggleMode]);

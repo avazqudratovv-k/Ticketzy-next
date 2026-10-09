@@ -87,6 +87,9 @@ const AccountMenu = ({ user }: { user: MemberProfile }) => {
 					</MenuItem>
 				))}
 				<Divider sx={{ my: 1 }} />
+				<MenuItem component={Link} href="/faq" onClick={close}>
+					{t('account.help')}
+				</MenuItem>
 				<MenuItem onClick={handleLogout}>
 					<SignOut size={20} aria-hidden="true" />
 					{t('account.logout')}
