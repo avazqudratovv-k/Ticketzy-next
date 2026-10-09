@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Button, IconButton } from '@mui/material';
-import { Plus, X, List, Info } from 'phosphor-react';
+import { Plus, X, List, Info, ArrowLeft } from 'phosphor-react';
 import { useTranslation } from 'next-i18next';
 import { MemberType } from '../../enums/member.enum';
 import { useRequireRole } from '../../auth/guards';
@@ -14,7 +14,7 @@ import ThemeToggle from '../common/ThemeToggle';
 import AccountMenu from '../common/AccountMenu';
 import NotificationBell from '../notifications/NotificationBell';
 import PendingBanner from '../common/PendingBanner';
-import { ADMIN_BADGE_ICON, ADMIN_FOOT, ADMIN_NAV, NavGroup, NavItem, ORGANIZER_NAV } from './nav';
+import { ADMIN_BADGE_ICON, ADMIN_NAV, NavGroup, NavItem, ORGANIZER_NAV } from './nav';
 
 type DashboardRole = MemberType.ORGANIZER | MemberType.ADMIN;
 
@@ -31,9 +31,7 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 	const isAdmin = role === MemberType.ADMIN;
 	const groups: NavGroup[] = isAdmin ? ADMIN_NAV : ORGANIZER_NAV;
 	const roleLabel = t(isAdmin ? 'dashboard.admin' : 'dashboard.organizer');
-	const current = [...groups.flatMap((group) => group.items), ...(isAdmin ? [ADMIN_FOOT] : [])].find((item) =>
-		isCurrent(item, router.pathname),
-	);
+	const current = groups.flatMap((group) => group.items).find((item) => isCurrent(item, router.pathname));
 
 	// The drawer closes after navigating.
 	useEffect(() => setOpen(false), [router.asPath]);
@@ -95,7 +93,10 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 						</nav>
 						<div className="tz-sidebar__foot">
 							{isAdmin ? (
-								<ul className="tz-nav">{renderItem(ADMIN_FOOT)}</ul>
+								<Link href="/" className="tz-navitem">
+									<ArrowLeft size={20} aria-hidden />
+									<span>{t('dashboard.backToSite')}</span>
+								</Link>
 							) : (
 								<Link href="/contact" className="tz-navitem">
 									<Info size={20} aria-hidden />

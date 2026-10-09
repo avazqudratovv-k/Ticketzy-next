@@ -87,7 +87,10 @@
       "users": "Foydalanuvchilar",
       "catalog": "Turkumlar va maydonlar",
       "settings": "Platforma sozlamalari",
-      "venues": "Joylar"
+      "venues": "Joylar",
+      "eventApprovals": "Tadbirlarni tasdiqlash",
+      "commission": "Komissiya",
+      "members": "Aʼzolar"
     },
     "overviewTitle": "Sharh",
     "adminOverviewTitle": "Platforma sharhi"

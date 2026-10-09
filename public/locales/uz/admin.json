@@ -1,0 +1,637 @@
+{
+  "percent": "{{value}}%",
+  "actions": {
+    "back": "Orqaga"
+  },
+  "errors": {
+    "retry": "Qayta urinish",
+    "network": "Ticketzy bilan aloqa oʻrnatib boʻlmadi. Ulanishni tekshirib, qayta urinib koʻring.",
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+  },
+  "serverErrors": {
+    "eventTransition": "Bu tadbir endi bu amal mumkin boʻlgan holatda emas. Uni hozirgina kimdir oʻzgartirgan boʻlishi mumkin. Sahifani yangilang.",
+    "organizerTransition": "Bu tashkilotchining joriy holatidan bunday oʻzgartirish mumkin emas. Uni hozirgina kimdir oʻzgartirgan boʻlishi mumkin. Sahifani yangilang.",
+    "ownEvent": "Oʻzingizning tadbiringizni tasdiqlab boʻlmaydi.",
+    "eventRejectReason": "Tadbirni rad etish uchun sabab kerak.",
+    "eventCancelReason": "Tadbirni bekor qilish uchun sabab kerak.",
+    "organizerRejectReason": "Tashkilotchini rad etish uchun sabab kerak.",
+    "organizerSuspendReason": "Tashkilotchini toʻxtatish uchun sabab kerak.",
+    "commissionReason": "Alohida komissiya belgilash uchun sabab kerak.",
+    "commissionRate": "Komissiya 0 dan 100 gacha boʻlishi kerak.",
+    "commissionEnd": "Tugash sanasi kelajakda boʻlishi kerak.",
+    "noOrganizer": "Tashkilotchi topilmadi.",
+    "useOrganizerOperations": "Tashkilotchi akkauntlari shu yerda emas, “Tashkilotchilar” sahifasida boshqariladi.",
+    "eventClosed": "Bu tadbir allaqachon bekor qilingan yoki tugagan.",
+    "notCancelled": "Bu usulda faqat bekor qilingan tadbirning buyurtmalariga pul qaytariladi.",
+    "layoutInvalid": "Maydonning oʻrindiqlar sxemasi notoʻgʻri, shuning uchun tadbirni tasdiqlab boʻlmaydi.",
+    "tierMissing": "Oʻrindiqli har bir zona uchun mos darajadagi chipta turi kerak. Avval tashkilotchi chipta turlarini tuzatishi kerak.",
+    "tierDuplicate": "Ikkita chipta turi bir xil darajadan foydalanmoqda. Avval tashkilotchi chipta turlarini tuzatishi kerak.",
+    "needsLayout": "Oʻrindiqli tadbir uchun oʻrindiq zonasi boʻlgan maydon kerak.",
+    "seatGeneration": "Oʻrindiqlarni yaratib boʻlmadi, hech narsa oʻzgarmadi. Qayta urinib koʻring yoki tashkilotchidan maydon sxemasini tekshirishni soʻrang.",
+    "notEditable": "Bu tadbirni joriy holatida tahrirlab boʻlmaydi.",
+    "noData": "Element topilmadi. U oʻchirilgan boʻlishi mumkin.",
+    "updateFailed": "Oʻzgarishni saqlab boʻlmadi. Qayta urinib koʻring.",
+    "notAllowed": "Bu amalga ruxsatingiz yoʻq.",
+    "notAuthenticated": "Seans tugadi. Qaytadan kiring.",
+    "badRequest": "Soʻrov qabul qilinmadi. Kiritilgan maʼlumotlarni tekshiring.",
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+  },
+  "memberStatus": {
+    "PENDING": "Tasdiqlanishi kutilmoqda",
+    "ACTIVE": "Faol",
+    "REJECTED": "Rad etilgan",
+    "SUSPENDED": "Toʻxtatilgan",
+    "DELETE": "Oʻchirilgan"
+  },
+  "overview": {
+    "title": "Platforma sharhi",
+    "subtitle": "Eʼtiboringizni talab qiladigan ishlar va platforma koʻrsatkichlari — bevosita serverdan.",
+    "figures": "Platforma koʻrsatkichlari",
+    "pendingEvents": "Koʻrib chiqiladigan tadbirlar",
+    "pendingEventsHint": "Yuborilgan va qaror kutayotganlar",
+    "pendingOrganizers": "Tekshiriladigan tashkilotchilar",
+    "pendingOrganizersHint": "Tasdiqlanishini kutayotgan yangi tashkilotchi akkauntlari",
+    "activeEvents": "Faol tadbirlar",
+    "activeEventsHint": "Tasdiqlangan va ommaviy sahifalarda koʻrinadi",
+    "totalOrders": "Jami buyurtmalar",
+    "totalOrdersHint": "Barcha holatlar",
+    "revenue": "Tushum",
+    "revenueHint": "Toʻlangan buyurtmalar boʻyicha chipta sotuvi: {{paid}}",
+    "commission": "Olingan komissiya",
+    "commissionHint": "Toʻlangan buyurtmalardan",
+    "moneyFailed": "Pul koʻrsatkichlarini yuklab boʻlmadi.",
+    "moneyCap": "Tushum va komissiya {{total}} ta toʻlangan buyurtmaning eng yangi {{limit}} tasi boʻyicha hisoblangan, shuning uchun haqiqiy jamidan kam.",
+    "queueEvents": "Koʻrib chiqilishini kutmoqda",
+    "queueEventsEmpty": "Koʻrib chiqilishini kutayotgan tadbir yoʻq.",
+    "queueOrganizers": "Tasdiqlanishini kutayotgan tashkilotchilar",
+    "queueOrganizersEmpty": "Tasdiqlanishini kutayotgan tashkilotchi yoʻq.",
+    "viewAll": "Hammasini koʻrish",
+    "error": {
+      "title": "Sharhni yuklab boʻlmadi",
+      "text": "Ticketzy platforma koʻrsatkichlarini oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    }
+  },
+  "events": {
+    "title": "Tadbirlarni tasdiqlash",
+    "subtitle": "Yuborilgan tadbirlarni koʻrib chiqing, tasdiqlang yoki rad eting, kerak boʻlsa tasdiqlanganlarini bekor qiling.",
+    "tabsLabel": "Tadbir holati",
+    "tabs": {
+      "pending": "Kutilmoqda",
+      "approved": "Tasdiqlangan",
+      "rejected": "Rad etilgan",
+      "cancelled": "Bekor qilingan",
+      "ended": "Tugagan",
+      "draft": "Qoralamalar",
+      "all": "Hammasi"
+    },
+    "search": "Tadbirlarni qidirish",
+    "searchPlaceholder": "Tadbir nomi boʻyicha qidirish",
+    "sort": "Tadbirlarni saralash",
+    "sorts": {
+      "updatedDesc": "Yaqinda yangilangan",
+      "updatedAsc": "Eng uzoq kutayotgan",
+      "startAsc": "Tadbir sanasi: yaqinroq",
+      "startDesc": "Tadbir sanasi: keyinroq",
+      "createdDesc": "Yaqinda yaratilgan"
+    },
+    "cols": {
+      "event": "Tadbir",
+      "date": "Sana",
+      "status": "Holat",
+      "ai": "SI tekshiruvi",
+      "actions": "Amallar"
+    },
+    "by": "Tashkilotchi: {{name}}",
+    "noVenue": "Maydon koʻrsatilmagan",
+    "updated": "Yangilangan: {{date}}",
+    "showing": "{{total}} tadan {{from}}–{{to}} koʻrsatilmoqda",
+    "loading": "Tadbirlar yuklanmoqda",
+    "ai": {
+      "none": "Tekshirilmagan",
+      "notChecked": "Tekshiruv ishlamadi",
+      "clean": "Belgilar yoʻq",
+      "flagged": "Belgilar: {{count}}"
+    },
+    "actions": {
+      "review": "Koʻrib chiqish",
+      "open": "Ochish"
+    },
+    "empty": {
+      "title": "Bu yerda hali tadbir yoʻq",
+      "text": "Shu holatdagi tadbirlar bu yerda paydo boʻladi.",
+      "pendingTitle": "Koʻrib chiqiladigan narsa yoʻq",
+      "pendingText": "Yuborilgan barcha tadbirlar boʻyicha qaror qabul qilingan. Yangi arizalar shu yerda paydo boʻladi."
+    },
+    "none": {
+      "title": "Mos tadbir topilmadi",
+      "text": "Boshqa nom bilan urinib koʻring yoki qidiruvni tozalang.",
+      "clear": "Barcha tadbirlarni koʻrsatish"
+    },
+    "error": {
+      "title": "Tadbirlarni yuklab boʻlmadi",
+      "text": "Ticketzy tadbirlar roʻyxatini oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    }
+  },
+  "event": {
+    "back": "Tadbirlarni tasdiqlashga qaytish",
+    "loading": "Tadbir yuklanmoqda",
+    "submittedBy": "Yuborgan: {{name}}",
+    "notFound": {
+      "title": "Tadbir topilmadi",
+      "text": "U oʻchirilgan yoki havola notoʻgʻri boʻlishi mumkin."
+    },
+    "error": {
+      "title": "Tadbirni yuklab boʻlmadi",
+      "text": "Ticketzy bu tadbirni oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    },
+    "rejectedWith": "Quyidagi sabab bilan rad etilgan:",
+    "cancelledWith": "Quyidagi sabab bilan bekor qilingan:",
+    "images": "Tadbir rasmlari",
+    "imageAlt": "{{title}} rasmi {{n}}",
+    "noImages": "Rasmlar yoʻq.",
+    "sections": {
+      "details": "Tadbir haqida",
+      "content": "Har bir tildagi matn",
+      "tickets": "Chipta turlari",
+      "venue": "Maydon va oʻrindiqlar sxemasi",
+      "decision": "Qaror",
+      "organizer": "Tashkilotchi"
+    },
+    "fields": {
+      "category": "Turkum",
+      "seating": "Oʻrindiqlar",
+      "when": "Qachon",
+      "salesWindow": "Sotuv davri",
+      "fromPrice": "Narxi",
+      "created": "Yaratilgan",
+      "venue": "Maydon",
+      "address": "Manzil",
+      "timezone": "Vaqt mintaqasi",
+      "capacity": "Sigʻimi"
+    },
+    "seating": {
+      "GENERAL": "Umumiy kirish",
+      "RESERVED": "Raqamlangan oʻrindiqlar"
+    },
+    "salesRange": "{{from}} — {{to}}",
+    "salesOpen": "cheklovsiz",
+    "salesNone": "Belgilanmagan: chiptalarni tadbir tugaguncha olish mumkin",
+    "followsEvent": "Tadbir vaqtiga qarab",
+    "startPassed": "Tadbir boshlanish vaqti allaqachon oʻtgan. Server tasdiqlashga ruxsat beradi, lekin tadbir tugagach chipta sotib boʻlmaydi.",
+    "content": {
+      "note": "Bu tashkilotchi saqlagan matnlar. Tarjima takliflarini tashkilotchilar tadbir shaklida yaratadi, admin APIʼsida taklif amali yoʻq, shuning uchun admin bu yerda hech narsani tahrirlamaydi va saqlamaydi.",
+      "source": {
+        "translation": "Saqlangan tarjima",
+        "original": "Asl matn",
+        "missing": "Tarjima yoʻq"
+      },
+      "missing": "Bu tilda matn yoʻq. Shu tilni tanlagan xaridorlar inglizcha matnni koʻradi.",
+      "noDescription": "Tavsif yoʻq."
+    },
+    "tickets": {
+      "name": "Chipta turi",
+      "price": "Narxi",
+      "quantity": "Chiptalar",
+      "maxPerOrder": "Buyurtmada eng koʻp",
+      "window": "Sotuvda"
+    },
+    "ticketsHidden": "Tashkilotchi faol boʻlmaguncha chipta turlari yashirin.",
+    "ticketsError": "Chipta turlarini yuklab boʻlmadi.",
+    "noTickets": "Bu tadbirda chipta turlari yoʻq.",
+    "seatsOnApproval": "Tasdiqlaganingizda oʻrindiqlar maydon sxemasi boʻyicha yaratiladi. Ularning soni sxemaga bogʻliq.",
+    "layout": {
+      "empty": "Maydonda oʻrindiqlar sxemasi yoʻq.",
+      "general": "Umumiy kirish: bu tadbir uchun oʻrindiqlar sxemasi yoʻq.",
+      "tiers": "Chipta darajalari",
+      "tierSeats": "Oʻrindiqlar: {{seats}}, zonalar: {{count}}"
+    },
+    "decision": {
+      "pendingText": "Tashkilotchi qarorni kutmoqda. SI tekshiruvi natijasini oʻqish mumkin, ammo qaror har doim sizniki.",
+      "approve": "Tadbirni tasdiqlash",
+      "reject": "Sabab bilan rad etish",
+      "approvedText": "Bu tadbir uchun chiptalar sotuvda. Agar u oʻtkazilmasa, bekor qiling: barcha xaridorlarga pul avtomatik qaytariladi.",
+      "publicPage": "Ommaviy sahifani ochish",
+      "cancel": "Tadbirni bekor qilish",
+      "cancelledText": "Tadbir bekor qilingan. Toʻlangan buyurtmalar avtomatik qaytariladi. Barcha qaytarishlar oʻtganini tekshiring.",
+      "none_DRAFT": "Bu qoralama. Tashkilotchi uni hali yubormagan, qaror qabul qiladigan narsa yoʻq.",
+      "none_REJECTED": "Bu tadbir rad etilgan. Tashkilotchi uni tuzatib, qayta yuborishi mumkin.",
+      "none_ENDED": "Bu tadbir tugagan.",
+      "organizerHidden": "Tashkilotchi holati: {{status}}. U yana faol boʻlmaguncha tadbir xaridorlardan yashirin qoladi."
+    },
+    "approve": {
+      "title": "Bu tadbirni tasdiqlaysizmi?",
+      "text": "Bu yerdan tasdiqlashni qaytarib boʻlmaydi: tasdiqlangan tadbirni faqat bekor qilish mumkin.",
+      "points": {
+        "public": "Tadbir ommaviy sahifalarda paydo boʻladi va chiptalar sotuv davrida sotuvga chiqadi.",
+        "seats": "Oʻrindiqlar maydon sxemasi boʻyicha yaratiladi.",
+        "notify": "Tashkilotchiga bildirishnoma yuboriladi."
+      },
+      "confirm": "Tadbirni tasdiqlash",
+      "sending": "Tasdiqlanmoqda…"
+    },
+    "reject": {
+      "title": "Bu tadbirni rad etasizmi?",
+      "text": "Tashkilotchi sababni koʻradi, tadbirni tuzatib, qayta yuborishi mumkin.",
+      "reasonLabel": "Rad etish sababi",
+      "reasonHint": "Majburiy. 500 belgigacha. Tashkilotchi uni koʻradi.",
+      "reasonRequired": "Tadbirni rad etish uchun sabab kerak.",
+      "confirm": "Tadbirni rad etish",
+      "sending": "Rad etilmoqda…"
+    },
+    "cancel": {
+      "title": "Bu tadbirni bekor qilasizmi?",
+      "refundTitle": "Barcha xaridorlarga pul qaytariladi.",
+      "refundText": "Bu tadbirning barcha toʻlangan buyurtmalari avtomatik ravishda toʻliq qaytariladi. Buni ortga qaytarib boʻlmaydi.",
+      "points": {
+        "closed": "Tadbir butunlay yopiladi. U ommaviy sahifalardan yoʻqoladi, sotuv toʻxtaydi.",
+        "refunds": "Barcha toʻlangan buyurtmalar toʻliq qaytariladi, bosqichma-bosqich. Odatdagi qaytarish muddati qoʻllanmaydi.",
+        "used": "Allaqachon tekshiruvdan oʻtgan chiptalar uchun ham pul qaytariladi.",
+        "notices": "Har bir xaridor “Pul qaytarildi” bildirishnomasini oladi, tashkilotchi esa xulosa oladi.",
+        "retry": "Pul qaytarilmagan buyurtma toʻlangan holatda qoladi. Bekor qilgandan keyin qaytarishlarni shu sahifadan qayta ishga tushirish mumkin.",
+        "stock": "Oʻrindiqlar va chiptalar qayta sotuvga chiqmaydi."
+      },
+      "reasonLabel": "Bekor qilish sababi",
+      "reasonHint": "Majburiy. 500 belgigacha. Tadbir bilan birga saqlanadi.",
+      "reasonRequired": "Tadbirni bekor qilish uchun sabab kerak.",
+      "keep": "Tadbirni qoldirish",
+      "confirm": "Tadbirni bekor qilib, pulni qaytarish",
+      "sending": "Bekor qilinmoqda…"
+    },
+    "refunds": {
+      "check": "Qaytarishlarni tekshirish va yakunlash",
+      "checking": "Tekshirilmoqda…",
+      "allDone": "Bu tadbirning barcha toʻlangan buyurtmalari qaytarilgan. Kutayotgani yoʻq.",
+      "finished": "Kutib turgan va hozir qaytarilgan buyurtmalar: {{refunded}}.",
+      "someFailed": "Kutayotgan {{total}} ta buyurtmadan {{refunded}} tasi qaytarildi, {{failed}} tasi muvaffaqiyatsiz. Keyinroq qayta urinib koʻring."
+    },
+    "notice": {
+      "approved": "“{{title}}” tadbiri tasdiqlandi.",
+      "rejected": "“{{title}}” tadbiri rad etildi. Tashkilotchiga xabar berildi.",
+      "cancelled": "“{{title}}” tadbiri bekor qilindi. Xaridorlarga pul qaytarilmoqda."
+    },
+    "org": {
+      "email": "Email",
+      "events": "Tadbirlar",
+      "completed": "Oʻtkazilgan tadbirlar",
+      "rate": "Komissiya",
+      "open": "Tashkilotchilarda ochish"
+    }
+  },
+  "ai": {
+    "title": "SI tekshiruvi",
+    "advisory": "Faqat maslahat. Tekshiruv xato qilishi mumkin va oʻzi hech narsani tasdiqlamaydi yoki rad etmaydi. Qaror har doim sizniki.",
+    "run": "SI tekshiruvini ishga tushirish",
+    "runAgain": "Qayta ishga tushirish",
+    "running": "Tekshirilmoqda…",
+    "none": "Bu tadbir hali tekshirilmagan.",
+    "notChecked": "SI tekshiruvi ishlamadi.",
+    "notCheckedText": "Tadbir yuborilganda SI mavjud emas edi.",
+    "triedAt": "Urinish: {{date}}.",
+    "clean": "Tekshiruv belgilaydigan narsa topmadi.",
+    "flagged": "Tekshiruv belgilagan holatlar: {{count}}.",
+    "confidence": "ishonch {{value}}",
+    "checkedAt": "Tekshirilgan: {{date}}, model: {{model}}. Natija tadbir bilan birga saqlangan.",
+    "decisionYours": "Qaror qilishdan oldin tadbirni oʻzingiz koʻrib chiqing.",
+    "unavailable": "SI tekshiruvi hozir mavjud emas.",
+    "continue": "Uni ishlatmasdan ham koʻrib chiqib, qaror qabul qilishingiz mumkin.",
+    "flags": {
+      "DUPLICATE": "Takror boʻlishi mumkin",
+      "SUSPICIOUS": "Shubhali mazmun",
+      "INAPPROPRIATE": "Nomaqbul mazmun",
+      "MISLEADING_PRICE": "Chalgʻituvchi narx"
+    },
+    "errors": {
+      "disabled": "Bu serverda SI funksiyalari oʻchirilgan.",
+      "notConfigured": "Bu serverda SI funksiyalari sozlanmagan.",
+      "rateLimited": "Qisqa vaqtda juda koʻp tekshiruv. Bir daqiqadan soʻng qayta urinib koʻring.",
+      "failed": "SI xizmati javob bera olmadi. Keyinroq qayta urinib koʻring.",
+      "busy": "SI band. Birozdan soʻng qayta urinib koʻring.",
+      "timeout": "SI juda uzoq javob berdi. Keyinroq qayta urinib koʻring.",
+      "invalid": "SI javobidan foydalanib boʻlmadi.",
+      "notChecked": "Bu tadbir uchun SI tekshiruvi ishlamadi."
+    }
+  },
+  "organizers": {
+    "title": "Tashkilotchilar",
+    "subtitle": "Yangi tashkilotchilarni tekshiring va mavjudlarining holatini boshqaring.",
+    "tabsLabel": "Tashkilotchi holati",
+    "tabs": {
+      "pending": "Kutilmoqda",
+      "approved": "Tasdiqlangan",
+      "rejected": "Rad etilgan",
+      "suspended": "Toʻxtatilgan",
+      "all": "Hammasi"
+    },
+    "search": "Tashkilotchilarni qidirish",
+    "searchPlaceholder": "Ism, taxallus yoki email boʻyicha qidirish",
+    "sort": "Tashkilotchilarni saralash",
+    "sorts": {
+      "newest": "Avval yangilari",
+      "oldest": "Avval eskilari",
+      "followers": "Eng koʻp yoqtirilgan",
+      "views": "Eng koʻp koʻrilgan"
+    },
+    "cols": {
+      "organizer": "Tashkilotchi",
+      "status": "Holat",
+      "events": "Tadbirlar",
+      "rate": "Komissiya",
+      "actions": "Amallar"
+    },
+    "registered": "Roʻyxatdan oʻtgan: {{date}}",
+    "eventsCount": "{{total}} tadan {{completed}} tasi oʻtkazilgan",
+    "showing": "{{total}} tadan {{from}}–{{to}} koʻrsatilmoqda",
+    "loading": "Tashkilotchilar yuklanmoqda",
+    "sending": "Saqlanmoqda…",
+    "actions": {
+      "review": "Koʻrib chiqish",
+      "open": "Ochish",
+      "approve": "Tashkilotchini tasdiqlash",
+      "reject": "Sabab bilan rad etish",
+      "suspend": "Sabab bilan toʻxtatish",
+      "reinstate": "Tashkilotchini tiklash",
+      "commission": "Komissiya"
+    },
+    "hint": {
+      "PENDING": "Tasdiqlansa, tashkilotchi tadbir yaratib, chipta sota oladi. Rad etish uchun tashkilotchi koʻradigan sabab kerak.",
+      "ACTIVE": "Toʻxtatish tashkilotchini va uning tadbirlarini xaridorlardan yashiradi va yangi sotuvni bloklaydi. Sabab kerak.",
+      "REJECTED": "Tiklash bu tashkilotchini yana faol qiladi.",
+      "SUSPENDED": "Tiklash bu tashkilotchini yana faol qiladi va tadbirlarini qayta koʻrsatadi.",
+      "DELETE": "Bu akkaunt oʻchirilgan."
+    },
+    "notice": {
+      "approved": "{{name}} tasdiqlandi.",
+      "rejected": "{{name}} rad etildi. Tashkilotchiga xabar berildi.",
+      "suspended": "{{name}} toʻxtatildi. Tashkilotchiga xabar berildi.",
+      "reinstated": "{{name}} yana faol."
+    },
+    "drawer": {
+      "close": "Tashkilotchi maʼlumotlarini yopish",
+      "email": "Email",
+      "phone": "Telefon",
+      "nick": "Taxallus",
+      "registered": "Roʻyxatdan oʻtgan",
+      "events": "Tadbirlar",
+      "completed": "Oʻtkazilgan tadbirlar",
+      "followers": "Obunachilar",
+      "rate": "Komissiya",
+      "about": "Haqida",
+      "rejectedWith": "Quyidagi sabab bilan rad etilgan:"
+    },
+    "reject": {
+      "title": "Bu tashkilotchini rad etasizmi?",
+      "text": "Tashkilotchiga sabab aytiladi. Siz uni tiklamaguningizcha u tadbir yarata olmaydi va chipta sota olmaydi.",
+      "reasonLabel": "Rad etish sababi",
+      "reasonHint": "Majburiy. 500 belgigacha. Tashkilotchi uni koʻradi.",
+      "reasonRequired": "Tashkilotchini rad etish uchun sabab kerak.",
+      "confirm": "Tashkilotchini rad etish"
+    },
+    "suspend": {
+      "title": "Bu tashkilotchini toʻxtatasizmi?",
+      "text": "Uning tadbirlari xaridorlardan yashiriladi va siz uni tiklamaguningizcha u tadbir yarata olmaydi va chipta sota olmaydi. Allaqachon toʻlangan buyurtmalarga bu pul qaytarmaydi.",
+      "reasonLabel": "Toʻxtatish sababi",
+      "reasonHint": "Majburiy. 500 belgigacha. Audit jurnaliga yoziladi va tashkilotchiga yuboriladi.",
+      "reasonRequired": "Tashkilotchini toʻxtatish uchun sabab kerak.",
+      "confirm": "Tashkilotchini toʻxtatish"
+    },
+    "empty": {
+      "title": "Tashkilotchilar yoʻq",
+      "text": "Shu holatdagi tashkilotchilar bu yerda paydo boʻladi.",
+      "pendingTitle": "Hech kim tasdiq kutmayapti",
+      "pendingText": "Barcha tashkilotchi akkauntlari boʻyicha qaror qabul qilingan. Yangi roʻyxatdan oʻtganlar shu yerda paydo boʻladi."
+    },
+    "none": {
+      "title": "Mos tashkilotchi topilmadi",
+      "text": "Boshqa ism yoki email bilan urinib koʻring yoki qidiruvni tozalang.",
+      "clear": "Barcha tashkilotchilarni koʻrsatish"
+    },
+    "error": {
+      "title": "Tashkilotchilarni yuklab boʻlmadi",
+      "text": "Ticketzy tashkilotchilar roʻyxatini oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    }
+  },
+  "members": {
+    "title": "Aʼzolar",
+    "subtitle": "Ticketzydagi barcha akkauntlar. Xaridor akkauntlarini bu yerda toʻxtatish va qayta yoqish mumkin.",
+    "search": "Aʼzolarni qidirish",
+    "searchPlaceholder": "Taxallus boʻyicha qidirish",
+    "filterType": "Tur boʻyicha filtr",
+    "filterStatus": "Holat boʻyicha filtr",
+    "sort": "Aʼzolarni saralash",
+    "types": {
+      "all": "Barcha turlar",
+      "user": "Xaridorlar",
+      "organizer": "Tashkilotchilar",
+      "admin": "Adminlar",
+      "USER": "Xaridor",
+      "ORGANIZER": "Tashkilotchi",
+      "ADMIN": "Admin"
+    },
+    "statuses": {
+      "all": "Barcha holatlar",
+      "pending": "Tasdiqlanishi kutilmoqda",
+      "active": "Faol",
+      "rejected": "Rad etilgan",
+      "suspended": "Toʻxtatilgan",
+      "delete": "Oʻchirilgan"
+    },
+    "sorts": {
+      "newest": "Avval yangilari",
+      "oldest": "Avval eskilari",
+      "updated": "Yaqinda yangilangan"
+    },
+    "cols": {
+      "member": "Aʼzo",
+      "type": "Tur",
+      "status": "Holat",
+      "joined": "Qoʻshilgan",
+      "actions": "Amallar"
+    },
+    "you": "Bu sizning akkauntingiz",
+    "showing": "{{total}} tadan {{from}}–{{to}} koʻrsatilmoqda",
+    "loading": "Aʼzolar yuklanmoqda",
+    "sending": "Saqlanmoqda…",
+    "actions": {
+      "open": "Ochish",
+      "suspend": "Akkauntni toʻxtatish",
+      "reactivate": "Akkauntni qayta yoqish",
+      "openOrganizer": "Tashkilotchilarda ochish"
+    },
+    "locked": {
+      "self": "Bu sizning oʻz akkauntingiz. Uni bu yerda oʻzgartirib boʻlmaydi.",
+      "admin": "Admin akkauntlarini bu sahifada oʻzgartirib boʻlmaydi.",
+      "organizer": "Tashkilotchi akkauntlari audit jurnaliga yoziladigan “Tashkilotchilar” sahifasida tasdiqlanadi, rad etiladi, toʻxtatiladi va tiklanadi.",
+      "status": "Bu akkaunt holatini bu yerda oʻzgartirib boʻlmaydi."
+    },
+    "confirm": {
+      "suspend": {
+        "title": "Bu akkauntni toʻxtatasizmi?",
+        "text": "Aʼzo endi tizimga kira olmaydi. Uning chiptalari va buyurtmalari oʻz holicha qoladi. Akkauntni keyinroq qayta yoqish mumkin.",
+        "confirm": "Akkauntni toʻxtatish"
+      },
+      "reactivate": {
+        "title": "Bu akkauntni qayta yoqasizmi?",
+        "text": "Aʼzo yana tizimga kira oladi.",
+        "confirm": "Akkauntni qayta yoqish"
+      }
+    },
+    "notice": {
+      "suspended": "{{name}} akkaunti toʻxtatildi.",
+      "reactivated": "{{name}} akkaunti yana faol."
+    },
+    "drawer": {
+      "close": "Aʼzo maʼlumotlarini yopish",
+      "type": "Tur",
+      "email": "Email",
+      "phone": "Telefon",
+      "nick": "Taxallus",
+      "joined": "Qoʻshilgan",
+      "updated": "Oxirgi yangilanish",
+      "events": "Tadbirlar"
+    },
+    "empty": {
+      "title": "Hali aʼzolar yoʻq",
+      "text": "Akkauntlar bu yerda paydo boʻladi."
+    },
+    "none": {
+      "title": "Mos aʼzo topilmadi",
+      "text": "Boshqa taxallus bilan urinib koʻring yoki filtrlarni oʻzgartiring.",
+      "clear": "Filtrlarni tozalash"
+    },
+    "error": {
+      "title": "Aʼzolarni yuklab boʻlmadi",
+      "text": "Ticketzy aʼzolar roʻyxatini oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    }
+  },
+  "commission": {
+    "title": "Komissiya",
+    "subtitle": "Platforma har bir toʻlangan buyurtmadan foiz oladi. U xaridorga qoʻshilmaydi, tashkilotchi ulushidan ushlab qolinadi.",
+    "tiers": {
+      "title": "Komissiya darajalari",
+      "note": "Stavka buyurtma toʻlanganda belgilanadi va shu buyurtmada saqlanadi, shuning uchun uni oʻzgartirish oldingi buyurtmalarga taʼsir qilmaydi. Roppa-rosa 5 yoki 20 ta oʻtkazilgan tadbir allaqachon pastroq stavka beradi.",
+      "base": {
+        "name": "Asosiy",
+        "when": "5 tadan kam oʻtkazilgan tadbir"
+      },
+      "tier2": {
+        "name": "2-daraja",
+        "when": "5 ta va undan koʻp oʻtkazilgan tadbir"
+      },
+      "tier3": {
+        "name": "3-daraja",
+        "when": "20 ta va undan koʻp oʻtkazilgan tadbir"
+      }
+    },
+    "show": "Tashkilotchilarni koʻrsatish",
+    "showApproved": "Tasdiqlangan tashkilotchilar",
+    "showAll": "Barcha tashkilotchilar",
+    "cols": {
+      "organizer": "Tashkilotchi",
+      "completed": "Oʻtkazilgan tadbirlar",
+      "override": "Alohida stavka",
+      "effective": "Amaldagi stavka",
+      "actions": "Amallar"
+    },
+    "source": {
+      "override": "alohida",
+      "tier": "daraja boʻyicha"
+    },
+    "noOverride": "Yoʻq",
+    "noEnd": "tugash sanasiz",
+    "until": "{{date}} gacha",
+    "expired": "{{date}} da tugagan",
+    "overrideLine": "Alohida stavka: {{until}} gacha {{rate}}%. Sabab: {{reason}}",
+    "overrideExpired": "Oldingi {{rate}}% alohida stavka tugagan.",
+    "actions": {
+      "set": "Alohida stavka belgilash",
+      "change": "Alohida stavkani oʻzgartirish"
+    },
+    "notice": {
+      "saved": "{{name}} komissiyasi endi {{rate}}%."
+    },
+    "empty": {
+      "title": "Hali tashkilotchilar yoʻq",
+      "text": "Tasdiqlangan tashkilotchilar komissiya stavkasi bilan shu yerda paydo boʻladi."
+    },
+    "dialog": {
+      "title": "Alohida komissiya belgilash",
+      "confirmTitle": "Alohida stavkani tasdiqlang",
+      "current": "Joriy stavka: {{rate}}% ({{source}}).",
+      "rate": "Komissiya (%)",
+      "rateHint": "0 dan 100 gacha son, masalan 5 yoki 7,5.",
+      "endDay": "Tugash sanasi (ixtiyoriy)",
+      "endHint": "Alohida stavka shu kunning oxirigacha amal qiladi (Seul vaqti). Muddatsiz boʻlsa, boʻsh qoldiring.",
+      "reason": "Sabab",
+      "reasonHint": "Majburiy. 500 belgigacha. Tashkilotchiga shu sabab bilan bildirishnoma yuboriladi.",
+      "noReset": "Alohida stavkani muddatidan oldin olib tashlab boʻlmaydi. U tugash sanasida tugaydi yoki siz yangi stavka belgilashingiz mumkin. Ticketzyda hali “bekor qilish” amali yoʻq.",
+      "review": "Koʻrib chiqish",
+      "edit": "Tahrirlash",
+      "newRate": "Yangi stavka",
+      "until": "Gacha",
+      "confirmText": "Bundan keyin toʻlangan buyurtmalar daraja stavkasi oʻrniga shu stavkadan hisoblanadi. Oldingi buyurtmalar toʻlangan paytdagi stavkani saqlaydi.",
+      "confirm": "Stavkani belgilash",
+      "saving": "Saqlanmoqda…",
+      "errors": {
+        "rate_empty": "Stavkani kiriting.",
+        "rate_range": "Stavka 0 dan 100 gacha son boʻlishi kerak.",
+        "end_past": "Tugash sanasi kelajakda boʻlishi kerak.",
+        "reason_required": "Sabab kerak."
+      }
+    }
+  },
+  "orders": {
+    "title": "Buyurtmalar",
+    "subtitle": "Platformadagi barcha buyurtmalar. Faqat koʻrish uchun: pul qaytarish tadbir bekor qilinganda yoki xaridor soʻraganda amalga oshadi.",
+    "tabsLabel": "Buyurtma holati",
+    "tabs": {
+      "all": "Hammasi"
+    },
+    "sort": "Buyurtmalarni saralash",
+    "sorts": {
+      "newest": "Avval yangilari",
+      "oldest": "Avval eskilari",
+      "amountDesc": "Avval qimmatlari",
+      "amountAsc": "Avval arzonlari"
+    },
+    "cols": {
+      "order": "Buyurtma",
+      "event": "Tadbir",
+      "status": "Holat",
+      "amount": "Summa",
+      "commission": "Komissiya",
+      "date": "Berilgan"
+    },
+    "tickets": "Chiptalar: {{count}}",
+    "eventGone": "Tadbir oʻchirilgan",
+    "showing": "{{total}} tadan {{from}}–{{to}} koʻrsatilmoqda",
+    "loading": "Buyurtmalar yuklanmoqda",
+    "drawer": {
+      "close": "Buyurtma maʼlumotlarini yopish",
+      "buyer": "Xaridor ID",
+      "placed": "Berilgan",
+      "paid": "Toʻlangan",
+      "refunded": "Qaytarilgan",
+      "tickets": "Chiptalar ({{count}})",
+      "line": "{{quantity}} × {{price}}",
+      "money": "Pul",
+      "buyerPaid": "Xaridor toʻlagan",
+      "commission": "Platforma komissiyasi ({{rate}}%)",
+      "payout": "Tashkilotchi ulushi",
+      "refundNote": "Bu buyurtma toʻliq qaytarilgan.",
+      "readOnly": "Server adminlarga faqat buyurtmalar roʻyxatini beradi; oʻzgarishlar pul qaytarish va tadbirni bekor qilish orqali amalga oshadi."
+    },
+    "empty": {
+      "title": "Hali buyurtmalar yoʻq",
+      "text": "Xaridorlar toʻlov qilgach, buyurtmalar shu yerda paydo boʻladi."
+    },
+    "none": {
+      "title": "Bu holatda buyurtma yoʻq",
+      "text": "Boshqa holatni tanlab koʻring.",
+      "clear": "Barcha buyurtmalarni koʻrsatish"
+    },
+    "error": {
+      "title": "Buyurtmalarni yuklab boʻlmadi",
+      "text": "Ticketzy buyurtmalarni oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    }
+  }
+}

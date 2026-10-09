@@ -87,7 +87,10 @@
       "users": "Пользователи",
       "catalog": "Категории и площадки",
       "settings": "Настройки платформы",
-      "venues": "Площадки"
+      "venues": "Площадки",
+      "eventApprovals": "Одобрение событий",
+      "commission": "Комиссия",
+      "members": "Участники"
     },
     "overviewTitle": "Обзор",
     "adminOverviewTitle": "Обзор платформы"

@@ -1,0 +1,637 @@
+{
+  "percent": "{{value}}%",
+  "actions": {
+    "back": "Go back"
+  },
+  "errors": {
+    "retry": "Try again",
+    "network": "Can’t reach Ticketzy. Check your connection and try again.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "serverErrors": {
+    "eventTransition": "This event is no longer in a status where that is possible. Someone may have just changed it. Reload the page.",
+    "organizerTransition": "That change is not allowed from this organizer’s current status. Someone may have just changed it. Reload the page.",
+    "ownEvent": "You can’t approve your own event.",
+    "eventRejectReason": "A reason is required to reject an event.",
+    "eventCancelReason": "A reason is required to cancel an event.",
+    "organizerRejectReason": "A reason is required to reject an organizer.",
+    "organizerSuspendReason": "A reason is required to suspend an organizer.",
+    "commissionReason": "A reason is required for a commission override.",
+    "commissionRate": "The commission rate must be between 0 and 100.",
+    "commissionEnd": "The end date must be in the future.",
+    "noOrganizer": "This organizer was not found.",
+    "useOrganizerOperations": "Organizer accounts are managed on the Organizers page, not here.",
+    "eventClosed": "This event is already cancelled or ended.",
+    "notCancelled": "Only the orders of a cancelled event can be refunded this way.",
+    "layoutInvalid": "The venue’s seat layout is not valid, so the event can’t be approved.",
+    "tierMissing": "Every seated section needs a ticket type with a matching tier. The organizer has to fix the ticket types first.",
+    "tierDuplicate": "Two ticket types use the same tier. The organizer has to fix the ticket types first.",
+    "needsLayout": "A reserved-seating event needs a venue with a seated section.",
+    "seatGeneration": "The seats could not be created, so nothing was changed. Try again, or ask the organizer to check the venue layout.",
+    "notEditable": "This event can’t be edited in its current status.",
+    "noData": "This item was not found. It may have been removed.",
+    "updateFailed": "The change could not be saved. Please try again.",
+    "notAllowed": "You are not allowed to do that.",
+    "notAuthenticated": "Your session has ended. Please sign in again.",
+    "badRequest": "The request was not accepted. Please check what you entered.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "memberStatus": {
+    "PENDING": "Waiting for approval",
+    "ACTIVE": "Active",
+    "REJECTED": "Rejected",
+    "SUSPENDED": "Suspended",
+    "DELETE": "Deleted"
+  },
+  "overview": {
+    "title": "Platform overview",
+    "subtitle": "What needs your attention and the platform’s figures, taken live from the backend.",
+    "figures": "Platform figures",
+    "pendingEvents": "Events to review",
+    "pendingEventsHint": "Submitted and waiting for a decision",
+    "pendingOrganizers": "Organizers to verify",
+    "pendingOrganizersHint": "New organizer accounts waiting for approval",
+    "activeEvents": "Active events",
+    "activeEventsHint": "Approved and on the public pages",
+    "totalOrders": "Total orders",
+    "totalOrdersHint": "Every status",
+    "revenue": "Revenue",
+    "revenueHint": "Ticket sales of {{paid}} paid orders",
+    "commission": "Commission earned",
+    "commissionHint": "Taken from paid orders",
+    "moneyFailed": "The money figures could not be loaded.",
+    "moneyCap": "Revenue and commission add up the newest {{limit}} of {{total}} paid orders, so they are lower than the real totals.",
+    "queueEvents": "Waiting for review",
+    "queueEventsEmpty": "No events are waiting for review.",
+    "queueOrganizers": "Organizers waiting for approval",
+    "queueOrganizersEmpty": "No organizers are waiting for approval.",
+    "viewAll": "View all",
+    "error": {
+      "title": "The overview could not be loaded",
+      "text": "Ticketzy could not read the platform figures. Try again in a moment."
+    }
+  },
+  "events": {
+    "title": "Event approvals",
+    "subtitle": "Review submitted events, approve or reject them, and cancel approved events when needed.",
+    "tabsLabel": "Event status",
+    "tabs": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled",
+      "ended": "Ended",
+      "draft": "Drafts",
+      "all": "All"
+    },
+    "search": "Search events",
+    "searchPlaceholder": "Search by event title",
+    "sort": "Sort events",
+    "sorts": {
+      "updatedDesc": "Recently updated",
+      "updatedAsc": "Waiting longest",
+      "startAsc": "Event date, soonest",
+      "startDesc": "Event date, latest",
+      "createdDesc": "Newest created"
+    },
+    "cols": {
+      "event": "Event",
+      "date": "Date",
+      "status": "Status",
+      "ai": "AI check",
+      "actions": "Actions"
+    },
+    "by": "By {{name}}",
+    "noVenue": "No venue",
+    "updated": "Updated {{date}}",
+    "showing": "Showing {{from}}–{{to}} of {{total}}",
+    "loading": "Loading events",
+    "ai": {
+      "none": "Not checked",
+      "notChecked": "Check didn’t run",
+      "clean": "No flags",
+      "flagged": "Flags: {{count}}"
+    },
+    "actions": {
+      "review": "Review",
+      "open": "Open"
+    },
+    "empty": {
+      "title": "No events here yet",
+      "text": "Events in this status will appear here.",
+      "pendingTitle": "Nothing to review",
+      "pendingText": "Every submitted event has a decision. New submissions show up here."
+    },
+    "none": {
+      "title": "No events match",
+      "text": "Try a different title or clear the search.",
+      "clear": "Show all events"
+    },
+    "error": {
+      "title": "Events could not be loaded",
+      "text": "Ticketzy could not read the event list. Try again in a moment."
+    }
+  },
+  "event": {
+    "back": "Back to event approvals",
+    "loading": "Loading event",
+    "submittedBy": "Submitted by {{name}}",
+    "notFound": {
+      "title": "Event not found",
+      "text": "It may have been removed, or the link is wrong."
+    },
+    "error": {
+      "title": "The event could not be loaded",
+      "text": "Ticketzy could not read this event. Try again in a moment."
+    },
+    "rejectedWith": "Rejected with this reason:",
+    "cancelledWith": "Cancelled with this reason:",
+    "images": "Event images",
+    "imageAlt": "Image {{n}} of {{title}}",
+    "noImages": "No images.",
+    "sections": {
+      "details": "Event details",
+      "content": "Text in each language",
+      "tickets": "Ticket types",
+      "venue": "Venue and seat layout",
+      "decision": "Decision",
+      "organizer": "Organizer"
+    },
+    "fields": {
+      "category": "Category",
+      "seating": "Seating",
+      "when": "When",
+      "salesWindow": "Sales window",
+      "fromPrice": "From price",
+      "created": "Created",
+      "venue": "Venue",
+      "address": "Address",
+      "timezone": "Time zone",
+      "capacity": "Capacity"
+    },
+    "seating": {
+      "GENERAL": "General admission",
+      "RESERVED": "Reserved seats"
+    },
+    "salesRange": "{{from}} to {{to}}",
+    "salesOpen": "no limit",
+    "salesNone": "Not set: tickets can be bought until the event ends",
+    "followsEvent": "Follows the event",
+    "startPassed": "The event’s start time has already passed. The backend still lets you approve it, but buyers can’t be sold tickets after it ends.",
+    "content": {
+      "note": "These are the texts the organizer saved. Translation suggestions are made by organizers in the event form, and the admin API has no suggestion operation, so nothing here is edited or saved by the admin.",
+      "source": {
+        "translation": "Saved translation",
+        "original": "Original text",
+        "missing": "Not translated"
+      },
+      "missing": "No text in this language. Buyers in this language see the English text.",
+      "noDescription": "No description."
+    },
+    "tickets": {
+      "name": "Ticket type",
+      "price": "Price",
+      "quantity": "Tickets",
+      "maxPerOrder": "Max per order",
+      "window": "On sale"
+    },
+    "ticketsHidden": "The ticket types are hidden while the organizer is not active.",
+    "ticketsError": "The ticket types could not be loaded.",
+    "noTickets": "This event has no ticket types.",
+    "seatsOnApproval": "The seats are created from the venue layout when you approve. Their number follows the layout.",
+    "layout": {
+      "empty": "The venue has no seat layout.",
+      "general": "General admission: there is no seat map for this event.",
+      "tiers": "Ticket tiers",
+      "tierSeats": "Places: {{seats}}, sections: {{count}}"
+    },
+    "decision": {
+      "pendingText": "The organizer is waiting for a decision. You can read what the AI check found, but the decision is always yours.",
+      "approve": "Approve event",
+      "reject": "Reject with a reason",
+      "approvedText": "This event is on sale. If it can’t take place, cancel it: every buyer is refunded automatically.",
+      "publicPage": "Open public page",
+      "cancel": "Cancel event",
+      "cancelledText": "This event is cancelled. Paid orders are refunded automatically. Check that all refunds went through.",
+      "none_DRAFT": "This is a draft. The organizer has not submitted it yet, so there is nothing to decide.",
+      "none_REJECTED": "This event was rejected. The organizer can fix it and submit it again.",
+      "none_ENDED": "This event has ended.",
+      "organizerHidden": "The organizer is {{status}}. The event will stay hidden from buyers until the organizer is active again."
+    },
+    "approve": {
+      "title": "Approve this event?",
+      "text": "Approving cannot be undone from here (an approved event can only be cancelled).",
+      "points": {
+        "public": "The event goes on the public pages and tickets go on sale in their sales window.",
+        "seats": "The seats are created from the venue layout.",
+        "notify": "The organizer gets a notification."
+      },
+      "confirm": "Approve event",
+      "sending": "Approving…"
+    },
+    "reject": {
+      "title": "Reject this event?",
+      "text": "The organizer sees your reason, can fix the event and submit it again.",
+      "reasonLabel": "Reason for rejecting",
+      "reasonHint": "Required. Up to 500 characters. The organizer sees it.",
+      "reasonRequired": "A reason is required to reject the event.",
+      "confirm": "Reject event",
+      "sending": "Rejecting…"
+    },
+    "cancel": {
+      "title": "Cancel this event?",
+      "refundTitle": "Every buyer will be refunded.",
+      "refundText": "All paid orders of this event are refunded in full automatically. This can’t be undone.",
+      "points": {
+        "closed": "The event is closed for good. It leaves the public pages and its sales stop.",
+        "refunds": "Every paid order is refunded in full, in batches. The normal refund deadline does not apply.",
+        "used": "Tickets that were already checked in are refunded too.",
+        "notices": "Each buyer gets a “refund completed” notification and the organizer gets a summary.",
+        "retry": "An order that fails to refund stays paid. After cancelling you can run the refunds again from this page.",
+        "stock": "Seats and tickets do not go back on sale."
+      },
+      "reasonLabel": "Reason for cancelling",
+      "reasonHint": "Required. Up to 500 characters. It is saved with the event.",
+      "reasonRequired": "A reason is required to cancel the event.",
+      "keep": "Keep the event",
+      "confirm": "Cancel event and refund buyers",
+      "sending": "Cancelling…"
+    },
+    "refunds": {
+      "check": "Check and finish refunds",
+      "checking": "Checking…",
+      "allDone": "All paid orders of this event are refunded. Nothing is waiting.",
+      "finished": "Orders that were still waiting and are now refunded: {{refunded}}.",
+      "someFailed": "Refunded {{refunded}} of {{total}} waiting orders, {{failed}} failed. Try again later."
+    },
+    "notice": {
+      "approved": "“{{title}}” was approved.",
+      "rejected": "“{{title}}” was rejected. The organizer was notified.",
+      "cancelled": "“{{title}}” was cancelled. Buyers are being refunded."
+    },
+    "org": {
+      "email": "Email",
+      "events": "Events",
+      "completed": "Completed events",
+      "rate": "Commission rate",
+      "open": "Open in organizers"
+    }
+  },
+  "ai": {
+    "title": "AI check",
+    "advisory": "Advice only. The check can be wrong and never approves or rejects anything. You always decide.",
+    "run": "Run AI check",
+    "runAgain": "Run again",
+    "running": "Checking…",
+    "none": "This event has not been checked yet.",
+    "notChecked": "The AI check did not run.",
+    "notCheckedText": "The AI was not available when this event was submitted.",
+    "triedAt": "Tried {{date}}.",
+    "clean": "The check found nothing to flag.",
+    "confidence": "confidence {{value}}",
+    "checkedAt": "Checked {{date}} by {{model}}. The result is saved with the event.",
+    "decisionYours": "Review the event yourself before deciding.",
+    "unavailable": "The AI check is not available right now.",
+    "continue": "You can still review and decide without it.",
+    "flags": {
+      "DUPLICATE": "Possible duplicate",
+      "SUSPICIOUS": "Suspicious content",
+      "INAPPROPRIATE": "Inappropriate content",
+      "MISLEADING_PRICE": "Misleading price"
+    },
+    "errors": {
+      "disabled": "AI features are turned off on this server.",
+      "notConfigured": "AI features are not set up on this server.",
+      "rateLimited": "Too many checks in a short time. Try again in a minute.",
+      "failed": "The AI service could not answer. Try again later.",
+      "busy": "The AI is busy. Try again in a moment.",
+      "timeout": "The AI took too long to answer. Try again later.",
+      "invalid": "The AI answered in a way that could not be used.",
+      "notChecked": "The AI check did not run for this event."
+    },
+    "flagged": "The check raised flags: {{count}}."
+  },
+  "organizers": {
+    "title": "Organizers",
+    "subtitle": "Verify new organizers and manage the status of existing ones.",
+    "tabsLabel": "Organizer status",
+    "tabs": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "suspended": "Suspended",
+      "all": "All"
+    },
+    "search": "Search organizers",
+    "searchPlaceholder": "Search by name, nickname or email",
+    "sort": "Sort organizers",
+    "sorts": {
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "followers": "Most liked",
+      "views": "Most viewed"
+    },
+    "cols": {
+      "organizer": "Organizer",
+      "status": "Status",
+      "events": "Events",
+      "rate": "Rate",
+      "actions": "Actions"
+    },
+    "registered": "Registered {{date}}",
+    "eventsCount": "{{completed}} completed of {{total}}",
+    "showing": "Showing {{from}}–{{to}} of {{total}}",
+    "loading": "Loading organizers",
+    "sending": "Saving…",
+    "actions": {
+      "review": "Review",
+      "open": "Open",
+      "approve": "Approve organizer",
+      "reject": "Reject with a reason",
+      "suspend": "Suspend with a reason",
+      "reinstate": "Reinstate organizer",
+      "commission": "Commission"
+    },
+    "hint": {
+      "PENDING": "Approving lets the organizer create and sell events. Rejecting needs a reason the organizer will see.",
+      "ACTIVE": "Suspending hides the organizer and their events from buyers and blocks new sales. A reason is required.",
+      "REJECTED": "Reinstating makes this organizer active again.",
+      "SUSPENDED": "Reinstating makes this organizer active again and shows their events again.",
+      "DELETE": "This account is deleted."
+    },
+    "notice": {
+      "approved": "{{name}} was approved.",
+      "rejected": "{{name}} was rejected. The organizer was notified.",
+      "suspended": "{{name}} was suspended. The organizer was notified.",
+      "reinstated": "{{name}} is active again."
+    },
+    "drawer": {
+      "close": "Close organizer details",
+      "email": "Email",
+      "phone": "Phone",
+      "nick": "Nickname",
+      "registered": "Registered",
+      "events": "Events",
+      "completed": "Completed events",
+      "followers": "Followers",
+      "rate": "Commission rate",
+      "about": "About",
+      "rejectedWith": "Rejected with this reason:"
+    },
+    "reject": {
+      "title": "Reject this organizer?",
+      "text": "The organizer is told why. They can’t create or sell events until you reinstate them.",
+      "reasonLabel": "Reason for rejecting",
+      "reasonHint": "Required. Up to 500 characters. The organizer sees it.",
+      "reasonRequired": "A reason is required to reject an organizer.",
+      "confirm": "Reject organizer"
+    },
+    "suspend": {
+      "title": "Suspend this organizer?",
+      "text": "Their events are hidden from buyers and they can’t create or sell events until you reinstate them. Already paid orders are not refunded by this.",
+      "reasonLabel": "Reason for suspending",
+      "reasonHint": "Required. Up to 500 characters. It is saved in the audit log and sent to the organizer.",
+      "reasonRequired": "A reason is required to suspend an organizer.",
+      "confirm": "Suspend organizer"
+    },
+    "empty": {
+      "title": "No organizers here",
+      "text": "Organizers in this status will appear here.",
+      "pendingTitle": "No organizers are waiting",
+      "pendingText": "Every organizer account has a decision. New sign-ups show up here."
+    },
+    "none": {
+      "title": "No organizers match",
+      "text": "Try a different name or email, or clear the search.",
+      "clear": "Show all organizers"
+    },
+    "error": {
+      "title": "Organizers could not be loaded",
+      "text": "Ticketzy could not read the organizer list. Try again in a moment."
+    }
+  },
+  "members": {
+    "title": "Members",
+    "subtitle": "Every account on Ticketzy. Buyers can be suspended and reactivated here.",
+    "search": "Search members",
+    "searchPlaceholder": "Search by nickname",
+    "filterType": "Filter by type",
+    "filterStatus": "Filter by status",
+    "sort": "Sort members",
+    "types": {
+      "all": "All types",
+      "user": "Buyers",
+      "organizer": "Organizers",
+      "admin": "Admins",
+      "USER": "Buyer",
+      "ORGANIZER": "Organizer",
+      "ADMIN": "Admin"
+    },
+    "statuses": {
+      "all": "All statuses",
+      "pending": "Waiting for approval",
+      "active": "Active",
+      "rejected": "Rejected",
+      "suspended": "Suspended",
+      "delete": "Deleted"
+    },
+    "sorts": {
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "updated": "Recently updated"
+    },
+    "cols": {
+      "member": "Member",
+      "type": "Type",
+      "status": "Status",
+      "joined": "Joined",
+      "actions": "Actions"
+    },
+    "you": "This is your account",
+    "showing": "Showing {{from}}–{{to}} of {{total}}",
+    "loading": "Loading members",
+    "sending": "Saving…",
+    "actions": {
+      "open": "Open",
+      "suspend": "Suspend account",
+      "reactivate": "Reactivate account",
+      "openOrganizer": "Open in organizers"
+    },
+    "locked": {
+      "self": "This is your own account. You can’t change it here.",
+      "admin": "Admin accounts can’t be changed from this page.",
+      "organizer": "Organizer accounts are approved, rejected, suspended and reinstated on the Organizers page, where it is recorded in the audit log.",
+      "status": "This account’s status can’t be changed from here."
+    },
+    "confirm": {
+      "suspend": {
+        "title": "Suspend this account?",
+        "text": "The member can no longer sign in. Their tickets and orders stay as they are. You can reactivate the account later.",
+        "confirm": "Suspend account"
+      },
+      "reactivate": {
+        "title": "Reactivate this account?",
+        "text": "The member can sign in again.",
+        "confirm": "Reactivate account"
+      }
+    },
+    "notice": {
+      "suspended": "{{name}} was suspended.",
+      "reactivated": "{{name}} is active again."
+    },
+    "drawer": {
+      "close": "Close member details",
+      "type": "Type",
+      "email": "Email",
+      "phone": "Phone",
+      "nick": "Nickname",
+      "joined": "Joined",
+      "updated": "Last updated",
+      "events": "Events"
+    },
+    "empty": {
+      "title": "No members yet",
+      "text": "Accounts will appear here."
+    },
+    "none": {
+      "title": "No members match",
+      "text": "Try a different nickname or change the filters.",
+      "clear": "Clear filters"
+    },
+    "error": {
+      "title": "Members could not be loaded",
+      "text": "Ticketzy could not read the member list. Try again in a moment."
+    }
+  },
+  "commission": {
+    "title": "Commission",
+    "subtitle": "The platform keeps a percentage of each paid order. It is taken from the organizer’s share, not added for the buyer.",
+    "tiers": {
+      "title": "Commission tiers",
+      "note": "The rate is set when an order is paid and saved on that order, so changing it never changes past orders. A count of exactly 5 or 20 already gets the lower rate.",
+      "base": {
+        "name": "Base",
+        "when": "Fewer than 5 completed events"
+      },
+      "tier2": {
+        "name": "Tier 2",
+        "when": "From 5 completed events"
+      },
+      "tier3": {
+        "name": "Tier 3",
+        "when": "From 20 completed events"
+      }
+    },
+    "show": "Show organizers",
+    "showApproved": "Approved organizers",
+    "showAll": "All organizers",
+    "cols": {
+      "organizer": "Organizer",
+      "completed": "Completed events",
+      "override": "Override",
+      "effective": "Effective rate",
+      "actions": "Actions"
+    },
+    "source": {
+      "override": "override",
+      "tier": "by tier"
+    },
+    "noOverride": "None",
+    "noEnd": "no end date",
+    "until": "Until {{date}}",
+    "expired": "Ended {{date}}",
+    "overrideLine": "Override: {{rate}}% until {{until}}. Reason: {{reason}}",
+    "overrideExpired": "An earlier override of {{rate}}% has ended.",
+    "actions": {
+      "set": "Set override",
+      "change": "Change override"
+    },
+    "notice": {
+      "saved": "{{name}} now pays {{rate}}% commission."
+    },
+    "empty": {
+      "title": "No organizers yet",
+      "text": "Approved organizers will appear here with their commission rate."
+    },
+    "dialog": {
+      "title": "Set a commission override",
+      "confirmTitle": "Confirm the override",
+      "current": "Current rate: {{rate}}% ({{source}}).",
+      "rate": "Commission rate (%)",
+      "rateHint": "A number from 0 to 100, for example 5 or 7.5.",
+      "endDay": "Ends on (optional)",
+      "endHint": "The override ends at the end of this day (Seoul time). Leave it empty for no end date.",
+      "reason": "Reason",
+      "reasonHint": "Required. Up to 500 characters. The organizer is notified with this reason.",
+      "noReset": "An override can’t be removed early. It ends on its end date, or you can set a new rate. Ticketzy has no “reset” operation yet.",
+      "review": "Review",
+      "edit": "Edit",
+      "newRate": "New rate",
+      "until": "Until",
+      "confirmText": "Orders paid from now on use this rate instead of the tier rate. Past orders keep the rate they were paid with.",
+      "confirm": "Set override",
+      "saving": "Saving…",
+      "errors": {
+        "rate_empty": "Enter a rate.",
+        "rate_range": "The rate must be a number from 0 to 100.",
+        "end_past": "The end date must be in the future.",
+        "reason_required": "A reason is required."
+      }
+    }
+  },
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Every order on the platform. Read only: refunds happen when an event is cancelled or a buyer asks.",
+    "tabsLabel": "Order status",
+    "tabs": {
+      "all": "All"
+    },
+    "sort": "Sort orders",
+    "sorts": {
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "amountDesc": "Highest amount",
+      "amountAsc": "Lowest amount"
+    },
+    "cols": {
+      "order": "Order",
+      "event": "Event",
+      "status": "Status",
+      "amount": "Amount",
+      "commission": "Commission",
+      "date": "Placed"
+    },
+    "eventGone": "Event no longer exists",
+    "showing": "Showing {{from}}–{{to}} of {{total}}",
+    "loading": "Loading orders",
+    "drawer": {
+      "close": "Close order details",
+      "buyer": "Buyer ID",
+      "placed": "Placed",
+      "paid": "Paid",
+      "refunded": "Refunded",
+      "line": "{{quantity}} × {{price}}",
+      "money": "Money",
+      "buyerPaid": "Buyer paid",
+      "commission": "Platform commission ({{rate}}%)",
+      "payout": "Organizer’s share",
+      "refundNote": "This order was refunded in full.",
+      "readOnly": "The backend lists orders for admins; changes happen through refunds and event cancellation.",
+      "tickets": "Tickets ({{count}})"
+    },
+    "empty": {
+      "title": "No orders yet",
+      "text": "Orders will appear here once buyers check out."
+    },
+    "none": {
+      "title": "No orders in this status",
+      "text": "Try another status.",
+      "clear": "Show all orders"
+    },
+    "error": {
+      "title": "Orders could not be loaded",
+      "text": "Ticketzy could not read the orders. Try again in a moment."
+    },
+    "tickets": "Tickets: {{count}}"
+  }
+}

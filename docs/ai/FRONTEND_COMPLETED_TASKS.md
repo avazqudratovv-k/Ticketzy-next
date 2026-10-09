@@ -266,3 +266,28 @@ Goal: real dashboard data, orders per event, cancel, check-in. Not committed. Ju
   - ko, ru and uz pages were not looked at in the browser (keys only).
   - The 30-day chart has only one non-empty day in the demo data (all orders were created on 8 Oct).
 - Test data changed: one VALID demo ticket of "Incheon FC vs Seoul United" (buyer@ticketzy.demo) is now USED. No events were cancelled or created.
+
+## Prompt 8: admin panel (2026-10-08)
+Goal: admin shell, event approvals with AI advice, organizers, members, commission, orders. Not committed. Judgment calls F147 to F166 in DECISIONS.md.
+
+### Schema
+`docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql` (no change in the SDL; the file is minified as before).
+
+### Operations used (exact names)
+Queries: `getEventsByAdmin`, `getEvent`, `getTicketTypes`, `getOrganizersByAdmin`, `getAllOrdersByAdmin`. Mutations: `approveEventByAdmin`, `rejectEventByAdmin`, `cancelEventByAdmin`, `runEventModerationByAdmin`, `retryEventRefundsByAdmin`, `verifyOrganizerByAdmin`, `rejectOrganizerByAdmin`, `suspendOrganizerByAdmin`, `reinstateOrganizerByAdmin`, `setCommissionOverrideByAdmin`, `updateMemberByAdmin` (status only), `getAllMembersByAdmin` (a mutation in the schema). Documents in `apollo/admin/query.ts` and `mutation.ts`. Not used: `translateEvent` (organizer only), `updateEventByAdmin`, `removeEventByAdmin`, `refundOrderByAdmin`, `getAuditLogsByAdmin`.
+
+### Added or changed
+- Pages: `/admin` (six live figures, two queues), `/admin/events` and `/admin/events/[id]`, `/admin/organizers`, `/admin/members`, `/admin/commission`, `/admin/orders`.
+- `libs/admin/` (types, errors, commission, list params, tab and sort tables), `libs/components/admin/` (ReasonDialog, ModerationPanel, EventLayoutPreview, OrganizerDrawer, CommissionDialog, MemberStatusBadge), `scss/admin.scss`.
+- Nav: real admin items only; admin footer link is "Back to Ticketzy".
+- i18n: `admin.json` in en, ko, ru, uz (keys and placeholders checked identical by script); three `dashboard.nav` keys in `common.json`.
+
+### Verified
+- `yarn tsc --noEmit`: 0 errors. `yarn lint`: clean. `yarn build`: succeeds (scratch copy with `node_modules` linked).
+- Browser (`http://localhost:3000`, English, as admin@ticketzy.com): dashboard figures equal the API (5 pending events, 1 pending organizer, 7 active, 53 orders, ₩14,189,000 revenue, ₩1,418,900 commission); events list tabs, counts, rows; event detail (details, four languages, ticket types, seat map with tier legend, organizer card); stored AI result shown, "Run again" stored a new result; approved the multi-day demo event "seng part" and its buyer page shows "21 – 25 Oct 2026 · daily 14:50–17:50"; rejected "Xayr maktab" (empty reason showed the required error, then a reason saved and shown); approved Midnight Jazz Sessions (its stored check was "did not run" and showed the friendly state); approved the pending organizer, suspended it with a reason and reinstated it; commission override: 150 refused (range), empty reason refused, 5% saved after the confirmation step and shown as an override; members list, buyer suspend and reactivate, own admin account shows "can't change here"; orders tabs with counts and the drawer.
+- Test event as organizer@ticketzy.demo (created through the API with the organizer's token, submitted): approved in the UI, buyer@ticketzy.demo paid 2 tickets, cancelled in the UI with a reason; the order read REFUNDED through the API and "Check and finish refunds" said nothing was waiting.
+- A signed-in ORGANIZER opening `/admin/events` was sent to `/organizer`.
+- Dark and light themes on all seven pages; 390 px (iframe, the browser window cannot go below 606 px): no horizontal overflow in either theme.
+- Found and fixed while testing: members list used a query for what is a mutation; duplicated "did not run" sentence; row labels shown on desktop; plural member type label in rows.
+- **Not tested:** ko, ru and uz pages in the browser (a saved locale reset to English when I opened `/ru/...`; keys only, parity by script); the cancel dialog's server error path; admin approval failing on `CANNOT_APPROVE_OWN_EVENT`; the "AI unavailable" error state (the AI was on, so only the stored `checked: false` state was seen); pagination past page 1 (all lists have fewer than 11 rows per tab); the real 390 px viewport of dialogs and drawers.
+- Test data left behind: "seng part", Midnight Jazz Sessions and Laugh Cellar Anniversary Special are now APPROVED; "Xayr maktab" REJECTED; "QA Test Comedy Night" still PENDING; "QA Admin Test Weekend" CANCELLED with one refunded order; New Stage Productions is ACTIVE with a 10% override that ends on 9 Oct 2026 about 07:40 UTC (same as base; no reset exists); Demo Crowd was suspended and reactivated.

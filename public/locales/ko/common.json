@@ -87,7 +87,10 @@
       "users": "사용자",
       "catalog": "카테고리 및 장소",
       "settings": "플랫폼 설정",
-      "venues": "공연장"
+      "venues": "공연장",
+      "eventApprovals": "이벤트 승인",
+      "commission": "수수료",
+      "members": "회원"
     },
     "overviewTitle": "개요",
     "adminOverviewTitle": "플랫폼 개요"

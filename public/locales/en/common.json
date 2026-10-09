@@ -87,7 +87,10 @@
       "users": "Users",
       "catalog": "Categories and venues",
       "settings": "Platform settings",
-      "venues": "Venues"
+      "venues": "Venues",
+      "eventApprovals": "Event approvals",
+      "commission": "Commission",
+      "members": "Members"
     },
     "overviewTitle": "Overview",
     "adminOverviewTitle": "Platform overview"

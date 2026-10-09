@@ -3,17 +3,15 @@ import {
 	Icon,
 	ChartBar,
 	MapPin,
+	Percent,
 	CheckCircle,
 	CreditCard,
 	Calendar,
-	EnvelopeSimple,
-	FileText,
 	Receipt,
 	Scan,
 	Shield,
 	Sliders,
 	SquaresFour,
-	Tag,
 	User,
 	Users,
 	UsersThree,
@@ -60,28 +58,21 @@ export const ADMIN_NAV: NavGroup[] = [
 		title: 'dashboard.groups.moderation',
 		items: [
 			{ href: '/admin', label: 'dashboard.nav.overview', icon: icon(SquaresFour), exact: true },
-			{ href: '/admin/queue', label: 'dashboard.nav.reviewQueue', icon: icon(CheckCircle) },
-			{ href: '/admin/events', label: 'dashboard.nav.allEvents', icon: icon(Calendar) },
+			{ href: '/admin/events', label: 'dashboard.nav.eventApprovals', icon: icon(CheckCircle) },
 			{ href: '/admin/organizers', label: 'dashboard.nav.organizers', icon: icon(Users) },
-			{ href: '/admin/messages', label: 'dashboard.nav.messages', icon: icon(EnvelopeSimple) },
 		],
 	},
 	{
 		title: 'dashboard.groups.money',
 		items: [
 			{ href: '/admin/orders', label: 'dashboard.nav.orders', icon: icon(Receipt) },
-			{ href: '/admin/refunds', label: 'dashboard.nav.refunds', icon: icon(CreditCard) },
+			{ href: '/admin/commission', label: 'dashboard.nav.commission', icon: icon(Percent) },
 		],
 	},
 	{
 		title: 'dashboard.groups.platform',
-		items: [
-			{ href: '/admin/users', label: 'dashboard.nav.users', icon: icon(User) },
-			{ href: '/admin/catalog', label: 'dashboard.nav.catalog', icon: icon(Tag) },
-			{ href: '/admin/settings', label: 'dashboard.nav.settings', icon: icon(Sliders) },
-		],
+		items: [{ href: '/admin/members', label: 'dashboard.nav.members', icon: icon(User) }],
 	},
 ];
 
-export const ADMIN_FOOT: NavItem = { href: '/admin/audit', label: 'dashboard.auditLog', icon: icon(FileText) };
 export const ADMIN_BADGE_ICON = <Shield size={14} aria-hidden />;
