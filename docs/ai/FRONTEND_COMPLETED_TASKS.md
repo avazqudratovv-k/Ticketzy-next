@@ -450,3 +450,37 @@ Goal: small role fixes and follow / unfollow. Not committed. Decisions F210 to F
 - ko, ru, uz visually (strings only). The buyer's Follow / Following button at 390 px and in dark (only the admin hint was seen there). The "No data found!" unfollow race. Real `Self subscription` / `Only organizers` responses (cannot be reached from the UI).
 - The browser window was hidden, so a fresh page load did not hydrate; all pages were opened by client navigation after one load.
 - Test data: the buyer followed and unfollowed the one demo organizer (follower count is back at 0). The tab ended signed in as admin.
+
+## Prompt 9d: organizer area finished (Attendees, Payouts, Analytics, Profile)
+
+Goal: the four organizer sidebar links that led nowhere now have pages, built only from data the backend returns. Not committed.
+
+### Schema
+- `docs/ai/schema.json` re-fetched from `http://localhost:3007/graphql`. The SDL is unchanged (compared type by type with the previous file).
+- Operations used (exact names): `getEventAttendees(input: AttendeesInquiry{eventId, page, limit, ticketStatus?}): Attendees`, `getEventSales(eventId): EventSales`, `getMyEarnings: MyEarnings`, `getMyEventOrders(input: OrganizerOrdersInquiry)`, `getMyEvents` (also `eventViews`, `eventLikes`), `getMember(memberId)` on the organizer's own id (`completedEvents`, `memberFollowers`, `memberEvents`, `commissionOverride{rate, endsAt, reason}`, `memberStatus`), `updateMember(input: MemberUpdate)`, `imageUploader(file, target: "member")`.
+
+### Pages
+- `/organizer/attendees`: event selector, status tabs (All, Valid, Used, Refunded) with counts, search (buyer, order number, ticket code), pagination, totals (sold, checked in, not yet, refunded), drawer per attendee (all tickets of the same order), "Download CSV" of the current filtered list. State is in the URL (`event`, `status`, `q`, `page`).
+- `/organizer/payouts`: earnings summary from `getMyEarnings`, net payout split by event state, commission tier ladder with the remaining completed events and any active override with its end date, per-event table (gross, commission, refunded, net, event state).
+- `/organizer/analytics`: event selector (or all events) and period (14, 30, 90 days, since the first sale), tiles, sales over time (tickets or revenue, bars, "View as table"), revenue by event, ticket type mix, reach (views, likes, followers, paid orders per view).
+- `/organizer/profile`: form (organization name, nickname, about, address, phone, logo upload; email shown read-only), live preview of the public page header, account card (status, followers, events, completed events), commission tier, unsaved-changes guard (`useUnsavedGuard`), success and error messages.
+- Avatar menu: "Profile" is back for organizers. `/organizers/[id]` now also shows the organizer's address (already in the query, `memberAddress`).
+
+### Files
+- New: `apollo/organizer/sales.ts`; `libs/organizer/{attendees,analytics,commission,payouts,profile,useAllAttendees,useSalesEvents}.ts`; `libs/components/organizer/sales/{EventSelect,TicketStatusBadge,AttendeeDrawer,CommissionTier,BarChart,BarList,ProfilePreview}.tsx`; `pages/organizer/{attendees,payouts,analytics,profile}.tsx`.
+- Changed: `AccountMenu.tsx`, `libs/routes.ts`, `pages/organizers/[id].tsx`, `scss/organizer.scss` (appended block), `public/locales/{en,ko,ru,uz}/{organizer,common}.json` (204 organizer keys per language, placeholders checked by script).
+
+### Verified
+- `yarn tsc --noEmit`: clean. `yarn lint`: clean. `yarn build` in a scratch copy (deleted afterwards): passes, the running dev server was untouched.
+- Browser (organizer@ticketzy.demo, localhost:3000, 400 px wide viewport, dark and light):
+  - Attendees: Incheon FC vs Seoul United shows 61 sold, 1 checked in, 60 not yet, 0 refunded, the same numbers `getEventAttendees` gives to the check-in counter. For every event with sales, tickets sold equals the sum of `ticketCount` of its PAID orders (checked through the API for all events).
+  - Used filter, drawer (2 tickets of one order), CSV (only the filtered row), page 2 of 7.
+  - Payouts: gross ₩14,783,000, commission ₩1,478,300, net ₩13,304,700, refunded ₩550,000 (228 tickets); the same `getMyEarnings` numbers as the dashboard. The two net splits (₩367,200 + ₩12,937,500) add up to the net payout. Analytics shows the same 228 tickets and ₩14,783,000.
+  - Profile: edited the description, "Profile saved", the public page showed it. Description restored afterwards through `updateMember`.
+  - Account menu lists Profile.
+- Found and fixed while testing: pagination showed the raw key `pagination.compact` because the `events` namespace was not loaded on `/organizer/attendees`.
+
+### Not tested
+- Logo upload in the browser (no file could be sent from the test tool). The upload link already sends `apollo-require-preflight` (`apollo/client.ts`) and the form uses the same `imageUploader(target: "member")` call as `/settings`.
+- ko, ru, uz visually; the pages at a real 1440 px desktop width (the test window stayed 400 px wide); the profile of a PENDING organizer; the unsaved-changes prompt (reuses `useUnsavedGuard` from the event form); refunded attendees (no demo event had any); the commission override banner (the demo organizer has no override); weekly buckets (only appear for spans over 120 days).
+- Fresh page loads in the dev server took 10 to 25 seconds before hydrating (first compile of each page); this was the same for existing pages.

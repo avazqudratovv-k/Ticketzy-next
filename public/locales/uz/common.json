@@ -33,7 +33,8 @@
     "notifications": "Bildirishnomalar",
     "following": "Kuzatayotganlarim",
     "messages": "Xabarlar",
-    "adminPanel": "Admin paneli"
+    "adminPanel": "Admin paneli",
+    "organizerProfile": "Profil"
   },
   "banner": {
     "pendingTitle": "Tashkilotchi akkauntingiz tekshirilmoqda.",

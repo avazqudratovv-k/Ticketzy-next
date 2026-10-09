@@ -48,6 +48,7 @@ export const organizerEventEditUrl = (id: string) => `/organizer/events/${id}/ed
 
 export const organizerEventOrdersUrl = (id: string) => `/organizer/events/${id}/orders`;
 export const organizerCheckInUrl = '/organizer/check-in';
+export const organizerProfileUrl = '/organizer/profile';
 
 export const organizerVenuesUrl = '/organizer/venues';
 export const organizerVenueNewUrl = '/organizer/venues/new';

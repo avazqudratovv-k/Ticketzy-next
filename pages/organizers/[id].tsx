@@ -112,6 +112,7 @@ const OrganizerPage: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 					<h1>{name}</h1>
 					{member.memberNick && member.memberNick !== name && <p className="event__muted">@{member.memberNick}</p>}
 					{member.memberDesc && <p className="organizer__desc">{member.memberDesc}</p>}
+					{member.memberAddress && <p className="event__muted organizer__address">{member.memberAddress}</p>}
 					<ul className="event__counts">
 						<li>
 							{t('organizer.eventsCount', { count: member.memberEvents, n: formatNumber(member.memberEvents, locale) })}

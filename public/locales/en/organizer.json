@@ -902,5 +902,279 @@
         "text": "Something went wrong. Try again."
       }
     }
+  },
+  "sales": {
+    "event": "Event",
+    "allEvents": "All events"
+  },
+  "attendees": {
+    "title": "Attendees",
+    "subtitle": "Everyone holding a ticket for the selected event.",
+    "download": "Download CSV",
+    "totals": "Ticket totals",
+    "totalsLabel": {
+      "sold": "Tickets sold",
+      "checkedIn": "Checked in",
+      "notYet": "Not yet",
+      "refunded": "Refunded"
+    },
+    "totalsNote": "Sold counts valid and used tickets, the same count the check-in screen uses. Refunded tickets are counted apart.",
+    "tabsLabel": "Ticket status",
+    "status": {
+      "VALID": "Valid",
+      "USED": "Used",
+      "REFUNDED": "Refunded"
+    },
+    "search": "Search attendees",
+    "searchPlaceholder": "Search by buyer, order or ticket code",
+    "cols": {
+      "buyer": "Buyer",
+      "order": "Order",
+      "ticket": "Ticket",
+      "seat": "Seat",
+      "code": "Ticket code",
+      "status": "Status",
+      "checkedIn": "Checked in"
+    },
+    "notYet": "Not yet",
+    "showing": "Showing {{from}}–{{to}} of {{total}} tickets",
+    "loading": "Loading attendees",
+    "partial": "The list stops at 10,000 tickets; the totals above are complete.",
+    "timeNote": "Check-in times are shown in the venue’s time zone ({{zone}}).",
+    "empty": {
+      "title": "No tickets yet",
+      "text": "Tickets appear here as soon as someone pays for an order."
+    },
+    "none": {
+      "title": "No attendees match",
+      "text": "Try another name or status.",
+      "clear": "Clear filters"
+    },
+    "noEvents": {
+      "title": "No events with sales yet",
+      "text": "Attendees appear once an event is approved and on sale."
+    },
+    "error": {
+      "title": "We couldn’t load attendees",
+      "text": "Check your connection and try again."
+    },
+    "drawer": {
+      "close": "Close",
+      "tickets": "Tickets in this order",
+      "checkedInAt": "Checked in {{when}}",
+      "openOrders": "Open this event’s orders"
+    }
+  },
+  "commission": {
+    "rate": "{{rate}}% commission",
+    "byOverride": "Set by Ticketzy for your account",
+    "tierName": {
+      "0": "Base rate",
+      "1": "Tier 2",
+      "2": "Tier 3"
+    },
+    "overrideTitle": "Special rate: {{rate}}%.",
+    "overrideUntil": "Active until {{date}}.",
+    "overrideOpen": "Active until Ticketzy changes it.",
+    "overrideReason": "Reason: {{reason}}",
+    "overrideThen": "After it ends, your rate by completed events is {{rate}}%.",
+    "overrideExpired": "An earlier special rate of {{rate}}% ended {{date}}.",
+    "ladder": "Commission by completed events",
+    "step": {
+      "0": "Fewer than 5 completed events",
+      "1": "From 5 completed events",
+      "2": "From 20 completed events"
+    },
+    "yourTier": "Your tier",
+    "reached": "Reached",
+    "locked": "Not yet",
+    "completed": "Completed events: {{n}}.",
+    "remaining": "Next tier ({{rate}}%): {{n}} more completed events.",
+    "top": "You are on the lowest rate.",
+    "appliesNote": "A change of rate applies to tickets sold after it; each order keeps the rate it was sold at."
+  },
+  "payouts": {
+    "title": "Payouts",
+    "subtitle": "What you earn from ticket sales, after Ticketzy’s commission.",
+    "notTracked": "Ticketzy does not record payout transfers yet, so there is no paid or pending status and no payout date. The figures below are what your sales earn you, calculated from paid orders.",
+    "summary": "Earnings summary",
+    "gross": "Gross sales",
+    "grossSub": "Tickets sold: {{n}}",
+    "commission": "Commission",
+    "commissionSub": "Charged at the rate on each order",
+    "net": "Net payout",
+    "netSub": "Gross sales minus commission",
+    "refunded": "Refunded to buyers",
+    "refundedSub": "Not included in gross sales",
+    "allTime": "All time, across all your events.",
+    "split": {
+      "title": "Net payout by event state",
+      "ended": "From events that have ended",
+      "selling": "From events still on sale",
+      "note": "This is the state of the event, not of a bank transfer."
+    },
+    "tier": {
+      "title": "Your commission"
+    },
+    "byEvent": "Payouts by event",
+    "cols": {
+      "event": "Event",
+      "gross": "Gross sales",
+      "commission": "Commission",
+      "refunded": "Refunded",
+      "net": "Net payout",
+      "state": "State"
+    },
+    "endsOn": "Ends {{date}}",
+    "endedOn": "Ended {{date}}",
+    "tickets": "Tickets sold: {{n}}",
+    "state": {
+      "selling": "On sale",
+      "ended": "Ended",
+      "cancelled": "Cancelled"
+    },
+    "tableNote": "Cancelled events are refunded in full, so their gross sales are zero. Refunded orders are not part of gross sales.",
+    "partial": "Some figures cover only your latest 100 events or 1,000 refunded orders.",
+    "empty": {
+      "title": "No sales yet",
+      "text": "Once tickets sell, your earnings by event appear here."
+    },
+    "error": {
+      "title": "We couldn’t load your earnings"
+    }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Sales and reach for one event, or for all of them.",
+    "error": {
+      "title": "We couldn’t load analytics"
+    },
+    "noEvents": {
+      "title": "Nothing to analyse yet",
+      "text": "Analytics start once an event is approved and on sale."
+    },
+    "period": {
+      "label": "Period",
+      "days": "Last {{count}} days",
+      "all": "Since the first sale"
+    },
+    "totalsLabel": "Totals",
+    "tiles": {
+      "tickets": "Tickets sold",
+      "revenue": "Revenue",
+      "average": "Average {{amount}} per ticket",
+      "commission": "Commission",
+      "commissionSub": "{{percent}}% of revenue",
+      "daysLeft": "Days until the event",
+      "events": "Events"
+    },
+    "totalsNote": "Tiles show totals from the first sale; the period only changes the chart.",
+    "now": "Now",
+    "sales": {
+      "title": "Sales over time",
+      "metric": "Chart measure",
+      "tickets": "Tickets",
+      "revenue": "Revenue",
+      "range": "{{from}} to {{to}} ({{period}})",
+      "weekly": "weekly totals",
+      "chartLabel": "{{metric}} over time",
+      "zone": "Days follow the time zone {{zone}}.",
+      "empty": "No paid orders yet, so there is nothing to chart.",
+      "error": "We couldn’t load the sales.",
+      "truncated": "Built from your latest {{count}} paid orders; the earliest days may be incomplete."
+    },
+    "chart": {
+      "hover": "Hover or focus a bar to see its day.",
+      "best": "Best: {{text}}",
+      "showTable": "View as table",
+      "hideTable": "Hide table",
+      "day": "Day",
+      "weekOf": "Week of {{date}}",
+      "tickets": "Tickets: {{n}}"
+    },
+    "byEvent": {
+      "title": "Revenue by event",
+      "detail": "Tickets sold: {{n}}",
+      "empty": "No tickets sold yet."
+    },
+    "mix": {
+      "title": "Ticket type mix",
+      "empty": "No tickets sold yet.",
+      "merged": "Ticket types with the same name in different events are added together."
+    },
+    "share": "{{percent}}%",
+    "reach": {
+      "title": "Reach",
+      "derived": "Derived",
+      "views": "Views",
+      "likes": "Likes",
+      "followers": "Followers",
+      "buyers": "Paid orders per view",
+      "buyersSub": "Paid orders ÷ views",
+      "note": "Views are counted once per signed-in member, so visitors who were not signed in are missing. Views and likes are counters on your events; followers belong to your organizer account, not to one event. The ratio is derived and approximate."
+    },
+    "derivedNote": "Totals come from the server. The chart, the shares and the ratio are calculated in your browser from your paid orders and event counters."
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "What buyers see on your organizer page, and how we reach you.",
+    "viewPublic": "View public page",
+    "notPublic": "Your page is not public yet. It appears as soon as your account is approved.",
+    "public": "Public profile",
+    "changeLogo": "Change logo",
+    "logoHint": "PNG or JPEG, up to {{size}} MB. Square and 400 × 400 px or larger works best.",
+    "logoType": "Use a PNG or JPEG image.",
+    "logoSize": "That file is too large. The limit is {{size}} MB.",
+    "logoReady": "{{name}} will be uploaded when you save.",
+    "fullName": "Organization name",
+    "fullNameHint": "Shown on your organizer page and event pages. 3 to 100 characters.",
+    "nick": "Nickname",
+    "nickHint": "Your @handle, 3 to 12 characters.",
+    "desc": "About",
+    "descHint": "Shown on your organizer page.",
+    "address": "Address or location",
+    "addressHint": "Shown on your organizer page. Optional.",
+    "email": "Contact email",
+    "emailHint": "The email you sign in with. It can’t be changed here.",
+    "phone": "Phone",
+    "phoneHint": "For Ticketzy to reach you. Not shown on your public page. Optional.",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "discard": "Discard changes",
+    "saved": "Profile saved. Your public page shows the changes.",
+    "leave": "You have unsaved changes to your profile. Leave without saving?",
+    "error": {
+      "fullName": "Enter 3 to 100 characters.",
+      "nick": "Enter 3 to 12 characters.",
+      "desc": "Keep it under {{max}} characters.",
+      "address": "Keep it under {{max}} characters.",
+      "phone": "Enter a valid phone number, for example +82 10 0000 0000.",
+      "taken": "That nickname or phone is already used.",
+      "save": "We couldn’t save your profile. Please try again.",
+      "load": "We couldn’t load your profile details."
+    },
+    "preview": {
+      "title": "Public page preview",
+      "note": "How your page header looks to buyers. It updates as you type; nothing is saved until you press Save.",
+      "label": "Preview of your public page",
+      "noName": "Your organization name",
+      "noDesc": "Your description will appear here."
+    },
+    "account": {
+      "title": "Account",
+      "status": "Status",
+      "statusValue": {
+        "ACTIVE": "Approved",
+        "PENDING": "Waiting for approval",
+        "REJECTED": "Not approved",
+        "SUSPENDED": "Suspended",
+        "DELETE": "Closed"
+      },
+      "followers": "Followers",
+      "events": "Events",
+      "completed": "Completed events",
+      "since": "Member since",
+      "payouts": "Open payouts"
+    }
   }
 }

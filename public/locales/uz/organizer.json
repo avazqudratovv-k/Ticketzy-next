@@ -902,5 +902,279 @@
         "text": "Xatolik yuz berdi. Qayta urinib koʻring."
       }
     }
+  },
+  "sales": {
+    "event": "Tadbir",
+    "allEvents": "Barcha tadbirlar"
+  },
+  "attendees": {
+    "title": "Ishtirokchilar",
+    "subtitle": "Tanlangan tadbir uchun chiptasi bor barcha kishilar.",
+    "download": "CSV yuklab olish",
+    "totals": "Chiptalar jami",
+    "totalsLabel": {
+      "sold": "Sotilgan chiptalar",
+      "checkedIn": "Tekshiruvdan oʻtgan",
+      "notYet": "Hali oʻtmagan",
+      "refunded": "Qaytarilgan"
+    },
+    "totalsNote": "Sotilganlar soniga amaldagi va ishlatilgan chiptalar kiradi, chipta tekshiruvi ekrani ham shunday sanaydi. Qaytarilgan chiptalar alohida hisoblanadi.",
+    "tabsLabel": "Chipta holati",
+    "status": {
+      "VALID": "Amalda",
+      "USED": "Ishlatilgan",
+      "REFUNDED": "Qaytarilgan"
+    },
+    "search": "Ishtirokchilarni qidirish",
+    "searchPlaceholder": "Xaridor, buyurtma yoki chipta kodi boʻyicha qidiring",
+    "cols": {
+      "buyer": "Xaridor",
+      "order": "Buyurtma",
+      "ticket": "Chipta",
+      "seat": "Oʻrin",
+      "code": "Chipta kodi",
+      "status": "Holat",
+      "checkedIn": "Tekshiruv"
+    },
+    "notYet": "Hali yoʻq",
+    "showing": "{{total}} ta chiptadan {{from}}–{{to}} koʻrsatilmoqda",
+    "loading": "Ishtirokchilar yuklanmoqda",
+    "partial": "Roʻyxat 10 000 ta chiptada toʻxtaydi; yuqoridagi jamilar toʻliq.",
+    "timeNote": "Tekshiruv vaqti joyning vaqt zonasida ({{zone}}) koʻrsatilgan.",
+    "empty": {
+      "title": "Hozircha chiptalar yoʻq",
+      "text": "Kimdir buyurtma uchun toʻlagach, chiptalar shu yerda paydo boʻladi."
+    },
+    "none": {
+      "title": "Mos ishtirokchi topilmadi",
+      "text": "Boshqa ism yoki holatni sinab koʻring.",
+      "clear": "Filtrlarni tozalash"
+    },
+    "noEvents": {
+      "title": "Savdosi boʻlgan tadbirlar yoʻq",
+      "text": "Tadbir tasdiqlanib, sotuvga chiqqach, ishtirokchilar shu yerda koʻrinadi."
+    },
+    "error": {
+      "title": "Ishtirokchilarni yuklab boʻlmadi",
+      "text": "Ulanishni tekshirib, qayta urinib koʻring."
+    },
+    "drawer": {
+      "close": "Yopish",
+      "tickets": "Bu buyurtmadagi chiptalar",
+      "checkedInAt": "Tekshiruvdan oʻtdi: {{when}}",
+      "openOrders": "Bu tadbir buyurtmalarini ochish"
+    }
+  },
+  "commission": {
+    "rate": "Komissiya {{rate}}%",
+    "byOverride": "Ticketzy hisobingiz uchun alohida belgilagan",
+    "tierName": {
+      "0": "Asosiy stavka",
+      "1": "2-daraja",
+      "2": "3-daraja"
+    },
+    "overrideTitle": "Maxsus stavka: {{rate}}%.",
+    "overrideUntil": "{{date}} gacha amal qiladi.",
+    "overrideOpen": "Ticketzy oʻzgartirmaguncha amal qiladi.",
+    "overrideReason": "Sabab: {{reason}}",
+    "overrideThen": "U tugagach, yakunlangan tadbirlar soniga qarab stavkangiz {{rate}}% boʻladi.",
+    "overrideExpired": "Avvalgi {{rate}}% maxsus stavka {{date}} da tugagan.",
+    "ladder": "Yakunlangan tadbirlar soniga qarab komissiya",
+    "step": {
+      "0": "5 tadan kam yakunlangan tadbir",
+      "1": "5 ta yakunlangan tadbirdan",
+      "2": "20 ta yakunlangan tadbirdan"
+    },
+    "yourTier": "Sizning darajangiz",
+    "reached": "Erishilgan",
+    "locked": "Hali yoʻq",
+    "completed": "Yakunlangan tadbirlar: {{n}}.",
+    "remaining": "Keyingi daraja ({{rate}}%) uchun yana {{n}} ta tadbir yakunlanishi kerak.",
+    "top": "Sizda eng past stavka.",
+    "appliesNote": "Yangi stavka undan keyin sotilgan chiptalarga qoʻllanadi; har bir buyurtma sotilgan paytdagi stavkani saqlaydi."
+  },
+  "payouts": {
+    "title": "Toʻlovlar",
+    "subtitle": "Ticketzy komissiyasi ayirilgandan keyin chipta sotuvidan topgan daromadingiz.",
+    "notTracked": "Ticketzy hozircha toʻlov oʻtkazmalarini yozib bormaydi, shuning uchun “toʻlangan” yoki “kutilmoqda” holati va toʻlov sanasi yoʻq. Quyidagi summalar toʻlangan buyurtmalardan hisoblangan, sotuvlaringiz keltirgan daromaddir.",
+    "summary": "Daromad xulosasi",
+    "gross": "Yalpi savdo",
+    "grossSub": "Sotilgan chiptalar: {{n}}",
+    "commission": "Komissiya",
+    "commissionSub": "Har bir buyurtmadagi stavka boʻyicha",
+    "net": "Toʻlanadigan summa",
+    "netSub": "Yalpi savdo minus komissiya",
+    "refunded": "Xaridorlarga qaytarilgan",
+    "refundedSub": "Yalpi savdoga kirmaydi",
+    "allTime": "Butun davr, barcha tadbirlaringiz boʻyicha.",
+    "split": {
+      "title": "Tadbir holati boʻyicha toʻlanadigan summa",
+      "ended": "Tugagan tadbirlardan",
+      "selling": "Hali sotuvdagi tadbirlardan",
+      "note": "Bu tadbirning holati, bank oʻtkazmasining holati emas."
+    },
+    "tier": {
+      "title": "Sizning komissiyangiz"
+    },
+    "byEvent": "Tadbirlar boʻyicha toʻlovlar",
+    "cols": {
+      "event": "Tadbir",
+      "gross": "Yalpi savdo",
+      "commission": "Komissiya",
+      "refunded": "Qaytarilgan",
+      "net": "Toʻlanadigan summa",
+      "state": "Holat"
+    },
+    "endsOn": "Tugaydi: {{date}}",
+    "endedOn": "Tugagan: {{date}}",
+    "tickets": "Sotilgan chiptalar: {{n}}",
+    "state": {
+      "selling": "Sotuvda",
+      "ended": "Tugagan",
+      "cancelled": "Bekor qilingan"
+    },
+    "tableNote": "Bekor qilingan tadbirlar toʻliq qaytariladi, shuning uchun ularning yalpi savdosi nol. Qaytarilgan buyurtmalar yalpi savdoga kirmaydi.",
+    "partial": "Ayrim summalar faqat oxirgi 100 ta tadbir yoki 1000 ta qaytarilgan buyurtmani qamrab oladi.",
+    "empty": {
+      "title": "Hozircha savdo yoʻq",
+      "text": "Chiptalar sotila boshlagach, tadbirlar boʻyicha daromadingiz shu yerda paydo boʻladi."
+    },
+    "error": {
+      "title": "Daromadni yuklab boʻlmadi"
+    }
+  },
+  "analytics": {
+    "title": "Tahlil",
+    "subtitle": "Bitta tadbir yoki barchasi boʻyicha savdo va qamrov.",
+    "error": {
+      "title": "Tahlilni yuklab boʻlmadi"
+    },
+    "noEvents": {
+      "title": "Hozircha tahlil qilinadigan narsa yoʻq",
+      "text": "Tadbir tasdiqlanib, sotuvga chiqqach, tahlil paydo boʻladi."
+    },
+    "period": {
+      "label": "Davr",
+      "days": "Oxirgi {{count}} kun",
+      "all": "Birinchi sotuvdan beri"
+    },
+    "totalsLabel": "Jami",
+    "tiles": {
+      "tickets": "Sotilgan chiptalar",
+      "revenue": "Tushum",
+      "average": "Bir chiptaga oʻrtacha {{amount}}",
+      "commission": "Komissiya",
+      "commissionSub": "Tushumning {{percent}}%",
+      "daysLeft": "Tadbirgacha qolgan kunlar",
+      "events": "Tadbirlar"
+    },
+    "totalsNote": "Kartalar birinchi sotuvdan beri jamilarni koʻrsatadi; davr faqat grafikni oʻzgartiradi.",
+    "now": "Hozir",
+    "sales": {
+      "title": "Vaqt boʻyicha savdo",
+      "metric": "Grafik koʻrsatkichi",
+      "tickets": "Chiptalar",
+      "revenue": "Tushum",
+      "range": "{{from}} — {{to}} ({{period}})",
+      "weekly": "haftalik jamilar",
+      "chartLabel": "Vaqt boʻyicha: {{metric}}",
+      "zone": "Kunlar {{zone}} vaqt zonasi boʻyicha hisoblanadi.",
+      "empty": "Toʻlangan buyurtmalar hali yoʻq, grafik chizishga maʼlumot yoʻq.",
+      "error": "Savdoni yuklab boʻlmadi.",
+      "truncated": "Oxirgi {{count}} ta toʻlangan buyurtmadan tuzilgan; eng dastlabki kunlar toʻliq boʻlmasligi mumkin."
+    },
+    "chart": {
+      "hover": "Kunini koʻrish uchun ustunga olib boring yoki fokus qiling.",
+      "best": "Eng yaxshisi: {{text}}",
+      "showTable": "Jadval sifatida koʻrish",
+      "hideTable": "Jadvalni yashirish",
+      "day": "Kun",
+      "weekOf": "{{date}} dan boshlanuvchi hafta",
+      "tickets": "Chiptalar: {{n}}"
+    },
+    "byEvent": {
+      "title": "Tadbirlar boʻyicha tushum",
+      "detail": "Sotilgan chiptalar: {{n}}",
+      "empty": "Hozircha chipta sotilmagan."
+    },
+    "mix": {
+      "title": "Chipta turlari ulushi",
+      "empty": "Hozircha chipta sotilmagan.",
+      "merged": "Turli tadbirlardagi bir xil nomli chipta turlari qoʻshib hisoblanadi."
+    },
+    "share": "{{percent}}%",
+    "reach": {
+      "title": "Qamrov",
+      "derived": "Hisoblangan",
+      "views": "Koʻrishlar",
+      "likes": "Yoqtirishlar",
+      "followers": "Kuzatuvchilar",
+      "buyers": "Koʻrishga toʻlangan buyurtma",
+      "buyersSub": "Toʻlangan buyurtmalar ÷ koʻrishlar",
+      "note": "Koʻrishlar tizimga kirgan aʼzo uchun bir marta sanaladi, shuning uchun kirmagan tashrifchilar hisobga olinmaydi. Koʻrishlar va yoqtirishlar tadbirlaringiz hisoblagichlari; kuzatuvchilar bitta tadbirga emas, tashkilotchi hisobingizga tegishli. Nisbat hisoblangan va taxminiy."
+    },
+    "derivedNote": "Jamilar serverdan keladi. Grafik, ulushlar va nisbat brauzeringizda toʻlangan buyurtmalar hamda tadbir hisoblagichlaridan hisoblanadi."
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Xaridorlar tashkilotchi sahifangizda nimani koʻradi va siz bilan qanday bogʻlanamiz.",
+    "viewPublic": "Ommaviy sahifani ochish",
+    "notPublic": "Sahifangiz hozircha ommaviy emas. Hisobingiz tasdiqlanishi bilan paydo boʻladi.",
+    "public": "Ommaviy profil",
+    "changeLogo": "Logotipni almashtirish",
+    "logoHint": "PNG yoki JPEG, {{size}} MB gacha. Kvadrat va 400 × 400 px yoki undan katta boʻlgani yaxshi.",
+    "logoType": "PNG yoki JPEG rasmidan foydalaning.",
+    "logoSize": "Fayl juda katta. Chegara — {{size}} MB.",
+    "logoReady": "{{name}} saqlaganingizda yuklanadi.",
+    "fullName": "Tashkilot nomi",
+    "fullNameHint": "Tashkilotchi sahifasi va tadbir sahifalarida koʻrsatiladi. 3 dan 100 gacha belgi.",
+    "nick": "Taxallus",
+    "nickHint": "Sizning @nomingiz, 3 dan 12 gacha belgi.",
+    "desc": "Haqida",
+    "descHint": "Tashkilotchi sahifangizda koʻrsatiladi.",
+    "address": "Manzil yoki joylashuv",
+    "addressHint": "Tashkilotchi sahifangizda koʻrsatiladi. Majburiy emas.",
+    "email": "Aloqa emaili",
+    "emailHint": "Tizimga kirishda ishlatadigan emailingiz. Uni bu yerda oʻzgartirib boʻlmaydi.",
+    "phone": "Telefon",
+    "phoneHint": "Ticketzy siz bilan bogʻlanishi uchun. Ommaviy sahifada koʻrsatilmaydi. Majburiy emas.",
+    "save": "Oʻzgarishlarni saqlash",
+    "saving": "Saqlanmoqda…",
+    "discard": "Oʻzgarishlarni bekor qilish",
+    "saved": "Profil saqlandi. Ommaviy sahifangiz oʻzgarishlarni koʻrsatadi.",
+    "leave": "Profilda saqlanmagan oʻzgarishlar bor. Saqlamasdan chiqilsinmi?",
+    "error": {
+      "fullName": "3 dan 100 gacha belgi kiriting.",
+      "nick": "3 dan 12 gacha belgi kiriting.",
+      "desc": "{{max}} belgidan oshmasin.",
+      "address": "{{max}} belgidan oshmasin.",
+      "phone": "Toʻgʻri telefon raqamini kiriting, masalan +82 10 0000 0000.",
+      "taken": "Bu taxallus yoki telefon allaqachon band.",
+      "save": "Profilni saqlab boʻlmadi. Qayta urinib koʻring.",
+      "load": "Profil maʼlumotlarini yuklab boʻlmadi."
+    },
+    "preview": {
+      "title": "Ommaviy sahifa koʻrinishi",
+      "note": "Sahifangiz yuqori qismi xaridorlarga shunday koʻrinadi. U yozgan sari yangilanadi; “Saqlash” bosilmaguncha hech narsa saqlanmaydi.",
+      "label": "Ommaviy sahifa koʻrinishi",
+      "noName": "Tashkilotingiz nomi",
+      "noDesc": "Taʼrifingiz shu yerda koʻrinadi."
+    },
+    "account": {
+      "title": "Hisob",
+      "status": "Holat",
+      "statusValue": {
+        "ACTIVE": "Tasdiqlangan",
+        "PENDING": "Tasdiq kutilmoqda",
+        "REJECTED": "Tasdiqlanmagan",
+        "SUSPENDED": "Toʻxtatilgan",
+        "DELETE": "Yopilgan"
+      },
+      "followers": "Kuzatuvchilar",
+      "events": "Tadbirlar",
+      "completed": "Yakunlangan tadbirlar",
+      "since": "Aʼzo boʻlgan sana",
+      "payouts": "Toʻlovlarni ochish"
+    }
   }
 }

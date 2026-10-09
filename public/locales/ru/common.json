@@ -33,7 +33,8 @@
     "notifications": "Уведомления",
     "following": "Подписки",
     "messages": "Сообщения",
-    "adminPanel": "Панель администратора"
+    "adminPanel": "Панель администратора",
+    "organizerProfile": "Профиль"
   },
   "banner": {
     "pendingTitle": "Аккаунт организатора на проверке.",

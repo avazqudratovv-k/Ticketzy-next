@@ -33,7 +33,8 @@
     "notifications": "알림",
     "following": "팔로잉",
     "messages": "메시지",
-    "adminPanel": "관리자 패널"
+    "adminPanel": "관리자 패널",
+    "organizerProfile": "프로필"
   },
   "banner": {
     "pendingTitle": "주최자 계정을 검토하고 있어요.",

@@ -33,7 +33,8 @@
     "notifications": "Notifications",
     "following": "Following",
     "messages": "Messages",
-    "adminPanel": "Admin panel"
+    "adminPanel": "Admin panel",
+    "organizerProfile": "Profile"
   },
   "banner": {
     "pendingTitle": "Your organizer account is being reviewed.",

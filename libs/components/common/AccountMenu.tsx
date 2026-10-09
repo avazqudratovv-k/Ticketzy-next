@@ -27,6 +27,7 @@ const linksFor = (type: MemberType): { href: string; key: string }[] => {
 			return [
 				{ href: ROUTES.organizerDashboard, key: 'account.organizerDashboard' },
 				{ href: '/organizer/events', key: 'account.organizerEvents' },
+				{ href: '/organizer/profile', key: 'account.organizerProfile' },
 				{ href: '/organizer/messages', key: 'account.messages' },
 				{ href: ROUTES.notifications, key: 'account.notifications' },
 				{ href: ROUTES.settings, key: 'account.settings' },
