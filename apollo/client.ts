@@ -33,9 +33,11 @@ function createIsomorphicLink() {
 		// No popups here: errors reach the caller (see parseApiError in libs/errors). Logged in development only.
 		const errorLink = onError(({ graphQLErrors, networkError }) => {
 			if (process.env.NODE_ENV !== 'development') return;
-			graphQLErrors?.forEach(({ message, locations, path }) =>
-				console.error(`[GraphQL error]: ${message}`, { locations, path }),
-			);
+			graphQLErrors?.forEach(({ message, locations, path }) => {
+				// The backend answers an empty list with "No data found!"; callers treat it as an empty result (isOnlyNoData), so it is not an error worth a red line
+				if (message === 'No data found!') return;
+				console.error(`[GraphQL error]: ${message}`, { locations, path });
+			});
 			if (networkError) console.error(`[Network error]: ${networkError}`);
 		});
 

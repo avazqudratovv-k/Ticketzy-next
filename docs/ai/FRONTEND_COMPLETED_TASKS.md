@@ -509,3 +509,45 @@ Goal: the four organizer sidebar links that led nowhere now have pages, built on
 - `/robots.txt` and `/sitemap.xml` were also checked on the running dev server on port 3000 (they work there without a restart).
 - Client-side navigation by `router.push` in the background test tab stalled and produced a hydration warning; the same happened on an existing page (`/sell` to `/events`) with the error boundary removed, and a real click on a link worked, so it was treated as a test-tab artifact (the tab reports `document.hidden`).
 - Contrast was checked by axe only (no manual review of every state, for example hover and disabled).
+
+## Prompt 10b: motion, responsive and language polish
+
+### Built
+- **Motion** (CSS only, no new dependency; tokens in `tokens.css`/`tokens.json`, rules in `scss/motion.scss`): seat map pulse and smooth colour change; hold countdown ring on the picker, the pending-order box and checkout (urgent in the last 10 seconds, server time offset); route fade/slide on `main`; card lift and image zoom (hover devices only), press states, eased focus ring; animated check mark on the paid confirmation, QR fade-in, success messages slide in (refund, saved forms, settings); dashboard and admin counters count up once; bell shakes once; assistant panel closes smoothly; one slow hero drift on the home page. Reduced motion turns everything off except a 120 ms page fade.
+- **Skeletons**: the lists and detail pages already had skeleton loaders (events, event detail, orders, tickets, organizer and admin tables); the only spinner left is the 14 px one inside the follow button. The seat map, editors, charts and scanner get a skeleton block while their code loads.
+- **Responsive** (`scss/responsive.scss` and small fixes, see F262, F263): 44 px touch targets below 768 px, seat list buttons 44 px, no wrapped figures, no cut dates, no page-wide overflow in Russian.
+- **Language pass**: `yarn i18n:check` (new script); fixes for the raw key `pagination.compact` on four admin pages, the `auth` namespace on the organizer profile, and layout fixes found in ko, ru, uz (F263).
+- **Accessibility**: `definition-list` (serious) on the last step of the event form, `page-has-heading-one` on `/sell`, 36 px password toggle.
+- **Performance**: lazy loading, image sizes and a resizing loader (F269, F270); `useIsomorphicLayoutEffect`; hydration fix on `/events`; the admin overview counters bug (F265).
+
+### Bundle sizes (First Load JS, `yarn build` of the committed code against the working tree, both in scratch copies)
+| Page | Before | After |
+|---|---|---|
+| /organizer/venues/[id] | 291 kB | 260 kB |
+| /organizer/venues/new | 290 kB | 258 kB |
+| /organizer/events/[id]/edit | 282 kB | 259 kB |
+| /organizer/events/new | 281 kB | 258 kB |
+| /tickets/[ticketId] | 277 kB | 270 kB |
+| /events | 276 kB | 278 kB |
+| /admin/events/[id] | 276 kB | 278 kB |
+Shared by all pages 254 kB to 255 kB; total of all 51 routes 13,375 kB to 13,344 kB. The five heaviest before (venue editor, new venue, event edit, new event, ticket) dropped by 7 to 32 kB. The five heaviest now are `/admin/events/[id]`, `/admin/organizers`, `/events` (all 278 kB), `/admin/members` (276) and `/organizer/profile` (275); a few admin pages and the profile grew by 2 to 5 kB (next/image on the event pages, CountUp, motion code; the cause of the +5 on the admin organizers, members and profile pages was not found). The 255 kB shared chunk (MUI, Apollo, i18n, React) was not reduced. `next build` still warns that the translation data of some admin pages is over 128 kB (they load several namespaces).
+- Fonts: `next/font` self-hosts Onest, Noto Sans KR and JetBrains Mono with size-adjusted fallbacks; the Hangul slices of Noto Sans KR load on demand (checked: `__Noto_Sans_KR` faces loaded on `/ko/events`); layout shift measured by a `layout-shift` observer on home (390 and 1440 px), events and event detail: 0.000.
+
+### Verified
+- `yarn tsc --noEmit`, `yarn lint`, `yarn i18n:check`: clean. `yarn build` in a scratch copy: passes; the dev server on port 3000 was not touched.
+- **Console and terminal**: browser console on home, events, event detail, seats and several organizer pages: no React warning (one hydration warning on `/events` was found and fixed). The user's dev terminal cannot be read from here; instead a scratch `next dev` on port 3100 (used only for `curl` of 23 pages in four languages, then killed) printed no warning.
+- **Per page group** (iframe widths, see F273; en unless said; "390 ko/ru/uz" = all pages of the group listed in the last row):
+  - Public (home, events, event detail, seat picker, FAQ, about, terms, privacy, contact, sell, login, sign-up, join): 390 dark and light, 768, 1440 (home, events, detail, seats); ko, ru, uz at 390 for all of them; axe light on login, sign-up, sell and join: no serious or critical.
+  - Buyer (checkout, orders, order detail, confirmation, tickets, ticket detail, notifications, settings, saved, following): 390 dark (checkout also light), 768 (orders, order, tickets, ticket, seats), 1440 (orders, ticket, settings, notifications); ko, ru, uz at 390: ru orders, order detail, confirmation, tickets, ticket detail, notifications, settings; ko order detail, tickets, settings; uz orders, order detail, tickets, settings (saved, following and checkout only in en); axe light on checkout: none. The seat picker was driven at 390 px: seat selected by click (pulse seen), Continue created an order, checkout showed the ring 0:26, amber, then red at 0:08. The QR code renders after the lazy import.
+  - Organizer (dashboard, events, event form all six steps, venues list and editor, orders, attendees, payouts, analytics, check-in, messages, profile): 390 dark (events also light), 768 light (dashboard, events, new event, orders, venues, new venue, attendees, payouts); ko, ru, uz at 390 for all 13; axe light on all six steps of a new event and of an existing event: none after the fix.
+  - Admin (overview, events, event detail, members, orders, organizers, commission, messages): 390 dark, 768 dark, 1024 light, 1440 dark; ko, ru and uz at 390 (ko and ru all eight, uz overview, organizers, orders, members); axe light on all eight: none.
+- **Reduced motion**: media rules unwrapped in a loaded page, computed styles read (main fades 120 ms, the rest 0.01 ms).
+- **Language**: dates, numbers and money come from `Intl` (ko "₩4,141", ru "4 141 ₩", uz "₩ 4,141" as this browser's ICU gives it) and the existing Uzbek date helper; no raw key found by the script or by the page scans; Korean text uses Noto Sans KR (faces loaded).
+
+### Not tested / left
+- No real touch device: pinch and drag on the seat map were not exercised (clicks were sent by script); hover lift and image zoom were checked by CSS, not by a mouse; the bell shake was checked by adding the class, not by a real new notification; the pay button was not pressed (it would change demo orders), so the check mark was seen only through the existing paid confirmation page.
+- Not every page at every width and theme: 1024 px was run for the admin pages (light) and a few others; organizer pages were not run at 1024 or 1440 px; ko, ru and uz were only run at 390 px; light theme was run on the pages named above, dark elsewhere.
+- axe was not run on dialogs, drawers, menus or the assistant panel.
+- Uzbek number grouping follows the browser's ICU data (comma), which may differ from CLDR in other browsers.
+- The backend's "No data found!" for an empty list nulls a whole query document; only the admin overview was split. Other admin pages that combine several lists in one query were not checked for the same wrong zeros.
+- The 255 kB shared bundle and the large translation payloads of some admin pages are unchanged.

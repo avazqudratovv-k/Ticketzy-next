@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useApolloClient } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
@@ -18,12 +19,17 @@ import { serverNow } from '../../seats/clock';
 import { checkoutErrorKey, isSeatConflict } from '../../seats/errors';
 import { compareSeats, seatKey, takenMap, tierColor, tierIndexes, totalSeats } from '../../seats/layout';
 import { SeatConfig, SeatRef } from '../../seats/types';
+import { seatVisual } from '../../seats/visual';
 import { checkoutUrl } from '../../routes';
 import { TicketTypeItem } from '../../types/event';
 import Countdown from './Countdown';
-import SeatMap, { seatVisual } from './SeatMap';
 import SeatSummary, { SummaryLine } from './SeatSummary';
 import { SeatGrid, SectionInfo, SectionList } from './SectionList';
+// The map (SVG, zoom and pan) is the heaviest part of the page and only needed once the seats are known
+const SeatMap = dynamic(() => import('./SeatMap'), {
+	ssr: false,
+	loading: () => <div className="seatmap seatmap--loading tz-skel" aria-hidden="true" />,
+});
 
 interface Props {
 	eventId: string;
@@ -356,7 +362,7 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 				{pending && (
 					<div className="tz-alert tz-alert--warning pending" role="status">
 						<div className="pending__body">
-							<Countdown deadline={pending.expiresAt} title={t('pending.title')} text={t('pending.text')} onExpire={onPendingExpired} />
+							<Countdown deadline={pending.expiresAt} totalSeconds={config.seatHoldSeconds} title={t('pending.title')} text={t('pending.text')} onExpire={onPendingExpired} />
 							<div className="pending__actions">
 								<Button component={Link} href={checkoutUrl(pending._id)} variant="contained">
 									{t('pending.resume')}
@@ -421,7 +427,7 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 				empty={t('summary.empty')}
 				timer={
 					holdDeadline && !pending ? (
-						<Countdown deadline={holdDeadline} title={t('hold.left')} text={t('hold.text')} onExpire={onHoldExpired} />
+						<Countdown deadline={holdDeadline} totalSeconds={config.seatHoldSeconds} title={t('hold.left')} text={t('hold.text')} onExpire={onHoldExpired} />
 					) : (
 						<div className="countdown countdown--idle">
 							<p className="countdown__text">{t('hold.idle', { seconds: config.seatHoldSeconds })}</p>

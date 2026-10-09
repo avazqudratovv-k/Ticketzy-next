@@ -77,7 +77,9 @@ const SalesChart = ({ points, currency, locale }: Props) => {
 					</text>
 				))}
 			</svg>
-			<table className="org-visually-hidden">
+			{/* the clipping box is a div: a table keeps its content width and widened the page in Russian */}
+			<div className="org-visually-hidden">
+			<table>
 				<caption>{t('dashboard.chart.label')}</caption>
 				<thead>
 					<tr>
@@ -96,6 +98,7 @@ const SalesChart = ({ points, currency, locale }: Props) => {
 					))}
 				</tbody>
 			</table>
+			</div>
 		</figure>
 	);
 };

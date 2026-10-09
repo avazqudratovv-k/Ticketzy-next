@@ -149,6 +149,15 @@
   --z-scrim: 300;
   --z-modal: 310;
   --z-toast: 400;
+  /* Motion: one set of easings and durations. UI 120 to 300 ms, success moments up to 600 ms. prefers-reduced-motion is handled in motion.scss. */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-emphasis: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 300ms;
+  --dur-success: 600ms;
   /* Breakpoints: for reference only. CSS cannot read a variable inside a media or container query. */
   --bp-sm: 480px;
   --bp-md: 768px;

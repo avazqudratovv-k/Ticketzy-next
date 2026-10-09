@@ -9,7 +9,8 @@
 		"start": "next start",
 		"lint": "next lint",
 		"changelog": "standard-version --skip.tag",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"i18n:check": "node scripts/i18n-check.js"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.5.10",

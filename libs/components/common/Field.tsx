@@ -67,7 +67,7 @@ const Field = ({
 								onClick={() => setShown((prev) => !prev)}
 								aria-label={shown ? t('fields.hidePassword') : t('fields.showPassword')}
 								aria-pressed={shown}
-								sx={{ width: 36, height: 36 }}
+								sx={{ width: 44, height: 44 }}
 							>
 								{shown ? <EyeSlash size={20} /> : <Eye size={20} />}
 							</IconButton>

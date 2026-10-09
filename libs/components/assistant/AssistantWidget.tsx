@@ -1,4 +1,5 @@
-import { KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
@@ -20,8 +21,8 @@ const SUGGESTIONS = ['comedy', 'refunds', 'cheapest', 'seats'] as const;
 /** The counter shows once the text is this close to the limit. */
 const COUNTER_FROM = 800;
 const PHONE_QUERY = '(max-width: 767px)';
-/** Pages with their own bottom sheet on small screens: the button steps aside there. */
-const TIGHT_ROUTES = ['/events/[id]/seats', '/checkout/[orderId]'];
+/** Pages with their own bottom sheet on small screens (and the ticket, whose QR code the button would cover): the button steps aside there. */
+const TIGHT_ROUTES = ['/events/[id]/seats', '/checkout/[orderId]', '/tickets/[ticketId]'];
 
 /** Unsent text, so closing the panel or changing page does not lose it. */
 let draftText = '';
@@ -44,6 +45,23 @@ const AssistantWidget = () => {
 	// the previous value, so a panel that is already open after a page change does not grab the focus again
 	const wasOpen = useRef(open);
 
+	// The panel stays mounted for the length of its closing animation
+	const [leaving, setLeaving] = useState(false);
+	const wasShown = useRef(open);
+	useEffect(() => {
+		if (open) {
+			wasShown.current = true;
+			setLeaving(false);
+			return undefined;
+		}
+		if (!wasShown.current) return undefined;
+		wasShown.current = false;
+		setLeaving(true);
+		const id = window.setTimeout(() => setLeaving(false), 160);
+		return () => window.clearTimeout(id);
+	}, [open]);
+	const shown = open || leaving;
+
 	const trimmed = text.trim();
 	const tooLong = text.length > MAX_LENGTH;
 	const canSend = trimmed.length > 0 && !tooLong && !pending;
@@ -54,7 +72,7 @@ const AssistantWidget = () => {
 	}, [text]);
 
 	// The field grows with its text, up to about five lines.
-	useLayoutEffect(() => {
+	useIsomorphicLayoutEffect(() => {
 		const el = field.current;
 		if (!el) return;
 		el.style.height = 'auto';
@@ -143,8 +161,8 @@ const AssistantWidget = () => {
 	const errorText = error ? t(`assistant.errors.${error}`) : '';
 
 	return (
-		<div className={`pg-chat${open ? ' is-open' : ''}${tight ? ' pg-chat--tight' : ''}`}>
-			{open && (
+		<div className={`pg-chat${shown ? ' is-open' : ''}${leaving ? ' is-leaving' : ''}${tight ? ' pg-chat--tight' : ''}`}>
+			{shown && (
 				<section
 					ref={panel}
 					className="pg-chatpanel"

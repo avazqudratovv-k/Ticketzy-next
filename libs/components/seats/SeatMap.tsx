@@ -13,8 +13,7 @@ import {
 	tierColor,
 } from '../../seats/layout';
 import { LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
-
-export type SeatVisual = 'available' | 'selected' | 'held' | 'sold' | 'mine' | 'locked';
+import { seatVisual } from '../../seats/visual';
 
 interface SectionProps {
 	section: LayoutSection;
@@ -27,12 +26,6 @@ interface SectionProps {
 	showRows: boolean;
 }
 
-const stateOf = (taken: TakenSeat | undefined, isSelected: boolean, locked: boolean): SeatVisual => {
-	if (isSelected) return 'selected';
-	if (taken) return taken.mine ? 'mine' : taken.seatStatus === 'SOLD' ? 'sold' : 'held';
-	return locked ? 'locked' : 'available';
-};
-export { stateOf as seatVisual };
 
 /** Exported so the organizer's layout editor draws sections exactly as buyers see them. */
 export const SectionSeats = memo(function SectionSeats({ section, color, taken, selected, locked, active, showRows }: SectionProps) {
@@ -43,7 +36,7 @@ export const SectionSeats = memo(function SectionSeats({ section, color, taken, 
 	for (let row = 1; row <= section.rows; row += 1) {
 		for (let number = 1; number <= section.seatsPerRow; number += 1) {
 			const key = seatKey({ sectionKey: section.key, row, number });
-			const state = stateOf(taken.get(key), selected.has(key), locked);
+			const state = seatVisual(taken.get(key), selected.has(key), locked);
 			const c = seatCenter(section, row, number);
 			seats.push(
 				<g key={key} className={`seat seat--${state}`} data-seat={key}>

@@ -170,7 +170,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 
 			<div className="event__gallery">
 				<div className={`event__hero${state === 'cancelled' || state === 'ended' ? ' is-muted' : ''}`}>
-					<EventImage src={images[imageIndex]} alt={title} eager />
+					<EventImage src={images[imageIndex]} alt={title} eager sizes="(min-width: 1280px) 800px, (min-width: 1024px) 60vw, 100vw" />
 					<span className="event__hero-chip">
 						<CategoryChip category={event.eventCategory} onImage />
 					</span>
@@ -186,7 +186,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 									aria-pressed={index === imageIndex}
 									onClick={() => setImageIndex(index)}
 								>
-									<EventImage src={src} />
+									<EventImage src={src} sizes="120px" />
 								</button>
 							</li>
 						))}

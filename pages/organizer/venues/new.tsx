@@ -1,11 +1,14 @@
+import dynamic from 'next/dynamic';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { withOrganizerLayout } from '../../../libs/components/layout/LayoutAdmin';
 import BlockedPanel from '../../../libs/components/organizer/BlockedPanel';
-import VenueEditor from '../../../libs/components/organizer/venues/VenueEditor';
+
 import useAuth from '../../../libs/hooks/useAuth';
 import { organizerVenueEditUrl, safeEventReturn, withVenue } from '../../../libs/routes';
+
+const VenueEditor = dynamic(() => import('../../../libs/components/organizer/venues/VenueEditor'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {

@@ -22,7 +22,7 @@ const TicketCard = ({ ticket }: { ticket: AccountTicket }) => {
 	return (
 		<li className="tcard">
 			<Link href={ticketUrl(ticket._id)} className="tcard__image" tabIndex={-1} aria-hidden="true">
-				<EventImage src={event?.eventImages?.[0]} />
+				<EventImage src={event?.eventImages?.[0]} sizes="(min-width: 768px) 240px, 120px" />
 			</Link>
 			<div className="tcard__body">
 				<h2 className="tcard__title">

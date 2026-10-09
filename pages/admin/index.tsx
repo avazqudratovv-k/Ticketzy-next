@@ -11,12 +11,20 @@ import { CheckCircle, WarningCircle } from 'phosphor-react';
 import withAdminLayout from '../../libs/components/layout/LayoutAdmin';
 import StateBlock from '../../libs/components/states/StateBlock';
 import MemberStatusBadge from '../../libs/components/admin/MemberStatusBadge';
-import { GET_ADMIN_OVERVIEW, GET_ADMIN_PAID_ORDERS, PAID_SUM_LIMIT } from '../../apollo/admin/query';
+import {
+	GET_ADMIN_ACTIVE_EVENTS,
+	GET_ADMIN_ORDER_COUNT,
+	GET_ADMIN_PAID_ORDERS,
+	GET_ADMIN_PENDING_EVENTS,
+	GET_ADMIN_PENDING_ORGANIZERS,
+	PAID_SUM_LIMIT,
+} from '../../apollo/admin/query';
 import { isOnlyNoData } from '../../libs/admin/errors';
 import { AdminEventRow, AdminOrganizer, organizerName } from '../../libs/admin/types';
 import { localizedEvent } from '../../libs/events';
 import { formatNumber, formatPrice, formatViewerDate } from '../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
+import CountUp from '../../libs/components/common/CountUp';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -35,15 +43,22 @@ interface Money {
 const Overview: NextPage = () => {
 	const { t } = useTranslation('admin');
 	const { locale } = useRouter();
-	// An empty list is an error ("No data found!") on some admin queries, so partial results are kept
-	const overview = useQuery(GET_ADMIN_OVERVIEW, { errorPolicy: 'all', fetchPolicy: 'cache-and-network' });
-	const paid = useQuery(GET_ADMIN_PAID_ORDERS, { errorPolicy: 'all', fetchPolicy: 'cache-and-network' });
+	// An empty list is an error ("No data found!") on some admin queries and nulls the whole document, so every figure has its own query
+	const options = { errorPolicy: 'all', fetchPolicy: 'cache-and-network' } as const;
+	const pendingEventsQuery = useQuery(GET_ADMIN_PENDING_EVENTS, options);
+	const activeEventsQuery = useQuery(GET_ADMIN_ACTIVE_EVENTS, options);
+	const pendingOrganizersQuery = useQuery(GET_ADMIN_PENDING_ORGANIZERS, options);
+	const orderCountQuery = useQuery(GET_ADMIN_ORDER_COUNT, options);
+	const paid = useQuery(GET_ADMIN_PAID_ORDERS, options);
+	const overview = [pendingEventsQuery, activeEventsQuery, pendingOrganizersQuery, orderCountQuery];
 
-	const data = overview.data;
-	const realError = overview.error && !isOnlyNoData(overview.error);
+	const merged = { ...pendingEventsQuery.data, ...activeEventsQuery.data, ...pendingOrganizersQuery.data, ...orderCountQuery.data };
+	const data = overview.some((q) => q.data) ? merged : undefined;
+	const overviewError = overview.map((q) => q.error).find((error) => error && !isOnlyNoData(error));
+	const realError = overviewError;
 	const failedAll = Boolean(realError) && !data?.allOrders && !data?.activeEvents && !data?.pendingOrganizers;
-	const firstLoad = !data && overview.loading;
-	const networkError = overview.error ? parseApiError(overview.error).code === NETWORK_ERROR : false;
+	const firstLoad = !data && overview.some((q) => q.loading);
+	const networkError = overviewError ? parseApiError(overviewError).code === NETWORK_ERROR : false;
 
 	const pendingEvents: AdminEventRow[] = data?.pendingEvents?.list ?? [];
 	const pendingOrganizers: AdminOrganizer[] = data?.pendingOrganizers?.list ?? [];
@@ -98,7 +113,7 @@ const Overview: NextPage = () => {
 	);
 
 	const skeleton = <span className="tz-skel tz-skel--title" aria-busy="true" />;
-	const count = (block: { metaCounter?: { total?: number }[] } | null | undefined) => (firstLoad ? skeleton : formatNumber(totalOf(block), locale));
+	const count = (block: { metaCounter?: { total?: number }[] } | null | undefined) => (firstLoad ? skeleton : <CountUp value={totalOf(block)} format={(n) => formatNumber(n, locale)} />);
 
 	return (
 		<div className="org-page">
@@ -122,7 +137,7 @@ const Overview: NextPage = () => {
 						<Button
 							variant="outlined"
 							onClick={() => {
-								overview.refetch();
+								overview.forEach((q) => q.refetch());
 								paid.refetch();
 							}}
 						>

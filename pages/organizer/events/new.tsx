@@ -1,10 +1,13 @@
+import dynamic from 'next/dynamic';
 import { NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { withOrganizerLayout } from '../../../libs/components/layout/LayoutAdmin';
 import BlockedPanel from '../../../libs/components/organizer/BlockedPanel';
-import EventEditor from '../../../libs/components/organizer/editor/EventEditor';
+
 import useAuth from '../../../libs/hooks/useAuth';
+
+const EventEditor = dynamic(() => import('../../../libs/components/organizer/editor/EventEditor'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {

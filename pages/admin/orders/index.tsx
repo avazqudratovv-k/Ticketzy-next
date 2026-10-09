@@ -23,7 +23,7 @@ import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'admin', 'organizer'])),
+		...(await serverSideTranslations(locale, ['common', 'admin', 'organizer', 'events'])),
 	},
 });
 

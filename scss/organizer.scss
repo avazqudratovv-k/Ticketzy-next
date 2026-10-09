@@ -951,6 +951,10 @@ input.tz-input[type='time'] {
 	display: flex;
 	flex-direction: column;
 	margin: 0;
+	// dt and dd stay a valid pair inside their own dl; the dl takes no box so they are still grid cells of the row
+	&__pair {
+		display: contents;
+	}
 	&__row {
 		display: grid;
 		gap: var(--space-1) var(--space-4);

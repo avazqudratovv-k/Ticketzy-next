@@ -113,6 +113,7 @@ Passwords come from the output of the backend seed command and are never committ
 | `yarn start` | Serve the production build |
 | `yarn lint` | ESLint (`next lint`) |
 | `yarn typecheck` | `tsc --noEmit` |
+| `yarn i18n:check` | Scans the locale files and the code for missing keys, placeholder mismatches and namespaces a page does not load |
 | `yarn changelog` | Update `CHANGELOG.md` |
 
 ## Project structure

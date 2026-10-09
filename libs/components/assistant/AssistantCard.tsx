@@ -19,7 +19,7 @@ const AssistantCard = ({ event, onNavigate }: { event: AssistantEvent; onNavigat
 	return (
 		<Link href={eventUrl(event._id)} className="tz-event-card tz-event-card--row pg-chatcard" onClick={onNavigate}>
 			<span className="tz-media">
-				<EventImage src={event.eventImages?.[0]} />
+				<EventImage src={event.eventImages?.[0]} sizes="96px" />
 			</span>
 			<span className="tz-event-card__body">
 				<span className="tz-event-card__title tz-clamp-2" lang={translated ? undefined : lang}>

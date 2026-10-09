@@ -134,7 +134,7 @@ const TicketDetail: NextPage = () => {
 
 					<article className={`tdetail tdetail--${state}`} aria-label={t('ticket.cardLabel')}>
 						<div className="tdetail__image">
-							<EventImage src={event?.eventImages?.[0]} eager />
+							<EventImage src={event?.eventImages?.[0]} eager sizes="(min-width: 768px) 720px, 100vw" />
 						</div>
 						<div className="tdetail__top">
 							<TicketBadge state={state} />

@@ -328,8 +328,12 @@ export const GET_ADMIN_ORDER_EVENTS = gql`
 `;
 
 /** Dashboard: every figure is a count or a sum over what the backend lists (it has no admin statistics query). */
-export const GET_ADMIN_OVERVIEW = gql`
-	query GetAdminOverview {
+/**
+ * The overview is four separate queries: the backend answers "No data found!" for an empty list and then returns
+ * `data: null` for the whole document, so one empty queue (no event to review) used to turn every counter to 0.
+ */
+export const GET_ADMIN_PENDING_EVENTS = gql`
+	query GetAdminPendingEvents {
 		pendingEvents: getEventsByAdmin(input: { page: 1, limit: 5, sort: "updatedAt", direction: ASC, search: { eventStatus: PENDING } }) {
 			list {
 				...AdminEventRowFields
@@ -338,11 +342,20 @@ export const GET_ADMIN_OVERVIEW = gql`
 				total
 			}
 		}
+	}
+	${ADMIN_EVENT_ROW_FIELDS}
+`;
+export const GET_ADMIN_ACTIVE_EVENTS = gql`
+	query GetAdminActiveEvents {
 		activeEvents: getEventsByAdmin(input: { page: 1, limit: 1, search: { eventStatus: APPROVED } }) {
 			metaCounter {
 				total
 			}
 		}
+	}
+`;
+export const GET_ADMIN_PENDING_ORGANIZERS = gql`
+	query GetAdminPendingOrganizers {
 		pendingOrganizers: getOrganizersByAdmin(input: { page: 1, limit: 5, sort: "createdAt", direction: ASC, search: { memberStatus: PENDING } }) {
 			list {
 				...AdminOrganizerFields
@@ -351,14 +364,17 @@ export const GET_ADMIN_OVERVIEW = gql`
 				total
 			}
 		}
+	}
+	${ADMIN_ORGANIZER_FIELDS}
+`;
+export const GET_ADMIN_ORDER_COUNT = gql`
+	query GetAdminOrderCount {
 		allOrders: getAllOrdersByAdmin(input: { page: 1, limit: 1 }) {
 			metaCounter {
 				total
 			}
 		}
 	}
-	${ADMIN_EVENT_ROW_FIELDS}
-	${ADMIN_ORGANIZER_FIELDS}
 `;
 
 /** The money figures: PAID orders only. The newest 1000 are summed; the dashboard says so when there are more. */

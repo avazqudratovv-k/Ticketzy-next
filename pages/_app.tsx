@@ -26,6 +26,8 @@ import '../scss/admin.scss';
 import '../scss/messages.scss';
 import '../scss/assistant.scss';
 import '../scss/static.scss';
+import '../scss/motion.scss';
+import '../scss/responsive.scss';
 
 // Latin and Cyrillic from Onest (Uzbek needs latin-ext for oʻ and gʻ), Hangul from Noto Sans KR, codes in JetBrains Mono.
 const onest = Onest({ subsets: ['latin', 'latin-ext', 'cyrillic'], display: 'swap' });

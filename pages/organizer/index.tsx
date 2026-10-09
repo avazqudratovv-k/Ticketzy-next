@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
@@ -7,7 +8,7 @@ import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Clock, Prohibit, Receipt, WarningCircle } from 'phosphor-react';
-import SalesChart from '../../libs/components/organizer/SalesChart';
+
 import OrderStatusBadge from '../../libs/components/organizer/orders/OrderStatusBadge';
 import { withOrganizerLayout } from '../../libs/components/layout/LayoutAdmin';
 import EventStatusBadge from '../../libs/components/organizer/EventStatusBadge';
@@ -21,6 +22,9 @@ import { OrgEvent } from '../../libs/organizer/types';
 import { localizedEvent } from '../../libs/events';
 import { formatEventWhen, formatNumber, formatPrice, formatViewerDate } from '../../libs/format';
 import { organizerEventEditUrl, organizerEventNewUrl, organizerEventOrdersUrl, organizerEventsUrl } from '../../libs/routes';
+import CountUp from '../../libs/components/common/CountUp';
+
+const SalesChart = dynamic(() => import('../../libs/components/organizer/SalesChart'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -128,7 +132,7 @@ const Overview: NextPage = () => {
 						<li key={status} className="org-stat">
 							<Link href={`${organizerEventsUrl}?status=${status.toLowerCase()}`}>
 								<span className="org-stat__label">{t(`status.${status}`)}</span>
-								<strong className="org-stat__value">{active ? formatNumber(total(status), locale) : '–'}</strong>
+								<strong className="org-stat__value">{active ? <CountUp value={total(status)} format={(n) => formatNumber(n, locale)} /> : '–'}</strong>
 							</Link>
 						</li>
 					))}
@@ -148,27 +152,27 @@ const Overview: NextPage = () => {
 					<ul className="org-stats org-stats--sales">
 						<li className="org-stat">
 							<span className="org-stat__label">{t('dashboard.orders')}</span>
-							<strong className="org-stat__value">{active ? formatNumber(main?.ordersCount ?? 0, locale) : '–'}</strong>
+							<strong className="org-stat__value">{active ? <CountUp value={main?.ordersCount ?? 0} format={(n) => formatNumber(n, locale)} /> : '–'}</strong>
 						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('dashboard.ticketsSold')}</span>
-							<strong className="org-stat__value">{active ? formatNumber(main?.ticketsSold ?? 0, locale) : '–'}</strong>
+							<strong className="org-stat__value">{active ? <CountUp value={main?.ticketsSold ?? 0} format={(n) => formatNumber(n, locale)} /> : '–'}</strong>
 						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('dashboard.revenue')}</span>
-							<strong className="org-stat__value">{active ? formatPrice(main?.revenue ?? 0, locale, currency) : '–'}</strong>
+							<strong className="org-stat__value">{active ? <CountUp value={main?.revenue ?? 0} format={(n) => formatPrice(n, locale, currency)} /> : '–'}</strong>
 						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('dashboard.commission')}</span>
-							<strong className="org-stat__value">{active ? formatPrice(main?.commission ?? 0, locale, currency) : '–'}</strong>
+							<strong className="org-stat__value">{active ? <CountUp value={main?.commission ?? 0} format={(n) => formatPrice(n, locale, currency)} /> : '–'}</strong>
 						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('dashboard.netPayout')}</span>
-							<strong className="org-stat__value">{active ? formatPrice(main?.netPayout ?? 0, locale, currency) : '–'}</strong>
+							<strong className="org-stat__value">{active ? <CountUp value={main?.netPayout ?? 0} format={(n) => formatPrice(n, locale, currency)} /> : '–'}</strong>
 						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('dashboard.upcomingCount')}</span>
-							<strong className="org-stat__value">{active ? formatNumber(upcomingTotal, locale) : '–'}</strong>
+							<strong className="org-stat__value">{active ? <CountUp value={upcomingTotal} format={(n) => formatNumber(n, locale)} /> : '–'}</strong>
 						</li>
 					</ul>
 				)}

@@ -166,8 +166,11 @@
 		min-width: 0;
 		overflow: hidden;
 		font: var(--text-body);
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		// long names (Russian "Команда администраторов Ticketzy") wrap to two lines before they are cut
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow-wrap: anywhere;
 		&.is-unread {
 			font-weight: 700;
 		}

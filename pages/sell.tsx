@@ -67,7 +67,7 @@ const Sell: NextPage = () => {
 	return (
 		<div className="tz-container" style={{ paddingBlock: 'var(--space-12)' }}>
 			<Seo title={t('sell.pageTitle')} />
-			{ready && <StateBlock icon={<Storefront size={28} />} title={t('sell.title')} text={lead} actions={actions} />}
+			{ready && <StateBlock as="h1" icon={<Storefront size={28} />} title={t('sell.title')} text={lead} actions={actions} />}
 		</div>
 	);
 };

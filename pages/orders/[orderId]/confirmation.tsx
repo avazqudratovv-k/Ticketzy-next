@@ -9,6 +9,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CheckCircle, Prohibit, WarningCircle } from 'phosphor-react';
 import { GET_EVENT, GET_EVENT_SEAT_MAP, GET_MY_TICKETS, GET_ORDER, GET_TICKET_TYPES } from '../../../apollo/user/query';
 import withLayoutBasic from '../../../libs/components/layout/LayoutBasic';
+import SuccessCheck from '../../../libs/components/common/SuccessCheck';
 import Seo from '../../../libs/components/common/Seo';
 import StateBlock from '../../../libs/components/states/StateBlock';
 import OrderSummary, { SeatLine } from '../../../libs/components/seats/OrderSummary';
@@ -125,7 +126,7 @@ const Confirmation: NextPage = () => {
 			<Steps current={3} />
 			<div className="confirm__head">
 				<span className={`confirm__icon${status === 'PAID' ? '' : ' is-neutral'}`} aria-hidden="true">
-					<CheckCircle size={32} weight="bold" />
+					{status === 'PAID' ? <SuccessCheck size={36} /> : <CheckCircle size={32} weight="bold" />}
 				</span>
 				<div>
 					<h1 className="checkout__title" role="status">

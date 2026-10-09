@@ -19,7 +19,7 @@ export const Hero = ({ event }: { event: EventItem }) => {
 	const venue = event.venueData;
 	return (
 		<section className="tz-hero" aria-labelledby="hero-title">
-			<EventImage src={event.eventImages?.[0]} eager />
+			<EventImage src={event.eventImages?.[0]} eager sizes="(min-width: 1024px) 66vw, 100vw" />
 			<span className="tz-hero__chip">
 				<CategoryChip category={event.eventCategory} onImage />
 			</span>

@@ -1,0 +1,318 @@
+/**
+ * MOTION. Imported last in _app. Easings and durations come from tokens.css (--ease-*, --dur-*).
+ * Rules: CSS only; transform and opacity (plus SVG paint) so nothing triggers layout; nothing waits on an animation
+ * (clicks and typing are never delayed); everything is switched off or reduced to a short fade at the end of the file.
+ **/
+
+@keyframes tz-fade {
+	from {
+		opacity: 0;
+	}
+}
+@keyframes tz-rise {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+}
+@keyframes tz-route-in {
+	from {
+		opacity: 0;
+		top: 8px;
+	}
+	to {
+		opacity: 1;
+		top: 0;
+	}
+}
+@keyframes tz-toast-in {
+	from {
+		opacity: 0;
+		transform: translateX(24px);
+	}
+}
+@keyframes tz-pop {
+	0% {
+		transform: scale(0.6);
+	}
+	60% {
+		transform: scale(1.12);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes tz-shake {
+	0%,
+	100% {
+		transform: rotate(0);
+	}
+	15% {
+		transform: rotate(-14deg);
+	}
+	35% {
+		transform: rotate(12deg);
+	}
+	55% {
+		transform: rotate(-8deg);
+	}
+	75% {
+		transform: rotate(5deg);
+	}
+}
+@keyframes tz-urgent {
+	50% {
+		transform: scale(1.08);
+	}
+}
+@keyframes tz-draw {
+	from {
+		stroke-dashoffset: 1;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes tz-drift {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(1.06);
+	}
+}
+@keyframes pg-out {
+	to {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+}
+
+/** ROUTES: `main` is remounted by every page, so a CSS animation on it runs once per page change. `top` (not transform)
+    so fixed bottom sheets inside the page keep the viewport as their containing block. **/
+main {
+	position: relative;
+	animation: tz-route-in var(--dur-base) var(--ease-out) backwards;
+}
+
+/** FOCUS: the ring eases in from a little further out. The base is transparent so it can transition. **/
+:where(a, button, input, select, textarea, summary, [tabindex]) {
+	outline: 2px solid transparent;
+	outline-offset: 4px;
+	transition: outline-color var(--dur-fast) var(--ease-out), outline-offset var(--dur-fast) var(--ease-out);
+}
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline-color: var(--focus);
+	outline-offset: 2px;
+}
+
+/** BUTTONS: plain (non-MUI) buttons and links styled as buttons get the same press state **/
+.tz-link,
+.seatmap__btn,
+.seatmap__fit,
+.pg-iconbtn,
+.pg-textbtn,
+.tz-bell {
+	transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard),
+		transform var(--dur-fast) var(--ease-standard);
+}
+.seatmap__btn:active:not(:disabled),
+.seatmap__fit:active,
+.pg-iconbtn:active,
+.tz-bell:active {
+	transform: scale(0.94);
+}
+
+/** CARDS **/
+.tz-event-card {
+	transition: border-color var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-out),
+		box-shadow var(--dur-base) var(--ease-out);
+	.tz-media img {
+		transition: transform var(--dur-slow) var(--ease-out);
+	}
+}
+@media (hover: hover) {
+	.tz-event-card:not(.tz-event-card--skel):hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-md);
+		.tz-media img {
+			transform: scale(1.05);
+		}
+	}
+	.home__cat {
+		transition: border-color var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-out);
+		&:hover {
+			border-color: var(--border-control);
+			transform: translateY(-2px);
+		}
+	}
+}
+.tz-event-card:not(.tz-event-card--skel):active {
+	transform: translateY(-1px) scale(0.99);
+}
+// cards enter with a small stagger (first eight only, so long lists do not wait)
+.tz-grid > .tz-event-card {
+	animation: tz-rise var(--dur-slow) var(--ease-out) backwards;
+	@for $i from 2 through 8 {
+		&:nth-child(#{$i}) {
+			animation-delay: #{($i - 1) * 30}ms;
+		}
+	}
+}
+
+/** SEAT MAP: colours ease when a seat is taken or released (by you or by someone else), a selected seat pulses once.
+    The check, cross and dot are drawn with the state and are not animated, so a map of thousands of seats stays cheap. **/
+.seat rect {
+	transition: fill var(--dur-base) var(--ease-standard), stroke var(--dur-base) var(--ease-standard),
+		opacity var(--dur-base) var(--ease-standard);
+}
+.seat circle,
+.seat path {
+	transition: fill var(--dur-base) var(--ease-standard), stroke var(--dur-base) var(--ease-standard);
+}
+.seat--selected rect {
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: tz-pop var(--dur-slow) var(--ease-emphasis);
+}
+.seatgrid__seat {
+	transition: background-color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard),
+		transform var(--dur-fast) var(--ease-standard);
+	&:active:not(:disabled) {
+		transform: scale(0.9);
+	}
+	&--selected {
+		animation: tz-pop var(--dur-slow) var(--ease-emphasis);
+	}
+}
+.summary__list > * {
+	animation: tz-rise var(--dur-base) var(--ease-out) backwards;
+}
+
+/** HOLD COUNTDOWN: a ring that empties; the last 10 seconds turn it red and make it beat **/
+.countdown {
+	&__ring {
+		position: relative;
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 44px;
+		height: 44px;
+		svg {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			transform: rotate(-90deg);
+		}
+	}
+	&__track,
+	&__bar {
+		fill: none;
+		stroke-width: 4;
+	}
+	&__track {
+		stroke: var(--border);
+	}
+	&__bar {
+		stroke: var(--warning-text);
+		stroke-linecap: round;
+		transition: stroke-dashoffset 260ms linear, stroke var(--dur-base) var(--ease-standard);
+	}
+	&__secs {
+		font: var(--text-caption);
+		font-variant-numeric: tabular-nums;
+		color: var(--ink);
+	}
+	&.is-urgent &__bar {
+		stroke: var(--danger-text);
+	}
+	&.is-urgent &__ring {
+		animation: tz-urgent 1s var(--ease-standard) infinite;
+	}
+	&.is-urgent {
+		border-color: var(--danger-text);
+		transition: border-color var(--dur-base) var(--ease-standard);
+	}
+}
+
+/** SUCCESS MOMENTS (up to 600 ms) **/
+.tz-check {
+	display: block;
+	overflow: visible;
+	&__ring,
+	&__tick {
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2.4;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 1;
+		animation: tz-draw var(--dur-success) var(--ease-out) backwards;
+	}
+	&__tick {
+		animation-delay: 200ms;
+		animation-duration: 400ms;
+	}
+}
+.confirm__icon:not(.is-neutral) {
+	animation: tz-pop var(--dur-success) var(--ease-emphasis) backwards;
+}
+// the ticket QR fades in once its image has been drawn
+img.qr {
+	animation: tz-fade var(--dur-success) var(--ease-out) backwards;
+}
+// refund confirmation and every "saved" message slide in like a toast
+.tz-alert--success {
+	animation: tz-toast-in var(--dur-slow) var(--ease-out) backwards;
+	.tz-alert__icon,
+	> svg {
+		animation: tz-pop var(--dur-success) var(--ease-emphasis) 100ms backwards;
+	}
+}
+
+/** BELL: shakes once on a new notification **/
+.tz-bell.is-shaking svg {
+	transform-origin: 50% 10%;
+	animation: tz-shake var(--dur-success) var(--ease-standard);
+}
+
+/** ASSISTANT PANEL: eases in (see assistant.scss) and out **/
+.pg-chat.is-leaving .pg-chatpanel {
+	animation: pg-out 160ms var(--ease-in) forwards;
+}
+.pg-chatpanel {
+	animation-duration: var(--dur-base);
+	animation-timing-function: var(--ease-out);
+}
+.pg-fab {
+	transition: transform var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard);
+}
+
+/** HOME HERO: one slow drift of the image, once, no loop **/
+.tz-hero > img {
+	animation: tz-drift 14s var(--ease-standard) forwards;
+}
+
+/** MUI popovers, dialogs and menus fade with the same durations (see MaterialTheme transitions) **/
+
+/** REDUCED MOTION: no movement at all. Page changes keep a short fade. **/
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-delay: 0s !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		transition-delay: 0s !important;
+		scroll-behavior: auto !important;
+	}
+	html main {
+		animation-name: tz-fade !important;
+		animation-duration: var(--dur-fast) !important;
+	}
+	.tz-hero > img {
+		animation: none !important;
+	}
+}

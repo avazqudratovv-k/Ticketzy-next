@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { Popover } from '@mui/material';
@@ -20,6 +20,13 @@ const NotificationBell = ({ user }: { user: MemberProfile }) => {
 	const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 	const unread = useUnreadCount();
 	const open = Boolean(anchor);
+	// The bell shakes once when the unread count goes up (not on the first load)
+	const [shake, setShake] = useState(false);
+	const lastUnread = useRef<number | null>(null);
+	useEffect(() => {
+		if (lastUnread.current !== null && unread > lastUnread.current) setShake(true);
+		lastUnread.current = unread;
+	}, [unread]);
 	const { data, loading, error, refetch } = useQuery(GET_MY_NOTIFICATIONS, {
 		variables: { input: { page: 1, limit: LATEST } },
 		skip: !open,
@@ -33,7 +40,8 @@ const NotificationBell = ({ user }: { user: MemberProfile }) => {
 		<>
 			<button
 				type="button"
-				className="tz-bell"
+				className={`tz-bell${shake ? ' is-shaking' : ''}`}
+				onAnimationEnd={() => setShake(false)}
 				aria-label={unread > 0 ? t('bell.labelUnread', { count: unread }) : t('bell.label')}
 				aria-haspopup="dialog"
 				aria-expanded={open}

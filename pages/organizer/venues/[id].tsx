@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
@@ -9,7 +10,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Prohibit, WarningCircle } from 'phosphor-react';
 import { withOrganizerLayout } from '../../../libs/components/layout/LayoutAdmin';
 import BlockedPanel from '../../../libs/components/organizer/BlockedPanel';
-import VenueEditor from '../../../libs/components/organizer/venues/VenueEditor';
+
 import StateBlock from '../../../libs/components/states/StateBlock';
 import useAuth from '../../../libs/hooks/useAuth';
 import { GET_VENUE_FULL } from '../../../apollo/organizer/venue';
@@ -17,6 +18,8 @@ import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { organizerVenuesUrl, safeEventReturn } from '../../../libs/routes';
 import { VenueRecord } from '../../../libs/venues/types';
 import { fetchMyEvents, VenueEvent } from '../../../libs/venues/useVenueData';
+
+const VenueEditor = dynamic(() => import('../../../libs/components/organizer/venues/VenueEditor'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: {

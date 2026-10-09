@@ -37,7 +37,7 @@ const OrderSummary = ({ order, event, seatLines, ticketName }: Props) => {
 				{t('order.summary')}
 			</h2>
 			<div className="order__event">
-				<EventImage src={source?.eventImages?.[0]} className="order__image" />
+				<EventImage src={source?.eventImages?.[0]} className="order__image" sizes="160px" />
 				<div>
 					<h3 className="order__name">{title}</h3>
 					{source && (

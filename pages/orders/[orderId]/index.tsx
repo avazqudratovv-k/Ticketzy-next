@@ -114,7 +114,7 @@ const OrderDetail: NextPage = () => {
 							{t('order.event')}
 						</h2>
 						<div className="order__event">
-							<EventImage src={event?.eventImages?.[0]} className="order__image" />
+							<EventImage src={event?.eventImages?.[0]} className="order__image" sizes="160px" />
 							<div>
 								<h3 className="order__name">
 									{event ? (

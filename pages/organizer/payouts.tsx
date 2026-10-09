@@ -20,6 +20,7 @@ import { commissionState } from '../../libs/organizer/commission';
 import { EventMoney, moneyByEvent, TypeSales } from '../../libs/organizer/payouts';
 import { formatEventDate, formatNumber, formatPrice } from '../../libs/format';
 import { organizerEventOrdersUrl } from '../../libs/routes';
+import CountUp from '../../libs/components/common/CountUp';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -133,22 +134,22 @@ const Payouts: NextPage = () => {
 						<ul className="org-stats org-stats--four">
 							<li className="org-stat">
 								<span className="org-stat__label">{t('payouts.gross')}</span>
-								<strong className="org-stat__value">{earningData ? money(main?.revenue ?? 0) : '–'}</strong>
+								<strong className="org-stat__value">{earningData ? <CountUp value={main?.revenue ?? 0} format={money} /> : '–'}</strong>
 								<span className="org-hint">{earningData ? t('payouts.grossSub', { count: main?.ticketsSold ?? 0, n: formatNumber(main?.ticketsSold ?? 0, locale) }) : ' '}</span>
 							</li>
 							<li className="org-stat">
 								<span className="org-stat__label">{t('payouts.commission')}</span>
-								<strong className="org-stat__value">{earningData ? money(main?.commission ?? 0) : '–'}</strong>
+								<strong className="org-stat__value">{earningData ? <CountUp value={main?.commission ?? 0} format={money} /> : '–'}</strong>
 								<span className="org-hint">{t('payouts.commissionSub')}</span>
 							</li>
 							<li className="org-stat">
 								<span className="org-stat__label">{t('payouts.net')}</span>
-								<strong className="org-stat__value">{earningData ? money(main?.netPayout ?? 0) : '–'}</strong>
+								<strong className="org-stat__value">{earningData ? <CountUp value={main?.netPayout ?? 0} format={money} /> : '–'}</strong>
 								<span className="org-hint">{t('payouts.netSub')}</span>
 							</li>
 							<li className="org-stat">
 								<span className="org-stat__label">{t('payouts.refunded')}</span>
-								<strong className="org-stat__value">{earningData ? money(main?.refundedAmount ?? 0) : '–'}</strong>
+								<strong className="org-stat__value">{earningData ? <CountUp value={main?.refundedAmount ?? 0} format={money} /> : '–'}</strong>
 								<span className="org-hint">{t('payouts.refundedSub')}</span>
 							</li>
 						</ul>

@@ -1,0 +1,134 @@
+/**
+ * RESPONSIVE: touch targets. Imported after motion.scss. Below 768px and on touch screens every control is at least
+ * 44px tall (design token --control-md); on a desktop mouse the compact sizes stay.
+ **/
+@media (max-width: 767px), (pointer: coarse) {
+	.tz-skip {
+		padding-block: var(--space-3);
+	}
+	.tz-brand {
+		min-height: var(--control-md);
+	}
+	.tz-account__trigger {
+		min-width: var(--control-md);
+		min-height: var(--control-md);
+	}
+	.tz-lang__segment {
+		min-height: var(--control-md);
+	}
+	.tz-footer__list a,
+	.tz-footer__inline a {
+		display: flex;
+		align-items: center;
+		min-height: var(--control-md);
+		padding-block: 0;
+	}
+	.tz-footer__inline a {
+		display: inline-flex;
+	}
+	// stand-alone text links ("Back to event", "See all", breadcrumbs, row actions); links inside running text keep their size
+	a.tz-link:only-child,
+	.tcard__foot .tz-link,
+	.orow__side .tz-link,
+	.acct__back,
+	.checkout__back,
+	.orow__title,
+	.acct__tab {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: var(--control-md);
+		min-width: var(--control-md);
+	}
+	.orow__title {
+		justify-content: flex-start;
+	}
+	.tz-footer__inline a,
+	.tz-footer__list a {
+		min-width: var(--control-md);
+	}
+	// organizer and admin lists: row titles and row actions
+	.org-row__title,
+	.org-row a.tz-link,
+	.adm-row a.tz-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: var(--control-md);
+		min-width: var(--control-md);
+	}
+	.org-row__title {
+		justify-content: flex-start;
+	}
+	.adm-card__head .tz-link,
+	.adm-back,
+	.org-back,
+	.org-linkbtn,
+	.org-seg__btn {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--control-md);
+	}
+	.org-seg__btn,
+	.org-linkbtn {
+		justify-content: center;
+		min-width: var(--control-md);
+	}
+	.adm-card a.tz-link:not(p a, li a, span a, dd a) {
+		min-height: var(--control-md);
+		display: inline-flex;
+		align-items: center;
+	}
+	// seat buttons of the list view (the touch way to pick a seat): full-size targets, rows scroll sideways
+	.seatgrid {
+		gap: var(--space-1);
+		&__row {
+			gap: var(--space-2);
+		}
+		&__seat {
+			width: var(--control-md);
+			height: var(--control-md);
+			font: var(--text-label);
+		}
+	}
+	.msgs-filter button,
+	.tz-tab {
+		min-height: var(--control-md);
+	}
+	.MuiButton-sizeSmall {
+		min-height: var(--control-md);
+	}
+	summary {
+		padding-block: var(--space-3);
+	}
+	.faq__chip {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--control-md);
+	}
+	.MuiSelect-select.MuiSelect-outlined {
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		min-height: var(--control-md);
+	}
+}
+
+/** Placeholders shown while a heavy component loads (next/dynamic) **/
+.lazy-skel {
+	min-height: 320px;
+	border-radius: var(--radius-lg);
+}
+.seatmap--loading {
+	min-height: 360px;
+	border-radius: var(--radius-lg);
+}
+
+/** Figures in the stat tiles never break in the middle ("₩ 14,783,/000" in Uzbek); they shrink a little on phones instead **/
+.org-stat__value {
+	white-space: nowrap;
+	@media (max-width: 479px) {
+		font-size: clamp(16px, 5vw, 24px);
+		line-height: 1.3;
+	}
+}

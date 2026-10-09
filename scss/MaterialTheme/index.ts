@@ -78,7 +78,7 @@ export const getTheme = (mode: ThemeMode): Theme =>
 						font: 'var(--text-label-lg)',
 						textTransform: 'none',
 						textAlign: 'center',
-						transition: 'background-color .12s ease, border-color .12s ease, transform .12s ease',
+						transition: 'background-color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard)',
 						'&:active': { transform: 'scale(.98)' },
 						'&.Mui-disabled': {
 							background: 'var(--surface-sunken)',

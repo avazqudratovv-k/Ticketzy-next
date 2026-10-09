@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -15,7 +16,7 @@ import EventImage from '../../../libs/components/events/EventImage';
 import ReasonDialog from '../../../libs/components/admin/ReasonDialog';
 import ModerationPanel from '../../../libs/components/admin/ModerationPanel';
 import MemberStatusBadge from '../../../libs/components/admin/MemberStatusBadge';
-import EventLayoutPreview from '../../../libs/components/admin/EventLayoutPreview';
+
 import {
 	APPROVE_EVENT_BY_ADMIN,
 	CANCEL_EVENT_BY_ADMIN,
@@ -30,6 +31,8 @@ import { eventUrl } from '../../../libs/routes';
 import { EventLocaleCode } from '../../../libs/types/event';
 import { formatEventSummary, formatNumber, formatPrice, formatViewerDate } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
+
+const EventLayoutPreview = dynamic(() => import('../../../libs/components/admin/EventLayoutPreview'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: {
@@ -224,7 +227,7 @@ const AdminEventDetail: NextPage = () => {
 							<ul className="adm-gallery" aria-label={t('event.images')}>
 								{event.eventImages.map((src, index) => (
 									<li key={`${src}-${index}`}>
-										<EventImage src={src} alt={t('event.imageAlt', { n: index + 1, title })} />
+										<EventImage src={src} sizes="(min-width: 768px) 33vw, 100vw" alt={t('event.imageAlt', { n: index + 1, title })} />
 									</li>
 								))}
 							</ul>

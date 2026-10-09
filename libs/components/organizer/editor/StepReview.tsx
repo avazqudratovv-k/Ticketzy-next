@@ -23,8 +23,10 @@ const StepReview = ({ editor, onGo }: StepProps & { onGo: (step: StepId) => void
 
 	const Row = ({ step, label, children }: { step: StepId; label: string; children: React.ReactNode }) => (
 		<div className="org-review__row">
-			<dt>{label}</dt>
-			<dd>{children}</dd>
+			<dl className="org-review__pair">
+				<dt>{label}</dt>
+				<dd>{children}</dd>
+			</dl>
 			<button type="button" className="tz-link org-linkbtn" onClick={() => onGo(step)}>
 				{t('form.review.edit')}
 				<span className="org-visually-hidden"> {label}</span>
@@ -34,7 +36,7 @@ const StepReview = ({ editor, onGo }: StepProps & { onGo: (step: StepId) => void
 
 	return (
 		<div className="org-fields">
-			<dl className="org-review">
+			<div className="org-review">
 				<Row step="details" label={t('form.steps.details')}>
 					<strong>{values.title || '–'}</strong>
 					<span>{values.category ? te(`categories.${values.category}`) : '–'}</span>
@@ -61,7 +63,7 @@ const StepReview = ({ editor, onGo }: StepProps & { onGo: (step: StepId) => void
 				<Row step="translations" label={t('form.steps.translations')}>
 					{translated.length === 0 ? t('form.review.noTranslations') : translated.map((code) => t(`form.translations.locales.${code}`)).join(', ')}
 				</Row>
-			</dl>
+			</div>
 
 			<h3 className="org-subtitle">{t('submit.checksLabel')}</h3>
 			<ul className="org-checks">

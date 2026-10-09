@@ -1,4 +1,5 @@
-import { KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { PaperPlaneTilt } from 'phosphor-react';
@@ -25,7 +26,7 @@ const Composer = ({ conversationId, sending, onSend, onTyping }: Props) => {
 	const empty = value.trim().length === 0;
 
 	// The field grows with its text, up to about six lines.
-	useLayoutEffect(() => {
+	useIsomorphicLayoutEffect(() => {
 		const el = field.current;
 		if (!el) return;
 		el.style.height = 'auto';

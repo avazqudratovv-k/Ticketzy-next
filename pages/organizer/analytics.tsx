@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -10,7 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ChartBar, Info, WarningCircle } from 'phosphor-react';
 import { withOrganizerLayout } from '../../libs/components/layout/LayoutAdmin';
 import BlockedPanel from '../../libs/components/organizer/BlockedPanel';
-import BarChart, { BarPoint } from '../../libs/components/organizer/sales/BarChart';
+import type { BarPoint } from '../../libs/components/organizer/sales/BarChart';
 import BarList from '../../libs/components/organizer/sales/BarList';
 import EventSelect from '../../libs/components/organizer/sales/EventSelect';
 import StateBlock from '../../libs/components/states/StateBlock';
@@ -22,6 +23,9 @@ import { buildSeries, isPeriod, mixByName, Period, PERIODS, SalesOrder } from '.
 import { TypeSales } from '../../libs/organizer/payouts';
 import { DEFAULT_TIMEZONE, formatEventDate, formatNumber, formatPrice, intlLocale } from '../../libs/format';
 import { organizerEventNewUrl } from '../../libs/routes';
+import CountUp from '../../libs/components/common/CountUp';
+
+const BarChart = dynamic(() => import('../../libs/components/organizer/sales/BarChart'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -182,16 +186,16 @@ const Analytics: NextPage = () => {
 					<ul className="org-stats org-stats--four" aria-label={t('analytics.totalsLabel')}>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('analytics.tiles.tickets')}</span>
-							<strong className="org-stat__value">{salesReady ? formatNumber(totalTickets, locale) : '–'}</strong>
+							<strong className="org-stat__value">{salesReady ? <CountUp value={totalTickets} format={(n) => formatNumber(n, locale)} /> : '–'}</strong>
 						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('analytics.tiles.revenue')}</span>
-							<strong className="org-stat__value">{salesReady ? money(totalRevenue) : '–'}</strong>
+							<strong className="org-stat__value">{salesReady ? <CountUp value={totalRevenue} format={money} /> : '–'}</strong>
 							<span className="org-hint">{salesReady && totalTickets > 0 ? t('analytics.tiles.average', { amount: money(Math.round(totalRevenue / totalTickets)) }) : ' '}</span>
 						</li>
 						<li className="org-stat">
 							<span className="org-stat__label">{t('analytics.tiles.commission')}</span>
-							<strong className="org-stat__value">{salesReady ? money(totalCommission) : '–'}</strong>
+							<strong className="org-stat__value">{salesReady ? <CountUp value={totalCommission} format={money} /> : '–'}</strong>
 							<span className="org-hint">{salesReady && totalRevenue > 0 ? t('analytics.tiles.commissionSub', { percent: formatNumber(Math.round((totalCommission / totalRevenue) * 1000) / 10, locale) }) : ' '}</span>
 						</li>
 						<li className="org-stat">

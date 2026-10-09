@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
@@ -52,7 +53,7 @@ const Thread = ({ entry, role, meId, onBack }: Props) => {
 	const [newBelow, setNewBelow] = useState(false);
 
 	// Scroll: to the newest on open and for my own messages; keep the place when older ones are added; otherwise offer a jump.
-	useLayoutEffect(() => {
+	useIsomorphicLayoutEffect(() => {
 		const el = log.current;
 		if (!el) return;
 		const first = messages[0]?._id;
@@ -75,7 +76,7 @@ const Thread = ({ entry, role, meId, onBack }: Props) => {
 	}, [messages, meId]);
 
 	// The typing line appears below the messages: keep the end in view if the reader was there.
-	useLayoutEffect(() => {
+	useIsomorphicLayoutEffect(() => {
 		const el = log.current;
 		if (el && stick.current) el.scrollTop = el.scrollHeight;
 	}, [thread.typingIds.length]);
@@ -177,7 +178,7 @@ const Thread = ({ entry, role, meId, onBack }: Props) => {
 			{event ? (
 				<Link className="msgs-eventcard" href={isAdmin ? `/admin/events/${event._id}` : organizerEventEditUrl(event._id)}>
 					<span className="msgs-eventcard__media">
-						<EventImage src={event.eventImages?.[0]} />
+						<EventImage src={event.eventImages?.[0]} sizes="64px" />
 					</span>
 					<span className="msgs-eventcard__body">
 						<span className="msgs-eventcard__title">{event.eventTitle}</span>

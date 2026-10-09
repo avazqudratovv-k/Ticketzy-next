@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,13 +9,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Prohibit, WarningCircle } from 'phosphor-react';
 import { withOrganizerLayout } from '../../../../libs/components/layout/LayoutAdmin';
 import BlockedPanel from '../../../../libs/components/organizer/BlockedPanel';
-import EventEditor from '../../../../libs/components/organizer/editor/EventEditor';
+
 import StateBlock from '../../../../libs/components/states/StateBlock';
 import useAuth from '../../../../libs/hooks/useAuth';
 import { GET_EVENT_TICKET_TYPES, GET_MY_EVENT } from '../../../../apollo/organizer/query';
 import { NETWORK_ERROR, parseApiError } from '../../../../libs/errors';
 import { organizerEventsUrl } from '../../../../libs/routes';
 import { OrgEvent, OrgTicketType } from '../../../../libs/organizer/types';
+
+const EventEditor = dynamic(() => import('../../../../libs/components/organizer/editor/EventEditor'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: {

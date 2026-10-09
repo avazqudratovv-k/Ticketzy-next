@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import QRCode from 'qrcode';
 
 /**
  * Draws the QR code of the token the backend returned. The token is never made or signed here.
@@ -12,7 +11,9 @@ const QrCode = ({ value, label, className }: { value: string; label: string; cla
 	useEffect(() => {
 		let cancelled = false;
 		setFailed(false);
-		QRCode.toDataURL(value, { errorCorrectionLevel: 'M', margin: 2, width: 640, color: { dark: '#000000', light: '#ffffff' } })
+		// the generator is loaded on first use, not with the page
+		import('qrcode')
+			.then((QRCode) => QRCode.toDataURL(value, { errorCorrectionLevel: 'M', margin: 2, width: 640, color: { dark: '#000000', light: '#ffffff' } }))
 			.then((url) => !cancelled && setSrc(url))
 			.catch(() => !cancelled && setFailed(true));
 		return () => {

@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -10,7 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Calendar, WarningCircle } from 'phosphor-react';
 import { withOrganizerLayout } from '../../libs/components/layout/LayoutAdmin';
 import BlockedPanel from '../../libs/components/organizer/BlockedPanel';
-import Scanner from '../../libs/components/organizer/checkin/Scanner';
+
 import ScanResult from '../../libs/components/organizer/checkin/ScanResult';
 import StateBlock from '../../libs/components/states/StateBlock';
 import useAuth from '../../libs/hooks/useAuth';
@@ -21,6 +22,8 @@ import { OrgEvent } from '../../libs/organizer/types';
 import { localizedEvent } from '../../libs/events';
 import { formatEventWhen, formatNumber } from '../../libs/format';
 import { organizerEventsUrl } from '../../libs/routes';
+
+const Scanner = dynamic(() => import('../../libs/components/organizer/checkin/Scanner'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {

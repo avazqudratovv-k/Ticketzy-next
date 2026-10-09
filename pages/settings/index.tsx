@@ -180,7 +180,7 @@ const Settings: NextPage = () => {
 
 				<div ref={statusRef} tabIndex={-1} role="status" className="settings__status">
 					{status?.kind === 'saved' && (
-						<p className="tz-alert">
+						<p className="tz-alert tz-alert--success">
 							<CheckCircle size={20} aria-hidden="true" /> {t('profile.saved')}
 						</p>
 					)}
