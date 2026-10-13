@@ -237,5 +237,9 @@
   "buyerOnly": {
     "message": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi."
   },
-  "wakeNote": "Server uygʻonmoqda, demoda bu bir daqiqagacha vaqt olishi mumkin."
+  "wakeNote": "Server uygʻonmoqda, demoda bu bir daqiqagacha vaqt olishi mumkin.",
+  "seatLabel": {
+    "full": "{{section}}, {{row}}-qator, {{number}}-oʻrin",
+    "short": "{{row}}-qator, {{number}}-oʻrin"
+  }
 }

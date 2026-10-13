@@ -438,7 +438,9 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 					label: t('summary.continue'),
 					busyLabel: t('summary.holding'),
 					busy,
-					disabled: selected.length === 0 || Boolean(pending),
+					disabled: Boolean(pending),
+					blocked: selected.length === 0,
+					hint: t('summary.selectHint'),
 					onClick: goOn,
 				}}
 				secondary={
@@ -531,7 +533,7 @@ const Legend = ({ sectionInfo }: { sectionInfo: SectionInfo[] }) => {
 					{Array.from(tiers.entries()).map(([index, info]) => (
 						<li key={index}>
 							<span className="legend__seat" style={{ background: tierColor(index) }} aria-hidden="true" />
-							{info.ticketName ?? info.section.tierKey} {info.price !== undefined && `· ${formatPrice(info.price, locale, info.currency)}`}
+							{info.ticketName ?? info.section.name} {info.price !== undefined && `· ${formatPrice(info.price, locale, info.currency)}`}
 						</li>
 					))}
 				</ul>

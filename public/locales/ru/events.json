@@ -72,7 +72,8 @@
     "showing_one": "Показано {{from}}–{{to}} из {{total}} события",
     "showing_few": "Показано {{from}}–{{to}} из {{total}} событий",
     "showing_many": "Показано {{from}}–{{to}} из {{total}} событий",
-    "showing_other": "Показано {{from}}–{{to}} из {{total}} событий"
+    "showing_other": "Показано {{from}}–{{to}} из {{total}} событий",
+    "results": "Результаты"
   },
   "filters": {
     "title": "Фильтры",

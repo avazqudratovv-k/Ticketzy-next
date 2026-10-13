@@ -89,7 +89,8 @@
     "total_one": "Jami, {{count}} ta oʻrin",
     "total_other": "Jami, {{count}} ta oʻrin",
     "max_one": "Bir buyurtmada {{count}} tagacha oʻrin.",
-    "max_other": "Bir buyurtmada {{count}} tagacha oʻrin."
+    "max_other": "Bir buyurtmada {{count}} tagacha oʻrin.",
+    "selectHint": "Davom etish uchun kamida bitta oʻrin tanlang."
   },
   "hold": {
     "left": "ichida buyurtmani yakunlang",
@@ -138,7 +139,8 @@
     "count_one": "{{count}} ta chipta",
     "count_other": "{{count}} ta chipta",
     "totalLabel_one": "Jami, {{count}} ta chipta",
-    "totalLabel_other": "Jami, {{count}} ta chipta"
+    "totalLabel_other": "Jami, {{count}} ta chipta",
+    "selectHint": "Davom etish uchun kamida bitta chipta tanlang."
   },
   "checkout": {
     "title": "Buyurtmani rasmiylashtirish",

@@ -18,6 +18,7 @@ import { useRequireAuth } from '../../../libs/auth/guards';
 import { formatEventDate, formatPrice } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { compareSeats } from '../../../libs/seats/layout';
+import { seatParts, sectionNamesOf } from '../../../libs/seats/label';
 import { LayoutSection, OrderData } from '../../../libs/seats/types';
 import { checkoutUrl, ROUTES, seatsUrl } from '../../../libs/routes';
 import { EventItem, TicketTypeItem } from '../../../libs/types/event';
@@ -60,6 +61,7 @@ const Confirmation: NextPage = () => {
 	const event: EventItem | undefined = eventData?.getEvent;
 	const ticketTypes: TicketTypeItem[] = useMemo(() => ticketTypeData?.getTicketTypes ?? [], [ticketTypeData]);
 	const sections: LayoutSection[] = useMemo(() => mapData?.getEventSeatMap?.venueLayout?.sections ?? [], [mapData]);
+	const names = useMemo(() => sectionNamesOf(sections), [sections]);
 	const ticketName = (id: string) => ticketTypes.find((tt) => tt._id === id)?.ticketTypeName ?? String(t('order.ticket'));
 
 	const seatLines: SeatLine[] = useMemo(() => {
@@ -68,16 +70,17 @@ const Confirmation: NextPage = () => {
 			.map((ticket) => ticket.seatData!)
 			.sort(compareSeats)
 			.map((seat, index) => {
+				const parts = seatParts(t, seat, names);
 				const tt = tickets.find((ticket) => ticket.seatData === seat);
 				const price = ticketTypes.find((type) => type._id === tt?.ticketTypeId)?.ticketPrice ?? 0;
 				return {
 					key: `${seat.sectionKey}:${seat.row}:${seat.number}:${index}`,
-					title: t('seat.label', { row: seat.row, number: seat.number }),
-					meta: `${sections.find((s) => s.key === seat.sectionKey)?.name ?? seat.sectionKey} · ${t('order.seated')}`,
+					title: parts.short,
+					meta: `${parts.section ? `${parts.section} · ` : ''}${t('order.seated')}`,
 					price,
 				};
 			});
-	}, [ticketData, orderId, ticketTypes, sections, t]);
+	}, [ticketData, orderId, ticketTypes, names, t]);
 
 	if (!allowed) return null;
 

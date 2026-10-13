@@ -37,14 +37,14 @@ Side effect of the check: one live hold was created as the buyer (Busan Late Nig
 |---|---|---|---|---|
 | 1 | **Done (D2, F325)** Every page, signed in, 390 px | The header does not fit: brand, language, theme, bell, avatar and menu add up to 405 px, so the menu button is cut at the right edge and the page scrolls sideways by 15 px (signed out it fits). It shows on every signed-in route measured. | Below about 420 px make the language trigger an icon only (or move it into the menu); keep the wordmark. | S |
 | 2 | **Done (D2, F325)** Checkout, 390 px | The hold lasts 30 s but the Pay button is 1454 px down the page (static), and the countdown scrolls away at the top. A buyer must scroll two screens blind. | Below 1024 px a sticky bottom bar with the timer and Pay, like the seat picker sheet (F75). | M |
-| 3 | Home, 1440 px | The hero is so tall that its title starts at y 725 and its "Get tickets" button ends at y 893: the main call to action is below the fold on a 1440x800 laptop. | Cap the hero height (for example `min(560px, 68vh)`) and keep the text at the bottom of the image. | S |
+| 3 | **Done (D4, F329)** Home, 1440 px | The hero is so tall that its title starts at y 725 and its "Get tickets" button ends at y 893: the main call to action is below the fold on a 1440x800 laptop. | Cap the hero height (for example `min(560px, 68vh)`) and keep the text at the bottom of the image. | S |
 | 4 | **Done (D2, F325)** Event detail, 390 px | The ticket box is under the long description, venue, organizer and comments (about 2000 px down); only a "View tickets" link at the top leads there. | A sticky bottom bar "From ₩x" + "View tickets" that disappears when the ticket box is visible. | M |
-| 5 | Seats, dark | With 0 seats the Continue button is dark on dark and almost invisible (it is `disabled`, not `aria-disabled`). | Use `aria-disabled` with a visible outline style and a line "Pick a seat to continue". | S |
+| 5 | **Code done (D4, F331), not seen signed in** Seats, dark | With 0 seats the Continue button is dark on dark and almost invisible (it is `disabled`, not `aria-disabled`). | Use `aria-disabled` with a visible outline style and a line "Pick a seat to continue". | S |
 | 6 | **Done (D2, F325)** Account pages, 390 px | The tab strip (My tickets, Order history, Notifications, Settings) is cut at "Notif" with no sign that it scrolls. | Edge fade (mask) on the scroll container, or let it wrap into two rows. | S |
 | 7 | Login and sign-up, 390 px | Text fields are 41 px high; the rule (F262) is 44 px. | `min-height: var(--control-md)` on `.tz-input` below 768 px. | S |
 | 8 | **Done (D2, F325)** All pages with the "Ask Ticketzy" button, 390 px | The floating button sits on the last footer controls (the Russian and Uzbek language segments) and on card text. | Extra bottom padding on the footer, or let the button fade out while the footer is in view. | S |
-| 9 | Events list, 390 px | Search, Filters, the "Showing" line and Sort are four stacked rows (about 380 px) before the first card. | Put "Showing" and Sort on one row. | S |
-| 10 | Order detail and confirmation | The same seat is written two ways ("Row 7, seat 12 / Upper East" and "UPPER_E, row 9, seat 7" under "Upper Tier"): a raw tier key reaches the buyer. | One seat label helper used by both pages; never print the tier key. | S |
+| 9 | **Done (D4, F330)** Events list, 390 px | Search, Filters, the "Showing" line and Sort are four stacked rows (about 380 px) before the first card. | Put "Showing" and Sort on one row. | S |
+| 10 | **Done (D4, F332, not seen signed in)** Order detail and confirmation | The same seat is written two ways ("Row 7, seat 12 / Upper East" and "UPPER_E, row 9, seat 7" under "Upper Tier"): a raw tier key reaches the buyer. | One seat label helper used by both pages; never print the tier key. | S |
 
 ---
 
@@ -58,7 +58,7 @@ Priority: **P1** hurts use or trust, **P2** noticeable polish, **P3** nice to ha
 |---|---|---|---|---|---|---|---|
 | 1 | **Done (D2)** All pages (signed in) | 390 D+L | Header too wide: menu button cut off, 15 px sideways scroll (scrollWidth 405). Measured on every signed-in route. The hamburger is the only way to reach the footer links on a phone. | Language trigger icon-only below 420 px | S | Low | web-design-guidelines (no horizontal scroll), impeccable (responsive); F90 |
 | 2 | **Done (D2)** Checkout | 390 D+L | Pay button 1454 px down, timer not visible while scrolling, 30 s hold. | Sticky bottom bar with timer and Pay below 1024 px | M | Medium (payment flow, F57, F206) | impeccable (critique: primary action), ui-ux-pro-max (sticky CTA on timed flows) |
-| 3 | Home | 1440 D+L | Hero CTA below the fold (title y 725, CTA bottom y 893). The hero is the page's one big promise. | Cap hero height, keep the side cards aligned to it | S | Low (F316 minimum heights stay) | frontend-design (first screen), impeccable (hierarchy) |
+| 3 | **Done (D4, F329)** Home | 1440 D+L | Hero CTA below the fold (title y 725, CTA bottom y 893). The hero is the page's one big promise. | Cap hero height, keep the side cards aligned to it | S | Low (F316 minimum heights stay) | frontend-design (first screen), impeccable (hierarchy) |
 
 ### P2 (16)
 
@@ -66,12 +66,12 @@ Priority: **P1** hurts use or trust, **P2** noticeable polish, **P3** nice to ha
 |---|---|---|---|---|---|---|---|
 | 4 | **Done (D2)** Event detail | 390 D | Ticket box about 2000 px down, after comments (see quick win 4). | Sticky "From ₩x / View tickets" bar | M | Low | impeccable, ui-ux-pro-max |
 | 5 | Event detail | 1440 D+L | The image (about 660x440) pushes the title and the ticket box down; the box starts around y 575. | Limit image height (about 360 px) or put the box beside the title | S | Low | frontend-design |
-| 6 | Seats | 390 and 1440 D | Continue invisible when blocked (quick win 5). | Styled blocked state plus hint | S | Low | web-design-guidelines (disabled state), AGENTS rule (aria-disabled) |
+| 6 | **Code done (D4, F331), not seen signed in** Seats | 390 and 1440 D | Continue invisible when blocked (quick win 5). | Styled blocked state plus hint | S | Low | web-design-guidelines (disabled state), AGENTS rule (aria-disabled) |
 | 7 | Seats | 390 D | After choosing a section the map zooms to 150% and the section's outer seats are cut at the left and right edge (seen in one screenshot; the map was blank for the first moments of the load). | Fit-to-section should leave a margin; check the first paint | M | Medium | emil-design-eng (state at rest), impeccable |
 | 8 | Seats | 390 D | Seats on the map are about 22 px; real tap targets are the section buttons and the grid (F66, F247), but the map invites tapping. | Tap on the map picks the section (not a seat) at 100% zoom, or show a hint "Choose a section below" | M | Medium | ui-ux-pro-max (touch targets) |
 | 9 | Checkout | 390 D | Order summary comes before payment, so the page is 1561 px with only a small timer above (see P1 2). A first-time buyer sees an empty-looking "Payment" box with disabled sample card fields (F74). | Part of P1 2; add one line "Demo payment: nothing is charged" next to Pay | S | Low | impeccable (trust) |
-| 10 | Order detail, confirmation | 390 D | Raw tier key and two seat label formats (quick win 10). | One label helper | S | Low | impeccable (consistency) |
-| 11 | Events list | 390 D+L | Four stacked control rows before the first card (quick win 9). | One row for count and sort | S | Low | impeccable |
+| 10 | **Done (D4, F332)** Order detail, confirmation | 390 D | Raw tier key and two seat label formats (quick win 10). | One label helper | S | Low | impeccable (consistency) |
+| 11 | **Done (D4, F330)** Events list | 390 D+L | Four stacked control rows before the first card (quick win 9). | One row for count and sort | S | Low | impeccable |
 | 12 | Events list, filters | 390 D | Filters open as a 580 px inline panel above the results; nothing shows how many events match and the results are out of sight. | Sticky "Show N events" button at the bottom of the panel, closing it | M | Medium (F164 URL state stays) | web-design-guidelines (feedback), ui-ux-pro-max |
 | 13 | Events list, organizer page | 390 D | One card per row, each about 470 px: 13 events make a 6845 px page, 12 organizer events 6815 px. | Compact card (image at the left, like the home side cards) below 480 px | M | Medium (conflicts with F316, see section 4) | impeccable (density), vercel-react-best-practices (less to paint) |
 | 14 | **Done (D2)** Account pages | 390 D | Tab strip cut at "Notif" with no hint (quick win 6). | Edge fade | S | Low | web-design-guidelines |
@@ -85,7 +85,7 @@ Priority: **P1** hurts use or trust, **P2** noticeable polish, **P3** nice to ha
 
 | # | Page | Viewport, theme | Problem | Suggested fix | Effort | Risk | Source |
 |---|---|---|---|---|---|---|---|
-| 20 | Events list | 390 D | Axe `heading-order` (moderate): card titles are `h3` after the page `h1` with no `h2`. | Visually hidden `h2` for the results, or card titles as `h2` | S | Low | web-design-guidelines |
+| 20 | **Done (D4, F330)** Events list | 390 D | Axe `heading-order` (moderate): card titles are `h3` after the page `h1` with no `h2`. | Visually hidden `h2` for the results, or card titles as `h2` | S | Low | web-design-guidelines |
 | 21 | Events list | 390 D | Empty state for a title search says "Try a different date or city, or clear the filters" and Sort stays visible above it. | Copy that matches a title search; hide Sort when the list is empty | S | Low | impeccable (empty states) |
 | 22 | Events list | 390 D | An event without an image shows a flat purple block. | A neutral Volt placeholder with the category icon | S | Low | impeccable ("unfinished" look) |
 | 23 | My tickets | 390 D | 16 upcoming tickets of one event are 16 near-identical cards. | Group by event and order ("16 tickets") | M | Medium | impeccable (density) |

@@ -855,3 +855,17 @@ Frontend only, not committed. Decisions F326 to F328, patterns in `docs/ai/UI_PA
 - Login and sign-up fields at 44 px (the signed-in tab redirects away; same rule as the profile fields). Reduced motion not toggled (no new animation). The wizard language segments have no fade (they fit at 390). Light and dark screenshots were looked at only for the profile buttons, the wizard strip and the admin pages listed in the report; other combinations are measured.
 - `landmark-complementary-is-top-level` on the venue editor (audit O10) is untouched.
 - Nothing was submitted, approved, rejected or cancelled.
+
+## Prompt D4: remaining buyer design fixes (F329 to F332)
+
+### What changed
+- Home hero capped at 1280 px and up (F329); events list count and Sort on one row below 480 px and a hidden results `h2` (F330); seat page and general admission Continue as a `tz-blocked` button with a hint (F331); shared seat label helper and `useSectionNames` replacing six seat formatters (F332). Files: `scss/events.scss`, `scss/seats.scss`, `pages/events/index.tsx`, `libs/components/seats/{SeatSummary,SeatPicker,GeneralPicker}.tsx`, `libs/seats/label.ts`, `libs/hooks/useSectionNames.ts`, `libs/components/account/TicketCard.tsx`, `pages/orders/[orderId]/{index,confirmation}.tsx`, `pages/tickets/[ticketId].tsx`, `pages/checkout/[orderId].tsx`, locale files `common`, `events`, `checkout` (en, ko, ru, uz).
+- Seat map zoom (audit finding 7): not looked at, see below.
+
+### Checks
+- `yarn typecheck`, `yarn lint`, `yarn i18n:check` clean. Scratch build from a copy (port 3100) built; `/` and `/events` answered 200.
+- Browser (iframes, `ticketzy-theme` set before load, axe 4.10.2): home at 320, 390, 768, 1440 and events at 320, 390, 768, 1440, light and dark: no axe violation, no horizontal overflow, no control under 44 px below 768 px (apart from the hidden native select input). Hero button bottom at 1440 x 800 and x 900 is 625 and 641 px in both themes. Layout shift 0 on home, at most 0.0003 on events. Theme key put back to `light`.
+
+### Not tested
+- **The Chrome tab was not signed in** and no password may be typed, so seats, checkout, orders, order detail, ticket detail and my tickets were not opened. The blocked Continue button (dark and light), the seat labels on those pages, the seat map zoom check, axe and overflow on those routes, and the one allowed seat hold are all open. No seat hold was made.
+- Screenshots: only the 390 px events top and a scaled 1440 home were looked at; no light screenshots. Reduced motion not toggled (no motion added).

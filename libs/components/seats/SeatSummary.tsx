@@ -24,7 +24,8 @@ interface Props {
 	/** Short line under the total ("Up to 8 seats per order") */
 	note?: string;
 	timer?: ReactNode;
-	action: { label: string; busyLabel: string; busy: boolean; disabled: boolean; onClick: () => void };
+	/** `blocked`: nothing to continue with yet; outlined `tz-blocked` look with `aria-disabled` and the `hint` line (F329). `disabled` is for a request in flight. */
+	action: { label: string; busyLabel: string; busy: boolean; disabled: boolean; blocked?: boolean; hint?: string; onClick: () => void };
 	secondary?: ReactNode;
 	empty: string;
 	/** Overrides of the "N seats" labels, for tickets without seats */
@@ -83,7 +84,23 @@ const SeatSummary = ({ heading, lines, count, total, currency, note, timer, acti
 				</div>
 			</div>
 			<div className="summary__actions">
-				<Button variant="contained" size="large" fullWidth disabled={action.disabled || action.busy} onClick={action.onClick}>
+				{action.blocked && action.hint && (
+					<p id="summary-hint" className="summary__hint">
+						{action.hint}
+					</p>
+				)}
+				<Button
+					variant="contained"
+					size="large"
+					fullWidth
+					className={action.blocked ? 'tz-blocked' : undefined}
+					disabled={action.disabled || action.busy}
+					aria-disabled={action.blocked ? true : undefined}
+					aria-describedby={action.blocked && action.hint ? 'summary-hint' : undefined}
+					onClick={() => {
+						if (!action.blocked) action.onClick();
+					}}
+				>
 					{action.busy ? action.busyLabel : action.label}
 				</Button>
 				{secondary}

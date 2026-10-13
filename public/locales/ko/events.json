@@ -69,7 +69,8 @@
     "noMatch": "조건에 맞는 이벤트가 없어요",
     "noMatchQuery": "“{{query}}”에 맞는 이벤트가 없어요",
     "noMatchText": "다른 날짜나 도시를 선택하거나 필터를 지워서 판매 중인 전체 이벤트를 확인해 보세요.",
-    "showing_other": "전체 {{total}}개 중 {{from}}–{{to}}번째 이벤트"
+    "showing_other": "전체 {{total}}개 중 {{from}}–{{to}}번째 이벤트",
+    "results": "검색 결과"
   },
   "filters": {
     "title": "필터",

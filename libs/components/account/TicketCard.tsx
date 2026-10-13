@@ -4,6 +4,8 @@ import { useTranslation } from 'next-i18next';
 import { CalendarBlank, MapPin, Ticket } from 'phosphor-react';
 import { formatEventWhen } from '../../format';
 import { ticketState } from '../../account/tickets';
+import { useSectionNames } from '../../hooks/useSectionNames';
+import { seatLabel } from '../../seats/label';
 import { ticketUrl } from '../../routes';
 import { AccountTicket } from '../../types/account';
 import EventImage from '../events/EventImage';
@@ -18,6 +20,7 @@ const TicketCard = ({ ticket }: { ticket: AccountTicket }) => {
 	const venue = event?.venueData;
 	const state = ticketState(ticket);
 	const seat = ticket.seatData;
+	const sectionNames = useSectionNames(ticket.eventId, Boolean(seat));
 
 	return (
 		<li className="tcard">
@@ -43,7 +46,7 @@ const TicketCard = ({ ticket }: { ticket: AccountTicket }) => {
 					)}
 					<li>
 						<Ticket size={16} aria-hidden="true" />
-						{[ticket.ticketTypeData?.ticketTypeName, seat ? t('ticket.seatLine', { section: seat.sectionKey, row: seat.row, number: seat.number }) : t('ticket.general')]
+						{[ticket.ticketTypeData?.ticketTypeName, seat ? seatLabel(t, seat, sectionNames) : t('ticket.general')]
 							.filter(Boolean)
 							.join(' · ')}
 					</li>

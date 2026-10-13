@@ -569,6 +569,13 @@
 		gap: var(--space-4);
 		@media (min-width: 1280px) {
 			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+			align-items: start;
+			// The hero no longer stretches to the side column (three cards of at least 260 px, F316): it is capped so its
+			// "Get tickets" button is on the first screen at 1440 x 800. The skeleton is the same element, so nothing shifts.
+			> .tz-hero {
+				height: min(560px, 68vh);
+				min-height: 440px;
+			}
 		}
 	}
 	&__side {
@@ -938,19 +945,39 @@
 		justify-content: space-between;
 		gap: var(--space-4);
 		margin-bottom: var(--space-4);
+		@media (max-width: 479px) {
+			flex-wrap: nowrap;
+			align-items: center;
+			gap: var(--space-3);
+		}
 	}
 	&__count {
 		margin: 0;
 		color: var(--ink-muted);
 		font: var(--text-body-sm);
+		@media (max-width: 479px) {
+			flex: 1 1 0;
+			min-width: 0;
+		}
 	}
 	&__sort {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-1);
 		min-width: 220px;
+		// Phones: the count and Sort share one row (audit D4); the label stays for screen readers only
 		@media (max-width: 479px) {
-			width: 100%;
+			flex: 0 1 auto;
+			min-width: 0;
+			max-width: 56%;
+			.browse__label {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				overflow: hidden;
+				clip: rect(0 0 0 0);
+				white-space: nowrap;
+			}
 		}
 	}
 }

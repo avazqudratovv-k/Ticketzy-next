@@ -63,3 +63,17 @@ For a control that has nothing to do yet (Save with no changes, Back on the firs
 ## Dashboard drawer (F327)
 
 `DashboardShell` (organizer and admin) below 1024 px: the sidebar is a dialog while open (`role="dialog"`, `aria-modal`), `.tz-main` is `inert`, Escape closes, focus goes to the close button and returns to the opener, and the opener's label (`dashboard.openSidebar` / `dashboard.closeSidebar`) and `aria-expanded` follow the state. Layers: scrim 300, drawer 310 (see the table above).
+
+## Seat label (F332)
+
+One way to write a seat for the buyer: `libs/seats/label.ts`.
+
+```tsx
+const names = useSectionNames(eventId, enabled);   // libs/hooks/useSectionNames.ts, seat map layout, cache-first
+seatLabel(t, seat, names);                          // "Upper East, row 7, seat 12"; "Row 7, seat 12" while the name is unknown
+const { short, section, full } = seatParts(t, seat, names);   // when title and meta are separate lines
+```
+
+- Section keys and tier keys (`UPPER_E`) are ids; never print them. Keep ticket type names (translated by the organizer) as they are.
+- Keys `common:seatLabel.full` and `common:seatLabel.short`. When the layout already is in hand use `sectionNamesOf(sections)` instead of the hook.
+- Used by: order detail, ticket detail, ticket card, order confirmation, checkout summary.

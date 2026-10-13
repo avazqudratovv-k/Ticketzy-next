@@ -141,7 +141,7 @@ const GeneralPicker = ({ eventId, ticketTypes, config }: Props) => {
 						<p className="countdown__text">{t('general.idle', { seconds: config.seatHoldSeconds })}</p>
 					</div>
 				}
-				action={{ label: t('summary.continue'), busyLabel: t('summary.holding'), busy, disabled: count === 0, onClick: goOn }}
+				action={{ label: t('summary.continue'), busyLabel: t('summary.holding'), busy, disabled: false, blocked: count === 0, hint: t('general.selectHint'), onClick: goOn }}
 			/>
 		</div>
 	);

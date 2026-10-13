@@ -89,7 +89,8 @@
     "total_one": "Total, {{count}} seat",
     "total_other": "Total, {{count}} seats",
     "max_one": "Up to {{count}} seat per order.",
-    "max_other": "Up to {{count}} seats per order."
+    "max_other": "Up to {{count}} seats per order.",
+    "selectHint": "Select at least one seat to continue."
   },
   "hold": {
     "left": "left to complete your order",
@@ -138,7 +139,8 @@
     "count_one": "{{count}} ticket",
     "count_other": "{{count}} tickets",
     "totalLabel_one": "Total, {{count}} ticket",
-    "totalLabel_other": "Total, {{count}} tickets"
+    "totalLabel_other": "Total, {{count}} tickets",
+    "selectHint": "Choose at least one ticket to continue."
   },
   "checkout": {
     "title": "Checkout",

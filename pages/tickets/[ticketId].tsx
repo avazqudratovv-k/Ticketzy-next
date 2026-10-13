@@ -16,6 +16,8 @@ import { eventTitleOf } from '../../libs/components/account/OrderRow';
 import { TicketBadge } from '../../libs/components/account/StatusBadge';
 import EventImage from '../../libs/components/events/EventImage';
 import Seo from '../../libs/components/common/Seo';
+import { useSectionNames } from '../../libs/hooks/useSectionNames';
+import { seatLabel } from '../../libs/seats/label';
 import { buildIcs, downloadIcs } from '../../libs/account/ics';
 import { ticketState, TicketState } from '../../libs/account/tickets';
 import { formatEventWhen, formatPrice, formatViewerDate } from '../../libs/format';
@@ -44,6 +46,7 @@ const TicketDetail: NextPage = () => {
 	const ticket: AccountTicket | undefined = data?.getTicket;
 	const event = ticket?.eventData;
 	const venue = event?.venueData;
+	const sectionNames = useSectionNames(ticket?.eventId, Boolean(ticket?.seatData));
 	// Other tickets of the same order, for the "Ticket 1 of 2" stepper
 	const { data: siblingData } = useQuery(GET_MY_TICKETS_LIST, {
 		variables: { input: { page: 1, limit: 100 } },
@@ -91,7 +94,7 @@ const TicketDetail: NextPage = () => {
 
 	const addToCalendar = () => {
 		if (!event) return;
-		const seatText = seat ? t('ticket.seatLine', { section: seat.sectionKey, row: seat.row, number: seat.number }) : t('ticket.general');
+		const seatText = seat ? seatLabel(t, seat, sectionNames) : t('ticket.general');
 		downloadIcs(`ticketzy-${ticket._id}.ics`, buildIcs({
 			uid: ticket._id,
 			title,
@@ -145,7 +148,7 @@ const TicketDetail: NextPage = () => {
 								{ticket.ticketTypeData && <Detail label={t('ticket.type')} value={ticket.ticketTypeData.ticketTypeName} />}
 								{seat ? (
 									<div className="tdetail__seat">
-										<Detail label={t('ticket.section')} value={seat.sectionKey} />
+										<Detail label={t('ticket.section')} value={sectionNames.get(seat.sectionKey) ?? '–'} />
 										<Detail label={t('ticket.row')} value={String(seat.row)} />
 										<Detail label={t('ticket.seat')} value={String(seat.number)} />
 									</div>

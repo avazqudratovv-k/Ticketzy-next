@@ -86,7 +86,8 @@
     "remove": "{{seat}} 삭제",
     "count_other": "{{count}}석",
     "total_other": "합계 {{count}}석",
-    "max_other": "한 번에 최대 {{count}}석까지 주문할 수 있습니다."
+    "max_other": "한 번에 최대 {{count}}석까지 주문할 수 있습니다.",
+    "selectHint": "계속하려면 좌석을 하나 이상 선택하세요."
   },
   "hold": {
     "left": "안에 주문을 완료하세요",
@@ -129,7 +130,8 @@
     "max_other": "주문당 최대 {{count}}매",
     "idle": "계속을 누르면 티켓을 {{seconds}}초 동안 확보합니다.",
     "count_other": "{{count}}매",
-    "totalLabel_other": "합계 {{count}}매"
+    "totalLabel_other": "합계 {{count}}매",
+    "selectHint": "계속하려면 티켓을 하나 이상 선택하세요."
   },
   "checkout": {
     "title": "결제",

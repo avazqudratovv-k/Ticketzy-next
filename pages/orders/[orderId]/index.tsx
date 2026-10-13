@@ -17,6 +17,8 @@ import { OrderBadge, TicketBadge } from '../../../libs/components/account/Status
 import EventImage from '../../../libs/components/events/EventImage';
 import Seo from '../../../libs/components/common/Seo';
 import { ticketState } from '../../../libs/account/tickets';
+import { useSectionNames } from '../../../libs/hooks/useSectionNames';
+import { seatLabel, SectionNames } from '../../../libs/seats/label';
 import { formatEventWhen, formatPrice, formatViewerDate } from '../../../libs/format';
 import { checkoutUrl, eventUrl, ROUTES, ticketUrl } from '../../../libs/routes';
 import { AccountOrder, AccountTicket } from '../../../libs/types/account';
@@ -26,10 +28,10 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout', 'account'])) },
 });
 
-const Seat = ({ ticket }: { ticket: AccountTicket }) => {
+const Seat = ({ ticket, names }: { ticket: AccountTicket; names: SectionNames }) => {
 	const { t } = useTranslation('account');
 	const seat = ticket.seatData;
-	return <>{seat ? t('ticket.seatLine', { section: seat.sectionKey, row: seat.row, number: seat.number }) : t('ticket.general')}</>;
+	return <>{seat ? seatLabel(t, seat, names) : t('ticket.general')}</>;
 };
 
 const OrderDetail: NextPage = () => {
@@ -55,6 +57,7 @@ const OrderDetail: NextPage = () => {
 		[ticketData, orderId],
 	);
 	const event = order?.eventData ?? undefined;
+	const sectionNames = useSectionNames(order?.eventId, paidLike && order?.seatIds.length !== 0);
 	const venue = event?.venueData;
 	const typeName = (id: string) => ((typeData?.getTicketTypes ?? []) as TicketTypeItem[]).find((type) => type._id === id)?.ticketTypeName ?? t('ticket.type');
 
@@ -154,7 +157,7 @@ const OrderDetail: NextPage = () => {
 													</Link>
 												</span>
 												<span className="order__line-meta">
-													<Seat ticket={ticket} />
+													<Seat ticket={ticket} names={sectionNames} />
 												</span>
 											</div>
 											<div className="order__line-end">

@@ -261,6 +261,7 @@ const Events: NextPage = () => {
 				</aside>
 
 				<section className="browse__results" aria-labelledby="browse-count" aria-busy={firstLoad || loading}>
+					<h2 className="tz-sr">{t('list.results')}</h2>
 					<div className="browse__bar">
 						<p id="browse-count" className="browse__count" aria-live="polite">
 							{data && total > 0

@@ -27,6 +27,7 @@ import { checkoutQuantities, holdAndCheckout } from '../../libs/seats/checkout';
 import { useRemainingMs } from '../../libs/seats/clock';
 import { checkoutErrorKey, isHoldExpired, isOrderNotPayable, isSeatConflict } from '../../libs/seats/errors';
 import { compareSeats, seatKey, takenMap } from '../../libs/seats/layout';
+import { seatParts, sectionNamesOf } from '../../libs/seats/label';
 import { loadRetryInfo } from '../../libs/seats/retry';
 import { OrderData } from '../../libs/seats/types';
 import { confirmationUrl, checkoutUrl, eventUrl, ROUTES, seatsUrl } from '../../libs/routes';
@@ -71,6 +72,7 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	// Seat names and a check that the hold is still ours, from the live seat map
 	const { data: map, loaded: mapLoaded } = useSeatMap(eventId, Boolean(pending && reserved));
 	const sections = useMemo(() => map?.venueLayout.sections ?? [], [map]);
+	const names = useMemo(() => sectionNamesOf(sections), [sections]);
 	const taken = useMemo(() => takenMap(map?.seats ?? []), [map]);
 	const mine = useMemo(() => (map?.seats ?? []).filter((seat) => seat.mine && seat.seatStatus === 'HELD').sort(compareSeats), [map]);
 	const tierPrice = useCallback(
@@ -83,14 +85,17 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	const seatLines: SeatLine[] = useMemo(
 		() =>
 			reserved && mine.length === order?.seatIds.length
-				? mine.map((seat) => ({
-						key: seatKey(seat),
-						title: t('seat.label', { row: seat.row, number: seat.number }),
-						meta: `${sections.find((s) => s.key === seat.sectionKey)?.name ?? seat.sectionKey} · ${t('order.seated')}`,
-						price: tierPrice(seat.sectionKey),
-				  }))
+				? mine.map((seat) => {
+						const parts = seatParts(t, seat, names);
+						return {
+							key: seatKey(seat),
+							title: parts.short,
+							meta: `${parts.section ? `${parts.section} · ` : ''}${t('order.seated')}`,
+							price: tierPrice(seat.sectionKey),
+						};
+				  })
 				: [],
-		[reserved, mine, order, sections, tierPrice, t],
+		[reserved, mine, order, names, tierPrice, t],
 	);
 
 	const ticketName = (id: string) => ticketTypes.find((tt) => tt._id === id)?.ticketTypeName ?? String(t('order.ticket'));
