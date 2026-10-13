@@ -162,6 +162,8 @@
     "total": "결제 금액",
     "button": "{{amount}} 결제",
     "paying": "처리 중…",
+    "payShort": "결제하기",
+    "barLabel": "결제 바",
     "noCard": "데모 결제입니다. Ticketzy는 여기서 카드 번호를 받지 않습니다.",
     "refund": "{{date}}까지 환불할 수 있습니다."
   },

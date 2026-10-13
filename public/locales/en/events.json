@@ -169,7 +169,8 @@
     },
     "ticketsFoot": "Prices include fees. Tickets arrive as QR codes in My tickets.",
     "soldOutBadge": "Sold out",
-    "viewTickets": "View tickets"
+    "viewTickets": "View tickets",
+    "barLabel": "Ticket shortcut"
   },
   "comments": {
     "title": "Comments",

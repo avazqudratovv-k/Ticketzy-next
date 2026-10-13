@@ -46,7 +46,7 @@
 	}
 	&__nav {
 		min-width: 0;
-		ul {
+		.acct__tabs {
 			display: flex;
 			gap: var(--space-1);
 			margin: 0;

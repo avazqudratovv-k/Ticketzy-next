@@ -164,7 +164,8 @@
     },
     "ticketsFoot": "가격에 수수료가 포함돼 있어요. 티켓은 내 티켓에 QR 코드로 도착해요.",
     "soldOutBadge": "매진",
-    "viewTickets": "티켓 보기"
+    "viewTickets": "티켓 보기",
+    "barLabel": "티켓 바로가기"
   },
   "comments": {
     "title": "댓글",

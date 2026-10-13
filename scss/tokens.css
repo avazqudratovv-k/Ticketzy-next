@@ -141,9 +141,12 @@
   --control-lg: 52px;
   --navbar-height: 64px;
   --sidebar-width: 264px;
+  /* Height of a sticky bottom bar (checkout, event detail) below 1024 px; footer padding and the Ask button lift read it */
+  --bar-h: calc(80px + env(safe-area-inset-bottom));
   --container-max: 1280px;
   --container-text: 720px;
-  /* Z-index */
+  /* Z-index. Order, low to high: page content, --z-bar (sticky bottom bars), --z-sticky (header, top bar, seat sheet), --z-dropdown (Ask Ticketzy button and panel), --z-scrim, --z-modal, --z-toast. MUI menus and dialogs use MUI's own 1300 and sit above all of these. See docs/ai/UI_PATTERNS.md. */
+  --z-bar: 90;
   --z-sticky: 100;
   --z-dropdown: 200;
   --z-scrim: 300;

@@ -169,7 +169,8 @@
     },
     "ticketsFoot": "Narxlar yig‘imlarni o‘z ichiga oladi. Chiptalar “Mening chiptalarim” bo‘limida QR kod ko‘rinishida keladi.",
     "soldOutBadge": "Tugadi",
-    "viewTickets": "Chiptalarni ko‘rish"
+    "viewTickets": "Chiptalarni ko‘rish",
+    "barLabel": "Chiptalarga oʻtish"
   },
   "comments": {
     "title": "Izohlar",

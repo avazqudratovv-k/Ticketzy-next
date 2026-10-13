@@ -15,6 +15,7 @@ import StateBlock from '../../libs/components/states/StateBlock';
 import Countdown from '../../libs/components/seats/Countdown';
 import OrderSummary, { SeatLine } from '../../libs/components/seats/OrderSummary';
 import Steps from '../../libs/components/seats/Steps';
+import PayBar from '../../libs/components/seats/PayBar';
 import { clearSession } from '../../libs/auth';
 import { useRequireAuth } from '../../libs/auth/guards';
 import useBuyerOnlyRedirect from '../../libs/hooks/useBuyerOnlyRedirect';
@@ -381,14 +382,14 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 						</div>
 					</dl>
 					{payError && (
-						<div className="tz-alert tz-alert--danger" role="alert">
+						<div className="tz-alert tz-alert--danger checkout__err" role="alert">
 							<span className="tz-alert__icon">
 								<WarningCircle size={18} />
 							</span>
 							<p className="tz-alert__title">{t(payError)}</p>
 						</div>
 					)}
-					<Button variant="contained" size="large" fullWidth onClick={pay} disabled={paying}>
+					<Button className="checkout__paybtn" variant="contained" size="large" fullWidth onClick={pay} disabled={paying}>
 						{paying ? t('pay.paying') : t('pay.button', { amount: formatPrice(order.totalAmount, locale, currency) })}
 					</Button>
 					<p className="breakdown__note">
@@ -397,6 +398,13 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 					{refundDay && <p className="breakdown__note">{t('pay.refund', { date: refundDay })}</p>}
 				</aside>
 			</div>
+			<PayBar
+				deadline={order.expiresAt}
+				total={formatPrice(order.totalAmount, locale, currency)}
+				paying={paying}
+				error={payError}
+				onPay={pay}
+			/>
 		</div>
 	);
 };

@@ -124,6 +124,30 @@
 			display: flex;
 		}
 	}
+	// Header room at 320 to 389 px with a signed-in account: the theme toggle (below 390) and the language trigger (below 340)
+	// move into the menu. Above those widths the menu rows are hidden again.
+	&__theme {
+		display: inline-flex;
+		@media (max-width: 389px) {
+			display: none;
+		}
+	}
+	&__lang {
+		display: inline-flex;
+		@media (max-width: 339px) {
+			display: none;
+		}
+	}
+	&__menu-theme {
+		@media (min-width: 390px) {
+			display: none !important;
+		}
+	}
+	&__menu-lang {
+		@media (min-width: 340px) {
+			display: none !important;
+		}
+	}
 	&__mobile {
 		display: inline-flex;
 		@media (min-width: 768px) {
@@ -133,6 +157,10 @@
 	&__auth-slot {
 		min-width: var(--control-md);
 		min-height: var(--control-md);
+		// a stored session (set before first paint in _document): room for the bell and the avatar from the start
+		html[data-session] & {
+			min-width: calc(2 * var(--control-md));
+		}
 	}
 }
 
@@ -154,8 +182,17 @@
 			background: var(--surface-raised);
 			border-color: var(--border);
 		}
+		// Phones: the globe alone (the accessible name still says the language), so the signed-in header fits at 320 px
+		@media (max-width: 479px) {
+			justify-content: center;
+			min-width: var(--control-md);
+			padding-inline: 0;
+		}
 	}
 	&__code {
+		@media (max-width: 479px) {
+			display: none;
+		}
 		padding: 2px 6px;
 		border-radius: var(--radius-xs);
 		background: var(--neutral-soft);
@@ -536,5 +573,98 @@
 	p {
 		margin: 0;
 		color: var(--ink-muted);
+	}
+}
+
+// Phones and tablets: the Ask Ticketzy button (56 px, 16 px from the bottom) floats over the last footer row, so the footer
+// ends with room for it; a sticky bar (`html[data-bar]`) adds its own height on top.
+.tz-footer {
+	@media (max-width: 1023px) {
+		padding-bottom: calc(56px + var(--space-8) + env(safe-area-inset-bottom));
+		html[data-bar] & {
+			padding-bottom: calc(56px + var(--space-8) + var(--bar-h));
+		}
+	}
+}
+
+/** EDGE FADE for horizontally scrolling strips (tabs, chips). `ScrollFade` sets data-fade-start / data-fade-end on the scroller when
+ *  there is more content on that side. A mask, so it works on any background in both themes and changes no layout. **/
+.tz-fade {
+	position: relative; // the current tab's offsetLeft is measured from the strip
+	--fade-size: 32px;
+	--fade-s: 0px;
+	--fade-e: 0px;
+	-webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-s), #000 calc(100% - var(--fade-e)), transparent 100%);
+	mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-s), #000 calc(100% - var(--fade-e)), transparent 100%);
+	&[data-fade-start] {
+		--fade-s: var(--fade-size);
+	}
+	&[data-fade-end] {
+		--fade-e: var(--fade-size);
+	}
+}
+
+/** STICKY BOTTOM BAR (checkout pay bar, event ticket bar): phones and tablets only. Fixed, so it never moves the page; the page
+ *  keeps room for it through `html[data-bar]` (footer) and `useStickyBar`. Layer order is in tokens.css and docs/ai/UI_PATTERNS.md. **/
+.tz-bar {
+	position: fixed;
+	inset-inline: 0;
+	bottom: 0;
+	z-index: var(--z-bar);
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+	box-sizing: border-box;
+	min-height: var(--bar-h);
+	padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));
+	border-top: 1px solid var(--border);
+	background: var(--surface);
+	box-shadow: var(--shadow-lg);
+	@media (min-width: 1024px) {
+		display: none;
+	}
+	&__info {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		min-width: 0;
+	}
+	&__label {
+		color: var(--ink-muted);
+		font: var(--text-body-sm);
+	}
+	&__value {
+		font: var(--text-price);
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		&--sm {
+			font: var(--text-label);
+			white-space: normal;
+		}
+	}
+	&__action.MuiButton-root {
+		flex: none;
+		min-height: var(--control-lg);
+		&[aria-disabled='true'] {
+			flex: 1;
+			background: var(--surface-sunken);
+			border: 1px solid var(--border-control);
+			color: var(--ink-muted);
+			cursor: default;
+			box-shadow: none;
+		}
+	}
+	// The event bar comes and goes with the ticket box: opacity and transform only, hidden from the keyboard while away
+	&--toggle {
+		transform: translateY(100%);
+		opacity: 0;
+		visibility: hidden;
+		transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-base);
+		&.is-shown {
+			transform: none;
+			opacity: 1;
+			visibility: visible;
+			transition-delay: 0s;
+		}
 	}
 }

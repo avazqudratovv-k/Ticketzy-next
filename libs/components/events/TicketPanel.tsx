@@ -9,6 +9,7 @@ import { seatsUrl } from '../../routes';
 import { isBlockedBuyer } from '../../buyerGate';
 import { salesInfo, typeWindow } from '../../salesWindow';
 import SalesNotice from './SalesNotice';
+import { TICKET_BOX_ID } from './TicketBar';
 import useAuth from '../../hooks/useAuth';
 import useBuyerNotice from '../../hooks/useBuyerNotice';
 import { EventItem, TicketTypeItem } from '../../types/event';
@@ -43,8 +44,10 @@ const TicketPanel = ({ event, ticketTypes, loading, state, now }: Props) => {
 	const reserved = event.seatingType === 'RESERVED';
 
 	return (
-		<aside className="tickets" aria-labelledby="tickets-title">
-			<h2 id="tickets-title">{t('detail.tickets')}</h2>
+		<aside id={TICKET_BOX_ID} className="tickets" aria-labelledby="tickets-title">
+			<h2 id="tickets-title" tabIndex={-1}>
+				{t('detail.tickets')}
+			</h2>
 			<SalesNotice event={event} ticketTypes={ticketTypes} now={now} compact />
 			{loading && ticketTypes.length === 0 && (
 				<div aria-hidden="true">

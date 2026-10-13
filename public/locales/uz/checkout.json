@@ -171,6 +171,8 @@
     "total": "Toʻlanadigan summa",
     "button": "{{amount}} toʻlash",
     "paying": "Bajarilmoqda…",
+    "payShort": "Toʻlash",
+    "barLabel": "Toʻlov paneli",
     "noCard": "Demo toʻlov. Ticketzy bu yerda karta raqamini koʻrmaydi.",
     "refund": "Pulni qaytarish {{date}} gacha mumkin."
   },

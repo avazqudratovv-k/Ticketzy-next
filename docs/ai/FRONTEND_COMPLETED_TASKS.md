@@ -812,3 +812,27 @@ Frontend only, not committed. Decision F324. No application code changed; files 
 - Loading and server-error states, image upload, venue picker dropdown opened, check-in camera, 768 px axe, most light-theme screenshots, the admin venue conflict panel and message thread.
 - Side effects: the tab's stored theme was changed during the run and put back to `light`. No data was changed.
 - No skill script was run; no package was installed.
+
+## Prompt D2: mobile layout fixes (2026-10-13)
+
+Frontend only, not committed. Decision F325, patterns in `docs/ai/UI_PATTERNS.md`.
+
+### Files changed
+- New: `libs/components/common/ScrollFade.tsx`, `libs/components/events/TicketBar.tsx`, `libs/components/seats/PayBar.tsx`, `libs/hooks/useStickyBar.ts`, `docs/ai/UI_PATTERNS.md`.
+- Edited: `libs/components/Top.tsx`, `libs/components/account/AccountShell.tsx`, `libs/components/events/TicketPanel.tsx`, `pages/events/[id]/index.tsx`, `pages/checkout/[orderId].tsx`, `pages/_document.tsx`, `scss/layout.scss`, `scss/seats.scss`, `scss/events.scss`, `scss/account.scss`, `scss/assistant.scss`, `scss/tokens.css`, `scss/tokens.json`, `public/locales/{en,ko,ru,uz}/{checkout,events}.json` (3 keys each: `pay.payShort`, `pay.barLabel`, `detail.barLabel`), `docs/ai/DESIGN_AUDIT.md`, `DECISIONS.md`, this file.
+
+### Done
+- Header at 320, 360, 390: no sideways scroll signed in; icon-only language trigger; theme toggle and language moved into the menu on very narrow phones.
+- Sticky pay bar on checkout, sticky ticket bar on event detail, shared edge fade on the account tab strip, Ask button lifted above bars and clear of the footer.
+
+### Checks
+- `yarn typecheck`, `yarn lint`, `yarn i18n:check`: clean. `yarn build` in a scratch copy: succeeds; the scratch build started on port 3100 and returned 200 (no data, the API only allows port 3000).
+- Browser (iframes of 320, 390, 768, 1440 px on localhost:3000, dark set through the `ticketzy-theme` key before load, signed in as the demo buyer): home, events, event detail, seats, settings, notifications and the expired checkout in light and dark: scrollWidth equals clientWidth everywhere, CLS 0.0000 to 0.0001, axe clean except `heading-order` on the events list at 320 to 768 (audit finding 20, not touched) and `label` + `label-title-only` on settings (audit O1, not touched).
+- One live hold (general admission, ₩500) at 390 light: bar, one visible Pay button, timer, hold expiry removing the bar, footer room. Not paid.
+- Event bar: shown on load, "View tickets" scrolls to the box and focuses its heading, bar hides, dark and light seen.
+
+### Not tested / left
+- The live checkout bar at 320, 768 and 1440 and in dark (only one hold was allowed); the pay-error line in the bar; Safari safe-area inset; reduced-motion toggled (code paths only).
+- Screenshots were taken at 390 (light and dark) for the event bar, account tabs and checkout bar; 320, 768 and 1440 were measured, not looked at.
+- Findings 3, 5 to 13 and the other audit rows were not part of this prompt. No decision in audit section 4 was changed.
+- Side effects: one expired unpaid order for the demo buyer. The stored theme was put back to `light`.

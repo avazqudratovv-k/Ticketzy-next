@@ -18,6 +18,18 @@
 		inset-block-end: var(--space-6);
 		inset-inline-end: var(--space-6);
 	}
+	// a sticky bottom bar is on screen (`useStickyBar`): the button and the tablet panel sit above it, never over it
+	@media (max-width: 1023px) {
+		transition: transform var(--dur-base) var(--ease-out);
+		html[data-bar-shown] & {
+			transform: translateY(calc(-1 * var(--bar-h)));
+		}
+		html[data-bar-shown] &.is-open {
+			@media (max-width: 767px) {
+				transform: none;
+			}
+		}
+	}
 	// pages with their own bottom sheet on small screens
 	&--tight:not(.is-open) .pg-fab {
 		@media (max-width: 1023px) {

@@ -8,6 +8,7 @@ import { useRequireAuth } from '../../auth/guards';
 import { ROUTES } from '../../routes';
 import useAuth from '../../hooks/useAuth';
 import useUnreadCount from '../../hooks/useUnreadCount';
+import ScrollFade from '../common/ScrollFade';
 
 const NAV = [
 	{ href: ROUTES.tickets, key: 'nav.tickets', icon: Ticket },
@@ -40,7 +41,7 @@ const AccountShell = ({ children }: { children: React.ReactNode }) => {
 		<div className={`tz-container acct${user.memberType === MemberType.USER ? '' : ' acct--solo'}`}>
 			{user.memberType === MemberType.USER && (
 				<nav className="acct__nav" aria-label={t('nav.label')}>
-					<ul>
+					<ScrollFade as="ul" className="acct__tabs" activeKey={pathname}>
 						{NAV.map(({ href, key, icon: Icon }) => {
 							const current = pathname === href || pathname.startsWith(`${href}/`);
 							return (
@@ -57,7 +58,7 @@ const AccountShell = ({ children }: { children: React.ReactNode }) => {
 								</li>
 							);
 						})}
-					</ul>
+					</ScrollFade>
 				</nav>
 			)}
 			<div className="acct__content">{children}</div>

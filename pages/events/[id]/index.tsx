@@ -26,6 +26,7 @@ import EventImage from '../../../libs/components/events/EventImage';
 import LikeButton from '../../../libs/components/events/LikeButton';
 import { useSalesClock } from '../../../libs/salesWindow';
 import TicketPanel from '../../../libs/components/events/TicketPanel';
+import TicketBar from '../../../libs/components/events/TicketBar';
 import Comments from '../../../libs/components/events/Comments';
 import Avatar from '../../../libs/components/common/OrganizerAvatar';
 import FollowButton from '../../../libs/components/events/FollowButton';
@@ -352,6 +353,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 					<TicketPanel event={event} ticketTypes={ticketTypes} loading={ticketsLoading} state={state} now={now} />
 				</div>
 			</div>
+			<TicketBar event={event} ticketTypes={ticketTypes} state={state} now={now} />
 		</div>
 	);
 };

@@ -978,10 +978,13 @@
 			filter: grayscale(1);
 		}
 	}
+	// same ratio as the real hero (16:9, 21:9 from 1024 px), so the page does not jump when the event loads
 	&__hero-skel {
-		aspect-ratio: 21 / 9;
-		min-height: 200px;
+		aspect-ratio: 16 / 9;
 		border-radius: var(--radius-xl);
+		@media (min-width: 1024px) {
+			aspect-ratio: 21 / 9;
+		}
 	}
 	&__hero-chip {
 		position: absolute;
@@ -1183,6 +1186,7 @@
 
 /** TICKET PANEL **/
 .tickets {
+	scroll-margin-top: calc(56px + var(--space-4)); // under the sticky header when "View tickets" scrolls here
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-4);

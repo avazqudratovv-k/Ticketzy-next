@@ -171,6 +171,8 @@
     "total": "Total to pay",
     "button": "Pay {{amount}}",
     "paying": "Processing…",
+    "payShort": "Pay now",
+    "barLabel": "Payment bar",
     "noCard": "Demo payment. Ticketzy never sees a card number here.",
     "refund": "Refunds are open until {{date}}."
   },

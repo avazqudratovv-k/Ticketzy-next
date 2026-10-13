@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
-import { List } from 'phosphor-react';
+import { Button, Divider, IconButton, Menu, MenuItem } from '@mui/material';
+import { Check, List, Moon, Sun } from 'phosphor-react';
 import { useTranslation } from 'next-i18next';
 import useAuth from '../hooks/useAuth';
 import { ROUTES } from '../routes';
 import { categoryHref, CategorySlug } from '../events';
+import { LANGUAGES, LocaleCode, useChangeLanguage } from '../i18n';
+import { useThemeMode } from '../theme/ThemeModeProvider';
 
 const NAV_CATEGORIES: { slug: CategorySlug; key: string }[] = [
 	{ slug: 'concert', key: 'nav.concerts' },
@@ -23,6 +25,10 @@ const Top = () => {
 	const { t } = useTranslation('common');
 	const router = useRouter();
 	const { user, ready } = useAuth();
+	const { mode, toggleMode } = useThemeMode();
+	const changeLanguage = useChangeLanguage();
+	const { locale = 'en' } = router;
+	const themeLabel = mode === 'dark' ? t('header.themeToLight') : t('header.themeToDark');
 	const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 	const closeMenu = () => setMenuAnchor(null);
 	const onEvents = router.pathname.startsWith(ROUTES.events);
@@ -56,8 +62,12 @@ const Top = () => {
 					</ul>
 				</nav>
 				<div className="tz-navbar__actions">
-					<LanguageSwitcher />
-					<ThemeToggle />
+					<span className="tz-navbar__lang">
+						<LanguageSwitcher />
+					</span>
+					<span className="tz-navbar__theme">
+						<ThemeToggle />
+					</span>
 					{/* The slot keeps its size until the stored session is checked, so the bar does not jump. */}
 					<div className="tz-navbar__auth-slot">
 						{ready && user && (
@@ -99,6 +109,33 @@ const Top = () => {
 							{NAV_CATEGORIES.map(({ slug, key }) => (
 								<MenuItem key={slug} component={Link} href={categoryHref(slug)} onClick={closeMenu}>
 									{t(key)}
+								</MenuItem>
+							))}
+							{/* Very narrow phones: the header has no room for these two, so they move into this menu (hidden again from 390 / 340 px) */}
+							<Divider className="tz-navbar__menu-theme" />
+							<MenuItem
+								className="tz-navbar__menu-theme"
+								onClick={() => {
+									closeMenu();
+									toggleMode();
+								}}
+							>
+								{mode === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+								<span style={{ marginInlineStart: 12 }}>{themeLabel}</span>
+							</MenuItem>
+							{LANGUAGES.map(({ code, label }) => (
+								<MenuItem
+									key={code}
+									className="tz-navbar__menu-lang"
+									lang={code}
+									selected={code === locale}
+									onClick={() => {
+										closeMenu();
+										if (code !== locale) changeLanguage(code as LocaleCode);
+									}}
+								>
+									{label}
+									{code === locale && <Check size={18} style={{ marginInlineStart: 'auto', color: 'var(--accent-text)' }} />}
 								</MenuItem>
 							))}
 							{ready && !user && (
