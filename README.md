@@ -139,6 +139,16 @@ scss/              Tokens and styles per area
 
 All decisions, with the reasons and the alternatives, are in [docs/ai/DECISIONS.md](docs/ai/DECISIONS.md); finished work is logged in [docs/ai/FRONTEND_COMPLETED_TASKS.md](docs/ai/FRONTEND_COMPLETED_TASKS.md). The backend rules the UI follows are described in the backend repository (`docs/ai/DECISIONS.md`): refunds until 23:59 on the day before the event in the venue time zone, a short seat hold, at most 8 seats per hold, and a commission that is taken from the organizer payout and never added to the buyer price.
 
+## Working with AI tools
+
+This repository is set up so AI coding tools and people follow the same rules.
+
+- [AGENTS.md](AGENTS.md) is the main guide: stack, roles, commands, working rules, design rules and key files.
+- [CLAUDE.md](CLAUDE.md) imports AGENTS.md and adds a few Claude Code notes.
+- [docs/ai/DECISIONS.md](docs/ai/DECISIONS.md) is the numbered decisions log (F1, F2, ...) with the reason for each; [docs/ai/FRONTEND_COMPLETED_TASKS.md](docs/ai/FRONTEND_COMPLETED_TASKS.md) records what was done and how it was verified.
+- Skills (reusable instruction packs) live in `.agents/skills`, are linked into `.claude/skills` and are pinned in `skills-lock.json`; [docs/ai/SKILLS.md](docs/ai/SKILLS.md) lists them. Two project skills, `ticketzy-ui` and `ticketzy-frontend-workflow`, encode this repo's own rules.
+- Decisions and the design tokens override skills. Skill scripts that download or run programs need explicit approval each time, and work is not committed unless the owner asks.
+
 ## Known limitations
 
 - Payments, refunds and payouts are simulated; there is no real payment provider.

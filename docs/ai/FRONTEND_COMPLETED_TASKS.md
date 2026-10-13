@@ -762,3 +762,19 @@ axe: 0 violations on every route in both themes after the change (lowest passing
 ### Not tested / left
 - Event detail and organizer were measured for one event / one organizer; other content moves the text but the worst surface (square at 0.07) bounds the ratio, 4.52:1 for `--ink-subtle` (#63676f), so the margin is 0.02 at the tightest.
 - Dev server in a tab that is not visible: pages stay hidden until a screenshot wakes the tab; numbers are calculated from fills and opacity, not from a pixel read-back.
+
+## Prompt 16a: project guide files and skills index (2026-10-12)
+Frontend only, not committed. Decision F322. No application code changed.
+
+### Done
+- `AGENTS.md` rewritten (about 70 lines): what Ticketzy is, stack, roles, buyer-only rule, commands, working rules, design rules, key files, skills. Kept from the old file: backend docs pointer, small incremental changes, Yarn only, typecheck after each phase. Fixed: the "DECIONS.md" typo, the "petoria" reference, and the old rule to update `ticketzy/docs/ai/COMPLETED_TASKS.md` (F1 put the frontend log here).
+- `CLAUDE.md` created: `@AGENTS.md` and three notes.
+- `docs/ai/SKILLS.md` created: the eight installed skills, the two project skills, the global `find-skills`, and how the lock file is used.
+- Project skills `.claude/skills/ticketzy-ui` and `.claude/skills/ticketzy-frontend-workflow` created.
+- README: "Working with AI tools" section (7 lines).
+- `.claude/settings.local.json` was already in `.gitignore` and is untracked (`git check-ignore` confirms); nothing to change.
+
+### Not tested / left
+- The command that restores skills from `skills-lock.json` was not run or named (unverified).
+- Root `SKILLS.md` (empty) and `.cursor/` (empty) untouched.
+
