@@ -778,3 +778,37 @@ Frontend only, not committed. Decision F322. No application code changed.
 - The command that restores skills from `skills-lock.json` was not run or named (unverified).
 - Root `SKILLS.md` (empty) and `.cursor/` (empty) untouched.
 
+
+## Prompt D1: design audit with the installed skills (2026-10-13)
+
+Frontend only, not committed. Decision F323. No application code changed; the only files touched are `docs/ai/DESIGN_AUDIT.md` (new), `DECISIONS.md` and this file.
+
+### Done
+- Audit report `docs/ai/DESIGN_AUDIT.md`: top 10 quick wins, 32 rows (P1 3, P2 16, P3 13), what must not change, findings that conflict with decisions (F18/F288, F316, F197/F206, F106/F302, F262, F318), four batches of work.
+- Checked in the Chrome tab on `localhost:3000` (signed in as the demo buyer) with the iframe method at 390, 768 and 1440 px in dark and light: home, events list (filters, empty, page past the end), event detail, seats (reserved and general), checkout (expired hold and a live hold), orders, order detail, confirmation, failed order, my tickets, notifications, settings, public organizer page, about, FAQ, contact, terms. Login and sign-up (buyer and organizer, empty submit) in a second tab on `127.0.0.1:3000` (signed out).
+- Automated per combination: sideways overflow, controls under 44 px, controls without a name, raw i18n keys, clipped text; axe-core 4.10.2 (CDN) at 390 and 1440 in both themes. One moderate axe finding (`heading-order` on event cards); everything else clean.
+- Main findings: signed-in header overflows at 390 px on every page; Pay button 1454 px down on phone checkout with a 30 s hold; home hero CTA below the fold at 1440 px.
+
+### Not tested / left
+- Organizer dashboard (wizard, payouts) and admin pages (events, organizers, payouts): no organizer or admin session, and passwords are not in the repository; code reading only.
+- 768 px was measured but not looked at; light theme at 390 was measured but not looked at; no timing of slow interactions; loading skeletons and server-error states not looked at; ticket detail with QR, saved, following, 404, 500, privacy not reviewed.
+- Signed-out home and events pages were not checked (the API refuses the 127.0.0.1 origin); they were measured signed in.
+- Side effect: one 30-second seat hold was created as the demo buyer (Busan Late Night Stand-Up, Front Tables row 1 seat 1) and left to expire. The tab's saved language was changed to English during the run and set back to Korean.
+- No skill script was run; no package was installed.
+
+
+## Prompt D1b: audit of organizer and admin pages (2026-10-13)
+
+Frontend only, not committed. Decision F324. No application code changed; files touched: `docs/ai/DESIGN_AUDIT.md` (three new sections), `DECISIONS.md` and this file.
+
+### Done
+- Organizer (signed in as the approved demo organizer): overview, my events, create-event wizard (all six steps, on an empty form and on an existing draft, stepped with the step tabs only), edit draft, event orders, attendees, check-in, messages, analytics, payouts, venues (list, new, edit), profile, settings, notifications. 390, 768, 1440 px, dark and light; axe at 390 and 1440.
+- Admin (the user signed in): overview, event approvals (approved list), event review, organizers and their drawer, payouts, orders, commission, members, messages. Same combinations.
+- Result: organizer P1 1, P2 7, P3 7; admin P1 1, P2 5, P3 3. The one critical axe finding is the unnamed avatar file input on profile and settings; the other axe findings are `scrollable-region-focusable` on event review at 390 and `landmark-complementary-is-top-level` on the venue editor.
+- Method correction recorded in the report: the first dark pass set `data-theme` after load (MUI palette not switched); all dark numbers come from the second pass that sets the `ticketzy-theme` key first.
+
+### Not tested / left
+- Nothing was submitted: no Continue on a valid wizard form (it saves a draft), no approve, reject, suspend, cancel, mark paid, commission override; their dialogs were not opened. Pending approvals and due payouts are both zero, so those controls had nothing to act on.
+- Loading and server-error states, image upload, venue picker dropdown opened, check-in camera, 768 px axe, most light-theme screenshots, the admin venue conflict panel and message thread.
+- Side effects: the tab's stored theme was changed during the run and put back to `light`. No data was changed.
+- No skill script was run; no package was installed.
