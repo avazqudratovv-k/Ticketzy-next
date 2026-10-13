@@ -895,3 +895,10 @@ Frontend only, not committed. Decisions F326 to F328, patterns in `docs/ai/UI_PA
 - **Method**: read the Apollo client, store, auth, `_app`, `_document`, layouts, theme, alert helpers, one list page and one upload form in both repos; counted `any`, `@ts-ignore`, `console`, `aria-`, `@media` and similar with `grep`. A first read of Nestar's `.env.development` was blocked and not repeated (rule 4); env names come from `process.env` use in code.
 - **Checks**: none of `yarn typecheck`, `yarn lint`, `yarn i18n:check` were needed (only Markdown changed).
 - **Not tested**: Nestar was never run; backend decision numbers are quoted from comments in this repo; no expired-token run on each Ticketzy page; bundle contents not analysed. Full list at the end of the comparison file.
+
+## Prompt N2: Cleanup and risk audit (report only)
+
+- **Changed**: new `docs/ai/CLEANUP_AUDIT.md` (10 sections, findings C1-1 to C10-4) and this entry. No application code, `package.json`, config or locale file. No decision number added (nothing was decided). Nothing committed.
+- **Method**: grep and import scans, three small Node scripts (unused files, unused exports, unused SCSS classes) kept in the scratchpad, a scratch copy of the repo for `yarn build`, `yarn lint`, `yarn typecheck` and `yarn i18n:check` (port 3000 untouched), and the Chrome test tab on the running dev server for the console on home and the event page. No `.env*` file was read.
+- **Checks**: in the scratch copy build OK (128 pages), lint clean, typecheck clean, i18n check OK.
+- **Not tested**: checkout in the browser, a real expired token on each page, the `returnTo` tab bypass through the login form, the favicon and picsum warnings (not reproduced), a production build with the backend off, unused locale keys, a bundle analyzer. Full list at the end of the audit.
