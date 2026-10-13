@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -82,6 +82,14 @@ const Confirmation: NextPage = () => {
 			});
 	}, [ticketData, orderId, ticketTypes, names, t]);
 
+	// A live region only announces text that changes after it is mounted, so it is mounted empty and filled once the order is shown
+	const [announcement, setAnnouncement] = useState('');
+	const status = order?.orderStatus;
+	const headline = status ? (status === 'PAID' ? t('confirmation.paid') : t(`confirmation.status.${status}`)) : '';
+	useEffect(() => {
+		if (headline && order) setAnnouncement(`${headline}. ${t('confirmation.order')} ${order.orderNumber}`);
+	}, [headline, order, t]);
+
 	if (!allowed) return null;
 
 	if (error && !order) {
@@ -120,19 +128,20 @@ const Confirmation: NextPage = () => {
 	}
 
 	const currency = order.currency ?? 'KRW';
-	const status = order.orderStatus;
-	const headline = status === 'PAID' ? t('confirmation.paid') : t(`confirmation.status.${status}`);
 
 	return (
 		<div className="tz-container checkout">
 			<Seo title={t('confirmation.title')} noindex />
 			<Steps current={3} />
+			<p className="org-visually-hidden" role="status" aria-live="polite">
+				{announcement}
+			</p>
 			<div className="confirm__head">
 				<span className={`confirm__icon${status === 'PAID' ? '' : ' is-neutral'}`} aria-hidden="true">
 					{status === 'PAID' ? <SuccessCheck size={36} /> : <CheckCircle size={32} weight="bold" />}
 				</span>
 				<div>
-					<h1 className="checkout__title" role="status">
+					<h1 className="checkout__title">
 						{headline}
 					</h1>
 					<p className="checkout__sub">

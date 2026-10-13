@@ -147,11 +147,11 @@ const TicketDetail: NextPage = () => {
 								{venue && <Detail label={t('ticket.venue')} value={`${venue.venueName}, ${venue.venueCity}`} />}
 								{ticket.ticketTypeData && <Detail label={t('ticket.type')} value={ticket.ticketTypeData.ticketTypeName} />}
 								{seat ? (
-									<div className="tdetail__seat">
+									<>
 										<Detail label={t('ticket.section')} value={sectionNames.get(seat.sectionKey) ?? '–'} />
 										<Detail label={t('ticket.row')} value={String(seat.row)} />
 										<Detail label={t('ticket.seat')} value={String(seat.number)} />
-									</div>
+									</>
 								) : (
 									<Detail label={t('ticket.entry')} value={t('ticket.general')} />
 								)}

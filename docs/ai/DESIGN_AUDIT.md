@@ -37,7 +37,7 @@ Side effect of the check: one live hold was created as the buyer (Busan Late Nig
 |---|---|---|---|---|
 | 1 | **Done (D2, F325)** Every page, signed in, 390 px | The header does not fit: brand, language, theme, bell, avatar and menu add up to 405 px, so the menu button is cut at the right edge and the page scrolls sideways by 15 px (signed out it fits). It shows on every signed-in route measured. | Below about 420 px make the language trigger an icon only (or move it into the menu); keep the wordmark. | S |
 | 2 | **Done (D2, F325)** Checkout, 390 px | The hold lasts 30 s but the Pay button is 1454 px down the page (static), and the countdown scrolls away at the top. A buyer must scroll two screens blind. | Below 1024 px a sticky bottom bar with the timer and Pay, like the seat picker sheet (F75). | M |
-| 3 | **Done (D4, F329)** Home, 1440 px | The hero is so tall that its title starts at y 725 and its "Get tickets" button ends at y 893: the main call to action is below the fold on a 1440x800 laptop. | Cap the hero height (for example `min(560px, 68vh)`) and keep the text at the bottom of the image. | S |
+| 3 | **Done (D4, F329; band closed in D5, F333)** Home, 1440 px | The hero is so tall that its title starts at y 725 and its "Get tickets" button ends at y 893: the main call to action is below the fold on a 1440x800 laptop. | Cap the hero height (for example `min(560px, 68vh)`) and keep the text at the bottom of the image. | S |
 | 4 | **Done (D2, F325)** Event detail, 390 px | The ticket box is under the long description, venue, organizer and comments (about 2000 px down); only a "View tickets" link at the top leads there. | A sticky bottom bar "From ₩x" + "View tickets" that disappears when the ticket box is visible. | M |
 | 5 | **Done (D4, F331; seen signed in, D4b)** Seats, dark | With 0 seats the Continue button is dark on dark and almost invisible (it is `disabled`, not `aria-disabled`). | Use `aria-disabled` with a visible outline style and a line "Pick a seat to continue". | S |
 | 6 | **Done (D2, F325)** Account pages, 390 px | The tab strip (My tickets, Order history, Notifications, Settings) is cut at "Notif" with no sign that it scrolls. | Edge fade (mask) on the scroll container, or let it wrap into two rows. | S |
@@ -58,7 +58,7 @@ Priority: **P1** hurts use or trust, **P2** noticeable polish, **P3** nice to ha
 |---|---|---|---|---|---|---|---|
 | 1 | **Done (D2)** All pages (signed in) | 390 D+L | Header too wide: menu button cut off, 15 px sideways scroll (scrollWidth 405). Measured on every signed-in route. The hamburger is the only way to reach the footer links on a phone. | Language trigger icon-only below 420 px | S | Low | web-design-guidelines (no horizontal scroll), impeccable (responsive); F90 |
 | 2 | **Done (D2)** Checkout | 390 D+L | Pay button 1454 px down, timer not visible while scrolling, 30 s hold. | Sticky bottom bar with timer and Pay below 1024 px | M | Medium (payment flow, F57, F206) | impeccable (critique: primary action), ui-ux-pro-max (sticky CTA on timed flows) |
-| 3 | **Done (D4, F329)** Home | 1440 D+L | Hero CTA below the fold (title y 725, CTA bottom y 893). The hero is the page's one big promise. | Cap hero height, keep the side cards aligned to it | S | Low (F316 minimum heights stay) | frontend-design (first screen), impeccable (hierarchy) |
+| 3 | **Done (D4, F329; band closed in D5, F333)** Home | 1440 D+L | Hero CTA below the fold (title y 725, CTA bottom y 893). The hero is the page's one big promise. | Cap hero height, keep the side cards aligned to it | S | Low (F316 minimum heights stay) | frontend-design (first screen), impeccable (hierarchy) |
 
 ### P2 (16)
 
@@ -340,3 +340,9 @@ See O.5 (F106/F302 for O3; F280 for O7; F262 is applied, not broken). Admin find
 # D2 result (2026-10-13)
 
 Done: quick wins 1, 2, 4, 6, 8 (findings 1, 2, 4, 14, 16) and the account part of O4/A6 (`ScrollFade` is ready for the organizer and admin strips, see `UI_PATTERNS.md`). Skipped because of a decision: none; F206 (Ask button steps aside on seats and checkout) was kept, F18, F288, F316, F106 and F262 untouched. Also changed: the event detail skeleton now has the hero's aspect ratio (CLS), and the header reserves room for a stored session.
+
+---
+
+# D5 result (2026-10-13)
+
+Done: the home hero band (Option A, F333: two side cards at 1280 px and up, one shared height variable, F316's 260 px minimum kept; closes the open question of F329), the ticket detail `definition-list` / `dlitem` violations (F334), the confirmation `aria-allowed-role` and `page-has-heading-one` violations (F335) and the my tickets title link touch target (F336). The D4b "found, not fixed" items 1 and 2 and the "band under the hero" note are resolved. Verification is in `FRONTEND_COMPLETED_TASKS.md` (Prompt D5).

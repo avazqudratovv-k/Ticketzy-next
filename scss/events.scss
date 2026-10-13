@@ -570,11 +570,12 @@
 		@media (min-width: 1280px) {
 			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
 			align-items: start;
-			// The hero no longer stretches to the side column (three cards of at least 260 px, F316): it is capped so its
-			// "Get tickets" button is on the first screen at 1440 x 800. The skeleton is the same element, so nothing shifts.
+			// One height for both columns (F333): the hero is capped so "Get tickets" is on the first screen (F329), but never
+			// below two side cards of F316's 260 px plus the gap, so the side column is exactly as tall as the hero.
+			--home-card-min: 260px;
+			--home-hero-h: max(calc(var(--home-card-min) * 2 + var(--space-4)), min(560px, 68vh));
 			> .tz-hero {
-				height: min(560px, 68vh);
-				min-height: 440px;
+				height: var(--home-hero-h);
 			}
 		}
 	}
@@ -597,7 +598,13 @@
 		}
 		@media (min-width: 1280px) {
 			// a minimum equal for skeleton and real cards: the hero stretches to this column, so it must not change on load
-			grid-auto-rows: minmax(260px, 1fr);
+			height: var(--home-hero-h);
+			grid-template-rows: repeat(2, minmax(var(--home-card-min), 1fr));
+			grid-auto-rows: 0;
+			// two cards only; the third stays in the category rows below (F333). It is the skeleton's third too
+			> :nth-child(n + 3) {
+				display: none;
+			}
 		}
 	}
 	&__section-head {

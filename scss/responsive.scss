@@ -33,6 +33,7 @@
 	.acct__back,
 	.checkout__back,
 	.orow__title,
+	.tcard__title a,
 	.acct__tab {
 		display: inline-flex;
 		align-items: center;
@@ -40,7 +41,8 @@
 		min-height: var(--control-md);
 		min-width: var(--control-md);
 	}
-	.orow__title {
+	.orow__title,
+	.tcard__title a {
 		justify-content: flex-start;
 	}
 	.tz-footer__inline a,
