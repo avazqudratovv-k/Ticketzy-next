@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -10,9 +10,9 @@ import PendingPanel from '../../libs/components/auth/PendingPanel';
 import useRedirectIfSignedIn from '../../libs/hooks/useRedirectIfSignedIn';
 import { MemberType } from '../../libs/enums/member.enum';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'auth'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'auth'])),
 	},
 });
 

@@ -23,6 +23,7 @@ import { formatEventWhen, formatPrice, formatViewerDate } from '../../../libs/fo
 import { checkoutUrl, eventUrl, ROUTES, ticketUrl } from '../../../libs/routes';
 import { AccountOrder, AccountTicket } from '../../../libs/types/account';
 import { TicketTypeItem } from '../../../libs/types/event';
+import { GetOrderDetailData, GetOrderVars } from '../../../libs/types/queries';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout', 'account'])) },
@@ -41,7 +42,7 @@ const OrderDetail: NextPage = () => {
 	const orderId = typeof router.query.orderId === 'string' ? router.query.orderId : '';
 	const skip = !router.isReady || !orderId;
 
-	const { data, error, refetch } = useQuery(GET_ORDER_DETAIL, { variables: { orderId }, skip, fetchPolicy: 'cache-and-network' });
+	const { data, error, refetch } = useQuery<GetOrderDetailData, GetOrderVars>(GET_ORDER_DETAIL, { variables: { orderId }, skip, fetchPolicy: 'cache-and-network' });
 	const order: AccountOrder | undefined = data?.getOrder;
 	const paidLike = order?.orderStatus === 'PAID' || order?.orderStatus === 'REFUNDED';
 	// There is no filter by order: read the buyer's tickets and keep this order's

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -25,9 +25,9 @@ import { organizerEventsUrl } from '../../libs/routes';
 
 const Scanner = dynamic(() => import('../../libs/components/organizer/checkin/Scanner'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'organizer'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'organizer'])),
 	},
 });
 

@@ -58,7 +58,7 @@ const AdminEventDetail: NextPage = () => {
 	const client = useApolloClient();
 	const eventId = typeof router.query.id === 'string' ? router.query.id : '';
 
-	const { data, loading, error, refetch } = useQuery(GET_ADMIN_EVENT, { variables: { eventId }, skip: !eventId, fetchPolicy: 'cache-and-network' });
+	const { data, error, refetch } = useQuery(GET_ADMIN_EVENT, { variables: { eventId }, skip: !eventId, fetchPolicy: 'cache-and-network' });
 	const event: AdminEvent | null = data?.getEvent ?? null;
 	const {
 		data: typeData,

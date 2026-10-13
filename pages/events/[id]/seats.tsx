@@ -23,6 +23,7 @@ import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { eventUrl, ROUTES } from '../../../libs/routes';
 import { SeatConfig } from '../../../libs/seats/types';
 import { EventItem, TicketTypeItem } from '../../../libs/types/event';
+import { GetEventData, GetEventVars } from '../../../libs/types/queries';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout'])) },
@@ -39,7 +40,7 @@ const Seats: NextPage = () => {
 	const blocked = useBuyerOnlyRedirect(router.isReady && eventId ? eventUrl(eventId) : null);
 	const skip = !router.isReady || !allowed || blocked;
 
-	const { data, error, refetch } = useQuery(GET_EVENT, { variables: { eventId }, skip, fetchPolicy: 'network-only' });
+	const { data, error, refetch } = useQuery<GetEventData, GetEventVars>(GET_EVENT, { variables: { eventId }, skip, fetchPolicy: 'network-only' });
 	const { data: ticketData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip, fetchPolicy: 'network-only' });
 	const { data: configData } = useQuery(GET_SEAT_CONFIG, { skip, fetchPolicy: 'network-only' });
 

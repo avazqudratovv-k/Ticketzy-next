@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -27,9 +27,9 @@ import CountUp from '../../libs/components/common/CountUp';
 
 const BarChart = dynamic(() => import('../../libs/components/organizer/sales/BarChart'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'organizer'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'organizer'])),
 	},
 });
 

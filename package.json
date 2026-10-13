@@ -1,14 +1,14 @@
 {
 	"name": "ticketzy-next",
-	"version": "2.2.0",
+	"version": "0.1.0",
+	"description": "Ticketzy web client: a portfolio ticketing site for concerts, football matches and comedy shows (simulated payments).",
 	"private": true,
-	"license": "ITC",
+	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"changelog": "standard-version --skip.tag",
 		"typecheck": "tsc --noEmit",
 		"i18n:check": "node scripts/i18n-check.js",
 		"check:return-to": "node scripts/check-return-to.js"
@@ -17,9 +17,7 @@
 		"@apollo/client": "^3.5.10",
 		"@emotion/react": "^11.8.1",
 		"@emotion/styled": "^11.8.1",
-		"@mui/icons-material": "^5.4.2",
 		"@mui/material": "^5.10.1",
-		"animate.css": "^4.1.1",
 		"apollo-upload-client": "^17.0.0",
 		"graphql": "^15.5.0",
 		"html5-qrcode": "^2.3.8",
@@ -32,8 +30,7 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-i18next": "^11.15.4",
-		"sass": "^1.49.9",
-		"sweetalert2": "^11.7.27"
+		"sass": "^1.49.9"
 	},
 	"devDependencies": {
 		"@types/apollo-upload-client": "^17.0.0",
@@ -44,7 +41,6 @@
 		"eslint": "^8.57.0",
 		"eslint-config-next": "14.2.0",
 		"prettier": "2.7.1",
-		"standard-version": "^9.5.0",
 		"typescript": "^5.4.5"
 	}
 }

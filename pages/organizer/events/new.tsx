@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { withOrganizerLayout } from '../../../libs/components/layout/LayoutAdmin';
@@ -9,9 +9,9 @@ import useAuth from '../../../libs/hooks/useAuth';
 
 const EventEditor = dynamic(() => import('../../../libs/components/organizer/editor/EventEditor'), { ssr: false, loading: () => <div className="tz-skel lazy-skel" aria-hidden="true" /> });
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'organizer', 'events'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'organizer', 'events'])),
 	},
 });
 

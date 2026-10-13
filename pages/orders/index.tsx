@@ -20,6 +20,7 @@ import { formatNumber } from '../../libs/format';
 import { ROUTES } from '../../libs/routes';
 import { AccountOrder, OrderStatus } from '../../libs/types/account';
 import { useRouter } from 'next/router';
+import { GetMyOrdersData, GetMyOrdersVars } from '../../libs/types/queries';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout', 'account'])) },
@@ -35,7 +36,7 @@ const Orders: NextPage = () => {
 	const { page, value, ready, update } = useUrlState('status');
 	const status = isStatus(value) ? value : undefined;
 
-	const { data, loading, error, refetch } = useQuery(GET_MY_ORDERS, {
+	const { data, loading, error, refetch } = useQuery<GetMyOrdersData, GetMyOrdersVars>(GET_MY_ORDERS, {
 		variables: { input: { page, limit: PAGE_SIZE, sort: 'createdAt', direction: 'DESC', ...(status ? { orderStatus: status } : {}) } },
 		skip: !ready,
 		fetchPolicy: 'cache-and-network',

@@ -157,6 +157,9 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 	const text = (key?: string) => (key ? t(`organizer:venues.form.errors.${key}`, { min: 2 }) : undefined);
 	const showFieldErrors = showErrors;
 
+	/** Nothing to save yet (F326): a saved venue without changes. `disabled` is only for the request in flight. */
+	const saveBlocked = !saving && !dirty && Boolean(venue);
+
 	return (
 		<div className="org-page ve" onKeyDown={onKeyDown}>
 			<Head>
@@ -169,13 +172,22 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 				<div className="ve__titlebar">
 					<h1>{title}</h1>
 					{!foreign && (
-						<Button variant="contained" onClick={() => void save()} disabled={saving || (!dirty && Boolean(venue))}>
+						<Button
+							variant="contained"
+							className={saveBlocked ? 'tz-blocked' : undefined}
+							disabled={saving}
+							aria-disabled={saveBlocked ? true : undefined}
+							aria-describedby={saveBlocked ? 've-status' : undefined}
+							onClick={() => {
+								if (!saveBlocked) void save();
+							}}
+						>
 							{saving ? t('organizer:venues.form.saving') : venue ? t('organizer:venues.form.save') : t('organizer:venues.form.create')}
 						</Button>
 					)}
 				</div>
 				<p className="org-editor__sub">
-					<span role="status">
+					<span id="ve-status" role="status">
 						{foreign ? t('organizer:venues.form.foreign') : dirty ? t('organizer:venues.form.unsaved') : savedLabel ? t('organizer:venues.form.savedAt', { time: savedLabel }) : venue ? t('organizer:venues.form.allSaved') : t('organizer:venues.form.notSavedYet')}
 					</span>
 				</p>
@@ -324,10 +336,10 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 						{t('organizer:venues.layout.loadTemplate')}
 					</Button>
 					<span className="ve__sep" aria-hidden="true" />
-					<Button variant="text" size="small" startIcon={<ArrowBendUpLeft size={18} />} disabled={!history.canUndo || locked} onClick={history.undo} title="Ctrl+Z">
+					<Button variant="text" size="small" startIcon={<ArrowBendUpLeft size={18} />} className={!locked && !history.canUndo ? 'tz-blocked' : undefined} disabled={locked} aria-disabled={!locked && !history.canUndo ? true : undefined} onClick={() => { if (history.canUndo) history.undo(); }} title="Ctrl+Z">
 						{t('organizer:venues.layout.undo')}
 					</Button>
-					<Button variant="text" size="small" startIcon={<ArrowBendUpRight size={18} />} disabled={!history.canRedo || locked} onClick={history.redo} title="Ctrl+Shift+Z">
+					<Button variant="text" size="small" startIcon={<ArrowBendUpRight size={18} />} className={!locked && !history.canRedo ? 'tz-blocked' : undefined} disabled={locked} aria-disabled={!locked && !history.canRedo ? true : undefined} onClick={() => { if (history.canRedo) history.redo(); }} title="Ctrl+Shift+Z">
 						{t('organizer:venues.layout.redo')}
 					</Button>
 				</div>
@@ -407,7 +419,7 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 						)}
 					</div>
 
-					<aside className="ve__side" aria-label={t('organizer:venues.panel.label')}>
+					<section className="ve__side" aria-label={t('organizer:venues.panel.label')}>
 						{mode === 'edit' && selected ? (
 							<SectionPanel editor={editor} section={selected} onDelete={setDeleteId} tierKeys={tierKeys} />
 						) : (
@@ -434,7 +446,7 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 								);
 							})}
 						</ul>
-					</aside>
+					</section>
 				</div>
 
 				{(checked.warningCount > 0 || orphans.length > 0) && (

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useApolloClient, useQuery } from '@apollo/client';
@@ -22,9 +22,9 @@ import { CLEAR_COMMISSION_OVERRIDE_BY_ADMIN } from '../../../apollo/admin/mutati
 import { formatNumber, formatViewerDate } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'admin', 'events'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'admin', 'events'])),
 	},
 });
 

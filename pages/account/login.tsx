@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Seo from '../../libs/components/common/Seo';
@@ -6,9 +6,9 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import LoginForm from '../../libs/components/auth/LoginForm';
 import useRedirectIfSignedIn from '../../libs/hooks/useRedirectIfSignedIn';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'auth'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'auth'])),
 	},
 });
 

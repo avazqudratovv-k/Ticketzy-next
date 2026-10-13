@@ -56,6 +56,8 @@ function createIsomorphicLink() {
 
 		return from([errorLink, trackLink, retryLink, authLink, timeoutLink, uploadLink]);
 	}
+	// Server render: no link, nothing is fetched there (pages use serverQuery)
+	return undefined;
 }
 
 function createApolloClient() {
@@ -66,15 +68,14 @@ function createApolloClient() {
 	});
 }
 
-export function initializeApollo(initialState = null) {
+export function initializeApollo() {
 	const _apolloClient = apolloClient ?? createApolloClient();
-	if (initialState) _apolloClient.cache.restore(initialState);
 	if (typeof window === 'undefined') return _apolloClient;
 	if (!apolloClient) apolloClient = _apolloClient;
 
 	return _apolloClient;
 }
 
-export function useApollo(initialState: any) {
-	return useMemo(() => initializeApollo(initialState), [initialState]);
+export function useApollo() {
+	return useMemo(() => initializeApollo(), []);
 }

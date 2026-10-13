@@ -1,5 +1,5 @@
 import { Avatar as MuiAvatar } from '@mui/material';
-import { NEXT_PUBLIC_API_URL } from '../../config';
+import { imageSrc } from '../events/EventImage';
 import { MemberProfile } from '../../types/member';
 
 export const displayName = (user: MemberProfile): string =>
@@ -16,7 +16,7 @@ const initials = (name: string): string =>
 /** Profile photo when the member has one, initials otherwise (design: avatar in the top bar). */
 const Avatar = ({ user, size = 40 }: { user: MemberProfile; size?: number }) => {
 	const name = displayName(user);
-	const src = user.memberImage ? `${NEXT_PUBLIC_API_URL}/${user.memberImage}` : undefined;
+	const src = imageSrc(user.memberImage);
 	return (
 		<MuiAvatar src={src} alt="" sx={{ width: size, height: size }}>
 			{initials(name) || '?'}

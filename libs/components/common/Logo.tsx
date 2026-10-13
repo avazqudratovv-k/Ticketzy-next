@@ -18,7 +18,6 @@ const Logo = ({ size = 28, label, className }: LogoProps) => (
 		aria-hidden={label ? undefined : true}
 		className={`tz-logo ${className ?? ''}`.trim()}
 		unoptimized
-		priority
 	/>
 );
 

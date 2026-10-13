@@ -58,7 +58,8 @@ For a control that has nothing to do yet (Save with no changes, Back on the firs
 
 - Outlined: transparent fill, `--border-control` border (4.5:1 or more), `--ink-muted` label (8:1 or more), no hover change, in both themes. Defined in `scss/layout.scss`; no new tokens.
 - Stays in the tab order; the click must do nothing (guard the handler, and `preventDefault` on a submit button).
-- Used by: organizer profile Save / Discard, event wizard Back (step 1) and Save draft / Save changes.
+- Plain icon buttons of the assistant (`.pg-sendbtn`, `.pg-iconbtn`) take the same class (F344).
+- Used by: organizer profile Save / Discard, event wizard Back (step 1), Save draft / Save changes and Submit for review, venue editor Save, Undo and Redo, Submit dialog confirm, Translate, message Send, assistant Send and New chat.
 
 ## Dashboard drawer (F327)
 

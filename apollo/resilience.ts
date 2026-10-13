@@ -29,7 +29,7 @@ export const timeoutLink = new ApolloLink((operation, forward) => {
  * is anything that does not carry a `timeoutMs`. The timeout surfaces as a network error, which the pages already
  * show as the "could not load" state with Retry.
  */
-export const fetchWithTimeout = (input: any, init?: RequestInit & { timeoutMs?: number }): Promise<Response> => {
+export const fetchWithTimeout = (input: RequestInfo | URL, init?: RequestInit & { timeoutMs?: number }): Promise<Response> => {
 	const { timeoutMs, ...options } = init ?? {};
 	if (!timeoutMs || options.body instanceof FormData) return fetch(input, options);
 

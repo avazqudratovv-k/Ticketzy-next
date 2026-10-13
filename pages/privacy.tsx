@@ -1,9 +1,9 @@
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import withLayoutBasic from '../libs/components/layout/LayoutBasic';
 import LegalDocument from '../libs/components/static/LegalDocument';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'legal'])) },
 });
 

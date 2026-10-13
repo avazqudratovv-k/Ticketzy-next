@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -12,7 +12,7 @@ import { MemberType } from '../libs/enums/member.enum';
 import { ROUTES } from '../libs/routes';
 import { CONTACT_EMAIL } from '../libs/site';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'help'])) },
 });
 

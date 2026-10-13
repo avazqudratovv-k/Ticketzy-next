@@ -1,12 +1,12 @@
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { withOrganizerLayout } from '../../libs/components/layout/LayoutAdmin';
 import Inbox from '../../libs/components/messages/Inbox';
 import { MemberType } from '../../libs/enums/member.enum';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'messages', 'organizer'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'messages', 'organizer'])),
 	},
 });
 

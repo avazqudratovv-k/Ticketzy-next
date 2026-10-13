@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,9 +20,9 @@ import { GET_PAYOUTS_BY_ADMIN, MARK_PAYOUT_PAID } from '../../../apollo/payouts'
 import { dayBoundaryIso, DEFAULT_TIMEZONE, formatEventDay, formatNumber, formatPrice, formatViewerDate } from '../../../libs/format';
 import { PAYOUT_STATUSES, PAYOUTS_PAGE_SIZE, PayoutRow, PayoutTotals, isPayoutStatus } from '../../../libs/payouts';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'admin', 'events'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'admin', 'events'])),
 	},
 });
 

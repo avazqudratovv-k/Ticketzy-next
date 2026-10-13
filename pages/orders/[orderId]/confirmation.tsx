@@ -22,6 +22,7 @@ import { seatParts, sectionNamesOf } from '../../../libs/seats/label';
 import { LayoutSection, OrderData } from '../../../libs/seats/types';
 import { checkoutUrl, ROUTES, seatsUrl } from '../../../libs/routes';
 import { EventItem, TicketTypeItem } from '../../../libs/types/event';
+import { GetEventData, GetEventVars, GetOrderData, GetOrderVars } from '../../../libs/types/queries';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout'])) },
@@ -43,11 +44,11 @@ const Confirmation: NextPage = () => {
 	const orderId = typeof router.query.orderId === 'string' ? router.query.orderId : '';
 	const skip = !allowed || !router.isReady || !orderId;
 
-	const { data, error, refetch } = useQuery(GET_ORDER, { variables: { orderId }, skip, fetchPolicy: 'network-only' });
+	const { data, error, refetch } = useQuery<GetOrderData, GetOrderVars>(GET_ORDER, { variables: { orderId }, skip, fetchPolicy: 'network-only' });
 	const order: OrderData | undefined = data?.getOrder;
 	const eventId = order?.eventId ?? '';
 	const paid = order?.orderStatus === 'PAID';
-	const { data: eventData } = useQuery(GET_EVENT, { variables: { eventId }, skip: !eventId });
+	const { data: eventData } = useQuery<GetEventData, GetEventVars>(GET_EVENT, { variables: { eventId }, skip: !eventId });
 	const { data: ticketTypeData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip: !eventId });
 	// There is no filter by order: take the buyer's upcoming tickets and keep this order's
 	const { data: ticketData } = useQuery(GET_MY_TICKETS, {

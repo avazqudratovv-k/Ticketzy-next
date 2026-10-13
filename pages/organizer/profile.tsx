@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -26,9 +26,9 @@ import { formatNumber, formatViewerDate } from '../../libs/format';
 import { organizerUrl } from '../../libs/routes';
 import { MemberProfile } from '../../libs/types/member';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'organizer', 'events', 'auth'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'organizer', 'events', 'auth'])),
 	},
 });
 

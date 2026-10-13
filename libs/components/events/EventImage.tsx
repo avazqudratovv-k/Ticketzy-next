@@ -28,14 +28,15 @@ const EventImage = ({
 }) => {
 	const url = imageSrc(src);
 	if (!url) return <span className={`tz-media__empty ${className ?? ''}`} aria-hidden="true" />;
-	// width and height only give the aspect ratio (no layout shift); the CSS of the parent decides the size
+	// width and height only give the aspect ratio (no layout shift); the CSS of the parent decides the size. 1203 x 802 (3:2) and not
+	// 1200 x 800: Next warns in development when a layout is exactly as wide as the attribute but not as tall, and 1200 px is a real width.
 	return (
 		<Image
 			className={className}
 			src={url}
 			alt={alt}
-			width={1200}
-			height={800}
+			width={1203}
+			height={802}
 			sizes={sizes}
 			loader={isResizable(url) ? resizingLoader : undefined}
 			unoptimized={!isResizable(url)}

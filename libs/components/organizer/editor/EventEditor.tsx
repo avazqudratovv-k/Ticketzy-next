@@ -337,7 +337,15 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 						) : (
 							<>
 								{(status === 'DRAFT' || status === 'REJECTED') && (
-									<Button variant="contained" onClick={openSubmit} disabled={saving || (!event && !dirty)}>
+									<Button
+										variant="contained"
+										className={!saving && !event && !dirty ? 'tz-blocked' : undefined}
+										disabled={saving}
+										aria-disabled={!saving && !event && !dirty ? true : undefined}
+										onClick={() => {
+											if (event || dirty) openSubmit();
+										}}
+									>
 										{status === 'REJECTED' ? t('form.resubmit') : t('form.submit')}
 									</Button>
 								)}

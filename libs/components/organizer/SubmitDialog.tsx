@@ -65,7 +65,15 @@ const SubmitDialog = ({ open, eventTitle, checks, loading, error, onClose, onCon
 						{error.booked && fixBookedLabel ? fixBookedLabel : t('submit.fix')}
 					</Button>
 				) : (
-					<Button variant="contained" onClick={onConfirm} disabled={loading || blocked}>
+					<Button
+						variant="contained"
+						className={!loading && blocked ? 'tz-blocked' : undefined}
+						disabled={loading}
+						aria-disabled={!loading && blocked ? true : undefined}
+						onClick={() => {
+							if (!blocked) onConfirm();
+						}}
+					>
 						{loading ? t('submit.sending') : t('submit.confirm')}
 					</Button>
 				)}

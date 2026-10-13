@@ -12,6 +12,7 @@ import useRailPeek from '../../hooks/useRailPeek';
 import { EventItem } from '../../types/event';
 import Reveal from '../common/Reveal';
 import EventCard, { EventCardSkeleton } from './EventCard';
+import { GetEventsData, GetEventsVars } from '../../types/queries';
 
 /** Events per category row. */
 export const ROW_LIMIT = 10;
@@ -97,7 +98,7 @@ interface RowProps {
 export const CategoryRow = ({ category, title, from }: RowProps) => {
 	const { t } = useTranslation('events');
 	const id = `home-row-${category.slug}`;
-	const { data, loading, error, refetch } = useQuery(GET_EVENTS, {
+	const { data, loading, error, refetch } = useQuery<GetEventsData, GetEventsVars>(GET_EVENTS, {
 		variables: {
 			input: { page: 1, limit: ROW_LIMIT, sort: 'startAt', direction: 'ASC', search: upcomingSearch(from, { categoryList: category.list }) },
 		},

@@ -18,6 +18,8 @@ import { ROUTES } from '../../libs/routes';
 import { serverQuery } from '../../libs/serverFetch';
 import { parseApiError } from '../../libs/errors';
 import { EventItem } from '../../libs/types/event';
+import { MemberProfile } from '../../libs/types/member';
+import { GetEventsData, GetEventsVars } from '../../libs/types/queries';
 
 interface SeoProps {
 	name: string;
@@ -26,8 +28,8 @@ interface SeoProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, params }) => {
-	const data = await serverQuery<{ getMember: any }>(
-		`query($id:String!){ getMember(memberId:$id){ memberNick memberFullName memberDesc memberImage } }`,
+	const data = await serverQuery<{ getMember: Pick<MemberProfile, 'memberType' | 'memberNick' | 'memberFullName' | 'memberDesc' | 'memberImage'> | null }>(
+		`query($id:String!){ getMember(memberId:$id){ memberType memberNick memberFullName memberDesc memberImage } }`,
 		{ id: String(params?.id ?? '') },
 	);
 	const member = data?.getMember?.memberType === 'ORGANIZER' ? data.getMember : undefined;
@@ -53,7 +55,7 @@ const OrganizerPage: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 		variables: { memberId: id },
 		skip: !router.isReady,
 	});
-	const { data: eventsData, loading: eventsLoading } = useQuery(GET_EVENTS, {
+	const { data: eventsData, loading: eventsLoading } = useQuery<GetEventsData, GetEventsVars>(GET_EVENTS, {
 		variables: { input: { page: 1, limit: LIMIT, sort: 'startAt', direction: 'ASC', search: { organizerId: id } } },
 		skip: !router.isReady,
 		fetchPolicy: 'cache-and-network',

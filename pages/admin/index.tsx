@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -27,9 +27,9 @@ import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { GET_ADMIN_PAYOUT_TOTALS } from '../../apollo/payouts';
 import CountUp from '../../libs/components/common/CountUp';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'admin', 'organizer'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'admin', 'organizer'])),
 	},
 });
 

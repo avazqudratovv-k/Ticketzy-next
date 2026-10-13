@@ -25,13 +25,14 @@ import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { checkoutQuantities, holdAndCheckout } from '../../libs/seats/checkout';
 import { useRemainingMs } from '../../libs/seats/clock';
 import { checkoutErrorKey, isHoldExpired, isOrderNotPayable, isSeatConflict } from '../../libs/seats/errors';
-import { compareSeats, seatKey, takenMap } from '../../libs/seats/layout';
+import { compareSeats, seatKey } from '../../libs/seats/layout';
 import { seatParts, sectionNamesOf } from '../../libs/seats/label';
 import { loadRetryInfo } from '../../libs/seats/retry';
 import { OrderData } from '../../libs/seats/types';
 import { confirmationUrl, checkoutUrl, eventUrl, ROUTES, seatsUrl } from '../../libs/routes';
 import { EventItem, TicketTypeItem } from '../../libs/types/event';
 import DemoNotice from '../../libs/components/common/DemoNotice';
+import { GetEventData, GetEventVars, GetOrderData, GetOrderVars } from '../../libs/types/queries';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout'])) },
@@ -45,10 +46,10 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	const { locale } = router;
 	const client = useApolloClient();
 
-	const { data, error, refetch } = useQuery(GET_ORDER, { variables: { orderId }, fetchPolicy: 'network-only' });
+	const { data, error, refetch } = useQuery<GetOrderData, GetOrderVars>(GET_ORDER, { variables: { orderId }, fetchPolicy: 'network-only' });
 	const order: OrderData | undefined = data?.getOrder;
 	const eventId = order?.eventId ?? '';
-	const { data: eventData } = useQuery(GET_EVENT, { variables: { eventId }, skip: !eventId });
+	const { data: eventData } = useQuery<GetEventData, GetEventVars>(GET_EVENT, { variables: { eventId }, skip: !eventId });
 	const { data: ticketData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip: !eventId });
 	const event: EventItem | undefined = eventData?.getEvent;
 	const ticketTypes: TicketTypeItem[] = useMemo(() => ticketData?.getTicketTypes ?? [], [ticketData]);
@@ -71,7 +72,6 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	const { data: map, loaded: mapLoaded } = useSeatMap(eventId, Boolean(pending && reserved));
 	const sections = useMemo(() => map?.venueLayout.sections ?? [], [map]);
 	const names = useMemo(() => sectionNamesOf(sections), [sections]);
-	const taken = useMemo(() => takenMap(map?.seats ?? []), [map]);
 	const mine = useMemo(() => (map?.seats ?? []).filter((seat) => seat.mine && seat.seatStatus === 'HELD').sort(compareSeats), [map]);
 	const tierPrice = useCallback(
 		(sectionKey: string) => {

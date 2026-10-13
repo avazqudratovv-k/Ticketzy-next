@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -22,9 +22,9 @@ import { dayBoundaryIso, formatNumber, formatPrice, formatViewerDate } from '../
 import ScrollFade from '../../../libs/components/common/ScrollFade';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'admin', 'organizer', 'events'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'admin', 'organizer', 'events'])),
 	},
 });
 

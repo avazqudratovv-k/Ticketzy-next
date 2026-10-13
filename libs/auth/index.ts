@@ -7,6 +7,7 @@ import { MemberProfile, SignupInput } from '../types/member';
 import { parseApiError } from '../errors';
 import { getJwtToken, removeJwtToken, setJwtToken } from './token';
 import { handleSessionExpired, registerSessionEnd, resetSessionExpired } from './sessionExpired';
+import { GetMemberData, GetMemberVars } from '../types/queries';
 
 export { getJwtToken } from './token';
 
@@ -35,12 +36,12 @@ export const isExpired = (token: string): boolean => {
 async function loadProfile(memberId: string): Promise<MemberProfile> {
 	const client = initializeApollo();
 	try {
-		const { data } = await client.query({
+		const { data } = await client.query<GetMemberData, GetMemberVars>({
 			query: GET_MEMBER,
 			variables: { memberId },
 			fetchPolicy: 'network-only',
 		});
-		return data.getMember as MemberProfile;
+		return data.getMember;
 	} catch (err) {
 		throw parseApiError(err);
 	}

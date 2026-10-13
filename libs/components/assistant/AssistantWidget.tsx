@@ -181,9 +181,11 @@ const AssistantWidget = () => {
 						</div>
 						<button
 							type="button"
-							className="pg-iconbtn"
-							onClick={() => resetAssistant()}
-							disabled={empty && !error}
+							className={`pg-iconbtn${empty && !error ? ' tz-blocked' : ''}`}
+							onClick={() => {
+								if (!empty || error) resetAssistant();
+							}}
+							aria-disabled={empty && !error ? true : undefined}
 							aria-label={t('assistant.newChat')}
 							title={t('assistant.newChat')}
 						>
@@ -295,7 +297,12 @@ const AssistantWidget = () => {
 								)}
 							</p>
 						</div>
-						<button type="submit" className="pg-sendbtn" disabled={!canSend} aria-label={t('assistant.send')} title={t('assistant.send')}>
+						<button
+							type="submit"
+							className={`pg-sendbtn${!canSend && !pending ? ' tz-blocked' : ''}`}
+							disabled={pending}
+							aria-disabled={!canSend && !pending ? true : undefined}
+							aria-label={t('assistant.send')} title={t('assistant.send')}>
 							<PaperPlaneTilt size={20} weight="fill" aria-hidden="true" />
 						</button>
 					</form>

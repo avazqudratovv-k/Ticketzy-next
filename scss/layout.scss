@@ -606,8 +606,11 @@
 
 /** BLOCKED BUTTON (F326): a control that has nothing to do yet (Save with no changes, Back on the first step). Outlined, readable
  *  (label --ink-muted 8:1 or more, border --border-control 4.5:1 or more in both themes), still focusable, set aria-disabled with it
- *  and ignore the click. Not for a request in flight (that stays `disabled`). Use on MUI buttons: className="tz-blocked". **/
-.MuiButton-root.tz-blocked {
+ *  and ignore the click. Not for a request in flight (that stays `disabled`). Use on MUI buttons: className="tz-blocked"; the assistant's
+ *  plain icon buttons (`.pg-sendbtn`, `.pg-iconbtn`) take the same class. **/
+.MuiButton-root.tz-blocked,
+.pg-sendbtn.tz-blocked,
+.pg-iconbtn.tz-blocked {
 	background: transparent;
 	border: 1px solid var(--border-control);
 	color: var(--ink-muted);
@@ -615,7 +618,8 @@
 	cursor: default;
 	opacity: 1;
 	&:hover,
-	&:active {
+	&:active,
+	&:hover:not(:disabled) {
 		background: transparent;
 		color: var(--ink-muted);
 		box-shadow: none;

@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -8,7 +8,7 @@ import Seo from '../libs/components/common/Seo';
 import StaticPage from '../libs/components/static/StaticPage';
 import { ROUTES } from '../libs/routes';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'about'])) },
 });
 

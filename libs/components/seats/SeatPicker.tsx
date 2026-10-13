@@ -24,6 +24,7 @@ import { TicketTypeItem } from '../../types/event';
 import Countdown from './Countdown';
 import SeatSummary, { SummaryLine } from './SeatSummary';
 import { SeatGrid, SectionInfo, SectionList } from './SectionList';
+import { GetMyOrdersVars, ListResult } from '../../types/queries';
 // The map (SVG, zoom and pan) is the heaviest part of the page and only needed once the seats are known
 const SeatMap = dynamic(() => import('./SeatMap'), {
 	ssr: false,
@@ -128,14 +129,14 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 	useEffect(() => {
 		let cancelled = false;
 		client
-			.query({
+			.query<{ getMyOrders: ListResult<{ _id: string; eventId: string; expiresAt: string }> }, GetMyOrdersVars>({
 				query: GET_MY_PENDING_ORDERS,
 				variables: { input: { page: 1, limit: 10, orderStatus: 'PENDING_PAYMENT' } },
 				fetchPolicy: 'network-only',
 			})
 			.then(({ data }) => {
 				if (cancelled) return;
-				const order = (data.getMyOrders.list as { _id: string; eventId: string; expiresAt: string }[]).find(
+				const order = data.getMyOrders.list.find(
 					(item) => item.eventId === eventId && new Date(item.expiresAt).getTime() > serverNow(),
 				);
 				if (order) setPending({ _id: order._id, expiresAt: order.expiresAt });

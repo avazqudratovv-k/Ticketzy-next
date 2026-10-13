@@ -2,7 +2,6 @@ import { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
-import { Button } from '@mui/material';
 import { Minus, Plus, Warning } from 'phosphor-react';
 import { clearSession } from '../../auth';
 import { parseApiError } from '../../errors';

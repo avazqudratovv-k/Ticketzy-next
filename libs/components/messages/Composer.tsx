@@ -90,7 +90,14 @@ const Composer = ({ conversationId, sending, onSend, onTyping }: Props) => {
 					)}
 				</p>
 			</div>
-			<Button type="submit" variant="contained" className="msgs-composer__send" disabled={empty || sending} startIcon={<PaperPlaneTilt size={20} aria-hidden="true" />}>
+			<Button
+				type="submit"
+				variant="contained"
+				className={`msgs-composer__send${!sending && empty ? ' tz-blocked' : ''}`}
+				disabled={sending}
+				aria-disabled={!sending && empty ? true : undefined}
+				startIcon={<PaperPlaneTilt size={20} aria-hidden="true" />}
+			>
 				{sending ? t('composer.sending') : t('composer.send')}
 			</Button>
 		</form>

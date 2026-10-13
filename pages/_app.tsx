@@ -37,7 +37,7 @@ const notoSansKr = Noto_Sans_KR({ subsets: ['latin'], display: 'swap', preload: 
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin', 'cyrillic'], display: 'swap' });
 
 const App = ({ Component, pageProps }: AppProps) => {
-	const client = useApollo(pageProps.initialApolloState);
+	const client = useApollo();
 	const router = useRouter();
 	// Ends an expired session on any page, not only seats and checkout (F338).
 	useSessionWatch(Boolean(useReactiveVar(userVar)));

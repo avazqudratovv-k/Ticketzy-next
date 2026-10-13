@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { Button } from '@mui/material';
@@ -19,10 +19,11 @@ import { FEATURED_POOL, pickFeatured, upcomingFrom, upcomingSearch } from '../li
 import { serverNow } from '../libs/seats/clock';
 import { EventItem } from '../libs/types/event';
 import { ROUTES } from '../libs/routes';
+import { GetEventsData, GetEventsVars } from '../libs/types/queries';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'events'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'events'])),
 	},
 });
 
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
 	const from = useMemo(() => upcomingFrom(clock), [clock]);
 
 	// One query ranks the hero and its three neighbours (no per-event requests); each category row has its own query
-	const hero = useQuery(GET_EVENTS, {
+	const hero = useQuery<GetEventsData, GetEventsVars>(GET_EVENTS, {
 		variables: { input: { page: 1, limit: FEATURED_POOL, sort: 'startAt', direction: 'ASC', search: upcomingSearch(from) } },
 		fetchPolicy: 'cache-and-network',
 		notifyOnNetworkStatusChange: true,

@@ -21,7 +21,7 @@ import { GET_EVENT, GET_TICKET_TYPES } from '../../../apollo/user/query';
 import withLayoutBasic from '../../../libs/components/layout/LayoutBasic';
 import Seo from '../../../libs/components/common/Seo';
 import StateBlock from '../../../libs/components/states/StateBlock';
-import CategoryChip, { categoryIcon } from '../../../libs/components/events/CategoryChip';
+import CategoryChip from '../../../libs/components/events/CategoryChip';
 import EventImage from '../../../libs/components/events/EventImage';
 import LikeButton from '../../../libs/components/events/LikeButton';
 import { useSalesClock } from '../../../libs/salesWindow';
@@ -44,6 +44,7 @@ import { organizerUrl, ROUTES } from '../../../libs/routes';
 import { serverQuery } from '../../../libs/serverFetch';
 import { EventItem, TicketTypeItem } from '../../../libs/types/event';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
+import { GetEventData, GetEventVars } from '../../../libs/types/queries';
 
 interface SeoProps {
 	title: string;
@@ -54,14 +55,14 @@ interface SeoProps {
 /** The server fetches only what the meta tags need (anonymous, so only public events); the page itself loads the event in the browser with the member's token. */
 export const getServerSideProps: GetServerSideProps = async ({ locale, params }) => {
 	const code = (locale ?? 'en').toUpperCase();
-	const data = await serverQuery<{ getEvent: any }>(
+	const data = await serverQuery<{ getEvent: Pick<EventItem, 'eventTitle' | 'eventDesc' | 'eventImages' | 'eventTranslations'> | null }>(
 		`query($id:String!){ getEvent(eventId:$id){ eventTitle eventDesc eventImages eventTranslations{ locale title description } } }`,
 		{ id: String(params?.id ?? '') },
 	);
 	let seo: SeoProps | null = null;
 	const event = data?.getEvent;
 	if (event) {
-		const translations: { locale: string; title: string; description?: string }[] = event.eventTranslations ?? [];
+		const translations = event.eventTranslations ?? [];
 		const own = translations.find((e) => e.locale === code && e.title?.trim());
 		const base = translations.find((e) => e.locale === 'EN' && e.title?.trim());
 		seo = {
@@ -83,7 +84,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 	const [commentTotal, setCommentTotal] = useState<number | null>(null);
 
 	// Wait for the stored session so the first request already carries the token (views and the like state depend on it)
-	const { data, loading, error, refetch } = useQuery(GET_EVENT, {
+	const { data, error, refetch } = useQuery<GetEventData, GetEventVars>(GET_EVENT, {
 		variables: { eventId },
 		skip: !router.isReady || !ready,
 		fetchPolicy: 'cache-and-network',

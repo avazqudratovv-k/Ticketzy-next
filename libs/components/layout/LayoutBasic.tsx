@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
@@ -12,8 +12,8 @@ import WakeNote from '../common/WakeNote';
 const AssistantWidget = dynamic(() => import('../assistant/AssistantWidget'), { ssr: false });
 
 /** Public layout: navbar, content column, footer, and the assistant button (public and buyer pages; the dashboards have their own shell). */
-const withLayoutBasic = (Component: any) => {
-	const WithLayoutBasic = (props: any) => {
+const withLayoutBasic = <P extends object>(Component: ComponentType<P>) => {
+	const WithLayoutBasic = (props: P) => {
 		const { t } = useTranslation('common');
 
 		return (

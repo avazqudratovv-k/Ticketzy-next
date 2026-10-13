@@ -114,7 +114,7 @@ Passwords come from the output of the backend seed command and are never committ
 | `yarn lint` | ESLint (`next lint`) |
 | `yarn typecheck` | `tsc --noEmit` |
 | `yarn i18n:check` | Scans the locale files and the code for missing keys, placeholder mismatches and namespaces a page does not load |
-| `yarn changelog` | Update `CHANGELOG.md` |
+| `yarn check:return-to` | Checks the `returnTo` redirect guard against a list of safe and unsafe values |
 
 ## Project structure
 
@@ -169,3 +169,7 @@ Placeholders, to be filled in when a host is chosen:
 - API: `<https://api.your-domain/graphql>` and `<wss://api.your-domain>`
 - Build command: `yarn build`; start command: `yarn start`
 - Set every variable of the table above in the host's environment before building (`NEXT_PUBLIC_*` values are read at build time).
+
+## License
+
+MIT, see [LICENSE](LICENSE).

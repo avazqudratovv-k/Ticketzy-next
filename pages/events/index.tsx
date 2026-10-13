@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetStaticPropsContext } from 'next';
 import { useQuery } from '@apollo/client';
 import { Button, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -18,10 +18,11 @@ import { buildEventsInput, PAGE_SIZE, useEventFilters } from '../../libs/hooks/u
 import { formatNumber } from '../../libs/format';
 import { EventItem } from '../../libs/types/event';
 import { useRouter } from 'next/router';
+import { GetEventsData, GetEventsVars } from '../../libs/types/queries';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common', 'events'])),
+		...(await serverSideTranslations(locale ?? 'en', ['common', 'events'])),
 	},
 });
 
@@ -47,7 +48,7 @@ const Events: NextPage = () => {
 	const [filtersOpen, setFiltersOpen] = useState(false);
 
 	const input = useMemo(() => buildEventsInput(filters), [filters]);
-	const { data, loading, error, refetch } = useQuery(GET_EVENTS, {
+	const { data, loading, error, refetch } = useQuery<GetEventsData, GetEventsVars>(GET_EVENTS, {
 		variables: { input },
 		skip: !ready,
 		fetchPolicy: 'cache-and-network',

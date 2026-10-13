@@ -176,7 +176,7 @@ export function formatEventSummary(startIso: string, endIso: string, locale?: st
 }
 
 /** "GMT+9" for the venue's zone at that moment. */
-export function formatZoneName(iso: string, locale: string | undefined, timeZone?: string | null): string {
+export function formatZoneName(iso: string, _locale: string | undefined, timeZone?: string | null): string {
 	const part = new Intl.DateTimeFormat('en', { timeZone: safeZone(timeZone), timeZoneName: 'short' })
 		.formatToParts(new Date(iso))
 		.find((p) => p.type === 'timeZoneName');

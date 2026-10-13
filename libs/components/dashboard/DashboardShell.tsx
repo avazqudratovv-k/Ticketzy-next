@@ -192,8 +192,8 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 };
 
 /** Wraps a page in the organizer or admin shell and guards it by role. */
-export const createDashboardLayout = (role: DashboardRole) => (Component: ComponentType<any>) => {
-	const WithDashboardLayout = (props: object) => (
+export const createDashboardLayout = (role: DashboardRole) => <P extends object>(Component: ComponentType<P>) => {
+	const WithDashboardLayout = (props: P) => (
 		<DashboardShell role={role}>
 			<Component {...props} />
 		</DashboardShell>

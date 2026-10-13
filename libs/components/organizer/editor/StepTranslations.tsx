@@ -86,12 +86,22 @@ const StepTranslations = ({ editor, readOnly }: StepProps) => {
 			<div className="org-aihead">
 				<p>{t('form.translations.intro')}</p>
 				{!readOnly && (
-					<Button variant="outlined" startIcon={<Sparkle size={20} aria-hidden="true" />} onClick={translate} disabled={busy || saving || !titleReady}>
+					<Button
+						variant="outlined"
+						className={!busy && !saving && !titleReady ? 'tz-blocked' : undefined}
+						startIcon={<Sparkle size={20} aria-hidden="true" />}
+						onClick={() => {
+							if (titleReady) translate();
+						}}
+						disabled={busy || saving}
+						aria-disabled={!busy && !saving && !titleReady ? true : undefined}
+						aria-describedby={!titleReady ? 'ai-need-title' : undefined}
+					>
 						{busy ? t('ai.working') : t('ai.button')}
 					</Button>
 				)}
 			</div>
-			{!readOnly && !titleReady && <p className="org-hint">{t('ai.needTitle')}</p>}
+			{!readOnly && !titleReady && <p id="ai-need-title" className="org-hint">{t('ai.needTitle')}</p>}
 			{!readOnly && <p className="org-hint">{t('ai.notSaved')}</p>}
 
 			{problem?.ai && (
