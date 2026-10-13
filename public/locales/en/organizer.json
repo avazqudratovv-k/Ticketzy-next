@@ -1159,6 +1159,7 @@
     "notPublic": "Your page is not public yet. It appears as soon as your account is approved.",
     "public": "Public profile",
     "changeLogo": "Change logo",
+    "logoFile": "Logo image file (PNG or JPEG)",
     "logoHint": "PNG or JPEG, up to {{size}} MB. Square and 400 × 400 px or larger works best.",
     "logoType": "Use a PNG or JPEG image.",
     "logoSize": "That file is too large. The limit is {{size}} MB.",

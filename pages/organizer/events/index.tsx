@@ -25,6 +25,7 @@ import { OrgEvent } from '../../../libs/organizer/types';
 import { localizedEvent } from '../../../libs/events';
 import { formatEventWhen, formatNumber } from '../../../libs/format';
 import { eventUrl, organizerEventEditUrl, organizerEventNewUrl, organizerEventOrdersUrl } from '../../../libs/routes';
+import ScrollFade from '../../../libs/components/common/ScrollFade';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { EventStatus } from '../../../libs/types/event';
 
@@ -164,7 +165,7 @@ const OrganizerEvents: NextPage = () => {
 				</p>
 			)}
 
-			<div className="org-tabs" role="tablist" aria-label={t('list.tabsLabel')}>
+			<ScrollFade className="org-tabs" activeKey={state.status} role="tablist" aria-label={t('list.tabsLabel')}>
 				{TABS.map((tab) => (
 					<button
 						key={tab || 'all'}
@@ -178,7 +179,7 @@ const OrganizerEvents: NextPage = () => {
 						<span className="org-tab__count">{formatNumber(counts(tab), locale)}</span>
 					</button>
 				))}
-			</div>
+			</ScrollFade>
 
 			<div className="org-toolbar">
 				<label className="org-search">

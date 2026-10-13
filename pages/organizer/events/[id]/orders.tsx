@@ -21,6 +21,7 @@ import { groupSeats, isOrderSortKey, isOrderStatus, ORDER_SORTS, ORDER_STATUSES,
 import { OrgEvent } from '../../../../libs/organizer/types';
 import { localizedEvent } from '../../../../libs/events';
 import { formatNumber, formatPrice, formatViewerDate } from '../../../../libs/format';
+import ScrollFade from '../../../../libs/components/common/ScrollFade';
 import { NETWORK_ERROR, parseApiError } from '../../../../libs/errors';
 import { organizerEventEditUrl, organizerEventsUrl } from '../../../../libs/routes';
 
@@ -158,14 +159,14 @@ const EventOrders: NextPage = () => {
 				)}
 			</div>
 
-			<div className="org-tabs" role="tablist" aria-label={t('orders.tabsLabel')}>
+			<ScrollFade className="org-tabs" activeKey={status} role="tablist" aria-label={t('orders.tabsLabel')}>
 				{(['', ...ORDER_STATUSES] as (OrderStatusKey | '')[]).map((tab) => (
 					<button key={tab || 'all'} type="button" role="tab" aria-selected={status === tab} className="org-tab" onClick={() => update({ status: tab })}>
 						{tab ? t(`orders.status.${tab}`) : t('list.all')}
 						<span className="org-tab__count">{formatNumber(count(tab), locale)}</span>
 					</button>
 				))}
-			</div>
+			</ScrollFade>
 
 			<div className="org-toolbar">
 				<label className="org-select">

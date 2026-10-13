@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { ArrowLeft, ArrowRight, CheckCircle, Info, Lock, WarningCircle } from 'phosphor-react';
+import ScrollFade from '../../common/ScrollFade';
 import useUnsavedGuard from '../../../hooks/useUnsavedGuard';
 import useEventEditor, { isUntouched } from '../../../organizer/useEventEditor';
 import {
@@ -259,7 +260,7 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 			)}
 
 			<nav aria-label={t('form.stepsLabel')}>
-				<ol className="org-steps">
+				<ScrollFade as="ol" className="org-steps" activeKey={step} activeSelector=".is-current">
 					{STEPS.map((id, i) => (
 						<li key={id}>
 							<button type="button" className={`org-step ${id === step ? 'is-current' : ''} ${i < index ? 'is-done' : ''}`} aria-current={id === step ? 'step' : undefined} onClick={() => setStep(id)}>
@@ -270,7 +271,7 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 							</button>
 						</li>
 					))}
-				</ol>
+				</ScrollFade>
 			</nav>
 
 			<section className="org-panel" aria-labelledby="step-title">
@@ -304,12 +305,28 @@ const EventEditor = ({ event: initialEvent = null, ticketTypes = [] }: Props) =>
 				{step === 'review' && <StepReview editor={editor} readOnly={readOnly} onGo={setStep} />}
 
 				<div className="org-actions">
-					<Button variant="text" startIcon={<ArrowLeft size={20} aria-hidden="true" />} disabled={index === 0} onClick={() => setStep(STEPS[index - 1])}>
+					<Button
+						variant="text"
+						className={index === 0 ? 'tz-blocked' : undefined}
+						aria-disabled={index === 0 ? true : undefined}
+						startIcon={<ArrowLeft size={20} aria-hidden="true" />}
+						onClick={() => {
+							if (index > 0) setStep(STEPS[index - 1]);
+						}}
+					>
 						{t('form.back')}
 					</Button>
 					<div className="org-actions__main">
 						{!readOnly && (
-							<Button variant="outlined" onClick={saveDraft} disabled={saving || !dirty}>
+							<Button
+								variant="outlined"
+								className={!saving && !dirty ? 'tz-blocked' : undefined}
+								disabled={saving}
+								aria-disabled={!saving && !dirty ? true : undefined}
+								onClick={() => {
+									if (dirty) saveDraft();
+								}}
+							>
 								{saving ? t('form.saving') : mode === 'review' ? t('form.saveChanges') : status === 'REJECTED' ? t('form.saveChanges') : t('form.saveDraft')}
 							</Button>
 						)}

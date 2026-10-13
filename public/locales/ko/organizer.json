@@ -1159,6 +1159,7 @@
     "notPublic": "아직 공개되지 않은 페이지입니다. 계정이 승인되면 바로 표시됩니다.",
     "public": "공개 프로필",
     "changeLogo": "로고 변경",
+    "logoFile": "로고 이미지 파일 (PNG 또는 JPEG)",
     "logoHint": "PNG 또는 JPEG, 최대 {{size}}MB. 400 × 400px 이상의 정사각형이 가장 좋습니다.",
     "logoType": "PNG 또는 JPEG 이미지를 사용해 주세요.",
     "logoSize": "파일이 너무 큽니다. 최대 {{size}}MB입니다.",

@@ -329,7 +329,7 @@ const AdminEventDetail: NextPage = () => {
 						) : ticketTypes.length === 0 ? (
 							<p className="adm-muted">{t('event.noTickets')}</p>
 						) : (
-							<div className="adm-scroll">
+							<div className="adm-scroll" role="region" tabIndex={0} aria-label={t('event.tickets.tableLabel')}>
 								<table className="adm-tbl">
 									<thead>
 										<tr>

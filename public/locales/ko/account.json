@@ -187,6 +187,7 @@
     "sub": "내 정보와 로그인 설정입니다.",
     "details": "프로필",
     "changePhoto": "사진 변경",
+    "photoFile": "프로필 사진 파일 (PNG 또는 JPEG)",
     "photoHint": "PNG 또는 JPG, 최대 {{size}}MB.",
     "photoType": "PNG 또는 JPG 이미지를 선택해 주세요.",
     "photoSize": "이미지가 너무 큽니다. 최대 {{size}}MB까지 가능합니다.",

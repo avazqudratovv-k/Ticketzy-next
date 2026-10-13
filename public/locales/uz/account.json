@@ -189,6 +189,7 @@
     "sub": "Maʼlumotlaringiz va kirish sozlamalari.",
     "details": "Profil",
     "changePhoto": "Rasmni almashtirish",
+    "photoFile": "Profil rasmi fayli (PNG yoki JPEG)",
     "photoHint": "PNG yoki JPG, {{size}} MB gacha.",
     "photoType": "PNG yoki JPG rasm tanlang.",
     "photoSize": "Rasm juda katta. Chegara — {{size}} MB.",

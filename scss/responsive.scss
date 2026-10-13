@@ -95,7 +95,34 @@
 	.tz-tab {
 		min-height: var(--control-md);
 	}
-	.MuiButton-sizeSmall {
+	.MuiButton-root.MuiButton-sizeSmall {
+		min-height: var(--control-md);
+	}
+	// text fields (MUI): the input itself is 44px, not 41px (profile, login, sign-up and every Field)
+	.MuiOutlinedInput-input:not(textarea) {
+		box-sizing: border-box;
+		min-height: var(--control-md);
+		padding-block: 0;
+	}
+	// organizer dashboard (F326): translation language segments, overview and profile links, thumbnail tools, the "Pause sales" row
+	.org-lang {
+		min-height: var(--control-md);
+	}
+	.org-card__head .tz-link,
+	.org-upcoming .tz-link,
+	.adm-due-link .tz-link,
+	.org-thumb__bar button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: var(--control-md);
+		min-width: var(--control-md);
+	}
+	.org-thumb__bar button {
+		width: var(--control-md);
+		height: var(--control-md);
+	}
+	.org-check {
 		min-height: var(--control-md);
 	}
 	summary {

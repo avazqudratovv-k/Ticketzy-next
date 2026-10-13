@@ -604,6 +604,25 @@
 	}
 }
 
+/** BLOCKED BUTTON (F326): a control that has nothing to do yet (Save with no changes, Back on the first step). Outlined, readable
+ *  (label --ink-muted 8:1 or more, border --border-control 4.5:1 or more in both themes), still focusable, set aria-disabled with it
+ *  and ignore the click. Not for a request in flight (that stays `disabled`). Use on MUI buttons: className="tz-blocked". **/
+.MuiButton-root.tz-blocked {
+	background: transparent;
+	border: 1px solid var(--border-control);
+	color: var(--ink-muted);
+	box-shadow: none;
+	cursor: default;
+	opacity: 1;
+	&:hover,
+	&:active {
+		background: transparent;
+		color: var(--ink-muted);
+		box-shadow: none;
+		transform: none;
+	}
+}
+
 /** STICKY BOTTOM BAR (checkout pay bar, event ticket bar): phones and tablets only. Fixed, so it never moves the page; the page
  *  keeps room for it through `html[data-bar]` (footer) and `useStickyBar`. Layer order is in tokens.css and docs/ai/UI_PATTERNS.md. **/
 .tz-bar {

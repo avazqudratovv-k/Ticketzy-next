@@ -21,6 +21,7 @@ import useAllAttendees from '../../libs/organizer/useAllAttendees';
 import { GET_VENUE_DETAIL } from '../../apollo/organizer/query';
 import { Attendee, ATTENDEES_PAGE_SIZE, downloadCsv, isTicketStatus, matchesSearch, sameOrder, slug, TICKET_STATUSES, TicketStatusKey, toCsv } from '../../libs/organizer/attendees';
 import { formatEventDate, formatNumber } from '../../libs/format';
+import ScrollFade from '../../libs/components/common/ScrollFade';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { organizerEventsUrl } from '../../libs/routes';
 
@@ -183,14 +184,14 @@ const Attendees: NextPage = () => {
 					</ul>
 					<p className="org-hint">{t('attendees.totalsNote')}</p>
 
-					<div className="org-tabs" role="tablist" aria-label={t('attendees.tabsLabel')}>
+					<ScrollFade className="org-tabs" activeKey={status} role="tablist" aria-label={t('attendees.tabsLabel')}>
 						{(['', ...TICKET_STATUSES] as (TicketStatusKey | '')[]).map((tab) => (
 							<button key={tab || 'all'} type="button" role="tab" aria-selected={status === tab} className="org-tab" onClick={() => void update({ status: tab })}>
 								{tab ? t(`attendees.status.${tab}`) : t('list.all')}
 								<span className="org-tab__count">{counts ? formatNumber(tabCount(tab), locale) : '–'}</span>
 							</button>
 						))}
-					</div>
+					</ScrollFade>
 
 					<div className="org-toolbar">
 						<label className="org-search">

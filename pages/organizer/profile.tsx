@@ -196,7 +196,7 @@ const Profile: NextPage = () => {
 							{(values.memberFullName || values.memberNick || '?').trim().charAt(0).toUpperCase()}
 						</MuiAvatar>
 						<div>
-							<input ref={input} id="org-avatar" className="tz-sr" type="file" accept="image/png,image/jpeg" onChange={(e) => pick(e.target.files?.[0])} aria-describedby="org-avatar-hint" />
+							<input ref={input} id="org-avatar" className="tz-sr" type="file" accept="image/png,image/jpeg" onChange={(e) => pick(e.target.files?.[0])} aria-label={t('profile.logoFile')} aria-describedby="org-avatar-hint" />
 							<Button variant="outlined" onClick={() => input.current?.click()} disabled={saving}>
 								{t('profile.changeLogo')}
 							</Button>
@@ -249,14 +249,26 @@ const Profile: NextPage = () => {
 						)}
 					</div>
 					<div className="org-actions">
-						<Button type="submit" variant="contained" disabled={saving || !dirty}>
+						<Button
+							type="submit"
+							variant="contained"
+							className={!saving && !dirty ? 'tz-blocked' : undefined}
+							disabled={saving}
+							aria-disabled={!saving && !dirty ? true : undefined}
+							onClick={(event) => {
+								if (!dirty) event.preventDefault();
+							}}
+						>
 							{saving ? t('profile.saving') : t('profile.save')}
 						</Button>
 						<Button
 							type="button"
 							variant="text"
-							disabled={saving || !dirty}
+							className={!saving && !dirty ? 'tz-blocked' : undefined}
+							disabled={saving}
+							aria-disabled={!saving && !dirty ? true : undefined}
 							onClick={() => {
+								if (!dirty) return;
 								setValues(saved);
 								setFile(null);
 								setPreview(null);

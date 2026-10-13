@@ -1159,6 +1159,7 @@
     "notPublic": "Sahifangiz hozircha ommaviy emas. Hisobingiz tasdiqlanishi bilan paydo boʻladi.",
     "public": "Ommaviy profil",
     "changeLogo": "Logotipni almashtirish",
+    "logoFile": "Logotip fayli (PNG yoki JPEG)",
     "logoHint": "PNG yoki JPEG, {{size}} MB gacha. Kvadrat va 400 × 400 px yoki undan katta boʻlgani yaxshi.",
     "logoType": "PNG yoki JPEG rasmidan foydalaning.",
     "logoSize": "Fayl juda katta. Chegara — {{size}} MB.",

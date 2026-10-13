@@ -30,6 +30,7 @@ import { isOnlyNoData } from '../../../libs/admin/errors';
 import { AdminOrganizer, organizerName } from '../../../libs/admin/types';
 import { GET_ADMIN_ORGANIZER_COUNTS, GET_ADMIN_ORGANIZERS } from '../../../apollo/admin/query';
 import { formatNumber, formatViewerDate } from '../../../libs/format';
+import ScrollFade from '../../../libs/components/common/ScrollFade';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -115,14 +116,14 @@ const AdminOrganizers: NextPage = () => {
 				</p>
 			)}
 
-			<div className="org-tabs" role="tablist" aria-label={t('organizers.tabsLabel')}>
+			<ScrollFade className="org-tabs" activeKey={tab} role="tablist" aria-label={t('organizers.tabsLabel')}>
 				{ORGANIZER_TABS.map((key) => (
 					<button key={key} type="button" role="tab" aria-selected={tab === key} className="org-tab" onClick={() => update({ tab: key })}>
 						{t(`organizers.tabs.${key}`)}
 						<span className="org-tab__count">{formatNumber(count(key), locale)}</span>
 					</button>
 				))}
-			</div>
+			</ScrollFade>
 
 			<div className="org-toolbar">
 				<label className="org-search">

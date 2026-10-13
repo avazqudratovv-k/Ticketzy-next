@@ -1,4 +1,4 @@
-import React, { ComponentType, useEffect, useState } from 'react';
+import React, { ComponentType, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -36,8 +36,40 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 	const roleLabel = t(isAdmin ? 'dashboard.admin' : 'dashboard.organizer');
 	const current = groups.flatMap((group) => group.items).find((item) => isCurrent(item, router.pathname));
 
+	const opener = useRef<HTMLButtonElement>(null);
+	const closeButton = useRef<HTMLButtonElement>(null);
+	const wasOpen = useRef(false);
+
 	// The drawer closes after navigating.
 	useEffect(() => setOpen(false), [router.asPath]);
+
+	// Phone drawer as a dialog (same pattern as the admin organizer drawer): Escape closes, focus goes in on open and back to the
+	// opener on close, the page behind is inert while it is open. From 1024 px the sidebar is permanent, so an open drawer is closed.
+	useEffect(() => {
+		const main = document.querySelector<HTMLElement>('.tz-main');
+		if (open) {
+			wasOpen.current = true;
+			main?.setAttribute('inert', '');
+			closeButton.current?.focus();
+			const onKey = (event: KeyboardEvent) => {
+				if (event.key === 'Escape') setOpen(false);
+			};
+			const wide = window.matchMedia('(min-width: 1024px)');
+			const onWide = () => wide.matches && setOpen(false);
+			document.addEventListener('keydown', onKey);
+			wide.addEventListener('change', onWide);
+			return () => {
+				document.removeEventListener('keydown', onKey);
+				wide.removeEventListener('change', onWide);
+				main?.removeAttribute('inert');
+			};
+		}
+		if (wasOpen.current) {
+			wasOpen.current = false;
+			opener.current?.focus();
+		}
+		return undefined;
+	}, [open]);
 
 	// Nothing of the dashboard is shown until the member is known to be allowed in.
 	if (!allowed || !user) return null;
@@ -67,14 +99,20 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 			</Head>
 			<div className="tz-app tz-app--dash">
 				<div className={`tz-shell ${isAdmin ? 'tz-shell--admin' : ''}`}>
-					<aside className={`tz-sidebar ${open ? 'is-open' : ''}`} aria-label={roleLabel}>
+					<aside
+						id="tz-sidebar"
+						className={`tz-sidebar ${open ? 'is-open' : ''}`}
+						aria-label={roleLabel}
+						role={open ? 'dialog' : undefined}
+						aria-modal={open ? true : undefined}
+					>
 						<div className="tz-sidebar__head">
 							<Brand />
 							<span className="tz-rolebadge">
 								{isAdmin && ADMIN_BADGE_ICON}
 								{roleLabel}
 							</span>
-							<IconButton className="tz-sidebar__close" aria-label={t('dashboard.closeSidebar')} onClick={() => setOpen(false)}>
+							<IconButton ref={closeButton} className="tz-sidebar__close" aria-label={t('dashboard.closeSidebar')} onClick={() => setOpen(false)}>
 								<X size={20} />
 							</IconButton>
 						</div>
@@ -120,10 +158,12 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 					<div className="tz-main">
 						<header className="tz-topbar">
 							<IconButton
+								ref={opener}
 								className="tz-topbar__menu"
-								aria-label={t('dashboard.openSidebar')}
+								aria-label={t(open ? 'dashboard.closeSidebar' : 'dashboard.openSidebar')}
 								aria-expanded={open}
-								onClick={() => setOpen(true)}
+								aria-controls="tz-sidebar"
+								onClick={() => setOpen((value) => !value)}
 							>
 								<List size={22} />
 							</IconButton>

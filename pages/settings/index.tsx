@@ -155,7 +155,7 @@ const Settings: NextPage = () => {
 						{initials(name) || '?'}
 					</MuiAvatar>
 					<div>
-						<input ref={input} id="avatar-file" className="tz-sr" type="file" accept="image/png,image/jpeg" onChange={(event) => pick(event.target.files?.[0])} aria-describedby="avatar-hint" />
+						<input ref={input} id="avatar-file" className="tz-sr" type="file" accept="image/png,image/jpeg" onChange={(event) => pick(event.target.files?.[0])} aria-label={t('profile.photoFile')} aria-describedby="avatar-hint" />
 						<Button variant="outlined" onClick={() => input.current?.click()} disabled={saving}>
 							{t('profile.changePhoto')}
 						</Button>

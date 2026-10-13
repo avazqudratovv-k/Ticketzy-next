@@ -204,6 +204,7 @@
       "noDescription": "No description."
     },
     "tickets": {
+      "tableLabel": "Ticket types table (scrolls sideways)",
       "name": "Ticket type",
       "price": "Price",
       "quantity": "Tickets",

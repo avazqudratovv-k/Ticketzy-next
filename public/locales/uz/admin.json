@@ -204,6 +204,7 @@
       "noDescription": "Tavsif yoʻq."
     },
     "tickets": {
+      "tableLabel": "Chipta turlari jadvali (yonga suriladi)",
       "name": "Chipta turi",
       "price": "Narxi",
       "quantity": "Chiptalar",

@@ -836,3 +836,22 @@ Frontend only, not committed. Decision F325, patterns in `docs/ai/UI_PATTERNS.md
 - Screenshots were taken at 390 (light and dark) for the event bar, account tabs and checkout bar; 320, 768 and 1440 were measured, not looked at.
 - Findings 3, 5 to 13 and the other audit rows were not part of this prompt. No decision in audit section 4 was changed.
 - Side effects: one expired unpaid order for the demo buyer. The stored theme was put back to `light`.
+
+## Prompt D3: dashboard accessibility and phone fit (2026-10-13)
+
+Frontend only, not committed. Decisions F326 to F328, patterns in `docs/ai/UI_PATTERNS.md`.
+
+### Files changed
+- Edited: `libs/components/dashboard/DashboardShell.tsx`, `libs/components/organizer/editor/EventEditor.tsx`, `pages/organizer/profile.tsx`, `pages/settings/index.tsx`, `pages/organizer/events/index.tsx`, `pages/organizer/events/[id]/orders.tsx`, `pages/organizer/attendees.tsx`, `pages/admin/events/index.tsx`, `pages/admin/events/[id].tsx`, `pages/admin/organizers/index.tsx`, `pages/admin/orders/index.tsx`, `scss/layout.scss`, `scss/responsive.scss`, locale files `organizer.json`, `account.json`, `admin.json` (en, ko, ru, uz), the docs.
+
+### Done
+- Fix 1: file inputs on profile and settings have an `aria-label`. Fix 2: `.adm-scroll` is a labelled, focusable region. Fix 3: `tz-blocked` (profile Save/Discard, wizard Back, wizard Save draft/Save changes). Fix 4: 44 px on touch (MUI input, small buttons, language segments, overview/profile/admin links, thumbnail icons, Pause sales row). Fix 5: `ScrollFade` on seven tab strips (organizer events, orders, attendees, wizard steps; admin events, organizers, orders). Fix 6: dashboard drawer as a dialog (Escape, focus in and back, label and `aria-expanded`, `inert` page).
+
+### Checks
+- `yarn typecheck`, `yarn lint`, `yarn i18n:check` clean. Scratch build (copy, port 3100) built and answered 200.
+- Browser (iframes 390, 768, 1440, light and dark with the `ticketzy-theme` key set before load, axe 4.10.2): organizer pages and admin pages, results in the report. Keyboard: drawer Escape/focus/label on the organizer and admin shells, `.adm-scroll` region reachable. Stored theme put back to `light`.
+
+### Not tested / left
+- Login and sign-up fields at 44 px (the signed-in tab redirects away; same rule as the profile fields). Reduced motion not toggled (no new animation). The wizard language segments have no fade (they fit at 390). Light and dark screenshots were looked at only for the profile buttons, the wizard strip and the admin pages listed in the report; other combinations are measured.
+- `landmark-complementary-is-top-level` on the venue editor (audit O10) is untouched.
+- Nothing was submitted, approved, rejected or cancelled.

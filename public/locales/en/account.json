@@ -189,6 +189,7 @@
     "sub": "Your details and sign-in.",
     "details": "Profile",
     "changePhoto": "Change photo",
+    "photoFile": "Profile photo file (PNG or JPEG)",
     "photoHint": "PNG or JPG, up to {{size}} MB.",
     "photoType": "Choose a PNG or JPG image.",
     "photoSize": "The image is too large. The limit is {{size}} MB.",

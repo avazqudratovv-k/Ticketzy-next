@@ -204,6 +204,7 @@
       "noDescription": "설명이 없어요."
     },
     "tickets": {
+      "tableLabel": "티켓 유형 표 (가로 스크롤)",
       "name": "티켓 종류",
       "price": "가격",
       "quantity": "티켓 수",

@@ -29,7 +29,7 @@ Phones and tablets only (hidden from 1024 px). Fixed, so it never moves the page
 
 ## Edge fade for scrolling strips (`ScrollFade`, `.tz-fade`)
 
-For tab strips and chip rows that scroll sideways (account tabs now; organizer and admin tab strips, wizard steps later).
+For tab strips and chip rows that scroll sideways (account tabs, organizer events, orders and attendees tabs, wizard steps, admin events, organizers and orders tabs).
 
 ```tsx
 import ScrollFade from '<path>/libs/components/common/ScrollFade';
@@ -47,3 +47,19 @@ import ScrollFade from '<path>/libs/components/common/ScrollFade';
 - The current tab is found with `activeSelector` (default `[aria-current="page"], [aria-selected="true"], [aria-pressed="true"], .is-active`) and scrolled to the centre of the strip when `activeKey` changes: instantly on the first paint and under reduced motion, smooth otherwise. Only the strip scrolls, never the page.
 - When the strip does not overflow (for example a vertical list from 1024 px) nothing is set and nothing fades.
 - Keep tabs at 44 px on touch (F262); the fade only hides the last 32 px of a tab at an edge.
+
+## Blocked button (`tz-blocked`, F326)
+
+For a control that has nothing to do yet (Save with no changes, Back on the first step). Not for a request in flight (that stays a real `disabled`) and not for the ticket button (F302).
+
+```tsx
+<Button className={blocked ? 'tz-blocked' : undefined} aria-disabled={blocked ? true : undefined} onClick={() => { if (!blocked) doIt(); }}>
+```
+
+- Outlined: transparent fill, `--border-control` border (4.5:1 or more), `--ink-muted` label (8:1 or more), no hover change, in both themes. Defined in `scss/layout.scss`; no new tokens.
+- Stays in the tab order; the click must do nothing (guard the handler, and `preventDefault` on a submit button).
+- Used by: organizer profile Save / Discard, event wizard Back (step 1) and Save draft / Save changes.
+
+## Dashboard drawer (F327)
+
+`DashboardShell` (organizer and admin) below 1024 px: the sidebar is a dialog while open (`role="dialog"`, `aria-modal`), `.tz-main` is `inert`, Escape closes, focus goes to the close button and returns to the opener, and the opener's label (`dashboard.openSidebar` / `dashboard.closeSidebar`) and `aria-expanded` follow the state. Layers: scrim 300, drawer 310 (see the table above).
