@@ -1,0 +1,28 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn typecheck
+      - run: yarn lint
+      - run: yarn i18n:check
+      - run: yarn check:return-to
+      # The build needs no backend: pages are static or fetch in the browser, and serverQuery returns null when the API is down.
+      # Dummy public values only.
+      - run: yarn build
+        env:
+          NEXT_PUBLIC_API_GRAPHQL_URL: http://localhost:3007/graphql
+          NEXT_PUBLIC_API_WS_URL: ws://localhost:3007
+          NEXT_PUBLIC_API_URL: http://localhost:3007
+          NEXT_PUBLIC_SITE_URL: https://example.test

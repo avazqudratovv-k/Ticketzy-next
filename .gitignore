@@ -40,8 +40,7 @@ next-env.d.ts
 /.idea
 # yarn.lock
 
-# env ignores
-.env.development
-.env.local
-.env
+# env ignores (every variant; only .env.example is tracked)
+.env*
+!.env.example
 .claude/settings.local.json

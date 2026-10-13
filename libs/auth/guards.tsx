@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
 import { MemberType } from '../enums/member.enum';
 import { homeFor, loginUrl, ROUTES } from '../routes';
+import { sessionJustExpired } from './sessionExpired';
 
 /**
  * Redirects to /account/login?returnTo=<this page> when nobody is signed in, and to the member's own
@@ -16,7 +17,7 @@ export function useRequireAuth(roles?: MemberType[]) {
 	useEffect(() => {
 		if (!ready) return;
 		if (!user) {
-			router.replace(loginUrl(router.asPath));
+			router.replace(loginUrl(router.asPath, sessionJustExpired() ? 'expired' : undefined));
 		} else if (!roleOk) {
 			router.replace(homeFor(user) === router.asPath ? ROUTES.home : homeFor(user));
 		}

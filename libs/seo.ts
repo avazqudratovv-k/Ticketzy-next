@@ -1,4 +1,4 @@
-import { serverQuery } from './serverFetch';
+import { SERVER_QUERY_TIMEOUT_MS, serverQuery } from './serverFetch';
 import { DEFAULT_SITE_LOCALE, localizedUrl, PRIVATE_PREFIXES, SITE_LOCALES, SITE_URL, STATIC_PATHS } from './site';
 
 /** robots.txt: everything is open except the private areas, in every language prefix. */
@@ -38,11 +38,14 @@ const entry = (path: string) =>
 /** sitemap.xml: static pages plus every public event, read through the same getEvents query the site uses. If the API is down the static pages are still listed. */
 export const sitemapXml = async () => {
 	const events: { _id: string }[] = [];
-	for (let page = 1; page <= MAX_PAGES; page += 1) {
+	// Each fetch has its own 8 s deadline (serverQuery); the whole sitemap gets the same budget, so a sleeping backend costs one wait, not twenty.
+	const deadline = Date.now() + SERVER_QUERY_TIMEOUT_MS;
+	for (let page = 1; page <= MAX_PAGES && Date.now() < deadline; page += 1) {
 		const data = await serverQuery<EventsResult>(EVENTS_PAGE, {
 			input: { page, limit: PAGE_SIZE, sort: 'startAt', direction: 'ASC', search: {} },
 		});
-		const list = data?.getEvents?.list ?? [];
+		if (!data) break; // timeout or API down: list the static pages and the events read so far
+		const list = data.getEvents?.list ?? [];
 		events.push(...list);
 		if (list.length < PAGE_SIZE) break;
 	}

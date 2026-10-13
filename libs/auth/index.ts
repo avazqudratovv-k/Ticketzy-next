@@ -6,6 +6,7 @@ import { GET_MEMBER } from '../../apollo/user/query';
 import { MemberProfile, SignupInput } from '../types/member';
 import { parseApiError } from '../errors';
 import { getJwtToken, removeJwtToken, setJwtToken } from './token';
+import { handleSessionExpired, registerSessionEnd, resetSessionExpired } from './sessionExpired';
 
 export { getJwtToken } from './token';
 
@@ -48,6 +49,7 @@ async function loadProfile(memberId: string): Promise<MemberProfile> {
 /** Stores the token, loads the profile and publishes it. A failed profile load leaves nothing half signed in. */
 async function startSession({ _id, accessToken }: TokenResult): Promise<MemberProfile> {
 	setJwtToken(accessToken);
+	resetSessionExpired();
 	try {
 		const profile = await loadProfile(_id);
 		userVar(profile);
@@ -95,18 +97,23 @@ export async function signUp(role: 'USER' | 'ORGANIZER', input: SignupInput): Pr
 export async function restoreSession(): Promise<void> {
 	const token = getJwtToken();
 	if (!token || isExpired(token)) {
-		if (token) removeJwtToken();
+		// A stored token that has run out ends the session like any other expiry (message on a guarded page).
+		if (token) handleSessionExpired();
 		userVar(null);
 		authReadyVar(true);
 		return;
 	}
+	resetSessionExpired();
 	try {
 		const { _id } = decodeJWT<TokenClaims>(token);
 		userVar(await loadProfile(_id));
 	} catch (err) {
 		const { code } = parseApiError(err);
 		// Only a rejected token ends the session; a network blip keeps it for the next load.
-		if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN' || code === 'BAD_REQUEST') clearSession();
+		if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN' || code === 'BAD_REQUEST') {
+			handleSessionExpired();
+			clearSession();
+		}
 	} finally {
 		authReadyVar(true);
 	}
@@ -141,3 +148,5 @@ export function clearSession() {
 }
 
 export const logOut = clearSession;
+
+registerSessionEnd(clearSession);

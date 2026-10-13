@@ -207,6 +207,7 @@
     "noteLabel": "Notice"
   },
   "demo": {
+    "noEmail": "Demo only. No emails are sent.",
     "notice": "Demo project: payments are simulated, no real money is charged.",
     "dismiss": "Dismiss the demo notice"
   },

@@ -12,7 +12,6 @@ import { clearSession } from '../../auth';
 import { parseApiError } from '../../errors';
 import { ticketAvailability } from '../../events';
 import { formatPrice } from '../../format';
-import { useSessionWatch } from '../../hooks/useSessionWatch';
 import { useSeatMap as useSeatMapData } from '../../hooks/useSeatMap';
 import { holdAndCheckout } from '../../seats/checkout';
 import { serverNow } from '../../seats/clock';
@@ -57,7 +56,6 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 	const { locale, push, events: routerEvents } = useRouter();
 	const client = useApolloClient();
 	const { data: map, error: mapError, live, loaded, refresh } = useSeatMapData(eventId, true);
-	useSessionWatch();
 
 	const [selected, setSelected] = useState<SeatRef[]>([]);
 	const [notice, setNotice] = useState<Notice | null>(null);

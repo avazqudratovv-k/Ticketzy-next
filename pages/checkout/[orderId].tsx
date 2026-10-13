@@ -20,7 +20,6 @@ import { clearSession } from '../../libs/auth';
 import { useRequireAuth } from '../../libs/auth/guards';
 import useBuyerOnlyRedirect from '../../libs/hooks/useBuyerOnlyRedirect';
 import { formatPrice, formatRefundDeadlineDay } from '../../libs/format';
-import { useSessionWatch } from '../../libs/hooks/useSessionWatch';
 import { useSeatMap } from '../../libs/hooks/useSeatMap';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { checkoutQuantities, holdAndCheckout } from '../../libs/seats/checkout';
@@ -48,7 +47,6 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 
 	const { data, error, refetch } = useQuery(GET_ORDER, { variables: { orderId }, fetchPolicy: 'network-only' });
 	const order: OrderData | undefined = data?.getOrder;
-	useSessionWatch();
 	const eventId = order?.eventId ?? '';
 	const { data: eventData } = useQuery(GET_EVENT, { variables: { eventId }, skip: !eventId });
 	const { data: ticketData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip: !eventId });

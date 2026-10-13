@@ -18,7 +18,7 @@ Size for context:
 | | Nestar | Ticketzy |
 |---|---|---|
 | Apollo documents | 4 files, 1,300 lines | 14 files, 2,452 lines |
-| `any` (type escapes) | 274 | 47 |
+| `any` (type escapes) | 274 | about 45 (corrected, was 47: one grep matched the word in comments; 32 are `getStaticProps`, 2 in a dead file) |
 | `@ts-ignore` | 32 | 0 |
 | `console.*` calls | 79 | 3 |
 | `useTranslation` files | 3 | 139 |
@@ -215,12 +215,12 @@ Weaker:
 |---|---|---|---|
 | Package manager | README shows npm, yarn and pnpm (create-next-app text); `yarn.lock` exists | Yarn only (AGENTS) | **Kept**, made strict |
 | Scripts | `dev`, `build`, `start`, `lint`, `changelog` | Adds `typecheck`, `i18n:check` | **Extended** |
-| TypeScript | 4.6.2, `strict`, 274 `any`, 32 `@ts-ignore` | `^5.4.5`, `strict`, 47 `any`, 0 `@ts-ignore` | **Extended** |
+| TypeScript | 4.6.2, `strict`, 274 `any`, 32 `@ts-ignore` | `^5.4.5`, `strict`, about 45 `any`, 0 `@ts-ignore` | **Extended** |
 | ESLint | `eslint-config-next` 12.1.0 (a Next 12 config on Next 14); no `.eslintrc` file found | `eslint-config-next` 14.2.0, `.eslintrc.json` = `next/core-web-vitals` | **Extended**, still minimal |
 | Prettier | `.prettierrc` with tabs, single quotes, width 120 | Identical file | **Kept** |
 | Tests | none | none (no `test` script, no `.github`) | **Kept** (gap) |
 | Env | `REACT_APP_*` copied into `process.env` via `next.config.js` `env:`; no `.env.example` | `NEXT_PUBLIC_*` (F10), `.env.example` lists names, no `env:` block | **Replaced** |
-| Env files | `.env.development` and `.env.local` are git-ignored | Same; never read by tools (AGENTS rule 4) | **Kept** |
+| Env files | `.env.development` and `.env.local` are git-ignored | `.env*` is git-ignored and only `.env.example` is tracked (corrected: the first version said "same", but `.env.production` and `.env.test` were not ignored until C5-6 was fixed); never read by tools (AGENTS rule 4) | **Extended** |
 | Docs | `README.md` (create-next-app text), `CHANGELOG.md` | `AGENTS.md`, `CLAUDE.md`, `docs/ai/*`, skills | **Added** |
 | Dependencies | about 65 (three.js, valtio, react-slick, swiper, moment, chart.js, toast-ui, ...) | 19 (F2, F12, F13) | **Replaced** |
 
@@ -257,7 +257,7 @@ Also notable: request deadlines and retry (F293, F294), i18n parity checks and t
 | 2 | **Nestar files and metadata left in the repo**: `CHANGELOG.md` (86 KB, Nestar URLs), version `2.2.0`, license `ITC`, `changelog` script | root | Replace or remove, set a real version and license |
 | 3 | **Dead dependencies and file**: `sweetalert2`, `animate.css`, `libs/sweetAlert.ts` | `package.json`, `libs/` | Delete the file and both packages (approval needed to change `package.json`) |
 | 4 | **No automated tests**, no CI; accessibility results are manual | repo | Ask before adding a runner (rule 5) |
-| 5 | **Nestar typing habits copied**: `: any` on `getStaticProps` in about 30 pages, `Component: any` in layouts, 47 `any` in total; dead `initialApolloState`; invalid `extends` in `.prettierrc` | `pages/*`, layouts, `_app.tsx`, `.prettierrc` | Shared translation-props helper with real types |
+| 5 | **Nestar typing habits copied**: `: any` on `getStaticProps` in about 30 pages, `Component: any` in layouts, about 45 `any` in total; dead `initialApolloState`; invalid `extends` in `.prettierrc` | `pages/*`, layouts, `_app.tsx`, `.prettierrc` | Shared translation-props helper with real types |
 
 Other gaps: token in `localStorage` (shared with Nestar, needs backend cookies to change), default cache without `typePolicies` and `network-only` almost everywhere, two token files that must be kept in step by hand, English-only server messages.
 

@@ -26,7 +26,9 @@ const DemoNotice = ({ variant = 'banner' }: { variant?: 'banner' | 'footer' }) =
 		return (
 			<p className="demo-notice demo-notice--footer">
 				<Flask size={16} aria-hidden="true" />
-				<span>{t('demo.notice')}</span>
+				<span>
+					{t('demo.notice')} {t('demo.noEmail')}
+				</span>
 			</p>
 		);
 	}

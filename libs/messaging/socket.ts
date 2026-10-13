@@ -1,6 +1,7 @@
 import { socketStatusVar } from '../../apollo/store';
 import { getJwtToken } from '../auth/token';
 import { isExpired } from '../auth';
+import { handleSessionExpired } from '../auth/sessionExpired';
 
 /**
  * The one WebSocket of the app (organizer and admin messaging, backend DECISIONS #58). Browsers cannot set headers
@@ -139,7 +140,10 @@ class MessagingSocket {
 			this.ws = null;
 			this.authenticated = false;
 			this.joined.clear();
-			if (event.code === CLOSE_UNAUTHORIZED) this.refused = true;
+			if (event.code === CLOSE_UNAUTHORIZED) {
+				this.refused = true;
+				handleSessionExpired(token);
+			}
 			this.fail();
 		};
 	}

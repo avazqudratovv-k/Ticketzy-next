@@ -3,6 +3,7 @@ import { ApolloClient, ApolloLink, InMemoryCache, from, NormalizedCacheObject } 
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { onError } from '@apollo/client/link/error';
 import { getJwtToken } from '../libs/auth/token';
+import { handleSessionExpired, SESSION_FREE_OPERATIONS } from '../libs/auth/sessionExpired';
 import { fetchWithTimeout, retryLink, timeoutLink, trackLink } from './resilience';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -34,7 +35,16 @@ function createIsomorphicLink() {
 		});
 
 		// No popups here: errors reach the caller (see parseApiError in libs/errors). Logged in development only.
-		const errorLink = onError(({ graphQLErrors, networkError }) => {
+		const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+			// A token the server refuses ends the session once (libs/auth/sessionExpired.ts). Only UNAUTHENTICATED counts:
+			// FORBIDDEN is a role problem, and a wrong password on login/signup is not an expiry.
+			if (
+				!SESSION_FREE_OPERATIONS.has(operation.operationName) &&
+				graphQLErrors?.some((error) => (error as { code?: string }).code === 'UNAUTHENTICATED' || error.extensions?.code === 'UNAUTHENTICATED')
+			) {
+				const sent = (operation.getContext().headers?.Authorization as string | undefined)?.replace(/^Bearer /, '');
+				handleSessionExpired(sent);
+			}
 			if (process.env.NODE_ENV !== 'development') return;
 			graphQLErrors?.forEach(({ message, locations, path }) => {
 				// The backend answers an empty list with "No data found!"; callers treat it as an empty result (isOnlyNoData), so it is not an error worth a red line

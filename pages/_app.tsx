@@ -2,10 +2,12 @@ import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Onest, Noto_Sans_KR, JetBrains_Mono } from 'next/font/google';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, useReactiveVar } from '@apollo/client';
 import { appWithTranslation } from 'next-i18next';
 import { useApollo } from '../apollo/client';
+import { userVar } from '../apollo/store';
 import { restoreSession } from '../libs/auth';
+import { useSessionWatch } from '../libs/hooks/useSessionWatch';
 import { TOKEN_STORAGE_KEY } from '../libs/auth/token';
 import AssistantLifecycle from '../libs/components/assistant/AssistantLifecycle';
 import ErrorBoundary from '../libs/components/common/ErrorBoundary';
@@ -37,6 +39,8 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin', 'cyrillic'], display: 
 const App = ({ Component, pageProps }: AppProps) => {
 	const client = useApollo(pageProps.initialApolloState);
 	const router = useRouter();
+	// Ends an expired session on any page, not only seats and checkout (F338).
+	useSessionWatch(Boolean(useReactiveVar(userVar)));
 
 	/** LIFECYCLES **/
 	// Restore the session once, and again when another tab signs in or out.

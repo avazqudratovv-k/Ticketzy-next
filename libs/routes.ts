@@ -1,5 +1,6 @@
 import { MemberProfile } from './types/member';
 import { MemberType } from './enums/member.enum';
+import { safeReturnTo } from './safeReturnTo';
 
 export const ROUTES = {
 	home: '/',
@@ -24,15 +25,13 @@ export const homeFor = (user: Pick<MemberProfile, 'memberType'>): string => {
 	return ROUTES.home;
 };
 
-/** Only same-site paths are accepted as returnTo, so a crafted link cannot send the member elsewhere. */
-export const safeReturnTo = (value: string | string[] | undefined): string | null => {
-	const path = Array.isArray(value) ? value[0] : value;
-	if (!path || !path.startsWith('/') || path.startsWith('//') || path.includes('\\')) return null;
-	return path;
-};
+export { safeReturnTo };
 
-export const loginUrl = (returnTo?: string) =>
-	returnTo ? `${ROUTES.login}?returnTo=${encodeURIComponent(returnTo)}` : ROUTES.login;
+/** `reason=expired` makes the login page say the session ended (libs/auth/sessionExpired.ts). */
+export const loginUrl = (returnTo?: string, reason?: 'expired') => {
+	const params = [returnTo ? `returnTo=${encodeURIComponent(returnTo)}` : '', reason ? `reason=${reason}` : ''].filter(Boolean);
+	return params.length ? `${ROUTES.login}?${params.join('&')}` : ROUTES.login;
+};
 
 export const eventUrl = (id: string) => `/events/${id}`;
 export const seatsUrl = (id: string) => `/events/${id}/seats`;

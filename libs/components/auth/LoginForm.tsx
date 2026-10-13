@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Info } from 'phosphor-react';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import Field from '../common/Field';
@@ -12,6 +14,7 @@ import useAdoptTypedValues from '../../hooks/useAdoptTypedValues';
 
 const LoginForm = () => {
 	const { t } = useTranslation('auth');
+	const expired = useRouter().query.reason === 'expired';
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
@@ -43,6 +46,14 @@ const LoginForm = () => {
 
 	return (
 		<form ref={form} className="pg-auth__form" method="post" onSubmit={submit} noValidate>
+			{expired && !formError && (
+				<div className="tz-alert tz-alert--info" role="status">
+					<span className="tz-alert__icon">
+						<Info size={18} weight="fill" aria-hidden="true" />
+					</span>
+					<span className="tz-alert__title">{t('errors.sessionExpired')}</span>
+				</div>
+			)}
 			<AuthError error={formError} />
 			<Field
 				label={t('fields.email')}

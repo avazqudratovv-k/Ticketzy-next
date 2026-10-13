@@ -207,6 +207,7 @@
     "noteLabel": "Eslatma"
   },
   "demo": {
+    "noEmail": "Faqat demo. Xatlar yuborilmaydi.",
     "notice": "Demo loyiha: toʻlovlar taqlid qilinadi, haqiqiy pul yechilmaydi.",
     "dismiss": "Demo eslatmasini yopish"
   },
