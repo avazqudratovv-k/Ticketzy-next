@@ -7,15 +7,23 @@ export interface ApiError {
 }
 
 export const NETWORK_ERROR = 'NETWORK_ERROR';
+/** Code of a GraphQL error when the database is unreachable or payments are switched off (backend decisions #92, #97). */
+export const SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE';
 
 /** Server messages (libs/enums/common.enum.ts in the backend) that the UI shows translated. Keys are in auth.json. */
 const KNOWN_MESSAGES: Record<string, string> = {
 	'Incorrect email or password!': 'errors.wrongCredentials',
 	'Your account was not verified. Please contact support.': 'errors.notVerified',
 	'Already used member email, nick or phone': 'errors.alreadyUsed',
+	'This value is already in use!': 'errors.alreadyUsed',
+	'The service is temporarily unavailable, please try again in a moment!': 'errors.serviceUnavailable',
 };
 
-export const knownMessageKey = (error: ApiError): string | undefined => KNOWN_MESSAGES[error.message];
+export const knownMessageKey = (error: ApiError): string | undefined =>
+	KNOWN_MESSAGES[error.message] ?? (error.code === SERVICE_UNAVAILABLE ? 'errors.serviceUnavailable' : undefined);
+
+/** The same rule for the namespaces that key their messages without the `errors.` prefix (`serverErrors.<key>`). */
+export const serviceUnavailableKey = (code: string): string | undefined => (code === SERVICE_UNAVAILABLE ? 'serviceUnavailable' : undefined);
 
 /**
  * The API formats errors as `{ code, message }` at the top level of each GraphQL error

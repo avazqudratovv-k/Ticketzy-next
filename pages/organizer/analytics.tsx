@@ -16,6 +16,7 @@ import BarList from '../../libs/components/organizer/sales/BarList';
 import EventSelect from '../../libs/components/organizer/sales/EventSelect';
 import StateBlock from '../../libs/components/states/StateBlock';
 import useAuth from '../../libs/hooks/useAuth';
+import usePagedQuery from '../../libs/hooks/usePagedQuery';
 import useSalesEvents from '../../libs/organizer/useSalesEvents';
 import { GET_MY_EARNINGS } from '../../apollo/organizer/query';
 import { GET_ORDERS_FOR_SALES, GET_ORGANIZER_ME, salesOfEventsQuery } from '../../apollo/organizer/sales';
@@ -73,11 +74,12 @@ const Analytics: NextPage = () => {
 	const currency = (earnings.find((e) => e.currency === 'KRW') ?? earnings[0])?.currency ?? 'KRW';
 	const money = (amount: number) => formatPrice(amount, locale, currency);
 
-	const { data: orderData, error: orderError, refetch: refetchOrders } = useQuery(GET_ORDERS_FOR_SALES, {
-		variables: { input: { page: 1, limit: ORDER_LIMIT, orderStatus: 'PAID', sort: 'createdAt', direction: 'DESC', ...(eventId ? { eventId } : {}) } },
-		skip,
-		fetchPolicy: 'cache-and-network',
-	});
+	const { data: orderData, error: orderError, refetch: refetchOrders } = usePagedQuery(
+		GET_ORDERS_FOR_SALES,
+		'getMyEventOrders',
+		{ orderStatus: 'PAID', sort: 'createdAt', direction: 'DESC', ...(eventId ? { eventId } : {}) },
+		{ skip, maxRows: ORDER_LIMIT },
+	);
 	const orders = useMemo(() => ((orderData?.getMyEventOrders?.list ?? []) as SalesOrder[]).filter((o) => (o.currency ?? 'KRW') === currency), [orderData, currency]);
 	const orderTotal: number = orderData?.getMyEventOrders?.metaCounter?.[0]?.total ?? 0;
 	const truncated = orderTotal > (orderData?.getMyEventOrders?.list ?? []).length;

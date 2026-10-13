@@ -1,4 +1,4 @@
-import { ApiError, NETWORK_ERROR, parseApiError } from '../errors';
+import { ApiError, NETWORK_ERROR, parseApiError, serviceUnavailableKey } from '../errors';
 import { TFunction } from 'next-i18next';
 import { bookedParams, parseVenueBooked, VenueBooked } from '../venueConflict';
 
@@ -27,6 +27,8 @@ const KNOWN: Record<string, string> = {
 	'This event is already cancelled or ended!': 'alreadyClosed',
 	'Update failed!': 'updateFailed',
 	'Create failed!': 'createFailed',
+	'The service is temporarily unavailable, please try again in a moment!': 'serviceUnavailable',
+	'This value is already in use!': 'duplicate',
 	'Bad Request': 'badRequest',
 	'No data found!': 'noData',
 	'Please provide jpg, jpeg or png images!': 'imageFormat',
@@ -79,7 +81,7 @@ export function describeError(err: unknown, kind: 'server' | 'ai' = 'server'): D
 	const table = kind === 'ai' ? AI : KNOWN;
 	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
 	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
-	return { key: table[raw], network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
+	return { key: table[raw] ?? (kind === 'ai' ? undefined : serviceUnavailableKey(parsed.code)), network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
 
 /** The sentence for a described error (organizer namespace): network, known (with the double-booking parts filled in), or the server's own words. */

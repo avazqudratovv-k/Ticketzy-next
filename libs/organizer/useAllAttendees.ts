@@ -3,8 +3,8 @@ import { useApolloClient } from '@apollo/client';
 import { GET_ATTENDEES } from '../../apollo/organizer/sales';
 import { Attendee } from './attendees';
 
-const CHUNK = 500;
-const MAX_PAGES = 20;
+const CHUNK = 100; // the backend maximum (decision #91)
+const MAX_PAGES = 100;
 
 export interface AttendeeData {
 	list: Attendee[];

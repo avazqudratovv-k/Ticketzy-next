@@ -1,4 +1,4 @@
-import { ApiError, NETWORK_ERROR, parseApiError } from '../errors';
+import { ApiError, NETWORK_ERROR, parseApiError, serviceUnavailableKey } from '../errors';
 
 /** Server messages (backend libs/enums/common.enum.ts) shown translated. Keys are under `serverErrors` in messages.json. */
 const KNOWN: Record<string, string> = {
@@ -27,5 +27,5 @@ export interface MessagingError {
 export function describeMessagingError(err: unknown): MessagingError {
 	const parsed: ApiError = parseApiError(err);
 	const raw = Array.isArray(parsed.message) ? (parsed.message as string[]).join(' ') : String(parsed.message ?? '');
-	return { key: KNOWN[raw], network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
+	return { key: KNOWN[raw] ?? serviceUnavailableKey(parsed.code), network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }

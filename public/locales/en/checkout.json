@@ -231,7 +231,9 @@
     "eventEnded": "This event has ended, so tickets can no longer be bought.",
     "salesNotStarted": "Ticket sales for this event haven’t started yet.",
     "salesClosed": "Ticket sales for this event are closed.",
-    "buyerOnly": "Only buyer accounts can buy tickets. Organizer and admin accounts cannot."
+    "buyerOnly": "Only buyer accounts can buy tickets. Organizer and admin accounts cannot.",
+    "paymentsDisabled": "Payments are switched off right now, so this order can’t be paid. Your seats stay held until the timer ends. Try again later.",
+    "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment."
   },
   "countdown": {
     "announce_one": "{{count}} second left",

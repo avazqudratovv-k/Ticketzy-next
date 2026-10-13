@@ -38,10 +38,11 @@ function createIsomorphicLink() {
 		const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 			// A token the server refuses ends the session once (libs/auth/sessionExpired.ts). Only UNAUTHENTICATED counts:
 			// FORBIDDEN is a role problem, and a wrong password on login/signup is not an expiry.
-			if (
-				!SESSION_FREE_OPERATIONS.has(operation.operationName) &&
-				graphQLErrors?.some((error) => (error as { code?: string }).code === 'UNAUTHENTICATED' || error.extensions?.code === 'UNAUTHENTICATED')
-			) {
+			// A multipart upload with a refused token is answered 401 before GraphQL runs (backend decision #98): a network-level error.
+			const unauthenticated =
+				graphQLErrors?.some((error) => (error as { code?: string }).code === 'UNAUTHENTICATED' || error.extensions?.code === 'UNAUTHENTICATED') ||
+				(networkError as { statusCode?: number } | undefined)?.statusCode === 401;
+			if (!SESSION_FREE_OPERATIONS.has(operation.operationName) && unauthenticated) {
 				const sent = (operation.getContext().headers?.Authorization as string | undefined)?.replace(/^Bearer /, '');
 				handleSessionExpired(sent);
 			}

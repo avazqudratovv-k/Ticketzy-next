@@ -13,6 +13,7 @@ import OrderStatusBadge from '../../libs/components/organizer/orders/OrderStatus
 import { withOrganizerLayout } from '../../libs/components/layout/LayoutAdmin';
 import EventStatusBadge from '../../libs/components/organizer/EventStatusBadge';
 import useAuth from '../../libs/hooks/useAuth';
+import usePagedQuery from '../../libs/hooks/usePagedQuery';
 import { GET_MY_EARNINGS, GET_MY_EVENT_COUNTS, GET_MY_EVENTS, ticketTypesOfEventsQuery } from '../../apollo/organizer/query';
 import { GET_MY_EVENT_ORDERS, GET_PAID_ORDERS_FOR_CHART } from '../../apollo/organizer/orders';
 import { OrgOrder } from '../../libs/organizer/orders';
@@ -69,7 +70,7 @@ const Overview: NextPage = () => {
 		skip,
 		fetchPolicy: 'cache-and-network',
 	});
-	const { data: chartData, error: chartError } = useQuery(GET_PAID_ORDERS_FOR_CHART, { variables: { limit: CHART_ORDERS }, skip, fetchPolicy: 'cache-and-network' });
+	const { data: chartData, error: chartError } = usePagedQuery(GET_PAID_ORDERS_FOR_CHART, 'getMyEventOrders', { orderStatus: 'PAID', sort: 'createdAt', direction: 'DESC' }, { skip, maxRows: CHART_ORDERS });
 
 	const upcoming: OrgEvent[] = useMemo(
 		() => ((approved?.getMyEvents?.list ?? []) as OrgEvent[]).filter((event) => isUpcoming(event.endAt)).slice(0, 4),
@@ -88,7 +89,7 @@ const Overview: NextPage = () => {
 	const main = earnings.find((item) => item.currency === 'KRW') ?? earnings[0];
 	const currency = main?.currency ?? 'KRW';
 	const recent: OrgOrder[] = recentData?.getMyEventOrders?.list ?? [];
-	const paidList: PaidOrder[] = useMemo(() => chartData?.getMyEventOrders?.list ?? [], [chartData]);
+	const paidList: PaidOrder[] = useMemo(() => (chartData?.getMyEventOrders?.list ?? []) as PaidOrder[], [chartData]);
 	const paidTotal: number = chartData?.getMyEventOrders?.metaCounter?.[0]?.total ?? 0;
 	const series = useMemo(() => dailyRevenue(paidList, currency, CHART_DAYS), [paidList, currency]);
 	const seriesRevenue = series.reduce((sum, point) => sum + point.revenue, 0);

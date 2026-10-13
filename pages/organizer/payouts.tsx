@@ -13,6 +13,7 @@ import BlockedPanel from '../../libs/components/organizer/BlockedPanel';
 import CommissionTier from '../../libs/components/organizer/sales/CommissionTier';
 import StateBlock from '../../libs/components/states/StateBlock';
 import useAuth from '../../libs/hooks/useAuth';
+import usePagedQuery from '../../libs/hooks/usePagedQuery';
 import useSalesEvents from '../../libs/organizer/useSalesEvents';
 import { GET_MY_EARNINGS } from '../../apollo/organizer/query';
 import { GET_ORDERS_FOR_SALES, GET_ORGANIZER_ME, salesOfEventsQuery } from '../../apollo/organizer/sales';
@@ -51,12 +52,7 @@ const Payouts: NextPage = () => {
 	const { events, loading: eventsLoading, error: eventsError, refetch: refetchEvents, title, truncated } = useSalesEvents(skip, locale);
 	const { data: earningData, error: earningError, refetch: refetchEarnings } = useQuery(GET_MY_EARNINGS, { skip, fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
 	const { data: me } = useQuery(GET_ORGANIZER_ME, { variables: { memberId: user?._id }, skip: skip || !user, fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
-	const { data: refundData } = useQuery(GET_ORDERS_FOR_SALES, {
-		variables: { input: { page: 1, limit: REFUND_LIMIT, orderStatus: 'REFUNDED' } },
-		skip,
-		fetchPolicy: 'cache-and-network',
-		errorPolicy: 'all',
-	});
+	const { data: refundData } = usePagedQuery(GET_ORDERS_FOR_SALES, 'getMyEventOrders', { orderStatus: 'REFUNDED' }, { skip, maxRows: REFUND_LIMIT });
 
 	const ids = events.map((e) => e._id);
 	const { data: salesData, error: salesError } = useQuery(salesOfEventsQuery(ids.length ? ids : ['none']), {

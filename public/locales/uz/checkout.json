@@ -231,7 +231,9 @@
     "eventEnded": "Tadbir tugadi, endi chipta sotib olib boʻlmaydi.",
     "salesNotStarted": "Bu tadbir uchun chipta sotuvi hali boshlanmagan.",
     "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan.",
-    "buyerOnly": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi."
+    "buyerOnly": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi.",
+    "paymentsDisabled": "Toʻlovlar hozir oʻchirilgan, shuning uchun buyurtmani toʻlab boʻlmaydi. Oʻrinlar taymer tugaguncha band qilib turiladi. Keyinroq qayta urinib koʻring.",
+    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring."
   },
   "countdown": {
     "announce_one": "{{count}} soniya qoldi",

@@ -1,4 +1,4 @@
-import { ApiError, NETWORK_ERROR } from '../errors';
+import { ApiError, NETWORK_ERROR, SERVICE_UNAVAILABLE } from '../errors';
 import { BUYER_ONLY_API_MESSAGE } from '../buyerGate';
 
 /**
@@ -22,6 +22,9 @@ const MESSAGES: Record<string, string> = {
 	'Not Allowed Request!': 'errors.notAllowed',
 	// An organizer or admin account that got past the UI (stale session, old tab) is refused by the backend
 	[BUYER_ONLY_API_MESSAGE]: 'errors.buyerOnly',
+	// payOrder when the server runs with PAYMENT_MODE=disabled (code SERVICE_UNAVAILABLE, backend decision #92)
+	'Payments are switched off on this server, so orders cannot be paid right now!': 'errors.paymentsDisabled',
+	'The service is temporarily unavailable, please try again in a moment!': 'errors.serviceUnavailable',
 	'No data found!': 'errors.notFound',
 	'Something went wrong!': 'errors.generic',
 };
@@ -35,7 +38,8 @@ export interface CheckoutErrorKey {
 export function checkoutErrorKey(error: ApiError): CheckoutErrorKey {
 	if (error.code === 'UNAUTHENTICATED') return { key: 'errors.session', auth: true };
 	if (error.code === NETWORK_ERROR) return { key: 'errors.network', auth: false };
-	return { key: MESSAGES[error.message] ?? 'errors.generic', auth: false };
+	// A message we know wins (payments off says more than "service unavailable"); any other SERVICE_UNAVAILABLE is the temporary-outage text
+	return { key: MESSAGES[error.message] ?? (error.code === SERVICE_UNAVAILABLE ? 'errors.serviceUnavailable' : 'errors.generic'), auth: false };
 }
 
 export const isSeatConflict = (error: ApiError) => error.message === 'Seat just taken!';

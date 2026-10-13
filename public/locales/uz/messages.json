@@ -25,7 +25,8 @@
     "tooFast": "Xabarlarni juda tez yubormoqdasiz. Bir necha soniya kuting.",
     "noData": "Suhbat topilmadi.",
     "notAuthenticated": "Qaytadan kiring.",
-    "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+    "generic": "Nimadir xato ketdi. Qayta urinib koʻring.",
+    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring."
   },
   "empty": {
     "organizer": {

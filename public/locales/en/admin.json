@@ -46,7 +46,10 @@
     "payoutNothing": "There is nothing to pay out for this event.",
     "payoutNoEvent": "This event could not be found.",
     "payoutDateRange": "The start of the payout date range must not be after its end.",
-    "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. The event can’t be approved while the times overlap."
+    "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. The event can’t be approved while the times overlap.",
+    "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
+    "adminPassword": "The password of another admin can’t be reset. Admins change their own password.",
+    "duplicate": "That value is already in use. Choose a different one."
   },
   "memberStatus": {
     "PENDING": "Waiting for approval",

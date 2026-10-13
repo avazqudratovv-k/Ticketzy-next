@@ -46,7 +46,10 @@
     "payoutNothing": "Bu tadbir uchun to‘lanadigan summa yo‘q.",
     "payoutNoEvent": "Tadbir topilmadi.",
     "payoutDateRange": "To‘lov sanasi oralig‘ining boshi oxiridan keyin bo‘lmasligi kerak.",
-    "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Vaqt ustma-ust tushar ekan, tadbirni tasdiqlab bo‘lmaydi."
+    "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Vaqt ustma-ust tushar ekan, tadbirni tasdiqlab bo‘lmaydi.",
+    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
+    "adminPassword": "Boshqa administratorning parolini tiklab boʻlmaydi. Administratorlar parolni oʻzlari oʻzgartiradi.",
+    "duplicate": "Bu qiymat allaqachon band. Boshqasini tanlang."
   },
   "memberStatus": {
     "PENDING": "Tasdiqlanishi kutilmoqda",

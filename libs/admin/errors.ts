@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client';
-import { ApiError, NETWORK_ERROR, parseApiError } from '../errors';
+import { ApiError, NETWORK_ERROR, parseApiError, serviceUnavailableKey } from '../errors';
 import { parseVenueBooked, VenueBooked } from '../venueConflict';
 
 /**
@@ -22,6 +22,9 @@ const KNOWN: Record<string, string> = {
 	'The start date must not be after the end date!': 'dateRange',
 	'Admins cannot change their own status or role!': 'ownAccess',
 	'The status and role of an admin account cannot be changed!': 'adminAccess',
+	'The password of an admin account cannot be reset by another admin! Admins change their own password themselves.': 'adminPassword',
+	'The service is temporarily unavailable, please try again in a moment!': 'serviceUnavailable',
+	'This value is already in use!': 'duplicate',
 	'The admin role cannot be assigned through the API, admin accounts are created only by the server seed!': 'assignAdmin',
 	'No organizer found!': 'noOrganizer',
 	'Organizer status and role are changed with the organizer operations, not with updateMemberByAdmin!': 'useOrganizerOperations',
@@ -75,7 +78,7 @@ export function describeAdminError(err: unknown, kind: 'server' | 'ai' = 'server
 	const raw = flat(parsed.message);
 	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
 	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
-	return { key: (kind === 'ai' ? AI : KNOWN)[raw], network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
+	return { key: (kind === 'ai' ? AI : KNOWN)[raw] ?? (kind === 'ai' ? undefined : serviceUnavailableKey(parsed.code)), network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
 
 /** The AI message stored on an event when the check did not run (`eventModeration.reason`) is one of the AI messages. */

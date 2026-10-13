@@ -53,7 +53,9 @@
     "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan.",
     "cancelReasonRequired": "Bekor qilish sababini yozing. Xaridorlar uni koʻradi.",
     "alreadyClosed": "Tadbir allaqachon bekor qilingan yoki tugagan, shuning uchun uni qayta bekor qilib boʻlmaydi.",
-    "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Boshqa maydon yoki boshqa vaqtni tanlang."
+    "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Boshqa maydon yoki boshqa vaqtni tanlang.",
+    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
+    "duplicate": "Bu qiymat allaqachon band. Boshqasini tanlang."
   },
   "blocked": {
     "reason": "Koʻrsatilgan sabab: {{reason}}",

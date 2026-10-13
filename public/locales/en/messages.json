@@ -25,7 +25,8 @@
     "tooFast": "You are sending messages too fast. Please wait a few seconds.",
     "noData": "This conversation was not found.",
     "notAuthenticated": "Please sign in again.",
-    "generic": "Something went wrong. Please try again."
+    "generic": "Something went wrong. Please try again.",
+    "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment."
   },
   "empty": {
     "organizer": {

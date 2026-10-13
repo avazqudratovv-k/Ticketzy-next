@@ -110,10 +110,10 @@ export const GET_CHECKIN_COUNTS = gql`
 	}
 `;
 
-/** Paid orders for the sales chart: the latest ones, newest first. */
+/** Paid orders for the sales chart: the latest ones, newest first (pages of 100, see `usePagedQuery`). */
 export const GET_PAID_ORDERS_FOR_CHART = gql`
-	query GetPaidOrdersForChart($limit: Int!) {
-		getMyEventOrders(input: { page: 1, limit: $limit, orderStatus: PAID, sort: "createdAt", direction: DESC }) {
+	query GetPaidOrdersForChart($input: OrganizerOrdersInquiry!) {
+		getMyEventOrders(input: $input) {
 			list {
 				_id
 				paidAt

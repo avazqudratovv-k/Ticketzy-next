@@ -26,6 +26,7 @@ import { formatNumber, formatPrice, formatViewerDate } from '../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { GET_ADMIN_PAYOUT_TOTALS } from '../../apollo/payouts';
 import CountUp from '../../libs/components/common/CountUp';
+import usePagedQuery from '../../libs/hooks/usePagedQuery';
 
 export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
@@ -50,7 +51,7 @@ const Overview: NextPage = () => {
 	const activeEventsQuery = useQuery(GET_ADMIN_ACTIVE_EVENTS, options);
 	const pendingOrganizersQuery = useQuery(GET_ADMIN_PENDING_ORGANIZERS, options);
 	const orderCountQuery = useQuery(GET_ADMIN_ORDER_COUNT, options);
-	const paid = useQuery(GET_ADMIN_PAID_ORDERS, options);
+	const paid = usePagedQuery(GET_ADMIN_PAID_ORDERS, 'getAllOrdersByAdmin', { sort: 'createdAt', direction: 'DESC', orderStatus: 'PAID' }, { maxRows: PAID_SUM_LIMIT });
 	// a side figure: if it fails the overview shows nothing for it and stays as it was
 	const payoutsQuery = useQuery(GET_ADMIN_PAYOUT_TOTALS, options);
 	const dueBlock = payoutsQuery.data?.getPayoutsByAdmin;

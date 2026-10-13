@@ -25,7 +25,8 @@
     "tooFast": "메시지를 너무 빠르게 보내고 있어요. 잠시 후에 다시 시도해 주세요.",
     "noData": "대화를 찾을 수 없어요.",
     "notAuthenticated": "다시 로그인해 주세요.",
-    "generic": "문제가 생겼어요. 다시 시도해 주세요."
+    "generic": "문제가 생겼어요. 다시 시도해 주세요.",
+    "serviceUnavailable": "Ticketzy를 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요."
   },
   "empty": {
     "organizer": {

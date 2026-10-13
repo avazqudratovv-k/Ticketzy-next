@@ -392,11 +392,11 @@ export const GET_ADMIN_ORDER_COUNT = gql`
 	}
 `;
 
-/** The money figures: PAID orders only. The newest 1000 are summed; the dashboard says so when there are more. */
+/** The money figures: PAID orders only. The newest 1000 are summed (ten pages of 100); the dashboard says so when there are more. */
 export const PAID_SUM_LIMIT = 1000;
 export const GET_ADMIN_PAID_ORDERS = gql`
-	query GetAdminPaidOrders {
-		getAllOrdersByAdmin(input: { page: 1, limit: ${PAID_SUM_LIMIT}, sort: "createdAt", direction: DESC, orderStatus: PAID }) {
+	query GetAdminPaidOrders($input: AdminOrdersInquiry!) {
+		getAllOrdersByAdmin(input: $input) {
 			list {
 				_id
 				currency

@@ -53,7 +53,9 @@
     "salesClosed": "Ticket sales for this event are closed.",
     "cancelReasonRequired": "Write a reason for cancelling. Buyers see it.",
     "alreadyClosed": "This event is already cancelled or has ended, so it can’t be cancelled again.",
-    "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. Choose another venue or another time."
+    "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. Choose another venue or another time.",
+    "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
+    "duplicate": "That value is already in use. Choose a different one."
   },
   "blocked": {
     "reason": "Reason given: {{reason}}",
