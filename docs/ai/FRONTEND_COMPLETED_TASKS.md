@@ -887,3 +887,11 @@ Frontend only, not committed. Decisions F326 to F328, patterns in `docs/ai/UI_PA
 - **Axe** (4.10.2): home 390 dark and 1440 dark, my tickets 390 dark and 1440 dark, seated ticket detail 390 light and 1440 dark, order confirmation 390 light and 1440 dark: 0 violations, one `h1` on each page. Title link 128 x 44 at 390, 128 x 23 at 1440. Theme key restored to light.
 - `yarn typecheck`, `yarn lint`, `yarn i18n:check`: clean. Scratch build (copy in the scratchpad, `node_modules` linked): builds, `next start -p 3100` answered 200 on `/`. No console errors or warnings were logged by the pages loaded after console tracking started (home 390 and 1440).
 - **Not tested**: a PAID confirmation (the only order opened was cancelled), a screen reader, light theme axe on home and my tickets, 1440 x 800 and 1920 light screenshots (geometry is theme independent), reduced motion (no motion added), a real touch device.
+
+## Prompt N1: Nestar frontend comparison (report only)
+
+- **Changed**: new `docs/ai/NESTAR_FRONTEND_COMPARISON.md`; one entry (F337) in `docs/ai/DECISIONS.md`; one line in the README docs list. No application code, no `package.json`, no locale files. Nothing committed. Nestar was only read.
+- **Nestar used**: `/Users/kenneth/nestar-next` (Next 14.2.0, Apollo Client 3, MUI 5, next-i18next, `subscriptions-transport-ws`). `/Users/kenneth/nestar-client` is a 0-byte file with no `package.json`.
+- **Method**: read the Apollo client, store, auth, `_app`, `_document`, layouts, theme, alert helpers, one list page and one upload form in both repos; counted `any`, `@ts-ignore`, `console`, `aria-`, `@media` and similar with `grep`. A first read of Nestar's `.env.development` was blocked and not repeated (rule 4); env names come from `process.env` use in code.
+- **Checks**: none of `yarn typecheck`, `yarn lint`, `yarn i18n:check` were needed (only Markdown changed).
+- **Not tested**: Nestar was never run; backend decision numbers are quoted from comments in this repo; no expired-token run on each Ticketzy page; bundle contents not analysed. Full list at the end of the comparison file.
