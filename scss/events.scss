@@ -280,10 +280,8 @@
 
 /** WAKE NOTE: quiet line under a skeleton while the server wakes up **/
 .tz-wake {
-	&__text {
-		margin: var(--space-4) 0 0;
-		font: var(--text-body-sm);
-		color: var(--ink-muted);
+	&__note {
+		margin: var(--space-3) 0 0;
 		animation: tz-fade var(--dur-slow) var(--ease-out) both;
 	}
 }

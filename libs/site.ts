@@ -1,4 +1,5 @@
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/+$/, '');
+/** Development falls back to the local server; a production build fails without the variable (next.config.js, F349), so the fallback never ships. */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000')).replace(/\/+$/, '');
 
 /** Mailbox shown on the contact page. A sample address on a reserved demo domain unless the owner sets one. */
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'hello@ticketzy.demo';

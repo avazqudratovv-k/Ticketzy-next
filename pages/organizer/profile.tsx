@@ -7,7 +7,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Avatar as MuiAvatar, Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { ArrowSquareOut, CheckCircle, WarningCircle } from 'phosphor-react';
+import { ArrowSquareOut, CheckCircle, Info, WarningCircle } from 'phosphor-react';
 import { IMAGE_UPLOADER, UPDATE_MEMBER } from '../../apollo/user/mutation';
 import { GET_ORGANIZER_ME } from '../../apollo/organizer/sales';
 import { userVar } from '../../apollo/store';
@@ -212,6 +212,10 @@ const Profile: NextPage = () => {
 						<h2 id="prof-heading">{t('profile.public')}</h2>
 						{dirty && <span className="tz-badge tz-badge--warning">{t('form.unsaved')}</span>}
 					</div>
+					<p className="tz-alert tz-alert--info" role="note">
+						<Info size={20} aria-hidden="true" />
+						<span>{t('profile.publicNote')}</span>
+					</p>
 
 					<div className="settings__avatar">
 						<MuiAvatar src={image} alt="" sx={{ width: 72, height: 72 }}>

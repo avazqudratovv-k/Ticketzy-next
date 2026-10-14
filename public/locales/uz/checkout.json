@@ -161,7 +161,7 @@
   "pay": {
     "title": "Toʻlov",
     "demoTitle": "Bu demo",
-    "demoText": "Haqiqiy karta maʼlumotlari yigʻilmaydi va pul oʻtkazilmaydi. Toʻlov tugmasi demo xizmatga faqat muvaffaqiyat yoki xatolikni aytadi.",
+    "demoText": "Haqiqiy pul yechilmaydi. Haqiqiy karta maʼlumotlarini kiritmang: quyidagi karta faqat namuna.",
     "card": "Karta raqami",
     "expiry": "Amal qilish muddati",
     "cvc": "CVC",
@@ -197,7 +197,8 @@
     "paidOn": "{{amount}} {{date}} da toʻlandi",
     "orders": "Buyurtmalarimga oʻtish",
     "continuePay": "Toʻlovni davom ettirish",
-    "demoNote": "Demo toʻlov: pul yechilmadi.",
+    "demoNote": "Demo toʻlov: haqiqiy pul yechilmadi va haqiqiy karta maʼlumotlari ishlatilmadi.",
+    "noEmail": "Faqat demo. Xatlar yuborilmaydi, shuning uchun tasdiqlash xati kelmaydi.",
     "status": {
       "PENDING_PAYMENT": "Bu buyurtma toʻlovni kutmoqda",
       "FAILED": "Bu buyurtma toʻlovi amalga oshmadi",

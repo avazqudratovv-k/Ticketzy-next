@@ -180,9 +180,9 @@ const DashboardShell = ({ role, children }: { role: DashboardRole; children: Rea
 							</div>
 						</header>
 						<PendingBanner />
+						<WakeNote />
 						<main id="main" className="tz-content">
 							{children}
-							<WakeNote />
 						</main>
 					</div>
 				</div>

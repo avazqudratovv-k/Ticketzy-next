@@ -1,31 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { pendingStore, WAKE_NOTE_AFTER_MS } from '../../apollo/resilience';
 
-/** The note is shown once per page load (per document), never again after it has been shown and dismissed. */
-let shown = false;
-
 /**
- * True once a request has been pending for about 4 seconds while the page is still on a skeleton (`aria-busy` in
- * the main area), until nothing is pending. The production backend sleeps and can take up to a minute to answer.
- * Requests are tracked in one place (the Apollo link), so every page gets the note without wiring it in.
+ * The demo backend sleeps on a free host and can take up to a minute to answer. The note is wanted while a query has
+ * been pending for about 5 seconds, or after a query ended without an answer (network error, timeout, 5xx), and until
+ * the next query is answered. Requests are tracked in one place (the Apollo link), so no page is wired by hand.
+ * Closing the note keeps it closed until the trouble is over; a later episode shows it again.
  */
-export default function useWakeNote(): boolean {
-	const [visible, setVisible] = useState(false);
+export default function useWakeNote(): { visible: boolean; dismiss: () => void } {
+	const [trouble, setTrouble] = useState(false);
+	const [dismissed, setDismissed] = useState(false);
 
 	useEffect(() => {
 		const check = () => {
 			const since = pendingStore.oldest();
-			if (since === null) {
-				setVisible(false);
-				return;
-			}
-			if (shown) return;
-			if (Date.now() - since < WAKE_NOTE_AFTER_MS) return;
-			if (!document.querySelector('main [aria-busy="true"]')) return;
-			shown = true;
-			setVisible(true);
+			const slow = since !== null && Date.now() - since >= WAKE_NOTE_AFTER_MS;
+			const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
+			const next = slow || (pendingStore.unreachable() && !offline);
+			setTrouble(next);
+			if (!next) setDismissed(false);
 		};
-		const unsubscribe = pendingStore.subscribe(check);
+		// A query can start while another component renders (useQuery), so the state is set after that render, never inside it
+		const unsubscribe = pendingStore.subscribe(() => queueMicrotask(check));
 		const timer = window.setInterval(check, 500);
 		return () => {
 			unsubscribe();
@@ -33,5 +29,6 @@ export default function useWakeNote(): boolean {
 		};
 	}, []);
 
-	return visible;
+	const dismiss = useCallback(() => setDismissed(true), []);
+	return { visible: trouble && !dismissed, dismiss };
 }

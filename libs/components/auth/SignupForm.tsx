@@ -218,6 +218,7 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 						</span>
 					)}
 				</div>
+				<p className="tz-field__hint">{t('signup.noEmail')}</p>
 				<Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !hydrated}>
 					{busy ? t('signup.submitting') : isOrganizer ? t('signup.submitOrganizer') : t('signup.submitBuyer')}
 				</Button>

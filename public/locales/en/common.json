@@ -238,7 +238,8 @@
   "buyerOnly": {
     "message": "Only buyer accounts can buy tickets. Organizer and admin accounts cannot."
   },
-  "wakeNote": "Waking up the server, this can take up to a minute on the demo.",
+  "wakeNote": "The demo server is waking up, this can take up to a minute.",
+  "wakeDismiss": "Dismiss the server message",
   "seatLabel": {
     "full": "{{section}}, row {{row}}, seat {{number}}",
     "short": "Row {{row}}, seat {{number}}"

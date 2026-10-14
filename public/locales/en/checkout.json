@@ -161,7 +161,7 @@
   "pay": {
     "title": "Payment",
     "demoTitle": "This is a demo",
-    "demoText": "No real card data is collected and no money moves. Pressing Pay only tells the demo payment service to succeed or fail.",
+    "demoText": "No real money is charged. Do not enter real card details; the card below is only a sample.",
     "card": "Card number",
     "expiry": "Expiry",
     "cvc": "CVC",
@@ -197,7 +197,8 @@
     "paidOn": "{{amount}} paid on {{date}}",
     "orders": "Go to My orders",
     "continuePay": "Continue to payment",
-    "demoNote": "Demo payment: no money was charged.",
+    "demoNote": "Demo payment: no real money was charged, and no real card details were used.",
+    "noEmail": "Demo only. No emails are sent, so no confirmation email will arrive.",
     "status": {
       "PENDING_PAYMENT": "This order is waiting for payment",
       "FAILED": "The payment for this order failed",

@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CheckCircle, Prohibit, WarningCircle } from 'phosphor-react';
+import { CheckCircle, Info, Prohibit, WarningCircle } from 'phosphor-react';
 import { GET_EVENT, GET_EVENT_SEAT_MAP, GET_MY_TICKETS, GET_ORDER, GET_TICKET_TYPES } from '../../../apollo/user/query';
 import withLayoutBasic from '../../../libs/components/layout/LayoutBasic';
 import PaidSplash from '../../../libs/components/common/PaidSplash';
@@ -189,7 +189,13 @@ const Confirmation: NextPage = () => {
 						{t('confirmation.total')}
 					</h2>
 					<p className="confirm__total">{formatPrice(order.totalAmount, locale, currency)}</p>
-					<p className="breakdown__note">{t('confirmation.demoNote')}</p>
+					<div className="tz-alert tz-alert--info" role="note">
+						<Info size={18} aria-hidden="true" />
+						<div>
+							<p>{t('confirmation.demoNote')}</p>
+							<p>{t('confirmation.noEmail')}</p>
+						</div>
+					</div>
 				</section>
 			</div>
 		</div>

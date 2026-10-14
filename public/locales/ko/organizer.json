@@ -1160,6 +1160,7 @@
     "viewPublic": "공개 페이지 보기",
     "notPublic": "아직 공개되지 않은 페이지입니다. 계정이 승인되면 바로 표시됩니다.",
     "public": "공개 프로필",
+    "publicNote": "조직 이름과 주소는 프로필과 이벤트에 공개로 표시돼요.",
     "changeLogo": "로고 변경",
     "logoFile": "로고 이미지 파일 (PNG 또는 JPEG)",
     "logoHint": "PNG 또는 JPEG, 최대 {{size}}MB. 400 × 400px 이상의 정사각형이 가장 좋습니다.",

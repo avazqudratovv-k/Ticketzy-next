@@ -1160,6 +1160,7 @@
     "viewPublic": "Ommaviy sahifani ochish",
     "notPublic": "Sahifangiz hozircha ommaviy emas. Hisobingiz tasdiqlanishi bilan paydo boʻladi.",
     "public": "Ommaviy profil",
+    "publicNote": "Tashkilot nomi va manzil profilingizda va tadbirlaringizda ommaga koʻrsatiladi.",
     "changeLogo": "Logotipni almashtirish",
     "logoFile": "Logotip fayli (PNG yoki JPEG)",
     "logoHint": "PNG yoki JPEG, {{size}} MB gacha. Kvadrat va 400 × 400 px yoki undan katta boʻlgani yaxshi.",

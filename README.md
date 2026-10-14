@@ -87,13 +87,15 @@ The backend must be running (default `http://localhost:3007/graphql`). To fill i
 
 ### Environment variables
 
-| Variable | Purpose | Example |
-|---|---|---|
-| `NEXT_PUBLIC_API_GRAPHQL_URL` | GraphQL HTTP endpoint | `http://localhost:3007/graphql` |
-| `NEXT_PUBLIC_API_WS_URL` | WebSocket address for messaging | `ws://localhost:3007` |
-| `NEXT_PUBLIC_API_URL` | API base for uploaded images | `http://localhost:3007` |
-| `NEXT_PUBLIC_SITE_URL` | Public address of this site: canonical links, hreflang, `sitemap.xml`, `robots.txt` | `http://localhost:3000` |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Optional. Mailbox shown on the contact page (defaults to a sample address on a demo domain) | `hello@ticketzy.demo` |
+`NEXT_PUBLIC_*` values are copied into the browser bundle when you run `yarn build`, so set them in the build environment (or `.env.production`) before building, and never put a secret in one. `yarn build` stops with a message naming every required variable that is missing. In development the local values from `.env.example` are used; in production nothing falls back to localhost.
+
+| Variable | Meaning | Production | Example |
+|---|---|---|---|
+| `NEXT_PUBLIC_API_GRAPHQL_URL` | GraphQL endpoint of the backend | required | `https://api.your-domain/graphql` |
+| `NEXT_PUBLIC_API_WS_URL` | WebSocket address of the backend (messaging) | required | `wss://api.your-domain` |
+| `NEXT_PUBLIC_API_URL` | Backend base address, used for uploaded image paths | required | `https://api.your-domain` |
+| `NEXT_PUBLIC_SITE_URL` | Public address of this site: canonical links, hreflang, `sitemap.xml`, `robots.txt` | required | `https://your-domain` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Mailbox shown on the contact page; a sample address on a demo domain is shown without it | optional | `hello@your-domain` |
 
 ### Demo accounts
 
@@ -168,7 +170,8 @@ Placeholders, to be filled in when a host is chosen:
 - Production URL: `<https://your-domain>` (set `NEXT_PUBLIC_SITE_URL` to it)
 - API: `<https://api.your-domain/graphql>` and `<wss://api.your-domain>`
 - Build command: `yarn build`; start command: `yarn start`
-- Set every variable of the table above in the host's environment before building (`NEXT_PUBLIC_*` values are read at build time).
+- Set the four required variables of the table above in the host's build environment (`NEXT_PUBLIC_*` values are read at build time).
+- The backend may run on a free host that sleeps: the first requests can take up to a minute, and the site shows a dismissible "demo server is waking up" message meanwhile.
 
 ## License
 

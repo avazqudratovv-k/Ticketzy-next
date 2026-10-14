@@ -29,9 +29,9 @@ const withLayoutBasic = <P extends object>(Component: ComponentType<P>) => {
 					</a>
 					<Top />
 					<PendingBanner />
+					<WakeNote contained />
 					<main id="main">
 						<Component {...props} />
-						<WakeNote contained />
 					</main>
 					<Footer />
 					<AssistantWidget />

@@ -7,7 +7,7 @@ export const QUERY_TIMEOUT_MS = 20_000;
 /** Mutations are not cut short as quickly: the server may have done the work. Still bounded, so nothing waits forever. */
 export const MUTATION_TIMEOUT_MS = 60_000;
 /** How long a request may be pending before the page says the server is waking up. */
-export const WAKE_NOTE_AFTER_MS = 4_000;
+export const WAKE_NOTE_AFTER_MS = 5_000;
 
 export const TIMEOUT_MESSAGE = 'Request timed out';
 
@@ -66,46 +66,68 @@ export const retryLink = new RetryLink({
 		count < 2 && !isMutation(operation) && !(error instanceof Error && error.message === TIMEOUT_MESSAGE),
 });
 
-/** Requests in flight, for the "waking up" note (`useWakeNote`). */
+/**
+ * Queries in flight and whether the last query ended without an answer, for the "server is waking up" note
+ * (`useWakeNote`, F349). Only queries count: mutations and uploads are slow for their own reasons and their forms
+ * show their own errors.
+ */
 const pending = new Map<number, number>();
 const listeners = new Set<() => void>();
 let nextId = 0;
+let unreachable = false;
 
 const notify = () => listeners.forEach((listener) => listener());
+
+const setUnreachable = (value: boolean) => {
+	if (unreachable === value) return;
+	unreachable = value;
+	notify();
+};
+
+/** No answer at all (network error, timeout) or a gateway/server error of a sleeping host. A 4xx (a refused token) is an answer. */
+const isNoAnswer = (error: unknown) => {
+	const status = (error as { statusCode?: number } | undefined)?.statusCode;
+	return status === undefined || status >= 500;
+};
 
 export const pendingStore = {
 	subscribe(listener: () => void) {
 		listeners.add(listener);
 		return () => listeners.delete(listener);
 	},
-	count: () => pending.size,
-	/** Start time of the oldest request in flight, or null. */
+	/** Start time of the oldest query in flight, or null. */
 	oldest: () => (pending.size ? Math.min(...Array.from(pending.values())) : null),
+	/** True from a query that failed without an answer until the next query that is answered. */
+	unreachable: () => unreachable,
 };
 
-export const trackLink = new ApolloLink(
-	(operation, forward) =>
-		new Observable((observer) => {
-			const id = nextId++;
-			pending.set(id, Date.now());
-			notify();
-			const done = () => {
-				if (pending.delete(id)) notify();
-			};
-			const subscription = forward(operation).subscribe({
-				next: (value) => observer.next(value),
-				error: (error) => {
-					done();
-					observer.error(error);
-				},
-				complete: () => {
-					done();
-					observer.complete();
-				},
-			});
-			return () => {
+export const trackLink = new ApolloLink((operation, forward) => {
+	if (isMutation(operation)) return forward(operation);
+	return new Observable((observer) => {
+		const id = nextId++;
+		pending.set(id, Date.now());
+		notify();
+		const done = () => {
+			if (pending.delete(id)) notify();
+		};
+		const subscription = forward(operation).subscribe({
+			next: (value) => {
+				setUnreachable(false);
+				observer.next(value);
+			},
+			error: (error) => {
 				done();
-				subscription.unsubscribe();
-			};
-		}),
-);
+				if (isNoAnswer(error)) setUnreachable(true);
+				observer.error(error);
+			},
+			complete: () => {
+				done();
+				observer.complete();
+			},
+		});
+		return () => {
+			done();
+			subscription.unsubscribe();
+		};
+	});
+});
