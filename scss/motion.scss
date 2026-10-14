@@ -334,6 +334,233 @@ img.qr {
 
 /** MUI popovers, dialogs and menus fade with the same durations (see MaterialTheme transitions) **/
 
+/** PAID SPLASH (F347): a ~3 s sequence over a blurred scrim. Only transform and opacity move (plus a 360 ms blur on the logo's
+    entrance, the check's stroke-dashoffset and the scrim's static backdrop blur). No will-change: the browser promotes the layers
+    while they animate and drops them after. The component removes the node. **/
+@keyframes tz-splash-in {
+	from {
+		opacity: 0;
+	}
+}
+@keyframes tz-splash-out {
+	to {
+		opacity: 0;
+	}
+}
+@keyframes tz-splash-grow {
+	to {
+		transform: scale(1.1);
+	}
+}
+@keyframes tz-splash-logo {
+	from {
+		opacity: 0;
+		transform: scale(0.6) rotate(-8deg);
+		filter: blur(8px);
+	}
+	50% {
+		filter: blur(0);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+		filter: blur(0);
+	}
+}
+@keyframes tz-splash-glow {
+	from {
+		opacity: 0;
+		transform: scale(0.3);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+@keyframes tz-splash-ring {
+	from {
+		opacity: 0.7;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 0;
+		transform: scale(2.3);
+	}
+}
+@keyframes tz-splash-sheen {
+	from {
+		transform: translateX(-130%);
+	}
+	to {
+		transform: translateX(130%);
+	}
+}
+@keyframes tz-splash-badge {
+	from {
+		opacity: 0;
+		transform: scale(0.3);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes tz-splash-tick {
+	from {
+		stroke-dashoffset: 1;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes tz-splash-bit {
+	0% {
+		opacity: 0;
+		transform: translate(0, 0) rotate(0) scale(0.4);
+		animation-timing-function: var(--ease-out);
+	}
+	8% {
+		opacity: 1;
+	}
+	35% {
+		transform: translate(var(--dx), var(--dy)) rotate(calc(var(--rot) * 0.5)) scale(1);
+		animation-timing-function: cubic-bezier(0.4, 0, 0.9, 0.6);
+	}
+	75% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(calc(var(--dx) * 1.15), calc(var(--dy) + var(--fall))) rotate(var(--rot)) scale(0.9);
+	}
+}
+
+.tz-splash {
+	position: fixed;
+	inset: 0;
+	z-index: var(--z-modal);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--scrim);
+	backdrop-filter: blur(8px); // unsupported: the scrim alone
+	cursor: pointer;
+	animation: tz-splash-in var(--dur-slow) var(--ease-standard) both;
+	&.is-leaving {
+		pointer-events: none; // never blocks the page while it fades
+		animation: tz-splash-out 400ms var(--ease-standard) forwards;
+	}
+}
+.tz-splash__stage {
+	--s: clamp(112px, 34vw, 192px);
+	position: relative;
+	width: var(--s);
+	height: var(--s);
+	.is-leaving > & {
+		animation: tz-splash-grow 400ms var(--ease-standard) forwards;
+	}
+}
+// rings, glow and confetti are gone as soon as the exit starts
+.is-leaving .tz-splash__fx {
+	animation: none;
+	opacity: 0;
+}
+.tz-splash__glow {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 280%;
+	aspect-ratio: 1;
+	margin: -140% 0 0 -140%;
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in srgb, var(--accent) 50%, transparent) 0%, transparent 62%);
+	animation: tz-splash-glow 900ms var(--ease-out) 100ms both;
+}
+.tz-splash__ring {
+	position: absolute;
+	inset: 0;
+	border: 2px solid var(--accent);
+	border-radius: 26%;
+	opacity: 0;
+	animation: tz-splash-ring 1000ms var(--ease-out) 380ms both;
+	&--2 {
+		animation-delay: 600ms;
+	}
+}
+.tz-splash__bit {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: var(--w);
+	height: calc(var(--w) * 1.6);
+	margin: calc(var(--w) * -0.8) 0 0 calc(var(--w) * -0.5);
+	border-radius: 2px;
+	background: var(--accent);
+	opacity: 0;
+	animation: tz-splash-bit 1700ms linear calc(600ms + var(--d)) both;
+	&:nth-child(odd) {
+		border-radius: 50%;
+		height: var(--w);
+	}
+	&[data-c='1'] {
+		background: var(--on-image);
+	}
+	&[data-c='2'] {
+		background: var(--accent-hover);
+	}
+	&[data-c='3'] {
+		background: var(--seat-held);
+	}
+	@media (max-width: 599px) {
+		&:nth-child(n + 20) {
+			display: none; // children 1 to 3 are the glow and rings, so this keeps 16 pieces
+		}
+	}
+}
+.tz-splash__mark {
+	position: absolute;
+	inset: 0;
+	overflow: hidden; // keeps the sheen inside the tile
+	border-radius: 22%;
+	animation: tz-splash-logo 700ms var(--ease-emphasis) 150ms both;
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(115deg, transparent 38%, color-mix(in srgb, var(--on-image) 45%, transparent) 50%, transparent 62%);
+		animation: tz-splash-sheen 550ms var(--ease-standard) 850ms both;
+	}
+	.is-leaving > .tz-splash__stage > & {
+		animation: none;
+	}
+}
+.tz-splash__logo {
+	width: 100%;
+	height: auto;
+}
+.tz-splash__badge {
+	position: absolute;
+	right: -8%;
+	bottom: -8%;
+	width: 32%;
+	height: 32%;
+	animation: tz-splash-badge 400ms var(--ease-emphasis) 900ms both;
+	circle {
+		fill: var(--accent);
+		stroke: var(--bg);
+		stroke-width: 2;
+	}
+	path {
+		fill: none;
+		stroke: var(--on-accent);
+		stroke-width: 3;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 1;
+		animation: tz-splash-tick 350ms var(--ease-standard) 1100ms both;
+	}
+}
+
 /** REDUCED MOTION: no movement at all. Page changes keep a short fade. **/
 @media (prefers-reduced-motion: reduce) {
 	*,
@@ -352,5 +579,26 @@ img.qr {
 	}
 	.tz-hero > img {
 		animation: none !important;
+	}
+	// splash: no scale, rotation, rings, glow, sheen, confetti or badge; only a short fade of the logo on a plain scrim
+	.tz-splash__fx,
+	.tz-splash__badge {
+		display: none !important;
+	}
+	.tz-splash {
+		backdrop-filter: none;
+		animation-duration: var(--dur-fast) !important;
+	}
+	.tz-splash.is-leaving {
+		animation-duration: var(--dur-base) !important;
+	}
+	.tz-splash__stage,
+	.tz-splash__mark,
+	.tz-splash__mark::after,
+	.is-leaving > .tz-splash__stage {
+		animation: none !important;
+	}
+	.tz-splash__mark::after {
+		display: none;
 	}
 }

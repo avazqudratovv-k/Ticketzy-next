@@ -9,6 +9,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CheckCircle, Prohibit, WarningCircle } from 'phosphor-react';
 import { GET_EVENT, GET_EVENT_SEAT_MAP, GET_MY_TICKETS, GET_ORDER, GET_TICKET_TYPES } from '../../../apollo/user/query';
 import withLayoutBasic from '../../../libs/components/layout/LayoutBasic';
+import PaidSplash from '../../../libs/components/common/PaidSplash';
 import SuccessCheck from '../../../libs/components/common/SuccessCheck';
 import Seo from '../../../libs/components/common/Seo';
 import StateBlock from '../../../libs/components/states/StateBlock';
@@ -133,6 +134,7 @@ const Confirmation: NextPage = () => {
 	return (
 		<div className="tz-container checkout">
 			<Seo title={t('confirmation.title')} noindex />
+			<PaidSplash orderId={order._id} paid={paid} paidAt={order.paidAt} />
 			<Steps current={3} />
 			<p className="org-visually-hidden" role="status" aria-live="polite">
 				{announcement}

@@ -11,11 +11,20 @@ Tokens in `scss/tokens.css` (and `tokens.json`). From the bottom up:
 | Header, top bar, seat sheet | `--z-sticky` 100 | navbar, dashboard top bar, seat picker bottom sheet (F75) |
 | Ask Ticketzy button and panel | `--z-dropdown` 200 | `.pg-chat` |
 | Scrim | `--z-scrim` 300 | drawer backdrop |
-| Sheets, drawers | `--z-modal` 310 | phone chat sheet, sidebar drawer |
+| Sheets, drawers, paid splash | `--z-modal` 310 | phone chat sheet, sidebar drawer, `.tz-splash` (F347) |
 | Toasts | `--z-toast` 400 | |
 | MUI menus, dialogs, popovers | 1300 (MUI default) | above everything above |
 
 The bars sit below the header so a header menu never goes under one. The Ask button is above a bar in the stack but is lifted by the bar's height, so they never overlap.
+
+## Paid splash (`PaidSplash`, `.tz-splash`)
+
+A decorative, one-time ~3 s sequence on the order confirmation page when the order was just paid (F347): blurred `--scrim`, accent glow, two rings, logo with sheen, check badge, confetti. `aria-hidden`, no focus change, portal in `body`, `--z-modal`. Dismiss by click, Escape or Enter; unmounted at the end, so it never blocks the page. Once per order id (`sessionStorage` plus an in-memory fallback).
+
+- Motion: transform and opacity only, plus the scrim's static `backdrop-filter`, the logo's short entrance blur and the check's `stroke-dashoffset`. No `will-change`. Keep it under about 40 animated elements; confetti is a fixed array (no randomness), 16 pieces under 600 px.
+- Colors only from tokens (`--accent`, `--on-image`, `--accent-hover`, `--seat-held`, `--bg`, `--on-accent`). The glow sits behind the logo and the sheen runs inside its dark tile, so neither washes it out in light mode.
+- Reduced motion: logo fades on a plain scrim; no blur, glow, rings, sheen, badge or confetti.
+- The `role="status"` text on the page stays the announcement. A new overlay of this kind should follow the same rules and not use the MUI dialog.
 
 ## Sticky bottom bar (`.tz-bar`, `useStickyBar`)
 
