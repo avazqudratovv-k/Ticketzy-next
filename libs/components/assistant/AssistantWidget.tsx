@@ -171,7 +171,7 @@ const AssistantWidget = () => {
 					aria-modal={isPhone() ? true : undefined}
 					onKeyDown={onPanelKeyDown}
 				>
-					<header className="pg-chatpanel__head">
+					<div className="pg-chatpanel__head">
 						<span className="tz-avatar pg-chatpanel__avatar" aria-hidden="true">
 							<ChatCircleDots size={22} weight="fill" />
 						</span>
@@ -194,7 +194,7 @@ const AssistantWidget = () => {
 						<button type="button" className="pg-iconbtn" onClick={close} aria-label={t('assistant.close')} title={t('assistant.close')}>
 							<X size={20} aria-hidden="true" />
 						</button>
-					</header>
+					</div>
 
 					<div ref={log} className="pg-chatpanel__log" role="log" aria-label={t('assistant.log')} aria-live="polite" aria-relevant="additions text">
 						<div className="pg-msg pg-msg--bot">

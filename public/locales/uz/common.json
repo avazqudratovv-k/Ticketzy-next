@@ -191,6 +191,8 @@
     "errors": {
       "unavailable": "Yordamchi hozir mavjud emas. Tadbirlarni koʻrish va chipta olish odatdagidek ishlaydi.",
       "rateLimit": "Siz juda tez soʻrayapsiz. Bir daqiqa kutib, qayta urinib koʻring.",
+      "quotaExhausted": "AI bugun dam olmoqda, keyinroq qayta urinib koʻring.",
+      "dailyCap": "AI uchun bugungi limit tugadi. Ertaga qayta urinib koʻring.",
       "busy": "Yordamchi hozir band. Birozdan keyin qayta urinib koʻring.",
       "failed": "Yordamchi hozir javob bera olmadi. Qayta urinib koʻring.",
       "timeout": "Yordamchi javob berishga juda uzoq vaqt oldi. Qayta urinib koʻring yoki qisqaroq soʻrang.",

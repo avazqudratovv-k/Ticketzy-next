@@ -323,6 +323,8 @@
       "disabled": "AI features are turned off on this server.",
       "notConfigured": "AI features are not set up on this server.",
       "rateLimited": "Too many checks in a short time. Try again in a minute.",
+      "quotaExhausted": "The AI is resting for today, please try again later.",
+      "dailyCap": "The AI has reached its limit for today. Please try again tomorrow.",
       "failed": "The AI service could not answer. Try again later.",
       "busy": "The AI is busy. Try again in a moment.",
       "timeout": "The AI took too long to answer. Try again later.",

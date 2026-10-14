@@ -1,5 +1,6 @@
 import { ApiError, NETWORK_ERROR, parseApiError, serviceUnavailableKey } from '../errors';
 import { TFunction } from 'next-i18next';
+import { aiCause, AiCause } from '../aiErrors';
 import { bookedParams, parseVenueBooked, VenueBooked } from '../venueConflict';
 
 /**
@@ -51,15 +52,18 @@ const KNOWN: Record<string, string> = {
 	'Ticket sales for this event are closed!': 'salesClosed',
 };
 
-const AI: Record<string, string> = {
-	'AI features are turned off on this server.': 'disabled',
-	'AI features are enabled but not configured on this server.': 'disabled',
-	'You are using the AI features too fast, please try again in a minute!': 'rateLimited',
-	'The AI service could not answer right now, please try again later!': 'failed',
-	'The AI is busy right now, please try again in a moment.': 'busy',
-	'The AI service took too long to answer, please try again later!': 'busy',
-	'The AI service returned an answer that could not be used!': 'invalid',
-	'Choose at least one target language (en, ko, ru, uz)!': 'locales',
+/** Shared AI cause (libs/aiErrors.ts) to the key under `ai.errors.` in organizer.json. */
+const AI_KEYS: Partial<Record<AiCause, string>> = {
+	disabled: 'disabled',
+	notConfigured: 'disabled',
+	rateLimited: 'rateLimited',
+	dailyCap: 'dailyCap',
+	quotaExhausted: 'quotaExhausted',
+	failed: 'failed',
+	busy: 'busy',
+	timeout: 'busy',
+	invalid: 'invalid',
+	locales: 'locales',
 };
 
 export interface Described {
@@ -78,10 +82,11 @@ const flat = (message: unknown): string => (Array.isArray(message) ? message.joi
 export function describeError(err: unknown, kind: 'server' | 'ai' = 'server'): Described {
 	const parsed: ApiError = parseApiError(err);
 	const raw = flat(parsed.message);
-	const table = kind === 'ai' ? AI : KNOWN;
 	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
 	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
-	return { key: table[raw] ?? (kind === 'ai' ? undefined : serviceUnavailableKey(parsed.code)), network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
+	const cause = kind === 'ai' ? aiCause({ ...parsed, message: raw }) : undefined;
+	const key = kind === 'ai' ? (cause ? AI_KEYS[cause] : undefined) : KNOWN[raw] ?? serviceUnavailableKey(parsed.code);
+	return { key, network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
 
 /** The sentence for a described error (organizer namespace): network, known (with the double-booking parts filled in), or the server's own words. */

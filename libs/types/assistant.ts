@@ -18,6 +18,8 @@ export interface AssistantMessage {
 export type AssistantErrorKind =
 	| 'unavailable'
 	| 'rateLimit'
+	| 'quotaExhausted'
+	| 'dailyCap'
 	| 'busy'
 	| 'failed'
 	| 'timeout'

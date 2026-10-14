@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { ApiError, NETWORK_ERROR, parseApiError, serviceUnavailableKey } from '../errors';
+import { aiCause, AiCause } from '../aiErrors';
 import { parseVenueBooked, VenueBooked } from '../venueConflict';
 
 /**
@@ -50,16 +51,24 @@ const KNOWN: Record<string, string> = {
 	'Something went wrong!': 'generic',
 };
 
-/** AI check failures (backend `AI_*` messages). The check is advisory, so none of these block a decision. */
-const AI: Record<string, string> = {
-	'AI features are turned off on this server.': 'disabled',
-	'AI features are enabled but not configured on this server.': 'notConfigured',
-	'You are using the AI features too fast, please try again in a minute!': 'rateLimited',
-	'The AI service could not answer right now, please try again later!': 'failed',
-	'The AI is busy right now, please try again in a moment.': 'busy',
-	'The AI service took too long to answer, please try again later!': 'timeout',
-	'The AI service returned an answer that could not be used!': 'invalid',
-	'The AI check did not run for this event.': 'notChecked',
+/** AI check failures: shared cause (libs/aiErrors.ts) to the key under `ai.errors.` in admin.json. The check is advisory, so none of these block a decision. */
+const AI_KEYS: Record<AiCause, string> = {
+	disabled: 'disabled',
+	notConfigured: 'notConfigured',
+	rateLimited: 'rateLimited',
+	dailyCap: 'dailyCap',
+	quotaExhausted: 'quotaExhausted',
+	failed: 'failed',
+	busy: 'busy',
+	timeout: 'timeout',
+	invalid: 'invalid',
+	locales: 'failed',
+	notChecked: 'notChecked',
+};
+
+const aiKey = (error: Pick<ApiError, 'code' | 'message'> & { retryAfterSeconds?: number }): string | undefined => {
+	const cause = aiCause(error);
+	return cause ? AI_KEYS[cause] : undefined;
 };
 
 export interface AdminError {
@@ -78,11 +87,12 @@ export function describeAdminError(err: unknown, kind: 'server' | 'ai' = 'server
 	const raw = flat(parsed.message);
 	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
 	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
-	return { key: (kind === 'ai' ? AI : KNOWN)[raw] ?? (kind === 'ai' ? undefined : serviceUnavailableKey(parsed.code)), network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
+	const key = kind === 'ai' ? aiKey({ ...parsed, message: raw }) : KNOWN[raw] ?? serviceUnavailableKey(parsed.code);
+	return { key, network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
 
 /** The AI message stored on an event when the check did not run (`eventModeration.reason`) is one of the AI messages. */
-export const aiKeyOf = (message?: string | null): string | undefined => (message ? AI[message] : undefined);
+export const aiKeyOf = (message?: string | null): string | undefined => (message ? aiKey({ code: '', message }) : undefined);
 
 /**
  * `getEventsByAdmin` answers "No data found!" for an empty list (and for a page past the end). That is an empty result, not a failure.

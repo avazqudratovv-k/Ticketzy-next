@@ -393,6 +393,8 @@
     "errors": {
       "disabled": "AI translation isn’t available on this server.",
       "rateLimited": "You’re using AI too fast. Wait a minute and try again.",
+      "quotaExhausted": "The AI is resting for today, please try again later.",
+      "dailyCap": "The AI has reached its limit for today. Please try again tomorrow.",
       "failed": "The AI couldn’t answer right now. Try again later.",
       "busy": "The AI is busy right now. Try again in a moment.",
       "invalid": "The AI’s answer couldn’t be used. Try again.",

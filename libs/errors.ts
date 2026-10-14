@@ -6,6 +6,8 @@ export interface ApiError {
 	message: string;
 	/** Only with `VALIDATION_FAILED`: the failed inputs, from the top-level `fields` of the GraphQL error. */
 	fields?: FieldIssue[];
+	/** Only with `RATE_LIMITED`: whole seconds until the client may try again. */
+	retryAfterSeconds?: number;
 }
 
 /** One failed input: the property name (dotted for nested input) and the class-validator rule names. The server never sends values. */
@@ -55,7 +57,7 @@ function readFields(raw: unknown): FieldIssue[] | undefined {
 export function parseApiError(err: unknown): ApiError {
 	if (err instanceof ApolloError) {
 		const first = err.graphQLErrors?.[0] as
-			| { code?: string; message?: string; fields?: unknown; extensions?: { code?: string; fields?: unknown } }
+			| { code?: string; message?: string; fields?: unknown; retryAfterSeconds?: unknown; extensions?: { code?: string; fields?: unknown } }
 			| undefined;
 		if (first) {
 			const fields = readFields(first.fields ?? first.extensions?.fields);
@@ -63,6 +65,7 @@ export function parseApiError(err: unknown): ApiError {
 				code: first.code ?? first.extensions?.code ?? 'UNKNOWN',
 				message: first.message ?? err.message,
 				...(fields ? { fields } : {}),
+				...(typeof first.retryAfterSeconds === 'number' ? { retryAfterSeconds: first.retryAfterSeconds } : {}),
 			};
 		}
 		if (err.networkError) return { code: NETWORK_ERROR, message: err.networkError.message };

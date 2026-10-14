@@ -393,6 +393,8 @@
     "errors": {
       "disabled": "Bu serverda AI tarjima mavjud emas.",
       "rateLimited": "AIdan juda tez foydalanyapsiz. Bir daqiqa kutib, qayta urinib koʻring.",
+      "quotaExhausted": "AI bugun dam olmoqda, keyinroq qayta urinib koʻring.",
+      "dailyCap": "AI uchun bugungi limit tugadi. Ertaga qayta urinib koʻring.",
       "failed": "AI hozir javob bera olmadi. Keyinroq qayta urinib koʻring.",
       "busy": "AI hozir band. Birozdan soʻng qayta urinib koʻring.",
       "invalid": "AI javobidan foydalanib boʻlmadi. Qayta urinib koʻring.",

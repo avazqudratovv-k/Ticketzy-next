@@ -191,6 +191,8 @@
     "errors": {
       "unavailable": "The assistant is not available right now. You can still browse events and buy tickets as usual.",
       "rateLimit": "You are asking too fast. Please wait a minute and try again.",
+      "quotaExhausted": "The AI is resting for today, please try again later.",
+      "dailyCap": "The AI has reached its limit for today. Please try again tomorrow.",
       "busy": "The assistant is busy right now. Please try again in a moment.",
       "failed": "The assistant could not answer right now. Please try again.",
       "timeout": "The assistant took too long to answer. Please try again, or ask a shorter question.",
