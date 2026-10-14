@@ -17,7 +17,9 @@ import { displayName } from '../../libs/components/common/Avatar';
 import { imageSrc } from '../../libs/components/events/EventImage';
 import useAuth from '../../libs/hooks/useAuth';
 import { logOut } from '../../libs/auth';
-import { avatarProblem, AVATAR_MAX_BYTES, ProfileValues, validateProfile } from '../../libs/account/profile';
+import { avatarProblem, AVATAR_MAX_BYTES, PHONE_FORMAT, ProfileValues, validateProfile } from '../../libs/account/profile';
+import { FieldIssues, fieldMessage, serverIssues } from '../../libs/fieldErrors';
+import useFocusInvalid from '../../libs/hooks/useFocusInvalid';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { formatViewerDate } from '../../libs/format';
 import { ROUTES } from '../../libs/routes';
@@ -35,6 +37,9 @@ const initials = (name: string) =>
 		.map((part) => Array.from(part)[0]?.toUpperCase())
 		.join('');
 
+/** The inputs of this form, by backend property name. */
+const FORM_FIELDS = ['memberFullName', 'memberNick', 'memberPhone'] as const;
+
 const valuesOf = (user: MemberProfile): ProfileValues => ({
 	memberFullName: user.memberFullName ?? '',
 	memberNick: user.memberNick ?? '',
@@ -50,11 +55,13 @@ const Settings: NextPage = () => {
 	const [file, setFile] = useState<File | null>(null);
 	const [preview, setPreview] = useState<string | null>(null);
 	const [fileError, setFileError] = useState<'type' | 'size' | null>(null);
-	const [errors, setErrors] = useState<ReturnType<typeof validateProfile>>({});
+	const [errors, setErrors] = useState<FieldIssues>({});
 	const [status, setStatus] = useState<{ kind: 'saved' } | { kind: 'error'; message: string } | null>(null);
 	const [saving, setSaving] = useState(false);
 	const input = useRef<HTMLInputElement>(null);
 	const statusRef = useRef<HTMLDivElement>(null);
+	const formRef = useRef<HTMLFormElement>(null);
+	const focusInvalid = useFocusInvalid(formRef);
 	const [upload] = useMutation(IMAGE_UPLOADER);
 	const [update] = useMutation(UPDATE_MEMBER);
 
@@ -78,6 +85,8 @@ const Settings: NextPage = () => {
 	if (!user) return null;
 
 	const name = displayName(user);
+	const message = (field: keyof ProfileValues) =>
+		errors[field] ? (errors[field] === PHONE_FORMAT ? t('profile.error.phone') : fieldMessage(t, field, errors[field] as string)) : undefined;
 	const set = (key: keyof ProfileValues) => (value: string) => {
 		setValues((prev) => ({ ...prev, [key]: value }));
 		setErrors((prev) => ({ ...prev, [key]: undefined }));
@@ -103,7 +112,10 @@ const Settings: NextPage = () => {
 		event.preventDefault();
 		const found = validateProfile(values);
 		setErrors(found);
-		if (Object.keys(found).length > 0) return;
+		if (Object.keys(found).length > 0) {
+			focusInvalid();
+			return;
+		}
 		const original = valuesOf(user);
 		const changed: Partial<ProfileValues> = {};
 		(Object.keys(values) as (keyof ProfileValues)[]).forEach((key) => {
@@ -128,7 +140,10 @@ const Settings: NextPage = () => {
 			setStatus({ kind: 'saved' });
 		} catch (err) {
 			const apiError = parseApiError(err);
-			setStatus({ kind: 'error', message: apiError.code === NETWORK_ERROR ? t('state.network') : t('profile.saveError') });
+			const { issues, banner } = serverIssues(apiError, FORM_FIELDS);
+			setErrors(issues);
+			if (Object.keys(issues).length > 0) focusInvalid();
+			if (banner) setStatus({ kind: 'error', message: apiError.code === NETWORK_ERROR ? t('state.network') : t('profile.saveError') });
 		} finally {
 			setSaving(false);
 		}
@@ -145,7 +160,7 @@ const Settings: NextPage = () => {
 			<Seo title={t('profile.title')} noindex />
 			<PageHead title={t('profile.title')} text={t('profile.sub')} />
 
-			<form className="card settings__card" onSubmit={submit} noValidate aria-labelledby="profile-heading">
+			<form ref={formRef} className="card settings__card" onSubmit={submit} noValidate aria-labelledby="profile-heading">
 				<h2 id="profile-heading" className="card__title">
 					{t('profile.details')}
 				</h2>
@@ -171,10 +186,10 @@ const Settings: NextPage = () => {
 					</div>
 				</div>
 
-				<Field label={t('profile.fullName')} value={values.memberFullName} onChange={set('memberFullName')} autoComplete="name" hint={t('profile.fullNameHint')} error={errors.memberFullName ? t('profile.error.fullName') : undefined} />
-				<Field label={t('profile.nick')} value={values.memberNick} onChange={set('memberNick')} autoComplete="nickname" hint={t('profile.nickHint')} error={errors.memberNick ? t('profile.error.nick') : undefined} />
+				<Field label={t('profile.fullName')} value={values.memberFullName} onChange={set('memberFullName')} autoComplete="name" hint={t('profile.fullNameHint')} error={message('memberFullName')} />
+				<Field label={t('profile.nick')} value={values.memberNick} onChange={set('memberNick')} autoComplete="nickname" hint={t('profile.nickHint')} error={message('memberNick')} />
 				<Field label={t('profile.email')} value={user.memberEmail ?? ''} onChange={() => undefined} type="email" disabled hint={t('profile.emailHint')} />
-				<Field label={t('profile.phone')} value={values.memberPhone} onChange={set('memberPhone')} autoComplete="tel" placeholder="+82 10 0000 0000" error={errors.memberPhone ? t('profile.error.phone') : undefined} />
+				<Field label={t('profile.phone')} value={values.memberPhone} onChange={set('memberPhone')} autoComplete="tel" placeholder="+82 10 0000 0000" error={message('memberPhone')} />
 
 				<div ref={statusRef} tabIndex={-1} role="status" className="settings__status">
 					{status?.kind === 'saved' && (

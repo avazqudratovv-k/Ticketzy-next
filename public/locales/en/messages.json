@@ -26,7 +26,8 @@
     "noData": "This conversation was not found.",
     "notAuthenticated": "Please sign in again.",
     "generic": "Something went wrong. Please try again.",
-    "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment."
+    "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
+    "badRequest": "Some of the information is not valid. Check the fields and try again."
   },
   "empty": {
     "organizer": {

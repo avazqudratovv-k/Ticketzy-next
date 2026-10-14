@@ -1,4 +1,4 @@
-import { parseApiError, NETWORK_ERROR } from '../errors';
+import { parseApiError, NETWORK_ERROR, VALIDATION_FAILED } from '../errors';
 import { AssistantErrorKind } from '../types/assistant';
 
 /** Backend limits (apps/ticketzy-api libs/dto/ai/ai.input.ts). */
@@ -23,14 +23,14 @@ const MESSAGES: Record<string, AssistantErrorKind> = {
 
 export const TIMEOUT_CODE = 'CLIENT_TIMEOUT';
 
-/** Validation errors arrive as a bare `BAD_REQUEST` ("Bad Request Exception"), so the code is the signal for empty or too long. */
+/** Validation errors arrive as `VALIDATION_FAILED` (a bare `BAD_REQUEST` before backend #113), so the code is the signal for empty or too long. */
 export function assistantErrorKind(err: unknown): AssistantErrorKind {
 	const { code, message } = parseApiError(err);
 	if (code === TIMEOUT_CODE) return 'timeout';
 	if (code === NETWORK_ERROR) return 'network';
 	const known = MESSAGES[message];
 	if (known) return known;
-	if (code === 'BAD_REQUEST') return 'invalid';
+	if (code === VALIDATION_FAILED || code === 'BAD_REQUEST') return 'invalid';
 	if (code === 'FORBIDDEN' || code === 'UNAUTHENTICATED') return 'notAllowed';
 	if (code === 'TOO_MANY_REQUESTS') return 'rateLimit';
 	return 'failed';

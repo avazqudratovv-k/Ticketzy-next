@@ -20,7 +20,10 @@ import { imageSrc } from '../../libs/components/events/EventImage';
 import useAuth from '../../libs/hooks/useAuth';
 import useUnsavedGuard from '../../libs/hooks/useUnsavedGuard';
 import { commissionState } from '../../libs/organizer/commission';
-import { ADDRESS_MAX, AVATAR_MAX_BYTES, avatarProblem, DESC_MAX, OrgProfileErrors, OrgProfileValues, validateOrgProfile } from '../../libs/organizer/profile';
+import { PHONE_FORMAT } from '../../libs/account/profile';
+import { ADDRESS_MAX, ADDRESS_TOO_LONG, AVATAR_MAX_BYTES, avatarProblem, DESC_MAX, DESC_TOO_LONG, OrgProfileValues, validateOrgProfile } from '../../libs/organizer/profile';
+import { FieldIssues, fieldMessage, serverIssues } from '../../libs/fieldErrors';
+import useFocusInvalid from '../../libs/hooks/useFocusInvalid';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { formatNumber, formatViewerDate } from '../../libs/format';
 import { organizerUrl } from '../../libs/routes';
@@ -39,6 +42,9 @@ const valuesOf = (m: Partial<MemberProfile> | null | undefined): OrgProfileValue
 	memberPhone: m?.memberPhone ?? '',
 	memberAddress: m?.memberAddress ?? '',
 });
+
+/** The inputs of this form, by backend property name. */
+const FORM_FIELDS = ['memberFullName', 'memberNick', 'memberDesc', 'memberPhone', 'memberAddress'] as const;
 
 const KEYS: (keyof OrgProfileValues)[] = ['memberFullName', 'memberNick', 'memberDesc', 'memberPhone', 'memberAddress'];
 
@@ -66,11 +72,13 @@ const Profile: NextPage = () => {
 	const [file, setFile] = useState<File | null>(null);
 	const [preview, setPreview] = useState<string | null>(null);
 	const [fileError, setFileError] = useState<'type' | 'size' | null>(null);
-	const [errors, setErrors] = useState<OrgProfileErrors>({});
+	const [errors, setErrors] = useState<FieldIssues>({});
 	const [status, setStatus] = useState<{ kind: 'saved' } | { kind: 'error'; message: string } | null>(null);
 	const [saving, setSaving] = useState(false);
 	const input = useRef<HTMLInputElement>(null);
 	const statusRef = useRef<HTMLDivElement>(null);
+	const formRef = useRef<HTMLFormElement>(null);
+	const focusInvalid = useFocusInvalid(formRef);
 	const [upload] = useMutation(IMAGE_UPLOADER);
 	const [update] = useMutation(UPDATE_MEMBER);
 
@@ -88,6 +96,14 @@ const Profile: NextPage = () => {
 	if (!user) return null;
 	if (organizerAccess && !editable) return <BlockedPanel access={organizerAccess as Exclude<typeof organizerAccess, 'active' | 'pending'>} action="events" />;
 
+	const message = (field: keyof OrgProfileValues) => {
+		const rule = errors[field];
+		if (!rule) return undefined;
+		if (rule === PHONE_FORMAT) return t('profile.error.phone');
+		if (rule === DESC_TOO_LONG) return t('profile.error.desc', { max: DESC_MAX });
+		if (rule === ADDRESS_TOO_LONG) return t('profile.error.address', { max: ADDRESS_MAX });
+		return fieldMessage(t, field, rule);
+	};
 	const set = (key: keyof OrgProfileValues) => (value: string) => {
 		setValues((prev) => ({ ...prev, [key]: value }));
 		setErrors((prev) => ({ ...prev, [key]: undefined }));
@@ -113,7 +129,10 @@ const Profile: NextPage = () => {
 		event.preventDefault();
 		const found = validateOrgProfile(values);
 		setErrors(found);
-		if (Object.keys(found).length > 0) return;
+		if (Object.keys(found).length > 0) {
+			focusInvalid();
+			return;
+		}
 		if (!dirty) {
 			setStatus({ kind: 'saved' });
 			return;
@@ -141,7 +160,10 @@ const Profile: NextPage = () => {
 		} catch (err) {
 			const apiError = parseApiError(err);
 			const taken = apiError.message === 'Already used member email, nick or phone';
-			setStatus({ kind: 'error', message: apiError.code === NETWORK_ERROR ? t('errors.network') : taken ? t('profile.error.taken') : t('profile.error.save') });
+			const { issues, banner } = serverIssues(apiError, FORM_FIELDS);
+			setErrors(issues);
+			if (Object.keys(issues).length > 0) focusInvalid();
+			if (banner) setStatus({ kind: 'error', message: apiError.code === NETWORK_ERROR ? t('errors.network') : taken ? t('profile.error.taken') : t('profile.error.save') });
 		} finally {
 			setSaving(false);
 		}
@@ -185,7 +207,7 @@ const Profile: NextPage = () => {
 			)}
 
 			<div className="org-profile">
-				<form className="org-card org-profile__form" onSubmit={submit} noValidate aria-labelledby="prof-heading">
+				<form ref={formRef} className="org-card org-profile__form" onSubmit={submit} noValidate aria-labelledby="prof-heading">
 					<div className="org-card__head">
 						<h2 id="prof-heading">{t('profile.public')}</h2>
 						{dirty && <span className="tz-badge tz-badge--warning">{t('form.unsaved')}</span>}
@@ -212,8 +234,8 @@ const Profile: NextPage = () => {
 						</div>
 					</div>
 
-					<Field label={t('profile.fullName')} value={values.memberFullName} onChange={set('memberFullName')} autoComplete="organization" required hint={t('profile.fullNameHint')} error={errors.memberFullName ? t('profile.error.fullName') : undefined} />
-					<Field label={t('profile.nick')} value={values.memberNick} onChange={set('memberNick')} autoComplete="nickname" required hint={t('profile.nickHint')} error={errors.memberNick ? t('profile.error.nick') : undefined} />
+					<Field label={t('profile.fullName')} value={values.memberFullName} onChange={set('memberFullName')} autoComplete="organization" required hint={t('profile.fullNameHint')} error={message('memberFullName')} />
+					<Field label={t('profile.nick')} value={values.memberNick} onChange={set('memberNick')} autoComplete="nickname" required hint={t('profile.nickHint')} error={message('memberNick')} />
 					<div className="tz-field">
 						<label className="tz-field__label" htmlFor="org-desc">
 							{t('profile.desc')}
@@ -229,12 +251,12 @@ const Profile: NextPage = () => {
 							aria-describedby="org-desc-hint"
 						/>
 						<p id="org-desc-hint" className={`settings__hint${errors.memberDesc ? ' is-error' : ''}`}>
-							{errors.memberDesc ? t('profile.error.desc', { max: DESC_MAX }) : t('profile.descHint')} · {formatNumber(Array.from(values.memberDesc).length, locale)}/{formatNumber(DESC_MAX, locale)}
+							{errors.memberDesc ? message('memberDesc') : t('profile.descHint')} · {formatNumber(Array.from(values.memberDesc).length, locale)}/{formatNumber(DESC_MAX, locale)}
 						</p>
 					</div>
-					<Field label={t('profile.address')} value={values.memberAddress} onChange={set('memberAddress')} autoComplete="street-address" hint={t('profile.addressHint')} error={errors.memberAddress ? t('profile.error.address', { max: ADDRESS_MAX }) : undefined} />
+					<Field label={t('profile.address')} value={values.memberAddress} onChange={set('memberAddress')} autoComplete="street-address" hint={t('profile.addressHint')} error={message('memberAddress')} />
 					<Field label={t('profile.email')} value={member?.memberEmail ?? user.memberEmail ?? ''} onChange={() => undefined} type="email" disabled hint={t('profile.emailHint')} />
-					<Field label={t('profile.phone')} value={values.memberPhone} onChange={set('memberPhone')} autoComplete="tel" placeholder="+82 10 0000 0000" hint={t('profile.phoneHint')} error={errors.memberPhone ? t('profile.error.phone') : undefined} />
+					<Field label={t('profile.phone')} value={values.memberPhone} onChange={set('memberPhone')} autoComplete="tel" placeholder="+82 10 0000 0000" hint={t('profile.phoneHint')} error={message('memberPhone')} />
 
 					<div ref={statusRef} tabIndex={-1} role="status" className="settings__status">
 						{status?.kind === 'saved' && (

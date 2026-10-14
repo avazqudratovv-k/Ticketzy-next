@@ -10,36 +10,53 @@ import { logIn } from '../../auth';
 import { ApiError, isApiError, parseApiError } from '../../errors';
 import { ROUTES } from '../../routes';
 import { EMAIL_PATTERN } from './validation';
+import { FieldIssues, fieldMessage, serverIssues } from '../../fieldErrors';
 import useAdoptTypedValues from '../../hooks/useAdoptTypedValues';
+import useFocusInvalid from '../../hooks/useFocusInvalid';
+
+const FORM_FIELDS = ['memberEmail', 'memberPassword'] as const;
 
 const LoginForm = () => {
 	const { t } = useTranslation('auth');
 	const expired = useRouter().query.reason === 'expired';
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
+	const [issues, setIssues] = useState<FieldIssues>({});
 	const [formError, setFormError] = useState<ApiError | null>(null);
 	const [busy, setBusy] = useState(false);
 	const form = useRef<HTMLFormElement>(null);
 	const hydrated = useAdoptTypedValues(form, { email: setEmail, password: setPassword });
+	const focusInvalid = useFocusInvalid(form);
+	const message = (field: string) => (issues[field] ? fieldMessage(t, field, issues[field]) : undefined);
+	const edit = (field: string, set: (value: string) => void) => (value: string) => {
+		set(value);
+		setIssues((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
+	};
 
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
 		if (busy) return;
-		const errors: { email?: string; password?: string } = {};
-		if (!email.trim()) errors.email = t('errors.required');
-		else if (!EMAIL_PATTERN.test(email.trim())) errors.email = t('errors.emailInvalid');
-		if (!password) errors.password = t('errors.required');
-		setFieldErrors(errors);
+		const found: FieldIssues = {};
+		if (!email.trim()) found.memberEmail = 'isNotEmpty';
+		else if (!EMAIL_PATTERN.test(email.trim())) found.memberEmail = 'isEmail';
+		if (!password) found.memberPassword = 'isNotEmpty';
+		setIssues(found);
 		setFormError(null);
-		if (errors.email || errors.password) return;
+		if (found.memberEmail || found.memberPassword) {
+			focusInvalid();
+			return;
+		}
 
 		setBusy(true);
 		try {
 			// On success userVar changes and useRedirectIfSignedIn on the page does the navigation.
 			await logIn(email, password);
 		} catch (err) {
-			setFormError(isApiError(err) ? err : parseApiError(err));
+			const apiError = isApiError(err) ? err : parseApiError(err);
+			const { issues: fromServer, banner } = serverIssues(apiError, FORM_FIELDS);
+			setIssues(fromServer);
+			setFormError(banner ? apiError : null);
+			if (Object.keys(fromServer).length > 0) focusInvalid();
 			setBusy(false);
 		}
 	};
@@ -60,10 +77,10 @@ const LoginForm = () => {
 				type="email"
 				name="email"
 				value={email}
-				onChange={setEmail}
+				onChange={edit('memberEmail', setEmail)}
 				placeholder={t('fields.emailPlaceholder')}
 				autoComplete="email"
-				error={fieldErrors.email}
+				error={message('memberEmail')}
 				disabled={busy}
 				autoFocus
 			/>
@@ -72,9 +89,9 @@ const LoginForm = () => {
 				type="password"
 				name="password"
 				value={password}
-				onChange={setPassword}
+				onChange={edit('memberPassword', setPassword)}
 				autoComplete="current-password"
-				error={fieldErrors.password}
+				error={message('memberPassword')}
 				disabled={busy}
 			/>
 			<Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !hydrated}>

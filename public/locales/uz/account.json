@@ -197,13 +197,11 @@
     "fullName": "Toʻliq ism",
     "fullNameHint": "3 dan 100 tagacha belgi.",
     "nick": "Taxallus",
-    "nickHint": "3 dan 12 tagacha belgi. Izohlarda koʻrinadi.",
+    "nickHint": "3 dan 50 tagacha belgi. Izohlarda koʻrinadi.",
     "email": "Email",
     "emailHint": "Shu manzil bilan kirasiz. Uni bu yerda oʻzgartirib boʻlmaydi.",
     "phone": "Telefon (ixtiyoriy)",
     "error": {
-      "fullName": "3 dan 100 tagacha belgi kiriting yoki boʻsh qoldiring.",
-      "nick": "3 dan 12 tagacha belgi kiriting yoki boʻsh qoldiring.",
       "phone": "Telefon raqamini raqamlar bilan kiriting, masalan +82 10 0000 0000."
     },
     "save": "Oʻzgarishlarni saqlash",

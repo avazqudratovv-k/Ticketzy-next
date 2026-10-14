@@ -239,5 +239,15 @@
   "seatLabel": {
     "full": "{{section}}, {{row}}열 {{number}}번",
     "short": "{{row}}열 {{number}}번"
+  },
+  "validation": {
+    "required": "이 항목을 입력하세요.",
+    "email": "name@example.com 형식의 이메일 주소를 입력하세요.",
+    "tooShort": "{{min}}자 이상으로 입력하세요.",
+    "tooLong": "{{max}}자 이하로 입력하세요.",
+    "between": "{{min}}~{{max}}자로 입력하세요.",
+    "tooSmall": "{{min}} 이상으로 입력하세요.",
+    "tooBig": "{{max}} 이하로 입력하세요.",
+    "invalid": "올바르지 않은 값입니다. 확인한 뒤 다시 시도하세요."
   }
 }

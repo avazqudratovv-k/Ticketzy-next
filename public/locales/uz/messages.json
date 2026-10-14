@@ -26,7 +26,8 @@
     "noData": "Suhbat topilmadi.",
     "notAuthenticated": "Qaytadan kiring.",
     "generic": "Nimadir xato ketdi. Qayta urinib koʻring.",
-    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring."
+    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
+    "badRequest": "Baʼzi maʼlumotlar yaroqsiz. Maydonlarni tekshirib, qayta urinib koʻring."
   },
   "empty": {
     "organizer": {

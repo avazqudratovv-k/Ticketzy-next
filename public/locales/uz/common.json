@@ -242,5 +242,15 @@
   "seatLabel": {
     "full": "{{section}}, {{row}}-qator, {{number}}-oʻrin",
     "short": "{{row}}-qator, {{number}}-oʻrin"
+  },
+  "validation": {
+    "required": "Bu maydonni toʻldiring.",
+    "email": "name@example.com koʻrinishidagi pochta manzilini kiriting.",
+    "tooShort": "Kamida {{min}} ta belgi kiriting.",
+    "tooLong": "{{max}} tadan ortiq belgi kiritmang.",
+    "between": "{{min}} dan {{max}} gacha belgi kiriting.",
+    "tooSmall": "{{min}} yoki undan katta qiymat kiriting.",
+    "tooBig": "{{max}} yoki undan kichik qiymat kiriting.",
+    "invalid": "Qiymat yaroqsiz. Tekshirib, qayta urinib koʻring."
   }
 }

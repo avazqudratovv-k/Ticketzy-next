@@ -26,7 +26,8 @@
     "noData": "대화를 찾을 수 없어요.",
     "notAuthenticated": "다시 로그인해 주세요.",
     "generic": "문제가 생겼어요. 다시 시도해 주세요.",
-    "serviceUnavailable": "Ticketzy를 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요."
+    "serviceUnavailable": "Ticketzy를 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
+    "badRequest": "입력한 정보 중 올바르지 않은 항목이 있어요. 항목을 확인한 뒤 다시 시도하세요."
   },
   "empty": {
     "organizer": {

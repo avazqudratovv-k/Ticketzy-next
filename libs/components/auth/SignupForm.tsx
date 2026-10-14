@@ -9,11 +9,14 @@ import { signUp } from '../../auth';
 import { ApiError, isApiError, parseApiError } from '../../errors';
 import { MemberType } from '../../enums/member.enum';
 import { ROUTES } from '../../routes';
-import { EMAIL_PATTERN, MIN_PASSWORD_LENGTH } from './validation';
+import { EMAIL_PATTERN } from './validation';
+import { FieldIssues, fieldMessage, lengthRule, serverIssues } from '../../fieldErrors';
 import useAdoptTypedValues from '../../hooks/useAdoptTypedValues';
+import useFocusInvalid from '../../hooks/useFocusInvalid';
 
 type Role = MemberType.USER | MemberType.ORGANIZER;
-type FieldName = 'fullName' | 'organization' | 'email' | 'password' | 'terms';
+/** The inputs of this form, by backend property name (the organization name is sent as `memberNick`, F21). */
+const FORM_FIELDS = ['memberFullName', 'memberNick', 'memberEmail', 'memberPassword'] as const;
 
 interface SignupFormProps {
 	initialRole: Role;
@@ -29,30 +32,45 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [agree, setAgree] = useState(false);
-	const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
+	const [issues, setIssues] = useState<FieldIssues>({});
+	const [termsError, setTermsError] = useState(false);
 	const [formError, setFormError] = useState<ApiError | null>(null);
 	const [busy, setBusy] = useState(false);
 	const form = useRef<HTMLFormElement>(null);
 	const hydrated = useAdoptTypedValues(form, { fullName: setFullName, email: setEmail, password: setPassword });
+	const focusInvalid = useFocusInvalid(form);
 	const isOrganizer = role === MemberType.ORGANIZER;
 
+	const message = (field: string) => (issues[field] ? fieldMessage(t, field, issues[field]) : undefined);
+	/** Typing into a field clears its own issue only. */
+	const edit = (field: string, set: (value: string) => void) => (value: string) => {
+		set(value);
+		setIssues((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
+	};
+
 	const validate = () => {
-		const next: Partial<Record<FieldName, string>> = {};
-		if (!fullName.trim()) next.fullName = t('errors.required');
-		if (isOrganizer && !organization.trim()) next.organization = t('errors.required');
-		if (!email.trim()) next.email = t('errors.required');
-		else if (!EMAIL_PATTERN.test(email.trim())) next.email = t('errors.emailInvalid');
-		if (!password) next.password = t('errors.required');
-		else if (password.length < MIN_PASSWORD_LENGTH) next.password = t('errors.passwordShort');
-		if (!agree) next.terms = t('errors.termsRequired');
-		setErrors(next);
-		return Object.keys(next).length === 0;
+		const next: FieldIssues = {};
+		const rule = (field: string, found: string | null) => {
+			if (found) next[field] = found;
+		};
+		rule('memberFullName', lengthRule('memberFullName', fullName));
+		if (isOrganizer) rule('memberNick', lengthRule('memberNick', organization));
+		rule('memberEmail', !email.trim() ? 'isNotEmpty' : EMAIL_PATTERN.test(email.trim()) ? null : 'isEmail');
+		rule('memberPassword', !password ? 'isNotEmpty' : lengthRule('memberPassword', password));
+		setIssues(next);
+		setTermsError(!agree);
+		if (Object.keys(next).length > 0 || !agree) {
+			focusInvalid();
+			return false;
+		}
+		return true;
 	};
 
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
 		if (busy) return;
 		setFormError(null);
+		setIssues({});
 		if (!validate()) return;
 
 		setBusy(true);
@@ -66,7 +84,11 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 			});
 			onDone(role);
 		} catch (err) {
-			setFormError(isApiError(err) ? err : parseApiError(err));
+			const apiError = isApiError(err) ? err : parseApiError(err);
+			const { issues: fromServer, banner } = serverIssues(apiError, FORM_FIELDS);
+			setIssues(fromServer);
+			setFormError(banner ? apiError : null);
+			if (Object.keys(fromServer).length > 0) focusInvalid();
 			setBusy(false);
 		}
 	};
@@ -128,9 +150,9 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 					label={t('signup.fullName')}
 					name="fullName"
 					value={fullName}
-					onChange={setFullName}
+					onChange={edit('memberFullName', setFullName)}
 					autoComplete="name"
-					error={errors.fullName}
+					error={message('memberFullName')}
 					disabled={busy}
 				/>
 				{isOrganizer && (
@@ -138,10 +160,10 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 						label={t('signup.organizationName')}
 						name="organization"
 						value={organization}
-						onChange={setOrganization}
+						onChange={edit('memberNick', setOrganization)}
 						autoComplete="organization"
 						hint={t('signup.organizationHint')}
-						error={errors.organization}
+						error={message('memberNick')}
 						disabled={busy}
 					/>
 				)}
@@ -150,10 +172,10 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 					type="email"
 					name="email"
 					value={email}
-					onChange={setEmail}
+					onChange={edit('memberEmail', setEmail)}
 					placeholder={t('fields.emailPlaceholder')}
 					autoComplete="email"
-					error={errors.email}
+					error={message('memberEmail')}
 					disabled={busy}
 				/>
 				<Field
@@ -161,10 +183,10 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 					type="password"
 					name="password"
 					value={password}
-					onChange={setPassword}
+					onChange={edit('memberPassword', setPassword)}
 					autoComplete="new-password"
 					hint={t('signup.passwordHint')}
-					error={errors.password}
+					error={message('memberPassword')}
 					disabled={busy}
 				/>
 				<div className="tz-field">
@@ -172,9 +194,12 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 						<Checkbox
 							id="signup-terms"
 							checked={agree}
-							onChange={(event) => setAgree(event.target.checked)}
+							onChange={(event) => {
+								setAgree(event.target.checked);
+								setTermsError(false);
+							}}
 							disabled={busy}
-							inputProps={{ 'aria-invalid': errors.terms ? true : undefined, 'aria-describedby': errors.terms ? 'signup-terms-error' : undefined }}
+							inputProps={{ 'aria-invalid': termsError ? true : undefined, 'aria-describedby': termsError ? 'signup-terms-error' : undefined }}
 						/>
 						<label htmlFor="signup-terms">
 							<Trans
@@ -187,9 +212,9 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 							/>
 						</label>
 					</div>
-					{errors.terms && (
+					{termsError && (
 						<span className="tz-field__error" id="signup-terms-error">
-							{errors.terms}
+							{t('errors.termsRequired')}
 						</span>
 					)}
 				</div>

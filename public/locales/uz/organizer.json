@@ -1169,7 +1169,7 @@
     "fullName": "Tashkilot nomi",
     "fullNameHint": "Tashkilotchi sahifasi va tadbir sahifalarida koʻrsatiladi. 3 dan 100 gacha belgi.",
     "nick": "Taxallus",
-    "nickHint": "Sizning @nomingiz, 3 dan 12 gacha belgi.",
+    "nickHint": "Sizning @nomingiz, 3 dan 50 gacha belgi.",
     "desc": "Haqida",
     "descHint": "Tashkilotchi sahifangizda koʻrsatiladi.",
     "address": "Manzil yoki joylashuv",
@@ -1184,8 +1184,6 @@
     "saved": "Profil saqlandi. Ommaviy sahifangiz oʻzgarishlarni koʻrsatadi.",
     "leave": "Profilda saqlanmagan oʻzgarishlar bor. Saqlamasdan chiqilsinmi?",
     "error": {
-      "fullName": "3 dan 100 gacha belgi kiriting.",
-      "nick": "3 dan 12 gacha belgi kiriting.",
       "desc": "{{max}} belgidan oshmasin.",
       "address": "{{max}} belgidan oshmasin.",
       "phone": "Toʻgʻri telefon raqamini kiriting, masalan +82 10 0000 0000.",

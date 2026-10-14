@@ -197,13 +197,11 @@
     "fullName": "Full name",
     "fullNameHint": "3 to 100 characters.",
     "nick": "Nickname",
-    "nickHint": "3 to 12 characters. Shown on comments.",
+    "nickHint": "3 to 50 characters. Shown on comments.",
     "email": "Email",
     "emailHint": "You sign in with this address. It cannot be changed here.",
     "phone": "Phone (optional)",
     "error": {
-      "fullName": "Enter 3 to 100 characters, or leave it empty.",
-      "nick": "Enter 3 to 12 characters, or leave it empty.",
       "phone": "Enter a phone number with digits, for example +82 10 0000 0000."
     },
     "save": "Save changes",

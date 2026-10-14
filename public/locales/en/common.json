@@ -242,5 +242,15 @@
   "seatLabel": {
     "full": "{{section}}, row {{row}}, seat {{number}}",
     "short": "Row {{row}}, seat {{number}}"
+  },
+  "validation": {
+    "required": "Fill in this field.",
+    "email": "Enter an email address like name@example.com.",
+    "tooShort": "Use at least {{min}} characters.",
+    "tooLong": "Use {{max}} characters or fewer.",
+    "between": "Use {{min}} to {{max}} characters.",
+    "tooSmall": "Enter {{min}} or more.",
+    "tooBig": "Enter {{max}} or less.",
+    "invalid": "This value is not valid. Check it and try again."
   }
 }

@@ -1169,7 +1169,7 @@
     "fullName": "Organization name",
     "fullNameHint": "Shown on your organizer page and event pages. 3 to 100 characters.",
     "nick": "Nickname",
-    "nickHint": "Your @handle, 3 to 12 characters.",
+    "nickHint": "Your @handle, 3 to 50 characters.",
     "desc": "About",
     "descHint": "Shown on your organizer page.",
     "address": "Address or location",
@@ -1184,8 +1184,6 @@
     "saved": "Profile saved. Your public page shows the changes.",
     "leave": "You have unsaved changes to your profile. Leave without saving?",
     "error": {
-      "fullName": "Enter 3 to 100 characters.",
-      "nick": "Enter 3 to 12 characters.",
       "desc": "Keep it under {{max}} characters.",
       "address": "Keep it under {{max}} characters.",
       "phone": "Enter a valid phone number, for example +82 10 0000 0000.",

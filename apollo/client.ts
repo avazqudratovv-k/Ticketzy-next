@@ -47,7 +47,10 @@ function createIsomorphicLink() {
 				handleSessionExpired(sent);
 			}
 			if (process.env.NODE_ENV !== 'development') return;
-			graphQLErrors?.forEach(({ message, locations, path }) => {
+			graphQLErrors?.forEach((error) => {
+				const { message, locations, path } = error;
+				// A rejected input is shown under its field by the form (libs/fieldErrors.ts), so it is not a red line either
+				if ((error as { code?: string }).code === 'VALIDATION_FAILED') return;
 				// The backend answers an empty list with "No data found!"; callers treat it as an empty result (isOnlyNoData), so it is not an error worth a red line
 				if (message === 'No data found!') return;
 				console.error(`[GraphQL error]: ${message}`, { locations, path });

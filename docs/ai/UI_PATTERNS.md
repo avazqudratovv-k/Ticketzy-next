@@ -87,3 +87,13 @@ const { short, section, full } = seatParts(t, seat, names);   // when title and 
 - Section keys and tier keys (`UPPER_E`) are ids; never print them. Keep ticket type names (translated by the organizer) as they are.
 - Keys `common:seatLabel.full` and `common:seatLabel.short`. When the layout already is in hand use `sectionNamesOf(sections)` instead of the hook.
 - Used by: order detail, ticket detail, ticket card, order confirmation, checkout summary.
+
+## Field errors (F348)
+
+Rejected input is shown under its field, from the same (property, rule) pair whether the client or the server found it.
+
+- Keep form issues as `Record<backendProperty, rule>`. Client checks use `lengthRule` or a rule name the server uses (`isEmail`, `isNotEmpty`); a server answer goes through `serverIssues(apiError, knownFields)`. Render with `fieldMessage(t, field, rule)` (keys `common:validation.*`).
+- Show the banner (`AuthError` or the form's status block) only when `serverIssues(...).banner` is true: not `VALIDATION_FAILED`, no `fields`, or a field the form has no input for.
+- `Field` already sets `aria-invalid` and `aria-describedby`; a custom control must set both. After a failed submit call `useFocusInvalid(formRef)`'s function next to the `setState` of the issues: focus goes to the first `[aria-invalid="true"]`.
+- Typing in a field clears only that field's issue. Limits live in `FIELD_LIMITS` (libs/fieldErrors.ts), read from the backend DTOs.
+
