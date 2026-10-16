@@ -98,6 +98,7 @@ List queries return `{ list, metaCounter: [{ total }] }`; the backend builds bot
 | `useSessionWatch` | Section 1.3. |
 | `useWakeNote` | Section 1.4. |
 | `useUnreadCount(poll)` | `GetUnreadNotificationCount` with `cache-and-network`; only the header bell polls (every 30 s while visible, stops when hidden, one fetch when visible again); others read the cache. |
+| `ApprovalCelebration` (component, not a hook) | `GetMyAccountState` (`network-only`, polled every 30 s while visible, organizers only), `MarkApprovalCelebrationDone`; keeps `userVar.memberStatus` in step with the server (F352). |
 | `useNotificationActions` | `MarkNotificationRead` / `MarkAllNotificationsRead` with `refetchQueries` for the count and list. |
 | `useEventFilters` | `/events` filter state in the URL (see Flow 6) plus `buildEventsInput`. |
 | `useUrlState(key)` | Page + one extra key (tab/status) in the URL. |

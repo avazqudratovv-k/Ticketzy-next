@@ -469,6 +469,16 @@ export const GET_UNREAD_NOTIFICATION_COUNT = gql`
 	}
 `;
 
+/** Own status and the approval-celebration flag, cheap to poll (backend #120). Allowed for PENDING, REJECTED and SUSPENDED members too. */
+export const GET_MY_ACCOUNT_STATE = gql`
+	query GetMyAccountState {
+		getMyAccountState {
+			memberStatus
+			approvalCelebrationPending
+		}
+	}
+`;
+
 export const GET_MY_FAVORITES = gql`
 	query GetMyFavorites($input: OrdinaryInquiry!) {
 		getFavorites(input: $input) {

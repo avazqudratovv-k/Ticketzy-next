@@ -36,6 +36,30 @@
 			border-radius: var(--radius-xl);
 		}
 	}
+	// "Forgot password?" under the password field (F353): a text button that opens the explanation in place
+	&__forgot {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin-top: calc(var(--space-3) * -1); // tucks under the password field inside the form's gap
+	}
+	&__forgot-btn {
+		align-self: flex-start;
+		min-height: 44px;
+		padding: 0;
+		color: var(--accent-text);
+		font: var(--text-label);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		background: none;
+		border: 0;
+		border-radius: var(--radius-sm);
+		cursor: pointer;
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: 2px;
+		}
+	}
 	&__divider {
 		display: flex;
 		align-items: center;

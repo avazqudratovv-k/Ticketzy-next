@@ -26,6 +26,10 @@ A decorative, one-time ~3 s sequence on the order confirmation page when the ord
 - Reduced motion: logo fades on a plain scrim; no blur, glow, rings, sheen, badge or confetti.
 - The `role="status"` text on the page stays the announcement. A new overlay of this kind should follow the same rules and not use the MUI dialog.
 
+### Approval celebration (F352)
+
+`ApprovalCelebration` (in `_app.tsx`) reuses the same overlay through `SplashOverlay` (`libs/components/common/SplashOverlay.tsx`, props `message?` and `onEnd`); `PaidSplash` is now only the "just paid" decision. A new overlay of this kind should also use `SplashOverlay`, add its own `tz-sr` `role="status"` announcement outside the `aria-hidden` overlay (mounted empty, filled when it starts), and keep any text on a solid token surface (`.tz-splash__msg`), never directly on the scrim. Once-only rules: server flag first, per-tab `sessionStorage` guard second.
+
 ## Sticky bottom bar (`.tz-bar`, `useStickyBar`)
 
 Phones and tablets only (hidden from 1024 px). Fixed, so it never moves the page.

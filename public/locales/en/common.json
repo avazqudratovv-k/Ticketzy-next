@@ -157,8 +157,13 @@
       "REFUND_COMPLETED": "Your order was refunded",
       "ORDER_REFUNDED": "An order was refunded",
       "NEW_MESSAGE": "You have a new message",
-      "PAYOUT_PAID": "A payout was recorded"
+      "PAYOUT_PAID": "A payout was recorded",
+      "PAYOUT_DUE": "Your payout is due",
+      "PAYOUT_DUE_ADMIN": "A payout is due"
     }
+  },
+  "approval": {
+    "message": "Your organizer account is approved. Welcome to Ticketzy!"
   },
   "assistant": {
     "fab": "Ask Ticketzy",

@@ -83,7 +83,8 @@ export type NotificationType =
 	| 'REFUND_COMPLETED'
 	| 'ORDER_REFUNDED'
 	| 'NEW_MESSAGE'
-	| 'PAYOUT_PAID';
+	| 'PAYOUT_PAID'
+	| 'PAYOUT_DUE';
 
 export interface NotificationItem {
 	_id: string;
@@ -96,4 +97,10 @@ export interface NotificationItem {
 	orderId?: string | null;
 	conversationId?: string | null;
 	createdAt: string;
+}
+
+/** `getMyAccountState` and `markApprovalCelebrationDone`: the member's own status and whether the approval celebration is still owed. */
+export interface MyAccountState {
+	memberStatus: string;
+	approvalCelebrationPending: boolean;
 }

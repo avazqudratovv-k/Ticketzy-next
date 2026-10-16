@@ -1,5 +1,5 @@
 import { MemberType } from '../enums/member.enum';
-import { eventUrl } from '../routes';
+import { eventUrl, ROUTES } from '../routes';
 import { NotificationItem } from '../types/account';
 
 /**
@@ -24,12 +24,17 @@ export const KNOWN_TYPES = [
 	'ORDER_REFUNDED',
 	'NEW_MESSAGE',
 	'PAYOUT_PAID',
+	'PAYOUT_DUE',
 ] as const;
 
-/** ORDER_PAID goes to the buyer ("Payment received") and to the organizer ("New ticket sale"). */
+/**
+ * ORDER_PAID goes to the buyer ("Payment received") and to the organizer ("New ticket sale").
+ * PAYOUT_DUE goes to the organizer ("Your payout is due") and to every admin ("A payout is due").
+ */
 export function titleKey(item: Pick<NotificationItem, 'notificationType'>, memberType?: MemberType): string | null {
 	if (!(KNOWN_TYPES as readonly string[]).includes(item.notificationType)) return null;
 	if (item.notificationType === 'ORDER_PAID' && memberType && memberType !== MemberType.USER) return 'notifications.type.ORDER_PAID_SALE';
+	if (item.notificationType === 'PAYOUT_DUE' && memberType === MemberType.ADMIN) return 'notifications.type.PAYOUT_DUE_ADMIN';
 	return `notifications.type.${item.notificationType}`;
 }
 
@@ -47,8 +52,11 @@ export function notificationHref(item: NotificationItem, memberType?: MemberType
 			if (!item.conversationId || buyer) return null;
 			return `${memberType === MemberType.ADMIN ? '/admin' : '/organizer'}/messages?c=${encodeURIComponent(item.conversationId)}`;
 		case 'PAYOUT_PAID':
-			// only organizers get it; their payouts page lists the paid event
+		case 'PAYOUT_DUE':
+			// PAYOUT_PAID goes to the organizer, PAYOUT_DUE to the organizer and the admins; the payouts page lists the event
 			return buyer ? null : memberType === MemberType.ADMIN ? '/admin/payouts' : '/organizer/payouts';
+		case 'ORGANIZER_VERIFIED':
+			return memberType === MemberType.ORGANIZER ? ROUTES.organizerDashboard : null;
 		case 'EVENT_CANCELLED':
 		case 'LIKE':
 		case 'COMMENT':

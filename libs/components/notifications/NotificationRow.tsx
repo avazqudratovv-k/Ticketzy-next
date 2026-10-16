@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { Bell, CalendarBlank, ChatCircle, Heart, Megaphone, Money, Receipt, ShieldCheck, Ticket, Warning } from 'phosphor-react';
+import { Bell, CalendarBlank, ChatCircle, Clock, Heart, Megaphone, Money, Receipt, ShieldCheck, Ticket, Warning } from 'phosphor-react';
 import { MemberType } from '../../enums/member.enum';
 import { daysAgo, formatEventTime, formatViewerDate } from '../../format';
 import { notificationHref, parseRefundSummary, titleKey } from '../../account/notifications';
@@ -24,6 +24,7 @@ const ICONS: Partial<Record<NotificationType, typeof Bell>> = {
 	EVENT_APPROVED: ShieldCheck,
 	COMMISSION_UPDATED: Megaphone,
 	PAYOUT_PAID: Money,
+	PAYOUT_DUE: Clock,
 };
 
 interface Props {

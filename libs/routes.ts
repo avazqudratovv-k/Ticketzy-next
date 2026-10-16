@@ -14,6 +14,7 @@ export const ROUTES = {
 	login: '/account/login',
 	signup: '/account/signup',
 	sell: '/sell',
+	contact: '/contact',
 	organizerDashboard: '/organizer',
 	adminDashboard: '/admin',
 } as const;

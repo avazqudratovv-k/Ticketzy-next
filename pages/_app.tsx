@@ -9,6 +9,7 @@ import { userVar } from '../apollo/store';
 import { restoreSession } from '../libs/auth';
 import { useSessionWatch } from '../libs/hooks/useSessionWatch';
 import { TOKEN_STORAGE_KEY } from '../libs/auth/token';
+import ApprovalCelebration from '../libs/components/common/ApprovalCelebration';
 import AssistantLifecycle from '../libs/components/assistant/AssistantLifecycle';
 import ErrorBoundary from '../libs/components/common/ErrorBoundary';
 import MessagingLifecycle from '../libs/components/messages/MessagingLifecycle';
@@ -79,6 +80,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 			<ApolloProvider client={client}>
 				<MessagingLifecycle />
 				<AssistantLifecycle />
+				<ApprovalCelebration />
 				<ThemeModeProvider>
 					<ErrorBoundary>
 						<Component {...pageProps} />

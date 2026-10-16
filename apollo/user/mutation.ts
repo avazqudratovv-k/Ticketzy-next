@@ -231,3 +231,13 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+/** Organizer only, own account, no arguments. Clears the server flag; a repeat call changes nothing (backend #120). */
+export const MARK_APPROVAL_CELEBRATION_DONE = gql`
+	mutation MarkApprovalCelebrationDone {
+		markApprovalCelebrationDone {
+			memberStatus
+			approvalCelebrationPending
+		}
+	}
+`;

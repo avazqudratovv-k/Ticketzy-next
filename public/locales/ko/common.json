@@ -154,8 +154,13 @@
       "REFUND_COMPLETED": "주문이 환불되었습니다",
       "ORDER_REFUNDED": "주문이 환불되었습니다(주최자 알림)",
       "NEW_MESSAGE": "새 메시지가 도착했습니다",
-      "PAYOUT_PAID": "정산금 지급이 기록되었어요"
+      "PAYOUT_PAID": "정산금 지급이 기록되었어요",
+      "PAYOUT_DUE": "정산금 지급 기한이 되었어요",
+      "PAYOUT_DUE_ADMIN": "정산금 지급 기한이 된 건이 있어요"
     }
+  },
+  "approval": {
+    "message": "주최자 계정이 승인되었습니다. Ticketzy에 오신 것을 환영합니다!"
   },
   "assistant": {
     "fab": "Ticketzy에게 물어보기",

@@ -157,8 +157,13 @@
       "REFUND_COMPLETED": "Buyurtmangiz qaytarildi",
       "ORDER_REFUNDED": "Buyurtma qaytarildi",
       "NEW_MESSAGE": "Sizda yangi xabar bor",
-      "PAYOUT_PAID": "To‘lov yozib qo‘yildi"
+      "PAYOUT_PAID": "To‘lov yozib qo‘yildi",
+      "PAYOUT_DUE": "To‘lov muddati keldi",
+      "PAYOUT_DUE_ADMIN": "To‘lov muddati kelgan"
     }
+  },
+  "approval": {
+    "message": "Tashkilotchi hisobingiz tasdiqlandi. Ticketzyga xush kelibsiz!"
   },
   "assistant": {
     "fab": "Ticketzyga savol bering",

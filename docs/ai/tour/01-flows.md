@@ -206,3 +206,11 @@ Server time rules used below: the hold lasts `SEAT_HOLD_SECONDS` (default 30, be
 7. The organizer's dashboard and analytics numbers (`GetMyEarnings`, `libs/components/organizer/sales/*`) are separate "live" figures from PAID orders (F137); they do not read the `payouts` collection.
 
 Next: `02-state-and-rules.md`.
+
+## Flow 13. Organizer approval, live
+1. A new organizer signs up and stays on the "awaiting approval" panel (`/account/signup`), signed in as PENDING.
+2. `ApprovalCelebration` polls `getMyAccountState` every 30 s (any page, tab visible).
+3. An admin approves the organizer; the backend sets `approvalCelebrationPending` with the status change and sends `ORGANIZER_VERIFIED`.
+4. The next poll returns `ACTIVE` + flag true: `userVar` is updated (banner and locks go), the guard is set, the splash plays (~3 s, click/Escape/Enter closes), `markApprovalCelebrationDone` is called, and on `/account/signup` the organizer is sent to `/organizer`.
+5. Reload, sign-in again or another device: the flag is false (or the tab guard is set), so nothing plays. Sign-in page: "Forgot password?" explains that an admin resets the password via the contact page (no emails).
+

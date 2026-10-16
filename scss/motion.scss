@@ -560,6 +560,39 @@ img.qr {
 		animation: tz-splash-tick 350ms var(--ease-standard) 1100ms both;
 	}
 }
+// Approval splash message (F352): its own block under the stage (not inside the logo wrapper, so it does not take the logo's width),
+// on a solid token surface so contrast does not depend on the page behind. The stronger scrim (--image-scrim, same in both themes)
+// keeps the page from competing with it; the paid splash has no message and keeps its lighter scrim.
+.tz-splash--msg {
+	flex-direction: column;
+	gap: var(--space-8);
+	padding: var(--space-4);
+	background: var(--image-scrim);
+}
+.tz-splash__msg {
+	max-width: min(90vw, 28rem);
+	margin: 0;
+	padding: var(--space-4) var(--space-6);
+	color: var(--ink);
+	font-size: clamp(1.25rem, 1.05rem + 0.5vw, 1.5rem);
+	font-weight: 600;
+	line-height: 1.35;
+	text-align: center;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-md);
+	animation: tz-splash-msg 300ms var(--ease-out) 900ms both; // after the logo has landed (700 ms from 150 ms)
+	.is-leaving > & {
+		animation: none; // fades with the overlay
+	}
+}
+@keyframes tz-splash-msg {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+}
 
 /** REDUCED MOTION: no movement at all. Page changes keep a short fade. **/
 @media (prefers-reduced-motion: reduce) {
@@ -600,5 +633,8 @@ img.qr {
 	}
 	.tz-splash__mark::after {
 		display: none;
+	}
+	.tz-splash__msg {
+		animation: none !important;
 	}
 }
