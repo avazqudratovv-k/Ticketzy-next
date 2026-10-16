@@ -16,8 +16,8 @@ import ScanResult from '../../libs/components/organizer/checkin/ScanResult';
 import StateBlock from '../../libs/components/states/StateBlock';
 import useAuth from '../../libs/hooks/useAuth';
 import { GET_MY_EVENTS, GET_VENUE_DETAIL } from '../../apollo/organizer/query';
-import { CHECK_IN_TICKET, GET_CHECKIN_COUNTS } from '../../apollo/organizer/orders';
-import { classifyScan, cleanToken, ScanEntry, ScanOutcome } from '../../libs/organizer/checkin';
+import { CHECK_IN_TICKET, CHECK_IN_TICKET_BY_CODE, GET_CHECKIN_COUNTS } from '../../apollo/organizer/orders';
+import { classifyScan, cleanToken, readManual, ScanEntry, ScanOutcome } from '../../libs/organizer/checkin';
 import { OrgEvent } from '../../libs/organizer/types';
 import { localizedEvent } from '../../libs/events';
 import { formatEventWhen, formatNumber } from '../../libs/format';
@@ -41,6 +41,7 @@ interface Shown {
 	place?: string;
 	code?: string;
 	raw?: string;
+	retryAfterSeconds?: number;
 }
 
 const CheckIn: NextPage = () => {
@@ -94,8 +95,17 @@ const CheckIn: NextPage = () => {
 
 	const submit = useCallback(
 		async (raw: string, source: 'camera' | 'manual') => {
+			if (!eventId || busyRef.current) return;
+			// The camera always sends the QR text as it is. The manual box takes a QR token or a ticket code (spaces and dashes allowed).
+			const manualEntry = source === 'manual' ? readManual(raw) : null;
+			if (manualEntry?.kind === 'empty') return;
 			const token = cleanToken(raw);
-			if (!token || !eventId || busyRef.current) return;
+			if (source === 'camera' && !token) return;
+			if (manualEntry?.kind === 'invalid') {
+				setShown({ outcome: 'badCode' });
+				resultRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+				return;
+			}
 			const now = Date.now();
 			if (source === 'camera' && last.current.token === token && now - last.current.at < REPEAT_MS) return;
 			last.current = { token, at: now };
@@ -103,13 +113,16 @@ const CheckIn: NextPage = () => {
 			setBusy(true);
 			let entry: Shown;
 			try {
-				const res = await client.mutate({ mutation: CHECK_IN_TICKET, variables: { qrToken: token, eventId } });
-				const r = res.data?.checkInTicket;
+				const byCode = manualEntry?.kind === 'code';
+				const res = byCode
+					? await client.mutate({ mutation: CHECK_IN_TICKET_BY_CODE, variables: { input: { eventId, ticketCode: manualEntry.value } } })
+					: await client.mutate({ mutation: CHECK_IN_TICKET, variables: { qrToken: manualEntry?.kind === 'token' ? manualEntry.value : token, eventId } });
+				const r = byCode ? res.data?.checkInTicketByCode : res.data?.checkInTicket;
 				entry = { outcome: 'valid', buyer: r?.buyerName, place: place(r?.seat, r?.ticketTypeName), code: r?.ticket?.ticketCode };
 				void refetchCounts();
 			} catch (err) {
-				const { outcome, raw: message } = classifyScan(err);
-				entry = { outcome, raw: message };
+				const { outcome, raw: message, retryAfterSeconds } = classifyScan(err);
+				entry = { outcome, raw: message, retryAfterSeconds };
 			} finally {
 				busyRef.current = false;
 				setBusy(false);
@@ -211,8 +224,9 @@ const CheckIn: NextPage = () => {
 										autoCorrect="off"
 										spellCheck={false}
 										inputMode="text"
+										aria-describedby="checkin-manual-hint"
 									/>
-									<span className="tz-field__hint">{t('checkin.manual.hint')}</span>
+									<span id="checkin-manual-hint" className="tz-field__hint">{t('checkin.manual.hint')}</span>
 									<Button type="submit" variant="outlined" disabled={busy || !cleanToken(manual)}>
 										{busy ? t('checkin.checking') : t('checkin.manual.submit')}
 									</Button>

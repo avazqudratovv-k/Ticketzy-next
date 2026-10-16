@@ -55,7 +55,8 @@
     "alreadyClosed": "This event is already cancelled or has ended, so it can’t be cancelled again.",
     "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. Choose another venue or another time.",
     "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
-    "duplicate": "That value is already in use. Choose a different one."
+    "duplicate": "That value is already in use. Choose a different one.",
+    "eventLayoutLocked": "The venue and the seating type can’t be changed once the event is approved or has seats. Other changes can still be saved."
   },
   "blocked": {
     "reason": "Reason given: {{reason}}",
@@ -853,9 +854,9 @@
       "unavailable": "No camera could be started on this device. Type the code below."
     },
     "manual": {
-      "label": "Scanner not reading? Enter the ticket’s QR code text",
-      "placeholder": "Paste the QR code text",
-      "hint": "This is the long code inside the QR code, not the short ticket code.",
+      "label": "Scanner not reading? Type the ticket code or paste the QR code text",
+      "placeholder": "Ticket code (A3F9 12BC …) or QR code text",
+      "hint": "The ticket code is the 20-character code printed under the QR code. Spaces, dashes and lower case are fine. You can also paste the long text inside the QR code.",
       "submit": "Check ticket"
     },
     "checking": "Checking…",
@@ -876,7 +877,10 @@
       "notOpen": "Closed",
       "notAllowed": "Not allowed",
       "network": "No connection",
-      "error": "Error"
+      "error": "Error",
+      "codeNotFound": "Not found",
+      "badCode": "Invalid",
+      "rateLimited": "Wait"
     },
     "result": {
       "valid": {
@@ -914,6 +918,18 @@
       "error": {
         "title": "Couldn’t check the ticket.",
         "text": "Something went wrong. Try again."
+      },
+      "codeNotFound": {
+        "title": "No ticket found.",
+        "text": "No ticket for this code in the selected event. Check the code and the event above. Do not admit."
+      },
+      "badCode": {
+        "title": "Not a valid ticket code.",
+        "text": "A ticket code has 20 letters and digits (0–9, A–F), shown in groups of four under the QR code. Nothing was checked."
+      },
+      "rateLimited": {
+        "title": "Too many checks.",
+        "text": "Nothing was checked in. Try again in {{seconds}} s."
       }
     }
   },

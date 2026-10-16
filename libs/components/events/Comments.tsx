@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { CREATE_COMMENT, UPDATE_COMMENT } from '../../../apollo/user/mutation';
 import { GET_COMMENTS, GET_EVENT } from '../../../apollo/user/query';
 import useAuth from '../../hooks/useAuth';
+import { parseApiError } from '../../errors';
 import { formatNumber, formatShortDate } from '../../format';
 import { loginUrl } from '../../routes';
 import { CommentItem } from '../../types/event';
@@ -60,8 +61,10 @@ const Comments = ({ eventId, onTotal }: { eventId: string; onTotal?: (total: num
 			});
 			setText('');
 			await refresh();
-		} catch {
-			setError(t('comments.postFailed'));
+		} catch (err) {
+			// the backend refuses a comment on an event that is not public with NO_DATA_FOUND (backend #117); code first, message as fallback
+			const { code, message } = parseApiError(err);
+			setError(t(code === 'NO_DATA_FOUND' || message === 'No data found!' ? 'comments.notPublic' : 'comments.postFailed'));
 		}
 	};
 

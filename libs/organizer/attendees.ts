@@ -1,3 +1,4 @@
+import { normalizeTicketCode } from '../ticketCode';
 export type TicketStatusKey = 'VALID' | 'USED' | 'REFUNDED';
 export const TICKET_STATUSES: TicketStatusKey[] = ['VALID', 'USED', 'REFUNDED'];
 export const isTicketStatus = (value: unknown): value is TicketStatusKey => (TICKET_STATUSES as unknown[]).includes(value);
@@ -19,7 +20,12 @@ export interface Attendee {
 export const matchesSearch = (attendee: Attendee, query: string) => {
 	const needle = query.trim().toLocaleLowerCase();
 	if (!needle) return true;
-	return [attendee.buyerName, attendee.orderNumber, attendee.ticketCode].some((value) => (value ?? '').toLocaleLowerCase().includes(needle));
+	// a code typed or pasted in groups ("A3F9 12BC") still finds the plain stored code
+	const code = normalizeTicketCode(needle);
+	return (
+		[attendee.buyerName, attendee.orderNumber, attendee.ticketCode].some((value) => (value ?? '').toLocaleLowerCase().includes(needle)) ||
+		(code.length > 0 && (attendee.ticketCode ?? '').toUpperCase().includes(code))
+	);
 };
 
 /** The tickets bought in the same order as this one, in the order they were issued. */

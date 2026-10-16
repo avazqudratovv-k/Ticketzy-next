@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { ArrowUUpLeft, CheckCircle, Clock, Prohibit, QrCode, WarningCircle, XCircle } from 'phosphor-react';
 import { ScanOutcome } from '../../../organizer/checkin';
+import TicketCode from '../../common/TicketCode';
 
 const ICON = {
 	valid: CheckCircle,
@@ -10,6 +11,9 @@ const ICON = {
 	invalid: QrCode,
 	notOpen: Clock,
 	notAllowed: Prohibit,
+	codeNotFound: QrCode,
+	badCode: QrCode,
+	rateLimited: Clock,
 	network: WarningCircle,
 	error: WarningCircle,
 } as const;
@@ -23,6 +27,9 @@ const TONE: Record<ScanOutcome, 'success' | 'danger' | 'warning'> = {
 	invalid: 'danger',
 	notOpen: 'warning',
 	notAllowed: 'warning',
+	codeNotFound: 'danger',
+	badCode: 'warning',
+	rateLimited: 'warning',
 	network: 'warning',
 	error: 'warning',
 };
@@ -34,9 +41,11 @@ interface Props {
 	code?: string;
 	/** the server's own words, shown for a message that has no translation */
 	raw?: string;
+	/** only for `rateLimited`: seconds until the next try */
+	retryAfterSeconds?: number;
 }
 
-const ScanResult = ({ outcome, buyer, place, code, raw }: Props) => {
+const ScanResult = ({ outcome, buyer, place, code, raw, retryAfterSeconds }: Props) => {
 	const { t } = useTranslation('organizer');
 	const Icon = ICON[outcome];
 	return (
@@ -47,8 +56,12 @@ const ScanResult = ({ outcome, buyer, place, code, raw }: Props) => {
 			<div className="org-result__body">
 				<h2 className="org-result__title">{t(`checkin.result.${outcome}.title`)}</h2>
 				{(buyer || place) && <p className="org-result__who">{[buyer, place].filter(Boolean).join(' · ')}</p>}
-				{code && <p className="org-result__code">{code}</p>}
-				<p className="org-result__text">{outcome === 'error' && raw ? raw : t(`checkin.result.${outcome}.text`)}</p>
+				{code && (
+					<p className="org-result__code">
+						<TicketCode code={code} />
+					</p>
+				)}
+				<p className="org-result__text">{outcome === 'error' && raw ? raw : t(`checkin.result.${outcome}.text`, { seconds: retryAfterSeconds ?? 60 })}</p>
 			</div>
 		</div>
 	);

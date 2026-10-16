@@ -189,7 +189,8 @@
     "confirmDelete": "Delete",
     "cancel": "Cancel",
     "delete": "Delete",
-    "more": "Show more comments"
+    "more": "Show more comments",
+    "notPublic": "This event is no longer open for comments."
   },
   "seats": {
     "title": "Select seats",

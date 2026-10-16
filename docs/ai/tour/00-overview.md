@@ -212,7 +212,7 @@ F-number ranges in `DECISIONS.md` (one line each; read the row for detail):
 | F93 to F111 | Organizer event editor: six steps, fields not built, edit locks by status, ticket types in KRW, AI translate, image upload one by one, zoned date inputs, dashboard, unsaved guard, first-login E11000 note. |
 | F112 to F123 | Venue layout editor: lock rule, section geometry, limits, canvas bounds, shared drawing with buyers, undo/redo 100 steps, server error placement, time zones list. |
 | F124 to F136 | Event time block, end-time default, multi-day convention, sale-window validation, backend messages mapped. |
-| F137 to F146 | Organizer earnings, sales chart, orders per event, cancel dialog, check-in by `qrToken`, scan outcomes, html5-qrcode scanner. |
+| F137 to F146 | Organizer earnings, sales chart, orders per event, cancel dialog, check-in by `qrToken` (and, since F351, by ticket code), scan outcomes, html5-qrcode scanner. |
 | F147 to F170 | Admin console: members, empty-list errors, overview figures, event approvals, AI check panel, refund retry, organizer approvals, commission override and clear, orders filters, member error codes. |
 | F171 to F190 | Messaging: one shared socket, rooms, polling fallback, previews, limits, read receipts, notification links, admin-starts-conversation. |
 | F191 to F196 | Desktop layout fixes for order page and dashboards (container queries on account and dashboard areas). |

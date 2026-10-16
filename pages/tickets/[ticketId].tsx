@@ -15,6 +15,7 @@ import QrCode from '../../libs/components/account/QrCode';
 import { eventTitleOf } from '../../libs/components/account/OrderRow';
 import { TicketBadge } from '../../libs/components/account/StatusBadge';
 import EventImage from '../../libs/components/events/EventImage';
+import TicketCode from '../../libs/components/common/TicketCode';
 import Seo from '../../libs/components/common/Seo';
 import { useSectionNames } from '../../libs/hooks/useSectionNames';
 import { seatLabel } from '../../libs/seats/label';
@@ -165,7 +166,7 @@ const TicketDetail: NextPage = () => {
 										<QrCode value={ticket.qrToken!} label={qrLabel} />
 									</div>
 									<p className="tdetail__code">
-										<span>{t('ticket.code')}</span> <code>{ticket.ticketCode}</code>
+										<span>{t('ticket.code')}</span> <TicketCode code={ticket.ticketCode} copy />
 									</p>
 									<Button variant="outlined" startIcon={<ArrowsOut size={20} aria-hidden="true" />} onClick={() => setFullscreen(true)}>
 										{t('ticket.fullscreen')}
@@ -253,7 +254,7 @@ const TicketDetail: NextPage = () => {
 				<div className="qrfull__body">
 					{ticket.qrToken && <QrCode value={ticket.qrToken} label={qrLabel} className="qr--full" />}
 					<p className="qrfull__code">
-						<code>{ticket.ticketCode}</code>
+						<TicketCode code={ticket.ticketCode} />
 					</p>
 					<p className="qrfull__hint">{t('ticket.tipBrightness')}</p>
 				</div>

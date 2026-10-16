@@ -22,6 +22,7 @@ import { GET_VENUE_DETAIL } from '../../apollo/organizer/query';
 import { Attendee, ATTENDEES_PAGE_SIZE, downloadCsv, isTicketStatus, matchesSearch, sameOrder, slug, TICKET_STATUSES, TicketStatusKey, toCsv } from '../../libs/organizer/attendees';
 import { formatEventDate, formatNumber } from '../../libs/format';
 import ScrollFade from '../../libs/components/common/ScrollFade';
+import TicketCode from '../../libs/components/common/TicketCode';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { organizerEventsUrl } from '../../libs/routes';
 
@@ -265,7 +266,7 @@ const Attendees: NextPage = () => {
 											<span className="org-row__meta">{place(a)}</span>
 										</div>
 										<div role="cell" className="org-mono">
-											{a.ticketCode}
+											<TicketCode code={a.ticketCode} />
 										</div>
 										<div role="cell">
 											<TicketStatusBadge status={a.ticketStatus} />

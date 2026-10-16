@@ -255,5 +255,10 @@
     "tooSmall": "{{min}} yoki undan katta qiymat kiriting.",
     "tooBig": "{{max}} yoki undan kichik qiymat kiriting.",
     "invalid": "Qiymat yaroqsiz. Tekshirib, qayta urinib koʻring."
+  },
+  "ticketCode": {
+    "copy": "Kodni nusxalash",
+    "copied": "Kod nusxalandi",
+    "failed": "Nusxalab boʻlmadi"
   }
 }

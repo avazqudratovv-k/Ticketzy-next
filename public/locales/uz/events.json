@@ -189,7 +189,8 @@
     "confirmDelete": "O‘chirish",
     "cancel": "Bekor qilish",
     "delete": "O‘chirish",
-    "more": "Yana izohlar"
+    "more": "Yana izohlar",
+    "notPublic": "Bu tadbir endi izohlar uchun ochiq emas."
   },
   "seats": {
     "title": "O‘rin tanlash",

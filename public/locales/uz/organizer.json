@@ -55,7 +55,8 @@
     "alreadyClosed": "Tadbir allaqachon bekor qilingan yoki tugagan, shuning uchun uni qayta bekor qilib boʻlmaydi.",
     "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Boshqa maydon yoki boshqa vaqtni tanlang.",
     "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
-    "duplicate": "Bu qiymat allaqachon band. Boshqasini tanlang."
+    "duplicate": "Bu qiymat allaqachon band. Boshqasini tanlang.",
+    "eventLayoutLocked": "Tadbir tasdiqlangandan keyin yoki oʻrindiqlari boʻlsa, joy va oʻrindiq turini oʻzgartirib boʻlmaydi. Boshqa oʻzgarishlarni saqlash mumkin."
   },
   "blocked": {
     "reason": "Koʻrsatilgan sabab: {{reason}}",
@@ -853,9 +854,9 @@
       "unavailable": "Bu qurilmada kamerani ishga tushirib boʻlmadi. Kodni pastga kiriting."
     },
     "manual": {
-      "label": "Skaner oʻqimayaptimi? Chiptaning QR kod matnini kiriting",
-      "placeholder": "QR kod matnini joylashtiring",
-      "hint": "Bu qisqa chipta kodi emas, QR kod ichidagi uzun koddir.",
+      "label": "Skaner oʻqimayaptimi? Chipta kodini kiriting yoki QR kod matnini joylashtiring",
+      "placeholder": "Chipta kodi (A3F9 12BC …) yoki QR kod matni",
+      "hint": "Chipta kodi — QR kod ostida bosilgan 20 belgili kod. Boʻsh joy, defis va kichik harflar xalaqit bermaydi. QR kod ichidagi uzun matnni ham joylashtirish mumkin.",
       "submit": "Chiptani tekshirish"
     },
     "checking": "Tekshirilmoqda…",
@@ -876,7 +877,10 @@
       "notOpen": "Yopiq",
       "notAllowed": "Ruxsat yoʻq",
       "network": "Aloqa yoʻq",
-      "error": "Xato"
+      "error": "Xato",
+      "codeNotFound": "Topilmadi",
+      "badCode": "Yaroqsiz",
+      "rateLimited": "Kuting"
     },
     "result": {
       "valid": {
@@ -914,6 +918,18 @@
       "error": {
         "title": "Chiptani tekshirib boʻlmadi.",
         "text": "Xatolik yuz berdi. Qayta urinib koʻring."
+      },
+      "codeNotFound": {
+        "title": "Chipta topilmadi.",
+        "text": "Tanlangan tadbirda bu kodli chipta yoʻq. Kodni va yuqoridagi tadbirni tekshiring. Kiritmang."
+      },
+      "badCode": {
+        "title": "Chipta kodi yaroqsiz.",
+        "text": "Chipta kodi 20 ta harf va raqamdan (0–9, A–F) iborat va QR kod ostida toʻrttadan guruhlangan. Hech narsa tekshirilmadi."
+      },
+      "rateLimited": {
+        "title": "Juda koʻp tekshiruv.",
+        "text": "Hech narsa belgilanmadi. {{seconds}} s dan keyin qayta urinib koʻring."
       }
     }
   },

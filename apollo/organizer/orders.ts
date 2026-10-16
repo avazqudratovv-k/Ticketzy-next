@@ -94,6 +94,27 @@ export const CHECK_IN_TICKET = gql`
 	}
 `;
 
+/** The same result by the ticket code printed under the QR code (backend #116). The QR operation above is unchanged. */
+export const CHECK_IN_TICKET_BY_CODE = gql`
+	mutation CheckInTicketByCode($input: CheckInByCodeInput!) {
+		checkInTicketByCode(input: $input) {
+			ticketStatus
+			buyerName
+			ticketTypeName
+			seat {
+				sectionKey
+				row
+				number
+			}
+			ticket {
+				_id
+				ticketCode
+				checkedInAt
+			}
+		}
+	}
+`;
+
 /** Attendee counts of one event: total, and how many are USED. */
 export const GET_CHECKIN_COUNTS = gql`
 	query GetCheckInCounts($eventId: String!) {

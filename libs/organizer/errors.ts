@@ -37,6 +37,7 @@ const KNOWN: Record<string, string> = {
 	'You are not authenticated, please login first!': 'notAuthenticated',
 	'Your account was not verified. Please contact support.': 'notVerified',
 	'The venue layout is not valid!': 'layoutInvalid',
+	'The venue and the seating type cannot change after the seats of this event were generated!': 'eventLayoutLocked',
 	'The venue layout needs at least one section!': 'layoutNoSections',
 	'Section keys in a venue layout must be unique!': 'layoutDuplicateKey',
 	'Rows and seats per row must be whole numbers between 1 and 100!': 'layoutBadGrid',
@@ -50,6 +51,11 @@ const KNOWN: Record<string, string> = {
 	'This event has ended, so tickets can no longer be bought!': 'eventEnded',
 	'Ticket sales for this event have not started yet!': 'salesNotStarted',
 	'Ticket sales for this event are closed!': 'salesClosed',
+};
+
+/** Backend error codes (keys of libs/enums/common.enum.ts) read before the message text, as F350 does; the message above stays the fallback. */
+const CODES: Record<string, string> = {
+	EVENT_LAYOUT_LOCKED: 'eventLayoutLocked',
 };
 
 /** Shared AI cause (libs/aiErrors.ts) to the key under `ai.errors.` in organizer.json. */
@@ -85,7 +91,7 @@ export function describeError(err: unknown, kind: 'server' | 'ai' = 'server'): D
 	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
 	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
 	const cause = kind === 'ai' ? aiCause({ ...parsed, message: raw }) : undefined;
-	const key = kind === 'ai' ? (cause ? AI_KEYS[cause] : undefined) : KNOWN[raw] ?? serviceUnavailableKey(parsed.code);
+	const key = kind === 'ai' ? (cause ? AI_KEYS[cause] : undefined) : CODES[parsed.code] ?? KNOWN[raw] ?? serviceUnavailableKey(parsed.code);
 	return { key, network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
 

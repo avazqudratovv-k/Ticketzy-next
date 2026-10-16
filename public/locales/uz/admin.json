@@ -49,7 +49,8 @@
     "venueBooked": "Bu maydon {{start}} dan {{end}} gacha «{{title}}» uchun band qilingan. Vaqt ustma-ust tushar ekan, tadbirni tasdiqlab bo‘lmaydi.",
     "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
     "adminPassword": "Boshqa administratorning parolini tiklab boʻlmaydi. Administratorlar parolni oʻzlari oʻzgartiradi.",
-    "duplicate": "Bu qiymat allaqachon band. Boshqasini tanlang."
+    "duplicate": "Bu qiymat allaqachon band. Boshqasini tanlang.",
+    "eventLayoutLocked": "Tadbir tasdiqlangandan keyin yoki oʻrindiqlari boʻlsa, joy va oʻrindiq turini oʻzgartirib boʻlmaydi. Boshqa oʻzgarishlarni saqlash mumkin."
   },
   "memberStatus": {
     "PENDING": "Tasdiqlanishi kutilmoqda",

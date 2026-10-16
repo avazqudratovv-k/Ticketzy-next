@@ -32,6 +32,7 @@ const KNOWN: Record<string, string> = {
 	'This event is already cancelled or ended!': 'eventClosed',
 	'Only the orders of a cancelled event can be refunded this way!': 'notCancelled',
 	'The venue layout is not valid!': 'layoutInvalid',
+	'The venue and the seating type cannot change after the seats of this event were generated!': 'eventLayoutLocked',
 	'Every seated section needs a ticket type with a matching tier key!': 'tierMissing',
 	'Only one ticket type of an event can use a tier key!': 'tierDuplicate',
 	'A reserved-seating event needs a venue with a seated section before it can be submitted!': 'needsLayout',
@@ -49,6 +50,11 @@ const KNOWN: Record<string, string> = {
 	'You are not authenticated, please login first!': 'notAuthenticated',
 	'Bad Request': 'badRequest',
 	'Something went wrong!': 'generic',
+};
+
+/** Backend error codes (keys of libs/enums/common.enum.ts) read before the message text, as F350 does; the message above stays the fallback. */
+const CODES: Record<string, string> = {
+	EVENT_LAYOUT_LOCKED: 'eventLayoutLocked',
 };
 
 /** AI check failures: shared cause (libs/aiErrors.ts) to the key under `ai.errors.` in admin.json. The check is advisory, so none of these block a decision. */
@@ -87,7 +93,7 @@ export function describeAdminError(err: unknown, kind: 'server' | 'ai' = 'server
 	const raw = flat(parsed.message);
 	const booked = kind === 'server' ? parseVenueBooked(raw) : null;
 	if (booked) return { key: 'venueBooked', network: false, raw, code: parsed.code, booked };
-	const key = kind === 'ai' ? aiKey({ ...parsed, message: raw }) : KNOWN[raw] ?? serviceUnavailableKey(parsed.code);
+	const key = kind === 'ai' ? aiKey({ ...parsed, message: raw }) : CODES[parsed.code] ?? KNOWN[raw] ?? serviceUnavailableKey(parsed.code);
 	return { key, network: parsed.code === NETWORK_ERROR, raw, code: parsed.code };
 }
 

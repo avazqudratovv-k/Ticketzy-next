@@ -925,3 +925,32 @@
 		gap: var(--space-2);
 	}
 }
+
+/** TICKET CODE: groups of 4 with a copy button (libs/components/common/TicketCode.tsx) **/
+.tz-tcode {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-1) var(--space-2);
+	code {
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.06em;
+		word-spacing: 0.25em;
+		overflow-wrap: anywhere;
+	}
+	&__copy.MuiButton-root {
+		min-width: 0;
+		color: var(--ink-muted);
+	}
+	&__note {
+		color: var(--ink-muted);
+		font: var(--text-body-sm);
+	}
+}
+.tdetail__code {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--space-1);
+}

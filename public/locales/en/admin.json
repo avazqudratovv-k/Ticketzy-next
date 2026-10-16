@@ -49,7 +49,8 @@
     "venueBooked": "This venue is already booked for {{title}} from {{start}} to {{end}}. The event can’t be approved while the times overlap.",
     "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
     "adminPassword": "The password of another admin can’t be reset. Admins change their own password.",
-    "duplicate": "That value is already in use. Choose a different one."
+    "duplicate": "That value is already in use. Choose a different one.",
+    "eventLayoutLocked": "The venue and the seating type can’t be changed once the event is approved or has seats. Other changes can still be saved."
   },
   "memberStatus": {
     "PENDING": "Waiting for approval",

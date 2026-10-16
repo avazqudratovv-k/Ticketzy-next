@@ -255,5 +255,10 @@
     "tooSmall": "Enter {{min}} or more.",
     "tooBig": "Enter {{max}} or less.",
     "invalid": "This value is not valid. Check it and try again."
+  },
+  "ticketCode": {
+    "copy": "Copy code",
+    "copied": "Code copied",
+    "failed": "Couldn’t copy"
   }
 }

@@ -4,6 +4,7 @@ import { Drawer, IconButton } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { X } from 'phosphor-react';
 import TicketStatusBadge from './TicketStatusBadge';
+import TicketCode from '../../common/TicketCode';
 import { Attendee } from '../../../organizer/attendees';
 import { formatEventDate } from '../../../format';
 
@@ -44,7 +45,9 @@ const AttendeeDrawer = ({ attendee, tickets, onClose, eventId, timeZone, place }
 										<TicketStatusBadge status={ticket.ticketStatus} />
 									</div>
 									<span className="org-row__meta">{place(ticket)}</span>
-									<span className="org-mono org-row__meta">{ticket.ticketCode}</span>
+									<span className="org-mono org-row__meta">
+										<TicketCode code={ticket.ticketCode} />
+									</span>
 									<span className="org-row__meta">
 										{ticket.checkedInAt ? t('attendees.drawer.checkedInAt', { when: formatEventDate(ticket.checkedInAt, locale, timeZone) }) : t('attendees.notYet')}
 									</span>
