@@ -111,7 +111,7 @@ const OrderDetail: NextPage = () => {
 				<div>
 					<h1 className="acct__title">{title}</h1>
 					<p className="acct__sub">
-						{t('order.number')} <code className="confirm__code">{order.orderNumber}</code> · {t('order.boughtOn', { date: formatViewerDate(order.createdAt, locale) })}
+						{t('order.number')} <code className="confirm__code">{order.orderNumber}</code> · {t(paidLike ? 'order.boughtOn' : 'order.orderedOn', { date: formatViewerDate(order.createdAt, locale) })}
 					</p>
 				</div>
 				<OrderBadge status={order.orderStatus} />

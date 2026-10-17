@@ -18,6 +18,8 @@ const OrderRow = ({ order }: { order: AccountOrder }) => {
 	const { locale } = useRouter();
 	const event = order.eventData;
 	const venue = event?.venueData;
+	// Only a paid (or refunded) order was bought; the others were only ordered (F375)
+	const paid = order.orderStatus === 'PAID' || order.orderStatus === 'REFUNDED';
 	const count = order.items.reduce((sum, item) => sum + item.quantity, 0);
 
 	return (
@@ -39,7 +41,7 @@ const OrderRow = ({ order }: { order: AccountOrder }) => {
 					<dd>{t('order.ticketCount', { count })}</dd>
 				</div>
 				<div>
-					<dt>{t('order.bought')}</dt>
+					<dt>{t(paid ? 'order.bought' : 'order.ordered')}</dt>
 					<dd>{formatViewerDate(order.createdAt, locale)}</dd>
 				</div>
 				<div>

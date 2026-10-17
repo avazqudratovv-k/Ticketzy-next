@@ -32,13 +32,14 @@
       "PENDING_PAYMENT": "Toʻlov kutilmoqda",
       "FAILED": "Muvaffaqiyatsiz",
       "CANCELLED": "Bekor qilingan",
-      "EXPIRED": "Muddati tugagan"
+      "EXPIRED": "Vaqtida to'lanmagan"
     },
     "unknownEvent": "Tadbir",
     "tickets": "Chiptalar",
     "ticketCount_one": "{{count}} ta chipta",
     "ticketCount_other": "{{count}} ta chipta",
     "bought": "Sotib olingan",
+    "ordered": "Buyurtma",
     "total": "Jami",
     "view": "Buyurtmani ochish",
     "notFound": "Buyurtma topilmadi",
@@ -47,6 +48,7 @@
     "detailTitle": "Buyurtma {{number}}",
     "number": "Buyurtma",
     "boughtOn": "{{date}} sotib olingan",
+    "orderedOn": "{{date}} buyurtma qilingan",
     "event": "Tadbir",
     "items": "Chiptalar va jami",
     "viewTickets": "Chiptalarni koʻrish",

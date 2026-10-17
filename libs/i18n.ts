@@ -36,3 +36,10 @@ export function useChangeLanguage() {
 		[router],
 	);
 }
+
+const pathOnly = (url: string) => url.split(/[?#]/)[0].replace(/\/$/, '') || '/';
+const withoutLocale = (path: string) => pathOnly(path).replace(/^\/(en|ko|ru|uz)(?=\/|$)/, '') || '/';
+
+/** True when `url` is the page the buyer is already on, only in another language (a language switch is not leaving, F374). */
+export const isSamePageOtherLocale = (url: string, currentAsPath: string) =>
+	withoutLocale(url) === withoutLocale(currentAsPath);

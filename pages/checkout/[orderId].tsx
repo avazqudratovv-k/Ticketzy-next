@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import { isSamePageOtherLocale } from '../../libs/i18n';
 import { useApolloClient, useQuery } from '@apollo/client';
 import { Button, Checkbox, FormControlLabel } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -126,7 +127,9 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	const live = useRef({ pending: false });
 	live.current.pending = pending;
 	useEffect(() => {
-		const onLeave = () => {
+		const onLeave = (url: string) => {
+			// A language switch is a route change to this same page: the order and the hold stay (F374)
+			if (isSamePageOtherLocale(url, Router.asPath)) return;
 			if (handoff.current || busy.current || !live.current.pending) return;
 			client.mutate({ mutation: CANCEL_PENDING_ORDER, variables: { orderId } }).catch(() => undefined);
 		};

@@ -32,13 +32,14 @@
       "PENDING_PAYMENT": "Waiting for payment",
       "FAILED": "Failed",
       "CANCELLED": "Cancelled",
-      "EXPIRED": "Expired"
+      "EXPIRED": "Not paid in time"
     },
     "unknownEvent": "Event",
     "tickets": "Tickets",
     "ticketCount_one": "{{count}} ticket",
     "ticketCount_other": "{{count}} tickets",
     "bought": "Bought",
+    "ordered": "Ordered",
     "total": "Total",
     "view": "View order",
     "notFound": "Order not found",
@@ -47,6 +48,7 @@
     "detailTitle": "Order {{number}}",
     "number": "Order",
     "boughtOn": "bought {{date}}",
+    "orderedOn": "ordered {{date}}",
     "event": "Event",
     "items": "Tickets and total",
     "viewTickets": "View tickets",

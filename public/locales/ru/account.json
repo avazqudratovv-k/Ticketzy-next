@@ -32,7 +32,7 @@
       "PENDING_PAYMENT": "Ожидает оплаты",
       "FAILED": "Ошибка оплаты",
       "CANCELLED": "Отменён",
-      "EXPIRED": "Истёк"
+      "EXPIRED": "Не оплачен вовремя"
     },
     "unknownEvent": "Событие",
     "tickets": "Билеты",
@@ -41,6 +41,7 @@
     "ticketCount_many": "{{count}} билетов",
     "ticketCount_other": "{{count}} билета",
     "bought": "Куплен",
+    "ordered": "Заказ",
     "total": "Итого",
     "view": "Открыть заказ",
     "notFound": "Заказ не найден",
@@ -49,6 +50,7 @@
     "detailTitle": "Заказ {{number}}",
     "number": "Заказ",
     "boughtOn": "куплен {{date}}",
+    "orderedOn": "заказ от {{date}}",
     "event": "Событие",
     "items": "Билеты и итог",
     "viewTickets": "Открыть билеты",

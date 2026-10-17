@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import { isSamePageOtherLocale } from '../../i18n';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useApolloClient } from '@apollo/client';
@@ -312,7 +313,9 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 	const leaveState = useRef({ held: false });
 	leaveState.current.held = mine.length > 0 && !pending;
 	useEffect(() => {
-		const onLeave = () => {
+		const onLeave = (url: string) => {
+			// A language switch is a route change to this same page: the hold stays (F374)
+			if (isSamePageOtherLocale(url, Router.asPath)) return;
 			if (handoff.current || !leaveState.current.held) return;
 			client.mutate({ mutation: RELEASE_SEATS, variables: { eventId } }).catch(() => undefined);
 		};

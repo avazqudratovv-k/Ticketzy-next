@@ -32,12 +32,13 @@
       "PENDING_PAYMENT": "결제 대기",
       "FAILED": "실패",
       "CANCELLED": "취소됨",
-      "EXPIRED": "만료됨"
+      "EXPIRED": "결제 시간 초과"
     },
     "unknownEvent": "이벤트",
     "tickets": "티켓",
     "ticketCount_other": "{{count}}매",
     "bought": "구매일",
+    "ordered": "주문일",
     "total": "합계",
     "view": "주문 보기",
     "notFound": "주문을 찾을 수 없습니다",
@@ -46,6 +47,7 @@
     "detailTitle": "주문 {{number}}",
     "number": "주문번호",
     "boughtOn": "{{date}} 구매",
+    "orderedOn": "{{date}} 주문",
     "event": "이벤트",
     "items": "티켓 및 합계",
     "viewTickets": "티켓 보기",
