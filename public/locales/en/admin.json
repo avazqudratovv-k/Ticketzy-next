@@ -351,7 +351,7 @@
     "sorts": {
       "newest": "Newest first",
       "oldest": "Oldest first",
-      "followers": "Most liked",
+      "likes": "Most liked",
       "views": "Most viewed"
     },
     "cols": {
@@ -396,7 +396,6 @@
       "registered": "Registered",
       "events": "Events",
       "completed": "Completed events",
-      "followers": "Followers",
       "rate": "Commission rate",
       "about": "About",
       "rejectedWith": "Rejected with this reason:"

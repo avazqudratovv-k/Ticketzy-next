@@ -12,7 +12,7 @@ import Avatar, { displayName } from './Avatar';
 
 /**
  * Role-based links of the avatar menu. Every target opens for that role (no redirect): /orders, /tickets, /notifications
- * and /settings are shared pages; /account/following is shown to buyers only because it is their list.
+ * and /settings are shared pages.
  */
 const linksFor = (type: MemberType): { href: string; key: string }[] => {
 	switch (type) {
@@ -36,7 +36,6 @@ const linksFor = (type: MemberType): { href: string; key: string }[] => {
 			return [
 				{ href: ROUTES.orders, key: 'account.orders' },
 				{ href: ROUTES.tickets, key: 'account.myTickets' },
-				{ href: ROUTES.following, key: 'account.following' },
 				{ href: ROUTES.notifications, key: 'account.notifications' },
 				{ href: ROUTES.settings, key: 'account.settings' },
 			];

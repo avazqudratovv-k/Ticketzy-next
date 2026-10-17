@@ -918,36 +918,6 @@
 	}
 }
 
-.follow-list {
-	display: grid;
-	gap: var(--space-3);
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	@media (min-width: 768px) {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-	&__item {
-		display: flex;
-		align-items: center;
-		gap: var(--space-3);
-		padding: var(--space-4);
-		border: 1px solid var(--border);
-		border-radius: var(--radius-lg);
-		background: var(--surface);
-		&:hover {
-			background: var(--surface-raised);
-		}
-		strong {
-			display: block;
-		}
-		span span {
-			color: var(--ink-muted);
-			font: var(--text-body-sm);
-		}
-	}
-}
-
 /* Destructive action (design: Button danger). The MUI contained theme paints the accent, so this wins by specificity. */
 .MuiButton-root.tz-btn-danger.MuiButton-contained {
 	background: var(--danger);

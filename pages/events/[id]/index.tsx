@@ -25,12 +25,12 @@ import StateBlock from '../../../libs/components/states/StateBlock';
 import CategoryChip from '../../../libs/components/events/CategoryChip';
 import EventImage from '../../../libs/components/events/EventImage';
 import LikeButton from '../../../libs/components/events/LikeButton';
+import { isEventLiked } from '../../../libs/eventLike';
 import { useSalesClock } from '../../../libs/salesWindow';
 import TicketPanel from '../../../libs/components/events/TicketPanel';
 import TicketBar from '../../../libs/components/events/TicketBar';
 import Comments from '../../../libs/components/events/Comments';
 import Avatar from '../../../libs/components/common/OrganizerAvatar';
-import FollowButton from '../../../libs/components/events/FollowButton';
 import useAuth from '../../../libs/hooks/useAuth';
 import { CATEGORY_SLUGS, categoryHref, localizedEvent, saleState } from '../../../libs/events';
 import {
@@ -179,7 +179,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 		  )}`
 		: null;
 	const organizer = event.memberData;
-	const liked = Boolean(event.meLiked?.[0]?.myFavorite);
+	const liked = isEventLiked(event);
 	const contentLang = translated ? undefined : lang;
 	const banner =
 		state === 'cancelled' ||
@@ -361,7 +361,6 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 									<Link href={organizerUrl(organizer._id)} className="tz-link">
 										{t('detail.moreFrom', { name: organizer.memberFullName || organizer.memberNick })}
 									</Link>
-									<FollowButton organizerId={organizer._id} name={organizer.memberFullName || organizer.memberNick || ''} />
 								</div>
 							</div>
 						</section>

@@ -123,10 +123,6 @@ const OrganizerDrawer = ({ organizer, onClose, onChanged }: Props) => {
 									<dd>{formatNumber(organizer.completedEvents, locale)}</dd>
 								</div>
 								<div>
-									<dt>{t('organizers.drawer.followers')}</dt>
-									<dd>{formatNumber(organizer.memberFollowers, locale)}</dd>
-								</div>
-								<div>
 									<dt>{t('organizers.drawer.rate')}</dt>
 									<dd>
 										{t('percent', { value: formatNumber(rate.rate, locale) })} · {t(`commission.source.${rate.source}`)}

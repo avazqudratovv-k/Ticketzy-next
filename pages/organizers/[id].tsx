@@ -11,10 +11,10 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Seo from '../../libs/components/common/Seo';
 import StateBlock from '../../libs/components/states/StateBlock';
 import EventCard, { EventGridSkeleton } from '../../libs/components/events/EventCard';
-import FollowButton from '../../libs/components/events/FollowButton';
 import Avatar from '../../libs/components/common/OrganizerAvatar';
 import { formatNumber } from '../../libs/format';
 import { ROUTES } from '../../libs/routes';
+import useAuth from '../../libs/hooks/useAuth';
 import { serverQuery } from '../../libs/serverFetch';
 import { parseApiError } from '../../libs/errors';
 import { EventItem } from '../../libs/types/event';
@@ -49,6 +49,7 @@ const OrganizerPage: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 	const { t } = useTranslation('events');
 	const router = useRouter();
 	const { locale } = router;
+	const { ready } = useAuth();
 	const id = typeof router.query.id === 'string' ? router.query.id : '';
 
 	const { data, error, loading, refetch } = useQuery(GET_ORGANIZER, {
@@ -57,7 +58,7 @@ const OrganizerPage: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 	});
 	const { data: eventsData, loading: eventsLoading } = useQuery<GetEventsData, GetEventsVars>(GET_EVENTS, {
 		variables: { input: { page: 1, limit: LIMIT, sort: 'startAt', direction: 'ASC', search: { organizerId: id } } },
-		skip: !router.isReady,
+		skip: !router.isReady || !ready,
 		fetchPolicy: 'cache-and-network',
 	});
 
@@ -126,7 +127,6 @@ const OrganizerPage: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 							})}
 						</li>
 					</ul>
-					<FollowButton organizerId={member._id} name={name} />
 				</div>
 			</header>
 

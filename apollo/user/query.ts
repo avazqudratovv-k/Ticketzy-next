@@ -72,7 +72,6 @@ export const GET_EVENT = gql`
 				memberDesc
 				memberEvents
 				completedEvents
-				memberFollowers
 			}
 			venueData {
 				_id
@@ -139,23 +138,6 @@ export const GET_ORGANIZER = gql`
 			memberAddress
 			memberEvents
 			completedEvents
-			memberFollowers
-		}
-	}
-`;
-
-/** Follower count and whether the signed-in member follows this organizer (`meFollowed` is empty when signed out). */
-export const GET_ORGANIZER_FOLLOW = gql`
-	query GetOrganizerFollow($memberId: String!) {
-		getMember(memberId: $memberId) {
-			_id
-			memberType
-			memberFollowers
-			meFollowed {
-				followingId
-				followerId
-				myFollowing
-			}
 		}
 	}
 `;
@@ -509,26 +491,4 @@ export const GET_MY_FAVORITES = gql`
 		}
 	}
 	${EVENT_CARD_FIELDS}
-`;
-
-export const GET_MY_FOLLOWINGS = gql`
-	query GetMyFollowings($input: FollowInquiry!) {
-		getMemberFollowings(input: $input) {
-			list {
-				_id
-				followingId
-				followingData {
-					_id
-					memberNick
-					memberFullName
-					memberImage
-					memberEvents
-					memberFollowers
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
 `;

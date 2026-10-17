@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { MapPin } from 'phosphor-react';
 import Avatar from '../../common/OrganizerAvatar';
@@ -13,14 +12,13 @@ interface Props {
 	image: string | null | undefined;
 	events: number;
 	completed: number;
-	followers: number;
 }
 
 /**
  * What /organizers/[id] shows for these values, drawn with the page's own header classes so it stays in step with it. The
- * follow button is inert here (aria-disabled) and the whole box is a preview, not a link.
+ * whole box is a preview, not a link.
  */
-const ProfilePreview = ({ name, nick, desc, address, image, events, completed, followers }: Props) => {
+const ProfilePreview = ({ name, nick, desc, address, image, events, completed }: Props) => {
 	const { t } = useTranslation('organizer');
 	const { t: te } = useTranslation('events');
 	const { locale } = useRouter();
@@ -42,10 +40,6 @@ const ProfilePreview = ({ name, nick, desc, address, image, events, completed, f
 						<li>{te('organizer.eventsCount', { count: events, n: formatNumber(events, locale) })}</li>
 						<li>{te('organizer.completed', { count: completed, n: formatNumber(completed, locale) })}</li>
 					</ul>
-					<Button variant="outlined" disabled aria-disabled="true">
-						{te('follow.follow')}
-					</Button>
-					<p className="org-hint">{te('follow.followers', { count: followers, n: formatNumber(followers, locale) })}</p>
 				</div>
 			</header>
 		</div>

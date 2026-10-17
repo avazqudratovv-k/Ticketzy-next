@@ -9,6 +9,7 @@ import { CATEGORY_SLUGS, categoryHref } from '../../events';
 import { upcomingSearch } from '../../homeFeatured';
 import { prefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import useRailPeek from '../../hooks/useRailPeek';
+import useAuth from '../../hooks/useAuth';
 import { EventItem } from '../../types/event';
 import Reveal from '../common/Reveal';
 import EventCard, { EventCardSkeleton } from './EventCard';
@@ -98,10 +99,12 @@ interface RowProps {
 export const CategoryRow = ({ category, title, from }: RowProps) => {
 	const { t } = useTranslation('events');
 	const id = `home-row-${category.slug}`;
+	const { ready } = useAuth();
 	const { data, loading, error, refetch } = useQuery<GetEventsData, GetEventsVars>(GET_EVENTS, {
 		variables: {
 			input: { page: 1, limit: ROW_LIMIT, sort: 'startAt', direction: 'ASC', search: upcomingSearch(from, { categoryList: category.list }) },
 		},
+		skip: !ready,
 		fetchPolicy: 'cache-and-network',
 		notifyOnNetworkStatusChange: true,
 	});

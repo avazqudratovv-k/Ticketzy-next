@@ -5,7 +5,6 @@
     "orders": "Buyurtmalar tarixi",
     "notifications": "Bildirishnomalar",
     "saved": "Saqlangan tadbirlar",
-    "following": "Obunalar",
     "settings": "Profil va sozlamalar"
   },
   "state": {
@@ -172,14 +171,6 @@
     "sub": "Siz yoqtirgan tadbirlar.",
     "emptyTitle": "Saqlangan tadbirlar yoʻq",
     "emptyText": "Tadbirdagi yurakchani bossangiz, u shu yerda saqlanadi."
-  },
-  "following": {
-    "title": "Obunalar",
-    "sub": "Siz obuna boʻlgan tashkilotchilar.",
-    "emptyTitle": "Hech kimga obuna boʻlmagansiz",
-    "emptyText": "Tashkilotchining sahifasida obuna boʻlsangiz, u shu yerda chiqadi.",
-    "events_one": "{{count}} ta tadbir",
-    "events_other": "{{count}} ta tadbir"
   },
   "notifications": {
     "filter": "Bildirishnomalar filtri"

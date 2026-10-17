@@ -5,7 +5,6 @@
     "orders": "Order history",
     "notifications": "Notifications",
     "saved": "Saved events",
-    "following": "Following",
     "settings": "Profile and settings"
   },
   "state": {
@@ -172,14 +171,6 @@
     "sub": "Events you liked.",
     "emptyTitle": "No saved events",
     "emptyText": "Tap the heart on an event to keep it here."
-  },
-  "following": {
-    "title": "Following",
-    "sub": "Organizers you follow.",
-    "emptyTitle": "You are not following anyone",
-    "emptyText": "Follow an organizer from their page to see them here.",
-    "events_one": "{{count}} event",
-    "events_other": "{{count}} events"
   },
   "notifications": {
     "filter": "Notification filter"

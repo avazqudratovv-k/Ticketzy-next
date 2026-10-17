@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { Bell, Gear, Heart, Receipt, Ticket, UsersThree } from 'phosphor-react';
+import { Bell, Gear, Heart, Receipt, Ticket } from 'phosphor-react';
 import { MemberType } from '../../enums/member.enum';
 import { useRequireAuth } from '../../auth/guards';
 import { ROUTES } from '../../routes';
@@ -15,7 +15,6 @@ const NAV = [
 	{ href: ROUTES.orders, key: 'nav.orders', icon: Receipt },
 	{ href: ROUTES.notifications, key: 'nav.notifications', icon: Bell },
 	{ href: ROUTES.saved, key: 'nav.saved', icon: Heart },
-	{ href: ROUTES.following, key: 'nav.following', icon: UsersThree },
 	{ href: ROUTES.settings, key: 'nav.settings', icon: Gear },
 ] as const;
 

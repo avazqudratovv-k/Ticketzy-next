@@ -178,7 +178,7 @@ Guest = no token. "Buyer-only" = the service additionally calls `assertBuyerAcco
 | `holdSeats`, `releaseSeats` (`AuthGuard`) | no | yes | refused (buyer-only) | refused |
 | `createCheckout`, `payOrder` (`AuthGuard`) | no | yes | refused | refused |
 | `cancelPendingOrder`, `getOrder`, `getMyOrders`, `getMyTickets`, `getTicket`, `getRefundQuote`, `requestRefund` (`AuthGuard`, filter by owner) | no | yes | own data only (none) | own data only |
-| `likeTargetEvent`, `createComment`, `subscribe`/`unsubscribe`, `updateMember`, `imageUploader`, `askAssistant`, notifications | no | yes | yes | yes (notifications via `NotificationGuard`) |
+| `likeTargetEvent`, `createComment`, `updateMember`, `imageUploader`, `askAssistant`, notifications | no | yes | yes | yes (notifications via `NotificationGuard`) |
 | `createVenue`, `updateVenue` (`@Roles(ORGANIZER, ADMIN)` + ActiveOrganizer) | no | no | ACTIVE only | yes |
 | `createEvent`, `updateEvent`, `submitEventForApproval`, `cancelMyEvent`, `getMyEvents`, ticket type create/update, `translateEvent`, `getMyEventOrders`, `getMyPayouts`, sales/attendee queries (`@Roles(ORGANIZER)` + ActiveOrganizer) | no | no | ACTIVE only | no |
 | `checkInTicket`, `checkInPreview` (`@Roles(ORGANIZER, ADMIN)` + ActiveOrganizer) | no | no | ACTIVE, own events only | any event |
@@ -196,7 +196,7 @@ Guards used by pages: `useRequireAuth` / `useRequireRole` / `withAuth` in `libs/
 | `/`, `/events`, `/events/[id]`, `/organizers/[id]`, static pages, `/sell` | yes | yes | yes | yes | none (the buy button is `aria-disabled` for non-buyers, `libs/buyerGate.ts`) |
 | `/account/login`, `/account/signup`, `/account/join` | yes | sent home | sent home | sent home | `useRedirectIfSignedIn` |
 | `/events/[id]/seats`, `/checkout/[orderId]`, `/orders/[orderId]/confirmation` | login first | yes | sent to event page with notice (seats, checkout) | same | `useRequireAuth` (+ `useBuyerOnlyRedirect` on seats and checkout) |
-| `/tickets`, `/tickets/[ticketId]`, `/orders`, `/orders/[orderId]`, `/account/saved`, `/account/following`, `/settings`, `/notifications` | login first | yes | the shared pages (`/notifications`, `/settings`) show without the buyer menu (`acct--solo`) | same | `withAccount` -> `AccountShell` -> `useRequireAuth()` (no role list) |
+| `/tickets`, `/tickets/[ticketId]`, `/orders`, `/orders/[orderId]`, `/account/saved`, `/settings`, `/notifications` | login first | yes | the shared pages (`/notifications`, `/settings`) show without the buyer menu (`acct--solo`) | same | `withAccount` -> `AccountShell` -> `useRequireAuth()` (no role list) |
 | `/organizer/*` | login first | sent home | yes (non-ACTIVE sees `BlockedPanel` or a disabled create button) | sent to `/admin` | `withOrganizerLayout` |
 | `/admin/*` | login first | sent home | sent to `/organizer` | yes | `withAdminLayout` |
 

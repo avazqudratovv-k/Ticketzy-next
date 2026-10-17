@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
@@ -13,17 +13,26 @@ interface Props {
 	eventId: string;
 	likes: number;
 	liked: boolean;
+	/** `card` is the compact heart on an event card (no outline); `page` is the pill on the event page. */
+	variant?: 'page' | 'card';
 }
 
-/** Like toggle: signed-out visitors are sent to log in and come back to this page. */
-const LikeButton = ({ eventId, likes, liked }: Props) => {
+/**
+ * Like toggle: signed-out visitors are sent to log in and come back to this page. The heart and the count are drawn from the
+ * event's `meLiked` / `eventLikes` in the Apollo cache, so every card and the event page change together: the optimistic
+ * answer flips them at once, the real answer of `likeTargetEvent` (same fields) confirms them, and a failed call is rolled back.
+ */
+const LikeButton = ({ eventId, likes, liked, variant = 'page' }: Props) => {
 	const { t } = useTranslation('events');
 	const router = useRouter();
 	const { user } = useAuth();
 	const [failed, setFailed] = useState(false);
 	const [like, { loading }] = useMutation(LIKE_TARGET_EVENT);
 
-	const toggle = async () => {
+	const toggle = async (e: MouseEvent) => {
+		// the heart sits on a card that is a link: only the like happens
+		e.preventDefault();
+		e.stopPropagation();
 		if (!user) {
 			router.push(loginUrl(router.asPath));
 			return;
@@ -32,6 +41,10 @@ const LikeButton = ({ eventId, likes, liked }: Props) => {
 		try {
 			await like({
 				variables: { eventId },
+				// the favorites list changed: forget it without redrawing the page that shows it (it is fetched again when opened)
+				update: (cache) => {
+					cache.evict({ id: 'ROOT_QUERY', fieldName: 'getFavorites', broadcast: false });
+				},
 				optimisticResponse: {
 					likeTargetEvent: {
 						__typename: 'Event',
@@ -48,7 +61,7 @@ const LikeButton = ({ eventId, likes, liked }: Props) => {
 	};
 
 	return (
-		<div className="tz-like">
+		<div className={`tz-like${variant === 'card' ? ' tz-like--card' : ''}`}>
 			<button
 				type="button"
 				className={`tz-like__btn${liked ? ' is-liked' : ''}`}
@@ -57,7 +70,7 @@ const LikeButton = ({ eventId, likes, liked }: Props) => {
 				disabled={loading}
 				onClick={toggle}
 			>
-				<Heart size={20} weight={liked ? 'fill' : 'regular'} aria-hidden="true" />
+				<Heart size={variant === 'card' ? 18 : 20} weight={liked ? 'fill' : 'regular'} aria-hidden="true" />
 				<span>{formatNumber(likes, router.locale)}</span>
 			</button>
 			{failed && (

@@ -19,7 +19,7 @@ import useAuth from '../../libs/hooks/useAuth';
 import usePagedQuery from '../../libs/hooks/usePagedQuery';
 import useSalesEvents from '../../libs/organizer/useSalesEvents';
 import { GET_MY_EARNINGS } from '../../apollo/organizer/query';
-import { GET_ORDERS_FOR_SALES, GET_ORGANIZER_ME, salesOfEventsQuery } from '../../apollo/organizer/sales';
+import { GET_ORDERS_FOR_SALES, salesOfEventsQuery } from '../../apollo/organizer/sales';
 import { buildSeries, isPeriod, mixByName, Period, PERIODS, SalesOrder } from '../../libs/organizer/analytics';
 import { TypeSales } from '../../libs/organizer/payouts';
 import { DEFAULT_TIMEZONE, formatEventDate, formatNumber, formatPrice, intlLocale } from '../../libs/format';
@@ -47,7 +47,7 @@ const Analytics: NextPage = () => {
 	const { t } = useTranslation('organizer');
 	const router = useRouter();
 	const { locale } = router;
-	const { user, organizerAccess } = useAuth();
+	const { organizerAccess } = useAuth();
 	const blocked = organizerAccess !== null && organizerAccess !== 'active';
 	const skip = blocked || organizerAccess === null;
 	const [metric, setMetric] = useState<'tickets' | 'revenue'>('tickets');
@@ -69,7 +69,6 @@ const Analytics: NextPage = () => {
 	const timeZone = event?.venueData?.venueTimezone ?? DEFAULT_TIMEZONE;
 
 	const { data: earningData } = useQuery(GET_MY_EARNINGS, { skip, fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
-	const { data: me } = useQuery(GET_ORGANIZER_ME, { variables: { memberId: user?._id }, skip: skip || !user, fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
 	const earnings: { currency?: string | null }[] = earningData?.getMyEarnings?.earnings ?? [];
 	const currency = (earnings.find((e) => e.currency === 'KRW') ?? earnings[0])?.currency ?? 'KRW';
 	const money = (amount: number) => formatPrice(amount, locale, currency);
@@ -302,7 +301,7 @@ const Analytics: NextPage = () => {
 							<h2 id="an-reach">{t('analytics.reach.title')}</h2>
 							<span className="tz-badge tz-badge--neutral">{t('analytics.reach.derived')}</span>
 						</div>
-						<ul className="org-stats org-stats--four">
+						<ul className="org-stats org-stats--three">
 							<li className="org-stat">
 								<span className="org-stat__label">{t('analytics.reach.views')}</span>
 								<strong className="org-stat__value">{formatNumber(views, locale)}</strong>
@@ -310,10 +309,6 @@ const Analytics: NextPage = () => {
 							<li className="org-stat">
 								<span className="org-stat__label">{t('analytics.reach.likes')}</span>
 								<strong className="org-stat__value">{formatNumber(likes, locale)}</strong>
-							</li>
-							<li className="org-stat">
-								<span className="org-stat__label">{t('analytics.reach.followers')}</span>
-								<strong className="org-stat__value">{me?.getMember ? formatNumber(me.getMember.memberFollowers, locale) : '–'}</strong>
 							</li>
 							<li className="org-stat">
 								<span className="org-stat__label">{t('analytics.reach.buyers')}</span>

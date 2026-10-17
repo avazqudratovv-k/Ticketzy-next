@@ -7,10 +7,12 @@ import { localizedEvent } from '../../events';
 import { formatEventWhen, formatPrice, formatShortDay } from '../../format';
 import { serverNow } from '../../seats/clock';
 import { eventUrl } from '../../routes';
+import { isEventLiked } from '../../eventLike';
 import { seatBadge } from '../../seatAvailability';
 import CategoryChip, { categoryIcon } from './CategoryChip';
 import EventImage from './EventImage';
 import EventTag from './EventTag';
+import LikeButton from './LikeButton';
 
 interface Props {
 	event: EventItem;
@@ -20,7 +22,10 @@ interface Props {
 	eager?: boolean;
 }
 
-/** One event as a single link: image, category, title, date, venue and starting price. */
+/**
+ * One event: a single link (image, category, title, date, venue, starting price) with the like heart beside it. The heart is a
+ * sibling of the link, not inside it (a button in a link is invalid), and is drawn from the same `meLiked` / `eventLikes` as the event page.
+ */
 const EventCard = ({ event, variant = 'card', eager }: Props) => {
 	const { t } = useTranslation('events');
 	const { locale } = useRouter();
@@ -49,46 +54,49 @@ const EventCard = ({ event, variant = 'card', eager }: Props) => {
 	const Heading = variant === 'row' ? 'h2' : 'h3';
 
 	return (
-		<Link href={eventUrl(event._id)} className={`tz-event-card${variant === 'row' ? ' tz-event-card--row' : ''}`}>
-			<span className="tz-media">
-				<EventImage src={event.eventImages?.[0]} eager={eager} />
-				{tag}
-			</span>
-			{variant === 'card' && (
-				<span className="tz-event-card__chip">
-					<CategoryChip category={event.eventCategory} onImage />
+		<div className={`tz-event-card${variant === 'row' ? ' tz-event-card--row' : ''}`}>
+			<Link href={eventUrl(event._id)} className="tz-event-card__link">
+				<span className="tz-media">
+					<EventImage src={event.eventImages?.[0]} eager={eager} />
+					{tag}
 				</span>
-			)}
-			<span className="tz-event-card__body">
-				<Heading className="tz-event-card__title tz-clamp-2" lang={fallbackLang}>
-					{title}
-				</Heading>
-				<ul className="tz-event-card__meta">
-					{variant === 'row' && (
+				{variant === 'card' && (
+					<span className="tz-event-card__chip">
+						<CategoryChip category={event.eventCategory} onImage />
+					</span>
+				)}
+				<span className="tz-event-card__body">
+					<Heading className="tz-event-card__title tz-clamp-2" lang={fallbackLang}>
+						{title}
+					</Heading>
+					<ul className="tz-event-card__meta">
+						{variant === 'row' && (
+							<li>
+								{categoryIcon(event.eventCategory, 16)}
+								<span>{t(`categories.${event.eventCategory}`)}</span>
+							</li>
+						)}
 						<li>
-							{categoryIcon(event.eventCategory, 16)}
-							<span>{t(`categories.${event.eventCategory}`)}</span>
+							<CalendarBlank size={16} aria-hidden="true" />
+							<span>{when}</span>
 						</li>
-					)}
-					<li>
-						<CalendarBlank size={16} aria-hidden="true" />
-						<span>{when}</span>
-					</li>
-					{where && (
-						<li>
-							<MapPin size={16} aria-hidden="true" />
-							<span>{where}</span>
-						</li>
-					)}
-				</ul>
-				<span className="tz-event-card__foot">
-					<span className="tz-price">
-						<span className="tz-price__label">{t('card.from')}</span>
-						<span className="tz-price__amount">{formatPrice(event.eventMinPrice, locale)}</span>
+						{where && (
+							<li>
+								<MapPin size={16} aria-hidden="true" />
+								<span>{where}</span>
+							</li>
+						)}
+					</ul>
+					<span className="tz-event-card__foot">
+						<span className="tz-price">
+							<span className="tz-price__label">{t('card.from')}</span>
+							<span className="tz-price__amount">{formatPrice(event.eventMinPrice, locale)}</span>
+						</span>
 					</span>
 				</span>
-			</span>
-		</Link>
+			</Link>
+			<LikeButton eventId={event._id} likes={event.eventLikes} liked={isEventLiked(event)} variant="card" />
+		</div>
 	);
 };
 

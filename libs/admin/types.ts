@@ -111,7 +111,6 @@ export interface AdminOrganizer {
 	memberDesc?: string | null;
 	memberEvents: number;
 	completedEvents: number;
-	memberFollowers: number;
 	rejectReason?: string | null;
 	createdAt: string;
 	updatedAt: string;

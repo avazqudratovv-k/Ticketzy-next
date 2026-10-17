@@ -128,7 +128,7 @@
         "items": [
           {
             "q": "Do I need an account?",
-            "a": "You can browse events without one. You need an account to buy tickets, like events, follow organizers and write comments."
+            "a": "You can browse events without one. You need an account to buy tickets, like events and write comments."
           },
           {
             "q": "How do I create an account?",

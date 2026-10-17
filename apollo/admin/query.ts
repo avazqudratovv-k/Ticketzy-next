@@ -210,7 +210,6 @@ export const ADMIN_ORGANIZER_FIELDS = gql`
 		memberDesc
 		memberEvents
 		completedEvents
-		memberFollowers
 		rejectReason
 		createdAt
 		updatedAt

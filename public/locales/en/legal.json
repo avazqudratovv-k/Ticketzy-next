@@ -105,7 +105,7 @@
         "list": [
           "Account: name or nickname, email, a hashed password, role (buyer, organizer or admin) and, if you add them, a photo and organizer profile details.",
           "Orders, simulated payments, tickets and refunds, including seats and check-in status.",
-          "Likes, follows, comments and notifications.",
+          "Likes, comments and notifications.",
           "Messages between organizers and administrators.",
           "Events, venues and images created by organizers."
         ]

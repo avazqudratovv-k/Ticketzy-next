@@ -14,7 +14,7 @@ Three kinds of people use it (called **roles**, enum `MemberType` in `libs/enums
 
 | Role | Can do |
 |---|---|
-| `USER` (buyer) | Browse events, pick seats, pay (simulated), get QR tickets, refund, follow organizers, like and comment. |
+| `USER` (buyer) | Browse events, pick seats, pay (simulated), get QR tickets, refund, like (heart on cards and the event page) and comment. |
 | `ORGANIZER` | Create venues and seat layouts, create events and ticket types, submit events for approval, check people in with QR, see sales and payouts, chat with admins. Must be approved by an admin first. |
 | `ADMIN` | Approve organizers and events, cancel events (which refunds buyers), manage commission, record payouts, see orders and members. Created only by a backend seed script. |
 
@@ -217,7 +217,7 @@ F-number ranges in `DECISIONS.md` (one line each; read the row for detail):
 | F171 to F190 | Messaging: one shared socket, rooms, polling fallback, previews, limits, read receipts, notification links, admin-starts-conversation. |
 | F191 to F196 | Desktop layout fixes for order page and dashboards (container queries on account and dashboard areas). |
 | F197 to F209 | AI assistant widget: where it shows, state in a reactive var + sessionStorage, history, timeouts, error mapping, own safe text parser, cards. |
-| F210 to F219 | Follow/unfollow with optimistic cache update, role-aware footer and avatar menu, redirect when already signed in. |
+| F210 to F219 | (Follow/unfollow was removed in F362.) Role-aware footer and avatar menu, redirect when already signed in. |
 | F220 to F235 | Organizer attendees, payouts, analytics, profile pages and their data limits. |
 | F236 to F249 | Static pages (FAQ, about, contact, terms, privacy), error boundary, SEO tags, noindex, robots/sitemap pages, icons, accessibility checks. |
 | F250 to F263 | Motion tokens and rules (CSS only), reduced motion, route transition, countdown ring, count-up, hero drift, focus ring, 44 px touch targets. |
@@ -247,7 +247,7 @@ Backend decision ranges (summaries from the first words of each row; not every r
 |---|---|
 | #1 to #9 | Migration method: rename layer first, git mv, no logic change, lint without fix. |
 | #10 to #21 | Domain: old catalog becomes Event + Venue + TicketType; seller becomes ORGANIZER; enums; indexes; `auths` dropped. |
-| #22 to #30 | Notifications best-effort; roles set by server; login by e-mail; JWT holds `_id` and `memberType`, 1 day; env validation; board deleted; follow rules; public visibility. |
+| #22 to #30 | Notifications best-effort; roles set by server; login by e-mail; JWT holds `_id` and `memberType`, 1 day; env validation; board deleted; follow rules (removed again, F362); public visibility. |
 | #31 to #34 | Organizer approval operations, commission override, audit log, organizer must be ACTIVE to sell. |
 | #35 to #40 | Event statuses and transitions, organizer edit rules, public visibility constant, admin transitions are conditional updates, `completedEvents` batch. |
 | #41 to #44 | Venue layout, `tierKey`, `EventSeat`, public seat map. |

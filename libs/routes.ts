@@ -9,7 +9,6 @@ export const ROUTES = {
 	tickets: '/tickets',
 	notifications: '/notifications',
 	saved: '/account/saved',
-	following: '/account/following',
 	settings: '/settings',
 	login: '/account/login',
 	signup: '/account/signup',

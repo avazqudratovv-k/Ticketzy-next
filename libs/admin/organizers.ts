@@ -12,7 +12,7 @@ export const organizerCountKey = (tab: OrganizerTab) => (tab === 'all' ? 'ALL' :
 export const ORGANIZER_SORTS = {
 	newest: { sort: 'createdAt', direction: 'DESC' },
 	oldest: { sort: 'createdAt', direction: 'ASC' },
-	followers: { sort: 'memberLikes', direction: 'DESC' },
+	likes: { sort: 'memberLikes', direction: 'DESC' },
 	views: { sort: 'memberViews', direction: 'DESC' },
 } as const;
 export type OrganizerSortKey = keyof typeof ORGANIZER_SORTS;

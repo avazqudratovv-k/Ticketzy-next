@@ -1165,10 +1165,9 @@
       "derived": "Hisoblangan",
       "views": "Koʻrishlar",
       "likes": "Yoqtirishlar",
-      "followers": "Kuzatuvchilar",
       "buyers": "Koʻrishga toʻlangan buyurtma",
       "buyersSub": "Toʻlangan buyurtmalar ÷ koʻrishlar",
-      "note": "Koʻrishlar tizimga kirgan aʼzo uchun bir marta sanaladi, shuning uchun kirmagan tashrifchilar hisobga olinmaydi. Koʻrishlar va yoqtirishlar tadbirlaringiz hisoblagichlari; kuzatuvchilar bitta tadbirga emas, tashkilotchi hisobingizga tegishli. Nisbat hisoblangan va taxminiy."
+      "note": "Koʻrishlar tizimga kirgan aʼzo uchun bir marta sanaladi, shuning uchun kirmagan tashrifchilar hisobga olinmaydi. Koʻrishlar va yoqtirishlar tadbirlaringiz hisoblagichlari. Nisbat hisoblangan va taxminiy."
     },
     "derivedNote": "Jamilar serverdan keladi. Grafik, ulushlar va nisbat brauzeringizda toʻlangan buyurtmalar hamda tadbir hisoblagichlaridan hisoblanadi."
   },
@@ -1227,7 +1226,6 @@
         "SUSPENDED": "Toʻxtatilgan",
         "DELETE": "Yopilgan"
       },
-      "followers": "Kuzatuvchilar",
       "events": "Tadbirlar",
       "completed": "Yakunlangan tadbirlar",
       "since": "Aʼzo boʻlgan sana",

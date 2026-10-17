@@ -10,7 +10,7 @@
 | `Brand`, `Logo` | `common/Brand.tsx`, `Logo.tsx` | Wordmark with a lime dot; `Logo` renders `/favicon.svg` at a given size. |
 | `StateBlock`, `ErrorScreen`, `LoadError` | `states/StateBlock.tsx`, `ErrorScreen.tsx`, `account/LoadError.tsx` | Icon + title + text + actions for empty/error states; `as="h1"` for page-level; `alert` sets `role="alert"`; `extra` slot. |
 | `Field` | `common/Field.tsx` | Label + input + hint + error with `aria-invalid`. |
-| `EventCard`, `EventImage`, `EventTag`, `CategoryChip`, `Pagination` | `events/` | Cards in grid or row variants; `EventImage` uses `next/image` 1200x800 with a custom loader (`libs/images.ts`, picsum URLs resized, other URLs unchanged, upload paths prefixed by `NEXT_PUBLIC_API_URL`); `EventTag` is the single status tag (sold out / few left / selling fast / sales start). |
+| `EventCard`, `EventImage`, `EventTag`, `CategoryChip`, `Pagination` | `events/` | Cards in grid or row variants (a `div` with the card link and a `LikeButton` heart as siblings); `EventImage` uses `next/image` 1200x800 with a custom loader (`libs/images.ts`, picsum URLs resized, other URLs unchanged, upload paths prefixed by `NEXT_PUBLIC_API_URL`); `EventTag` is the single status tag (sold out / few left / selling fast / sales start). |
 | `Reveal`, `CountUp`, `ScrollFade`, `SuccessCheck` | `common/` | Scroll reveal (opacity/transform only), 600 ms number count-up once per tile, fade edges for scrolling tab strips, animated check mark. |
 | `Seo` | `common/Seo.tsx` | Head tags. |
 | `Backdrop` | `layout/Backdrop.tsx` | Two faint ticket marks behind the page, only on routes in `BACKDROP_ROUTES`; opacity set in CSS only. |
@@ -132,6 +132,6 @@ Files: `assistant/AssistantWidget.tsx` (327 lines), `AssistantCard.tsx`, `Assist
 
 ## 12. Other buyer components
 
-`events/FollowButton.tsx` (optimistic update of `Member:<id>` fields `memberFollowers`/`meFollowed` through `cache.modify`, restored on error; "No data found!" on unfollow means already gone), `LikeButton.tsx` (guests are sent to login with `returnTo`), `Comments.tsx` (delete = `UpdateComment` with status DELETE confirmed inline, 500-character limit, own comments only), `TicketBar.tsx` (mobile sticky buy bar; `useStickyBar` sets `html[data-bar]` flags), `account/RefundPanel.tsx` (Flow 11), `account/OrderRow.tsx`, `Hero`/`CategoryRow` rails (native `overflow-x: auto` + `scroll-snap-type`, cards 280 px, arrow buttons `aria-disabled`, one-time "peek" by `useRailPeek`).
+`events/LikeButton.tsx` (page pill and `variant="card"` heart; guests are sent to login with `returnTo`; `LikeTargetEvent` returns `eventLikes` and `meLiked`, an optimistic response flips both and Apollo rolls it back on error, `getFavorites` is evicted without a redraw; the heart is read with `isEventLiked` from `libs/eventLike.ts`), `Comments.tsx` (delete = `UpdateComment` with status DELETE confirmed inline, 500-character limit, own comments only), `TicketBar.tsx` (mobile sticky buy bar; `useStickyBar` sets `html[data-bar]` flags), `account/RefundPanel.tsx` (Flow 11), `account/OrderRow.tsx`, `Hero`/`CategoryRow` rails (native `overflow-x: auto` + `scroll-snap-type`, cards 280 px, arrow buttons `aria-disabled`, one-time "peek" by `useRailPeek`).
 
 Next: `06-quality.md`.

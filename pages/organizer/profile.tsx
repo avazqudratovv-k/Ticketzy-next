@@ -322,7 +322,6 @@ const Profile: NextPage = () => {
 							image={preview ?? member?.memberImage ?? user.memberImage}
 							events={member?.memberEvents ?? 0}
 							completed={member?.completedEvents ?? 0}
-							followers={member?.memberFollowers ?? 0}
 						/>
 					</section>
 
@@ -336,10 +335,6 @@ const Profile: NextPage = () => {
 								<dd>
 									<span className={`tz-badge tz-badge--${active ? 'success' : 'warning'}`}>{t(`profile.account.statusValue.${member?.memberStatus ?? user.memberStatus}`)}</span>
 								</dd>
-							</div>
-							<div>
-								<dt>{t('profile.account.followers')}</dt>
-								<dd>{member ? formatNumber(member.memberFollowers, locale) : '–'}</dd>
 							</div>
 							<div>
 								<dt>{t('profile.account.events')}</dt>

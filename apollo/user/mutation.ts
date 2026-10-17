@@ -208,30 +208,6 @@ export const ASK_ASSISTANT = gql`
 	}
 `;
 
-/**************************
- *         FOLLOW         *
- *************************/
-
-export const SUBSCRIBE = gql`
-	mutation Subscribe($input: String!) {
-		subscribe(input: $input) {
-			_id
-			followingId
-			followerId
-		}
-	}
-`;
-
-export const UNSUBSCRIBE = gql`
-	mutation Unsubscribe($input: String!) {
-		unsubscribe(input: $input) {
-			_id
-			followingId
-			followerId
-		}
-	}
-`;
-
 /** Organizer only, own account, no arguments. Clears the server flag; a repeat call changes nothing (backend #120). */
 export const MARK_APPROVAL_CELEBRATION_DONE = gql`
 	mutation MarkApprovalCelebrationDone {

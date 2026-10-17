@@ -19,6 +19,7 @@ import { FEATURED_POOL, pickFeatured, upcomingFrom, upcomingSearch } from '../li
 import { serverNow } from '../libs/seats/clock';
 import { EventItem } from '../libs/types/event';
 import { ROUTES } from '../libs/routes';
+import useAuth from '../libs/hooks/useAuth';
 import { GetEventsData, GetEventsVars } from '../libs/types/queries';
 
 export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
@@ -29,6 +30,8 @@ export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 
 const Home: NextPage = () => {
 	const { t } = useTranslation(['events', 'common']);
+	// The events wait for the stored session so the first request already carries the token (the heart of a liked event depends on it)
+	const { ready } = useAuth();
 	// one clock for the whole page: the hero query and the four category rows share the same "upcoming" window
 	const [clock] = useState(() => serverNow());
 	const from = useMemo(() => upcomingFrom(clock), [clock]);
@@ -36,6 +39,7 @@ const Home: NextPage = () => {
 	// One query ranks the hero and its three neighbours (no per-event requests); each category row has its own query
 	const hero = useQuery<GetEventsData, GetEventsVars>(GET_EVENTS, {
 		variables: { input: { page: 1, limit: FEATURED_POOL, sort: 'startAt', direction: 'ASC', search: upcomingSearch(from) } },
+		skip: !ready,
 		fetchPolicy: 'cache-and-network',
 		notifyOnNetworkStatusChange: true,
 	});

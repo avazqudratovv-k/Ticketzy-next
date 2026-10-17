@@ -131,9 +131,31 @@
 	&:hover {
 		border-color: var(--border-control);
 	}
-	&:focus-visible {
-		outline: 2px solid var(--focus);
-		outline-offset: 2px;
+	// the card is a box; the link inside carries the whole card face and the keyboard focus ring
+	&__link {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		min-width: 0;
+		color: inherit;
+		text-decoration: none;
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: -2px;
+			border-radius: var(--radius-lg);
+		}
+	}
+	&--row > &__link {
+		flex-direction: row;
+	}
+	// room beside the price for the heart (bottom corner of the card)
+	.tz-event-card__foot {
+		padding-inline-end: 64px;
+	}
+	> .tz-like--card {
+		position: absolute;
+		inset-block-end: var(--space-1);
+		inset-inline-end: var(--space-1);
 	}
 	&__chip {
 		position: absolute;
@@ -475,6 +497,38 @@
 	&__error {
 		color: var(--danger-text);
 		font: var(--text-caption);
+	}
+}
+
+// the heart on an event card: icon and count, no outline, 44 px target (F262); red when liked
+.tz-like--card {
+	align-items: flex-end;
+	.tz-like__btn {
+		min-width: var(--control-md);
+		padding: 0 var(--space-2);
+		gap: var(--space-1);
+		border-color: transparent;
+		color: var(--ink-muted);
+		font: var(--text-caption);
+		&:hover {
+			border-color: transparent;
+			color: var(--ink);
+		}
+		&.is-liked,
+		&.is-liked:hover {
+			border-color: transparent;
+			color: var(--danger-text);
+		}
+	}
+	// a failed like: a short line above the heart, over the card
+	.tz-like__error {
+		position: absolute;
+		inset-block-end: 100%;
+		inset-inline-end: 0;
+		padding: var(--space-1) var(--space-2);
+		border-radius: var(--radius-sm);
+		background: var(--surface-raised);
+		white-space: nowrap;
 	}
 }
 
@@ -1427,39 +1481,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-4);
-	}
-}
-
-/** FOLLOW BUTTON (event organizer card, organizer page) **/
-.follow {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: var(--space-2);
-	margin-top: var(--space-2);
-	&__row {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: var(--space-3);
-	}
-	&__count {
-		color: var(--ink-muted);
-		font: var(--text-body-sm);
-	}
-	&__hint {
-		margin: 0;
-		color: var(--ink-subtle);
-		font: var(--text-body-sm);
-		&--error {
-			color: var(--danger-text);
-		}
-	}
-	&--skel {
-		display: block;
-		width: 160px;
-		height: 32px;
-		border-radius: var(--radius-md, 8px);
 	}
 }
 

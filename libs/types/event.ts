@@ -34,7 +34,6 @@ export interface EventOrganizer {
 	memberDesc?: string | null;
 	memberEvents?: number;
 	completedEvents?: number;
-	memberFollowers?: number;
 }
 
 export interface EventItem {

@@ -97,7 +97,6 @@ export const GET_ORGANIZER_ME = gql`
 			memberImage
 			memberEvents
 			completedEvents
-			memberFollowers
 			memberLikes
 			memberViews
 			commissionOverride {

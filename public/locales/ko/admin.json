@@ -351,7 +351,7 @@
     "sorts": {
       "newest": "최신순",
       "oldest": "오래된 순",
-      "followers": "좋아요 많은 순",
+      "likes": "좋아요 많은 순",
       "views": "조회 많은 순"
     },
     "cols": {
@@ -396,7 +396,6 @@
       "registered": "가입일",
       "events": "이벤트",
       "completed": "완료한 이벤트",
-      "followers": "팔로워",
       "rate": "수수료율",
       "about": "소개",
       "rejectedWith": "다음 사유로 반려되었어요:"
