@@ -283,7 +283,8 @@
     "between": "{{min}} dan {{max}} gacha belgi kiriting.",
     "tooSmall": "{{min}} yoki undan katta qiymat kiriting.",
     "tooBig": "{{max}} yoki undan kichik qiymat kiriting.",
-    "invalid": "Qiymat yaroqsiz. Tekshirib, qayta urinib koʻring."
+    "invalid": "Qiymat yaroqsiz. Tekshirib, qayta urinib koʻring.",
+    "emailRecentlyDeleted": "Bu email oʻchirilgan hisobga tegishli boʻlgan va hozircha yangi hisob uchun ishlatib boʻlmaydi. Keyinroq urinib koʻring yoki boshqa emaildan foydalaning."
   },
   "ticketCode": {
     "copy": "Kodni nusxalash",
@@ -296,5 +297,17 @@
     "nextMonth": "Keyingi oy",
     "today": "Bugun",
     "clear": "Tozalash"
+  },
+  "accountDeleted": {
+    "continue": "Davom etish",
+    "buyer": {
+      "title": "Hisob oʻchirildi",
+      "text": "Hisobingiz oʻchirildi."
+    },
+    "organizer": {
+      "title": "Rahmat",
+      "text": "Ticketzy bilan tadbirlar tashkil qilganingiz uchun rahmat.",
+      "sub": "Hisobingiz oʻchirildi."
+    }
   }
 }

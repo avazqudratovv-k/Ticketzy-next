@@ -68,7 +68,12 @@
     "emptyUpcoming": "예정된 티켓이 없습니다",
     "emptyUpcomingText": "아직 끝나지 않은 이벤트의 티켓이 여기에 표시됩니다.",
     "emptyPast": "지난 티켓이 없습니다",
-    "emptyPastText": "종료된 이벤트의 티켓이 여기에 표시됩니다."
+    "emptyPastText": "종료된 이벤트의 티켓이 여기에 표시됩니다.",
+    "downloadAll": "모두 다운로드",
+    "downloadingAll": "PDF 준비 중…",
+    "downloadAllHint": "예정된 이벤트의 미사용 티켓을 한 장에 하나씩 담은 PDF 한 개예요.",
+    "downloadNone": "다운로드할 미사용 티켓이 없어요.",
+    "downloadedAll_other": "티켓 {{count}}장을 PDF로 저장했어요."
   },
   "ticket": {
     "seatLine": "{{section}}, {{row}}열 {{number}}번",
@@ -132,7 +137,20 @@
     "pricePaid": "결제 금액",
     "orderRefundLink": "주문 보기 또는 환불 요청",
     "orderLink": "주문 보기",
-    "eventLink": "이벤트 페이지"
+    "eventLink": "이벤트 페이지",
+    "download": "티켓 다운로드",
+    "downloading": "PDF 준비 중…",
+    "downloaded": "티켓 PDF를 저장했어요.",
+    "downloadError": "PDF를 만들지 못했어요. 다시 시도해 주세요.",
+    "downloadText": "티켓을 PDF로 저장해 인쇄하거나 오프라인으로 보관하세요.",
+    "pdf": {
+      "date": "날짜 및 시간",
+      "venue": "장소",
+      "ticket": "티켓",
+      "buyer": "구매자",
+      "code": "티켓 코드",
+      "hint": "입장할 때 이 QR 코드를 보여 주세요. Ticketzy는 데모라서 이 티켓에는 실제 가치가 없어요."
+    }
   },
   "refund": {
     "title": "환불",
@@ -217,5 +235,49 @@
     "signOutTitle": "로그아웃",
     "signedInAs": "{{email}} 계정으로 로그인했습니다.",
     "logout": "로그아웃"
+  },
+  "delete": {
+    "title": "계정 삭제",
+    "textBuyer": "계정 삭제는 되돌릴 수 없어요. 삭제하면 다시 로그인할 수 없어요.",
+    "textOrganizer": "계정 삭제는 되돌릴 수 없어요. 주최자 프로필이 더 이상 표시되지 않고 다시 로그인할 수 없어요.",
+    "emailWarning": "삭제한 뒤에는 다시 로그인할 수 없으며, 이 이메일은 30일 동안 새 계정에 사용할 수 없어요.",
+    "open": "내 계정 삭제",
+    "dialogTitle": "계정을 삭제할까요?",
+    "dialogSr": "이 작업은 되돌릴 수 없어요.",
+    "downloadAll": "모든 티켓 다운로드",
+    "typeLabel": "확인을 위해 {{word}}라고 입력하세요",
+    "typeAria": "계정 삭제를 확인하려면 {{word}}라고 입력하세요",
+    "cancel": "취소",
+    "confirm": "계정 삭제",
+    "deleting": "삭제하는 중…",
+    "checkError": "계정을 삭제할 수 있는지 확인하지 못했어요. 다시 시도해 주세요.",
+    "blockedIntro": "아직 계정을 삭제할 수 없어요. 아래 항목을 먼저 마무리한 뒤 다시 와 주세요.",
+    "blockedNow": "상황이 바뀌어 더 이상 계정을 삭제할 수 없어요. 아래 이유를 확인하세요.",
+    "reason": {
+      "EVENTS_IN_REVIEW": {
+        "title": "심사 대기 중인 이벤트",
+        "hint": "관리자가 아직 결정하지 않았어요. 거절된 이벤트는 삭제를 막지 않아요."
+      },
+      "EVENTS_NOT_ENDED": {
+        "title": "아직 끝나지 않은 승인된 이벤트",
+        "hint": "이 이벤트가 끝난 뒤에 계정을 삭제할 수 있어요."
+      },
+      "PAYOUTS_NOT_PAID": {
+        "title": "아직 지급되지 않은 정산",
+        "hint": "이 이벤트에는 대기 중이거나 지급 기한이 된 정산이 있어요. 모든 정산이 지급되면 삭제할 수 있어요."
+      },
+      "OTHER": {
+        "title": "아직 처리할 항목이 있어요",
+        "hint": "마무리하거나 닫은 뒤 다시 시도하세요."
+      }
+    },
+    "errors": {
+      "rate": "시도 횟수가 너무 많아요. 몇 분 뒤에 다시 시도하세요.",
+      "confirmation": "입력한 단어가 맞지 않아요. DELETE를 그대로 입력하세요.",
+      "notAllowed": "지금은 이 계정을 삭제할 수 없어요. 이미 삭제된 계정일 수 있어요.",
+      "generic": "계정을 삭제하지 못했어요. 다시 시도해 주세요."
+    },
+    "unusedTickets_other": "사용하지 않은 티켓이 {{count}}장 있어요. 삭제하면 다시 로그인할 수 없으니, 삭제하기 전에 티켓을 다운로드하세요.",
+    "more_other": "외 {{count}}건"
   }
 }

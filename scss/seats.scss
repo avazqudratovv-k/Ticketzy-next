@@ -1029,13 +1029,16 @@
 		display: grid;
 		gap: var(--space-4);
 		grid-template-columns: 1fr 1fr;
-		.tz-field:first-child {
+		margin-block: var(--space-4) var(--space-2);
+		// card number and name on card take the full row; expiry and CVC share the next one (F366)
+		.tz-field:nth-child(-n + 2) {
 			grid-column: 1 / -1;
 		}
-		.tz-input:disabled {
-			color: var(--ink-subtle);
-			border-style: dashed;
-			cursor: not-allowed;
+		.tz-field {
+			min-width: 0;
+		}
+		.tz-input {
+			font-size: 16px; // iOS does not zoom
 		}
 	}
 	&__fail {

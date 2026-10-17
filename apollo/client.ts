@@ -3,7 +3,7 @@ import { ApolloClient, ApolloLink, InMemoryCache, from, NormalizedCacheObject } 
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { onError } from '@apollo/client/link/error';
 import { getJwtToken } from '../libs/auth/token';
-import { handleSessionExpired, SESSION_FREE_OPERATIONS } from '../libs/auth/sessionExpired';
+import { handleSessionExpired, isSessionExpiryPaused, SESSION_FREE_OPERATIONS } from '../libs/auth/sessionExpired';
 import { fetchWithTimeout, retryLink, timeoutLink, trackLink } from './resilience';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -46,11 +46,12 @@ function createIsomorphicLink() {
 				const sent = (operation.getContext().headers?.Authorization as string | undefined)?.replace(/^Bearer /, '');
 				handleSessionExpired(sent);
 			}
-			if (process.env.NODE_ENV !== 'development') return;
+			// While the account-deleted window is up, requests with the dead token are expected to fail (F364)
+			if (process.env.NODE_ENV !== 'development' || isSessionExpiryPaused()) return;
 			graphQLErrors?.forEach((error) => {
 				const { message, locations, path } = error;
-				// A rejected input is shown under its field by the form (libs/fieldErrors.ts), so it is not a red line either
-				if ((error as { code?: string }).code === 'VALIDATION_FAILED') return;
+				// A rejected input is shown under its field by the form (libs/fieldErrors.ts), and a blocked deletion or a recently deleted email has its own message, so none is a red line
+				if (['VALIDATION_FAILED', 'ACCOUNT_DELETE_BLOCKED', 'EMAIL_RECENTLY_DELETED'].includes((error as { code?: string }).code ?? '')) return;
 				// The backend answers an empty list with "No data found!"; callers treat it as an empty result (isOnlyNoData), so it is not an error worth a red line
 				if (message === 'No data found!') return;
 				// An event that is over is an expected state with its own screen (backend #121, F355), not a red line

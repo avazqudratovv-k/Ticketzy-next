@@ -14,6 +14,9 @@ export const FIELD_LIMITS: Record<string, { min?: number; max?: number }> = {
 	memberPassword: { min: 8 },
 };
 
+/** Not a class-validator rule: the issue the sign-up form gives the email field for `EMAIL_RECENTLY_DELETED` (backend #124). */
+export const RECENTLY_DELETED_RULE = 'emailRecentlyDeleted';
+
 /** Property name -> rule, for one form. */
 export type FieldIssues = Partial<Record<string, string>>;
 
@@ -39,6 +42,8 @@ export function fieldMessage(t: TFunction, field: string, rule: string): string 
 			return t('common:validation.required');
 		case 'isemail':
 			return t('common:validation.email');
+		case RECENTLY_DELETED_RULE.toLowerCase():
+			return t('common:validation.emailRecentlyDeleted');
 		case 'islength':
 		case 'length':
 			if (min !== undefined && max !== undefined) return t('common:validation.between', { min, max });

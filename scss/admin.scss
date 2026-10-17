@@ -543,3 +543,33 @@
 	color: var(--warning-text);
 	font: var(--text-badge);
 }
+
+/** MEMBER DELETION TAGS (F365): admin only */
+.adm-deletion {
+	display: grid;
+	gap: var(--space-3);
+	padding: var(--space-4);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	&__title {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		font: var(--text-label-lg);
+		margin: 0;
+	}
+	&__note {
+		margin: 0;
+		font: var(--text-body-sm);
+		color: var(--ink-muted);
+	}
+	&__id {
+		display: block;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		overflow-wrap: anywhere;
+	}
+	.org-linkbtn {
+		min-height: 44px;
+	}
+}

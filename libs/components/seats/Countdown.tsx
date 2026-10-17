@@ -34,7 +34,7 @@ const Countdown = ({ deadline, title, text, totalSeconds, onExpire }: Props) => 
 	if (!deadline || remaining === null) return null;
 	const seconds = Math.ceil(remaining / 1000);
 	// Screen readers hear a few milestones, not every tick
-	const announce = [30, 10, 5, 0].includes(seconds) ? t('countdown.announce', { count: seconds }) : '';
+	const announce = [60, 30, 10, 5, 0].includes(seconds) ? t('countdown.announce', { count: seconds }) : '';
 	const urgent = seconds <= 10;
 	const total = totalSeconds ? Math.max(totalSeconds * 1000, remaining) : seen.current.max || 1;
 	const progress = Math.min(1, remaining / total);
@@ -53,7 +53,7 @@ const Countdown = ({ deadline, title, text, totalSeconds, onExpire }: Props) => 
 						strokeDashoffset={RING_LENGTH * (1 - progress)}
 					/>
 				</svg>
-				<span className="countdown__secs">{seconds > 99 ? Math.ceil(seconds / 60) + 'm' : seconds}</span>
+				<span className="countdown__secs">{seconds > 999 ? Math.ceil(seconds / 60) + 'm' : seconds}</span>
 			</span>
 			<div>
 				<p className="countdown__title">

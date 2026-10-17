@@ -126,7 +126,7 @@ Server time rules used below: the hold lasts `SEAT_HOLD_SECONDS` (default 30, be
    - GENERAL (`checkoutQuantities`): for each item `ticketTypeService.reserve` does an atomic `findOneAndUpdate` that increments `soldQuantity` only if status is ACTIVE, quantity <= `maxPerOrder`, stock remains and the sale window is open; `expiresAt = now + SEAT_HOLD_SECONDS`. If one item fails every reservation made is released.
    - `createOrderDocument` stores `orderNumber` (`TZ-<time36>-<hex>`), items, `seatIds`, `subtotal`, `commissionRate`, `commissionAmount`, `totalAmount` (= subtotal: the buyer pays the price, the commission comes out of the organizer's side, `calculateOrderAmounts`), status `PENDING_PAYMENT`.
 2. The frontend navigates to `/checkout/[orderId]` (`pages/checkout/[orderId].tsx`, `useRequireAuth`, `useBuyerOnlyRedirect`). It loads `GetOrder` (`network-only`), then `GetEvent`, `GetTicketTypes`, and for seated orders keeps polling the seat map via `useSeatMap` (to show seat names and to detect that the hold was replaced).
-3. UI parts: `Countdown` to `order.expiresAt`; `OrderSummary`; `DemoNotice` (explains no real money, no real card details); disabled sample card fields; a checkbox "Simulate a failed payment" (`simulateFailure`); `PayBar`.
+3. UI parts: `Countdown` to `order.expiresAt`; `OrderSummary`; `DemoNotice`; since F366 the card fields of `CardForm` (number in groups of 4 with a Luhn check, name, expiry MM/YY not past, CVC 3 or 4 digits; errors under each field; values stay in the component and are never sent, logged, stored or put in the URL, autofill off) with the notice "Demo payment: no money is charged, and nothing you type here leaves your browser."; a checkbox "Simulate a declined payment" (`simulateFailure`); `PayBar`. `pay()` runs `CardForm.validate()` first; the `PayOrder` call is unchanged.
 4. "Lost hold" detection (effect on `[pending, reserved, mapLoaded, map, mine, order, remaining]`): if one of my held seats has a `holdExpiresAt` that differs from the order's `expiresAt` by more than 1 s, or I hold fewer seats than the order has, `outcome = 'lost'`.
 5. Pay: `pay()` -> mutation `PayOrder(orderId, simulate: SUCCESS | FAILURE)`. Backend `OrderService.payOrder`:
    a. `PAYMENT_MODE=disabled` -> GraphQL error code `SERVICE_UNAVAILABLE`.
@@ -149,6 +149,7 @@ Server time rules used below: the hold lasts `SEAT_HOLD_SECONDS` (default 30, be
 5. QR rendering: `libs/components/account/QrCode.tsx` imports `qrcode` lazily and calls `QRCode.toDataURL(value, { errorCorrectionLevel: 'M', margin: 2, width: 640, color: { dark: '#000000', light: '#ffffff' } })`, shown as an `<img>` 320 x 320. **Always black on white** in both themes (F85). The page shows it only when `ticketState(ticket) === 'valid'` and `qrToken` exists (`showQr`). The printed `ticketCode` is a reference, not a door fallback (F84). A full-screen dialog (`fullscreen` state) enlarges it.
 6. Ticket state shown to the buyer: `libs/account/tickets.ts` `ticketState`: `USED`, `REFUNDED`, `CANCELLED` as stored; a `VALID` ticket whose event has ended (status `ENDED` or `endAt` past) is labelled `expired` (never stored).
 7. Calendar file: `buildIcs` / `downloadIcs` (`libs/account/ics.ts`) from the ticket page.
+8. PDF (F363): `useTicketDownload` (`libs/hooks/useTicketDownload.ts`) builds `libs/account/ticketPdf.ts` (jsPDF 4.2.1 and `qrcode`, loaded on first use): one A4 page per ticket, QR 90 mm black on white, code in groups of 4, text drawn on a canvas so Korean, Russian and Uzbek names print. "Download ticket" on the ticket page, "Download all" on `/tickets` (every unused ticket of upcoming events, pages of 100) and in the delete window. Built in the browser, nothing sent.
 
 ---
 
@@ -213,4 +214,15 @@ Next: `02-state-and-rules.md`.
 3. An admin approves the organizer; the backend sets `approvalCelebrationPending` with the status change and sends `ORGANIZER_VERIFIED`.
 4. The next poll returns `ACTIVE` + flag true: `userVar` is updated (banner and locks go), the guard is set, the splash plays (~3 s, click/Escape/Enter closes), `markApprovalCelebrationDone` is called, and on `/account/signup` the organizer is sent to `/organizer`.
 5. Reload, sign-in again or another device: the flag is false (or the tab guard is set), so nothing plays. Sign-in page: "Forgot password?" explains that an admin resets the password via the contact page (no emails).
+
+---
+
+## Flow 14. Delete account (F364, F365; backend #123, #124)
+
+1. `/settings` shows `DeleteAccount` for USER and ORGANIZER. It runs `GetMyAccountDeletionCheck` (`canDelete`, `blockers`, `unusedUpcomingTickets`). A blocked organizer sees each reason (`EVENTS_IN_REVIEW`, `EVENTS_NOT_ENDED`, `PAYOUTS_NOT_PAID`) with count and up to 10 event names, and no button.
+2. Delete opens a confirm window: the 30-day email sentence, type `DELETE`, Delete (blocked until it matches), Cancel (no change). A buyer with unused tickets sees it full screen with the count and "Download all tickets" (Flow 9, step 8).
+3. `DeleteMyAccount({ confirmation: "DELETE" })`. `ACCOUNT_DELETE_BLOCKED` reloads the check and shows the reasons; `RATE_LIMITED` (5 per 15 minutes), `VALIDATION_FAILED`, `NOT_ALLOWED_REQUEST` and network errors show a line in the window.
+4. On success `accountDeletedVar` is set and `AccountDeletedNotice` (mounted in `_app`) shows the closing window (organizer 3.2 s with the waving logo and "Thank you for organizing with Ticketzy."; buyer 2.4 s "Your account has been deleted."). `pauseSessionExpiry(true)` holds back the session-expired redirect while it shows (the server already refuses the token). It ends with `router.replace('/')` and `logOut()`.
+5. Signing up again with that email: `EMAIL_RECENTLY_DELETED` shows under the email field for 30 days (`SignupForm`).
+6. Admin: the members drawer shows `deletedAt`, `emailReusableAt`, `previousAccountId`, `reusedByMemberId` with links between the two accounts (a list search, no read by id).
 

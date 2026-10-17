@@ -1,7 +1,7 @@
 # Ticketzy (frontend)
 
 > **한국어 요약 (Korean summary)**
-> Ticketzy는 콘서트, 축구, 코미디 이벤트를 위한 티켓 판매 사이트의 프런트엔드로, **포트폴리오용 데모 프로젝트**예요. 실제 회사가 아니고 실제 티켓을 판매하지 않으며, 결제와 정산은 모두 모의로 처리돼요. 구매자는 좌석 지도에서 좌석을 고르고(30초 홀드, 최대 8석), QR 티켓을 받고, 공연 전날 23:59(공연장 현지 시간)까지 환불할 수 있어요. 주최자는 공연장 좌석 배치를 만들고, 이벤트를 게시하고, QR로 체크인해요. 관리자는 주최자와 이벤트를 승인하고 수수료를 관리해요. 영어, 한국어, 러시아어, 우즈베크어와 라이트/다크 테마를 지원해요. 기술 스택은 Next.js(Pages Router), Apollo Client(GraphQL), MUI, SCSS, next-i18next이고 패키지 관리자는 Yarn만 사용해요. 실행하려면 백엔드(`http://localhost:3007`)를 켠 뒤 `yarn install`, `yarn dev`를 실행하세요.
+> Ticketzy는 콘서트, 축구, 코미디 이벤트를 위한 티켓 판매 사이트의 프런트엔드로, **포트폴리오용 데모 프로젝트**예요. 실제 회사가 아니고 실제 티켓을 판매하지 않으며, 결제와 정산은 모두 모의로 처리돼요. 구매자는 좌석 지도에서 좌석을 고르고(120초 홀드, 최대 8석), QR 티켓을 받고, 공연 전날 23:59(공연장 현지 시간)까지 환불할 수 있어요. 주최자는 공연장 좌석 배치를 만들고, 이벤트를 게시하고, QR로 체크인해요. 관리자는 주최자와 이벤트를 승인하고 수수료를 관리해요. 영어, 한국어, 러시아어, 우즈베크어와 라이트/다크 테마를 지원해요. 기술 스택은 Next.js(Pages Router), Apollo Client(GraphQL), MUI, SCSS, next-i18next이고 패키지 관리자는 Yarn만 사용해요. 실행하려면 백엔드(`http://localhost:3007`)를 켠 뒤 `yarn install`, `yarn dev`를 실행하세요.
 
 Ticketzy is the web client of an event ticketing site for concerts, football matches and comedy shows. Buyers pick seats on a live map, pay and get QR tickets. Organizers design venues, publish events and check people in. Admins approve organizers and events and manage commission.
 
@@ -25,9 +25,9 @@ Placeholders: add real images to `docs/screenshots/` and link them here.
 
 - Browse and filter events (category, city, date, price, search, sort); the filters live in the URL.
 - Event page with images, translated title and description, ticket types, organizer, likes and comments.
-- Seat picker: zoomable seat map, section list, seat grid operable with the keyboard, a hold of 30 seconds (server setting) and at most 8 seats per order, with a live countdown. Events without seat numbers use a ticket-type picker.
+- Seat picker: zoomable seat map, section list, seat grid operable with the keyboard, a hold of 120 seconds (server setting) and at most 8 seats per order, with a live countdown. Events without seat numbers use a ticket-type picker.
 - Checkout with simulated payment, order confirmation, order history and per-order refunds until 23:59 on the day before the event in the venue time zone.
-- Tickets with QR codes, calendar file, saved events, followed organizers, notifications.
+- Tickets with QR codes, a PDF download (one ticket per page, or all unused tickets at once), calendar file, saved events, followed organizers, notifications.
 - Home page sections, an AI assistant widget, and four languages (English, Korean, Russian, Uzbek) with a light and a dark theme.
 
 ### Organizer

@@ -69,7 +69,13 @@
     "emptyUpcoming": "No upcoming tickets",
     "emptyUpcomingText": "Tickets for events that have not ended yet are listed here.",
     "emptyPast": "No past tickets",
-    "emptyPastText": "Tickets for events that are over end up here."
+    "emptyPastText": "Tickets for events that are over end up here.",
+    "downloadAll": "Download all",
+    "downloadingAll": "Preparing PDF…",
+    "downloadAllHint": "One PDF with every unused ticket for upcoming events, one ticket per page.",
+    "downloadNone": "There are no unused tickets to download.",
+    "downloadedAll_one": "Saved {{count}} ticket as a PDF.",
+    "downloadedAll_other": "Saved {{count}} tickets as a PDF."
   },
   "ticket": {
     "seatLine": "{{section}}, row {{row}}, seat {{number}}",
@@ -133,7 +139,20 @@
     "pricePaid": "Price paid",
     "orderRefundLink": "View the order or request a refund",
     "orderLink": "View the order",
-    "eventLink": "Event page"
+    "eventLink": "Event page",
+    "download": "Download ticket",
+    "downloading": "Preparing PDF…",
+    "downloaded": "Your ticket PDF was saved to your downloads.",
+    "downloadError": "We could not create the PDF. Try again.",
+    "downloadText": "Save this ticket as a PDF to print it or keep it offline.",
+    "pdf": {
+      "date": "Date and time",
+      "venue": "Venue",
+      "ticket": "Ticket",
+      "buyer": "Buyer",
+      "code": "Ticket code",
+      "hint": "Show this QR code at the entrance. Ticketzy is a demo, so this ticket has no real value."
+    }
   },
   "refund": {
     "title": "Refund",
@@ -218,5 +237,51 @@
     "signOutTitle": "Sign out",
     "signedInAs": "Signed in as {{email}}.",
     "logout": "Log out"
+  },
+  "delete": {
+    "title": "Delete account",
+    "textBuyer": "Deleting your account is permanent. You will not be able to sign in again.",
+    "textOrganizer": "Deleting your account is permanent. Your organizer profile will no longer be shown and you will not be able to sign in again.",
+    "emailWarning": "After deleting, you cannot sign in again, and this email cannot be used for a new account for 30 days.",
+    "open": "Delete my account",
+    "dialogTitle": "Delete your account?",
+    "dialogSr": "This cannot be undone.",
+    "downloadAll": "Download all tickets",
+    "typeLabel": "Type {{word}} to confirm",
+    "typeAria": "Type {{word}} to confirm account deletion",
+    "cancel": "Cancel",
+    "confirm": "Delete account",
+    "deleting": "Deleting…",
+    "checkError": "We could not check whether your account can be deleted. Try again.",
+    "blockedIntro": "You cannot delete your account yet. Finish the items below first, then come back.",
+    "blockedNow": "Your account can no longer be deleted: something changed. See the reasons below.",
+    "reason": {
+      "EVENTS_IN_REVIEW": {
+        "title": "Events waiting for review",
+        "hint": "An admin has not decided on these yet. Rejected events do not block deleting."
+      },
+      "EVENTS_NOT_ENDED": {
+        "title": "Approved events that have not ended",
+        "hint": "You can delete your account after these events have ended."
+      },
+      "PAYOUTS_NOT_PAID": {
+        "title": "Payouts not paid yet",
+        "hint": "These events have a payout that is waiting or due. Deleting opens when every payout is paid."
+      },
+      "OTHER": {
+        "title": "Something is still open",
+        "hint": "Finish or close it, then try again."
+      }
+    },
+    "errors": {
+      "rate": "Too many attempts. Wait a few minutes and try again.",
+      "confirmation": "The word did not match. Type DELETE exactly as shown.",
+      "notAllowed": "This account cannot be deleted right now. It may already be deleted.",
+      "generic": "We could not delete your account. Please try again."
+    },
+    "unusedTickets_one": "You have {{count}} unused ticket. Download it before deleting, because you won't be able to sign in again.",
+    "unusedTickets_other": "You have {{count}} unused tickets. Download them before deleting, because you won't be able to sign in again.",
+    "more_one": "and {{count}} more",
+    "more_other": "and {{count}} more"
   }
 }

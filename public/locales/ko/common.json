@@ -280,7 +280,8 @@
     "between": "{{min}}~{{max}}자로 입력하세요.",
     "tooSmall": "{{min}} 이상으로 입력하세요.",
     "tooBig": "{{max}} 이하로 입력하세요.",
-    "invalid": "올바르지 않은 값입니다. 확인한 뒤 다시 시도하세요."
+    "invalid": "올바르지 않은 값입니다. 확인한 뒤 다시 시도하세요.",
+    "emailRecentlyDeleted": "이 이메일은 삭제된 계정에 사용되었으며 아직 새 계정에 사용할 수 없어요. 나중에 다시 시도하거나 다른 이메일을 사용해 주세요."
   },
   "ticketCode": {
     "copy": "코드 복사",
@@ -293,5 +294,17 @@
     "nextMonth": "다음 달",
     "today": "오늘",
     "clear": "지우기"
+  },
+  "accountDeleted": {
+    "continue": "계속",
+    "buyer": {
+      "title": "계정 삭제됨",
+      "text": "계정이 삭제되었어요."
+    },
+    "organizer": {
+      "title": "감사합니다",
+      "text": "Ticketzy와 함께 행사를 열어 주셔서 감사합니다.",
+      "sub": "계정이 삭제되었어요."
+    }
   }
 }

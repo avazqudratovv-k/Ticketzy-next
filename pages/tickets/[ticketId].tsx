@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import { Button, Dialog, IconButton } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { ArrowsOut, CalendarPlus, CaretLeft, CaretRight, MapPin, Prohibit, SunDim, X } from 'phosphor-react';
+import { ArrowsOut, CalendarPlus, CaretLeft, CaretRight, DownloadSimple, MapPin, Prohibit, SunDim, X } from 'phosphor-react';
 import { GET_MY_TICKETS_LIST, GET_TICKET } from '../../apollo/user/query';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { withAccount } from '../../libs/components/account/AccountShell';
@@ -19,6 +19,7 @@ import TicketCode from '../../libs/components/common/TicketCode';
 import Seo from '../../libs/components/common/Seo';
 import { isPublicEvent } from '../../libs/events';
 import { useSectionNames } from '../../libs/hooks/useSectionNames';
+import useTicketDownload from '../../libs/hooks/useTicketDownload';
 import { seatLabel } from '../../libs/seats/label';
 import { buildIcs, downloadIcs } from '../../libs/account/ics';
 import { ticketState, TicketState } from '../../libs/account/tickets';
@@ -43,6 +44,7 @@ const TicketDetail: NextPage = () => {
 	const { locale } = router;
 	const ticketId = typeof router.query.ticketId === 'string' ? router.query.ticketId : '';
 	const [fullscreen, setFullscreen] = useState(false);
+	const download = useTicketDownload();
 
 	const { data, error, refetch } = useQuery(GET_TICKET, { variables: { ticketId }, skip: !router.isReady || !ticketId, fetchPolicy: 'cache-and-network' });
 	const ticket: AccountTicket | undefined = data?.getTicket;
@@ -195,10 +197,32 @@ const TicketDetail: NextPage = () => {
 								{t('ticket.actionsTitle')}
 							</h2>
 							<p className="breakdown__note">{t('ticket.calendarText')}</p>
-							<div>
+							<div className="tdetail__actions">
 								<Button variant="outlined" startIcon={<CalendarPlus size={20} aria-hidden="true" />} onClick={addToCalendar}>
 									{t('ticket.calendar')}
 								</Button>
+							</div>
+							<p className="breakdown__note">{t('ticket.downloadText')}</p>
+							<div className="tdetail__actions">
+								<Button
+									variant="contained"
+									startIcon={<DownloadSimple size={20} aria-hidden="true" />}
+									className={download.busy ? 'tz-blocked' : undefined}
+									aria-disabled={download.busy ? true : undefined}
+									onClick={() => {
+										if (!download.busy && showQr) void download.downloadOne(ticket);
+									}}
+								>
+									{download.busy ? t('ticket.downloading') : t('ticket.download')}
+								</Button>
+							</div>
+							<div role="status" className="tdetail__dlstatus">
+								{download.status?.kind === 'ok' && <p className="tz-alert tz-alert--success">{t('ticket.downloaded')}</p>}
+								{download.status?.kind === 'error' && (
+									<p className="tz-alert" role="alert">
+										{t('ticket.downloadError')}
+									</p>
+								)}
 							</div>
 						</section>
 					)}

@@ -10,6 +10,7 @@ import { restoreSession } from '../libs/auth';
 import { useSessionWatch } from '../libs/hooks/useSessionWatch';
 import { TOKEN_STORAGE_KEY } from '../libs/auth/token';
 import ApprovalCelebration from '../libs/components/common/ApprovalCelebration';
+import AccountDeletedNotice from '../libs/components/common/AccountDeletedNotice';
 import AssistantLifecycle from '../libs/components/assistant/AssistantLifecycle';
 import ErrorBoundary from '../libs/components/common/ErrorBoundary';
 import MessagingLifecycle from '../libs/components/messages/MessagingLifecycle';
@@ -85,6 +86,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<ErrorBoundary>
 						<Component {...pageProps} />
 					</ErrorBoundary>
+					<AccountDeletedNotice />
 				</ThemeModeProvider>
 			</ApolloProvider>
 		</>

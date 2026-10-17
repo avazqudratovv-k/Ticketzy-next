@@ -594,6 +594,81 @@ img.qr {
 	}
 }
 
+/**
+ * ACCOUNT DELETED WINDOW (F364). A calm goodbye, on purpose unlike the approval splash and the paid splash: no blur, glow, rings
+ * or confetti. The dialog fades in (MUI), the three lines rise in one after another, and for an organizer the logo waves twice
+ * about its bottom edge. Transform and opacity only. Reduced motion: plain fade, no wave, no rise.
+ **/
+.tz-bye__paper {
+	text-align: center;
+	border-radius: var(--radius-lg) !important;
+}
+.tz-bye__body {
+	display: grid;
+	justify-items: center;
+	gap: var(--space-3);
+	padding: var(--space-8) var(--space-6) var(--space-6);
+	> * {
+		animation: tz-bye-in 500ms var(--ease-out) both;
+	}
+	> :nth-child(2) {
+		animation-delay: 150ms;
+	}
+	> :nth-child(3) {
+		animation-delay: 300ms;
+	}
+	> :nth-child(n + 4) {
+		animation-delay: 450ms;
+	}
+}
+.tz-bye__logo {
+	display: grid;
+	transform-origin: 50% 100%;
+	.tz-bye__paper--wave & {
+		animation: tz-bye-in 500ms var(--ease-out) both, tz-bye-wave 2200ms ease-in-out 600ms both;
+	}
+}
+.tz-bye__title {
+	font: var(--text-h2);
+	margin: 0;
+}
+.tz-bye__text {
+	font: var(--text-body-lg);
+	margin: 0;
+}
+.tz-bye__sub {
+	font: var(--text-body-sm);
+	color: var(--ink-muted);
+	margin: 0;
+}
+@keyframes tz-bye-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+}
+@keyframes tz-bye-wave {
+	0%,
+	10% {
+		transform: rotate(0);
+	}
+	26% {
+		transform: rotate(13deg);
+	}
+	42% {
+		transform: rotate(-8deg);
+	}
+	58% {
+		transform: rotate(10deg);
+	}
+	74% {
+		transform: rotate(-4deg);
+	}
+	100% {
+		transform: rotate(0);
+	}
+}
+
 /** REDUCED MOTION: no movement at all. Page changes keep a short fade. **/
 @media (prefers-reduced-motion: reduce) {
 	*,
@@ -635,6 +710,16 @@ img.qr {
 		display: none;
 	}
 	.tz-splash__msg {
+		animation: none !important;
+	}
+	// goodbye window: the dialog keeps its short fade, the lines and the wave stand still
+	.tz-bye,
+	.tz-bye .MuiBackdrop-root,
+	.tz-bye .MuiDialog-container {
+		transition-duration: var(--dur-fast) !important;
+	}
+	.tz-bye__body > *,
+	.tz-bye__paper--wave .tz-bye__logo {
 		animation: none !important;
 	}
 }

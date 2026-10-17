@@ -217,3 +217,14 @@ export const MARK_APPROVAL_CELEBRATION_DONE = gql`
 		}
 	}
 `;
+
+/** USER or ORGANIZER, own account. `confirmation` must be exactly DELETE. `ACCOUNT_DELETE_BLOCKED` carries `reasons` (backend #123). */
+export const DELETE_MY_ACCOUNT = gql`
+	mutation DeleteMyAccount($input: DeleteAccountInput!) {
+		deleteMyAccount(input: $input) {
+			deleted
+			releasedSeatHolds
+			cancelledPendingOrders
+		}
+	}
+`;

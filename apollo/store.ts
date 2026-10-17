@@ -17,3 +17,6 @@ export const messagingErrorVar = makeVar<boolean>(false);
 
 /** `open` = live; `fallback` = the socket cannot connect, everything polls every 10 seconds. */
 export const socketStatusVar = makeVar<SocketStatus>('off');
+
+/** Set when the member's account was just deleted: the closing window (AccountDeletedNotice) shows, then the session ends (F364). */
+export const accountDeletedVar = makeVar<{ role: 'USER' | 'ORGANIZER' } | null>(null);

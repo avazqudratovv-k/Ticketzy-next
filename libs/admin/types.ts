@@ -128,6 +128,11 @@ export interface AdminMember {
 	memberImage: string;
 	memberEvents: number;
 	completedEvents: number;
+	/** Deletion tags (backend #123, #124): admin-only, null for everyone else and never shown outside the admin members page. */
+	deletedAt?: string | null;
+	emailReusableAt?: string | null;
+	previousAccountId?: string | null;
+	reusedByMemberId?: string | null;
 	createdAt: string;
 	updatedAt: string;
 }

@@ -16,6 +16,7 @@ import Countdown from '../../libs/components/seats/Countdown';
 import OrderSummary, { SeatLine } from '../../libs/components/seats/OrderSummary';
 import Steps from '../../libs/components/seats/Steps';
 import PayBar from '../../libs/components/seats/PayBar';
+import CardForm, { CardFormHandle } from '../../libs/components/seats/CardForm';
 import { clearSession } from '../../libs/auth';
 import { useRequireAuth } from '../../libs/auth/guards';
 import useBuyerOnlyRedirect from '../../libs/hooks/useBuyerOnlyRedirect';
@@ -64,6 +65,7 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	const [payError, setPayError] = useState<string | null>(null);
 	const [retryNote, setRetryNote] = useState<string | null>(null);
 	const busy = useRef(false);
+	const card = useRef<CardFormHandle>(null);
 	const handoff = useRef(false);
 
 	const status = outcome === 'failed' ? 'FAILED' : order?.orderStatus;
@@ -137,6 +139,11 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 
 	const pay = async () => {
 		if (busy.current || !pending) return;
+		// The card fields are checked here, in the browser. Their values stay in CardForm: the call below is the same as before.
+		if (card.current && !card.current.validate()) {
+			setPayError('errors.cardInvalid');
+			return;
+		}
 		busy.current = true;
 		setPaying(true);
 		setPayError(null);
@@ -332,26 +339,10 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 							<span className="tz-alert__icon">
 								<Info size={18} />
 							</span>
-							<div>
-								<p className="tz-alert__title">{t('pay.demoTitle')}</p>
-								<p className="tz-alert__text">{t('pay.demoText')}</p>
-							</div>
+							<p className="tz-alert__title">{t('pay.cardNotice')}</p>
 						</div>
-						{/* Disabled on purpose: nothing a buyer types here is read or sent anywhere */}
-						<div className="demo__fields" aria-hidden="true">
-							<label className="tz-field">
-								<span className="tz-field__label">{t('pay.card')}</span>
-								<input className="tz-input" disabled value="4242 4242 4242 4242" readOnly tabIndex={-1} autoComplete="off" />
-							</label>
-							<label className="tz-field">
-								<span className="tz-field__label">{t('pay.expiry')}</span>
-								<input className="tz-input" disabled value="12 / 34" readOnly tabIndex={-1} autoComplete="off" />
-							</label>
-							<label className="tz-field">
-								<span className="tz-field__label">{t('pay.cvc')}</span>
-								<input className="tz-input" disabled value="•••" readOnly tabIndex={-1} autoComplete="off" />
-							</label>
-						</div>
+						<CardForm ref={card} />
+						<p className="breakdown__note">{t('pay.testCard')}</p>
 						<FormControlLabel
 							className="demo__fail"
 							control={<Checkbox checked={simulateFailure} onChange={(event_) => setSimulateFailure(event_.target.checked)} />}

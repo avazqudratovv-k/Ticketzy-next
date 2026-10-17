@@ -7,7 +7,7 @@ import { ApolloError, useApolloClient } from '@apollo/client';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Drawer, IconButton } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { ArrowCounterClockwise, CheckCircle, MagnifyingGlass, Prohibit, ShieldCheck, UsersThree, WarningCircle, X } from 'phosphor-react';
+import { ArrowCounterClockwise, CheckCircle, MagnifyingGlass, Prohibit, ShieldCheck, Trash, UsersThree, WarningCircle, X } from 'phosphor-react';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import StateBlock from '../../../libs/components/states/StateBlock';
 import Pagination from '../../../libs/components/events/Pagination';
@@ -45,6 +45,9 @@ export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 });
 
 const DEFAULTS = { type: 'all', status: 'all', q: '', sort: 'newest' };
+/** Where to look for the other account of a deletion tag: newest accounts first, 100 per request, at most 10 requests. */
+const RELATED_PAGE_SIZE = 100;
+const RELATED_MAX_PAGES = 10;
 
 const AdminMembers: NextPage = () => {
 	const { t } = useTranslation('admin');
@@ -61,6 +64,7 @@ const AdminMembers: NextPage = () => {
 	const [busy, setBusy] = useState(false);
 	const [error, setError] = useState<AdminError | null>(null);
 	const [notice, setNotice] = useState<string | null>(null);
+	const [related, setRelated] = useState<{ id: string; state: 'busy' | 'missing' | 'error' } | null>(null);
 
 	useEffect(() => setSearch(values.q), [values.q]);
 	useEffect(() => {
@@ -153,7 +157,32 @@ const AdminMembers: NextPage = () => {
 	const open = (member: AdminMember) => {
 		setNotice(null);
 		setError(null);
+		setRelated(null);
 		setSelected(member);
+	};
+
+	/** The other account of a deletion tag. The backend has no read by id for a deleted account, so the list is searched (a deleted account by status, a new one newest first). */
+	const openRelated = async (id: string, deleted: boolean) => {
+		setRelated({ id, state: 'busy' });
+		try {
+			for (let nextPage = 1; nextPage <= RELATED_MAX_PAGES; nextPage++) {
+				const result = await client.mutate({
+					mutation: GET_ALL_MEMBERS_BY_ADMIN,
+					variables: { input: { page: nextPage, limit: RELATED_PAGE_SIZE, sort: 'createdAt', direction: 'DESC', search: deleted ? { memberStatus: MemberStatus.DELETE } : {} } },
+					fetchPolicy: 'no-cache',
+				});
+				const block = result.data?.getAllMembersByAdmin;
+				const hit = (block?.list ?? []).find((member: AdminMember) => member._id === id);
+				if (hit) {
+					open(hit);
+					return;
+				}
+				if (nextPage * RELATED_PAGE_SIZE >= (block?.metaCounter?.[0]?.total ?? 0)) break;
+			}
+			setRelated({ id, state: 'missing' });
+		} catch (err) {
+			setRelated({ id, state: isOnlyNoData(err as ApolloError) ? 'missing' : 'error' });
+		}
 	};
 
 	return (
@@ -346,6 +375,56 @@ const AdminMembers: NextPage = () => {
 									</div>
 								)}
 							</dl>
+							{(selected.deletedAt || selected.emailReusableAt || selected.previousAccountId || selected.reusedByMemberId) && (
+								<section className="adm-deletion" aria-labelledby="member-deletion-title">
+									<h3 id="member-deletion-title" className="adm-deletion__title">
+										<Trash size={18} aria-hidden="true" /> {t('members.deletion.title')}
+									</h3>
+									<p className="adm-deletion__note">{t('members.deletion.note')}</p>
+									<dl className="org-dl">
+										{selected.deletedAt && (
+											<div>
+												<dt>{t('members.deletion.deletedAt')}</dt>
+												<dd>{formatViewerDate(selected.deletedAt, locale, true)}</dd>
+											</div>
+										)}
+										{selected.emailReusableAt && (
+											<div>
+												<dt>{t('members.deletion.reusableAt')}</dt>
+												<dd>{formatViewerDate(selected.emailReusableAt, locale, true)}</dd>
+											</div>
+										)}
+										{selected.previousAccountId && (
+											<div>
+												<dt>{t('members.deletion.previous')}</dt>
+												<dd>
+													<code className="adm-deletion__id">{selected.previousAccountId}</code>
+													<button type="button" className="tz-link org-linkbtn" disabled={related?.state === 'busy'} onClick={() => void openRelated(selected.previousAccountId as string, true)}>
+														{t('members.deletion.openPrevious')}
+													</button>
+												</dd>
+											</div>
+										)}
+										{selected.reusedByMemberId && (
+											<div>
+												<dt>{t('members.deletion.reusedBy')}</dt>
+												<dd>
+													<code className="adm-deletion__id">{selected.reusedByMemberId}</code>
+													<button type="button" className="tz-link org-linkbtn" disabled={related?.state === 'busy'} onClick={() => void openRelated(selected.reusedByMemberId as string, false)}>
+														{t('members.deletion.openNew')}
+													</button>
+												</dd>
+											</div>
+										)}
+									</dl>
+									{related && related.state !== 'busy' && (
+										<p className="tz-alert tz-alert--error" role="alert">
+											<WarningCircle size={20} aria-hidden="true" />
+											<span>{related.state === 'missing' ? t('members.deletion.missing') : t('errors.generic')}</span>
+										</p>
+									)}
+								</section>
+							)}
 							{guard.locked && (
 								<p className="tz-alert tz-alert--info" role="note">
 									<ShieldCheck size={20} aria-hidden="true" />

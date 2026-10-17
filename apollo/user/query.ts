@@ -479,6 +479,21 @@ export const GET_MY_ACCOUNT_STATE = gql`
 	}
 `;
 
+/** USER or ORGANIZER, own account, no arguments: may the account be deleted, what blocks it, how many unused tickets a buyer holds (backend #123). */
+export const GET_MY_ACCOUNT_DELETION_CHECK = gql`
+	query GetMyAccountDeletionCheck {
+		getMyAccountDeletionCheck {
+			canDelete
+			blockers {
+				reason
+				count
+				eventNames
+			}
+			unusedUpcomingTickets
+		}
+	}
+`;
+
 export const GET_MY_FAVORITES = gql`
 	query GetMyFavorites($input: OrdinaryInquiry!) {
 		getFavorites(input: $input) {

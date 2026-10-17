@@ -135,3 +135,23 @@ Avatar or type icon on the left, a sentence that starts with the sender in bold,
 ## Price slider (F357)
 
 `Slider` (MUI) above the min and max fields: 0 to `PRICE_SLIDER_MAX` (300,000) in 5,000 steps, right end = any. Styled in `scss/events.scss` (`.browse__slider`) with `--accent-edge` and a 44 px hit area. Keep the draft values and the slider in sync through `useDebouncedCommit`; the URL keeps digits only.
+
+## Ticket PDF (F363)
+
+`useTicketDownload()` gives `{ busy, status, downloadOne(ticket), downloadAll() }`; `status` is `ok` (with a count), `none` or `error`. Show the result in a `role="status"` block next to the button. While `busy` the button is `tz-blocked` with `aria-disabled` and a guarded click. The builder (`libs/account/ticketPdf.ts`) loads jsPDF and qrcode on first use; add text lines through its canvas `textBlock` (jsPDF has no non-Latin fonts). The QR is always black on white.
+
+## Danger confirm window (`.tz-deldlg`, F364)
+
+MUI `Dialog` with `aria-labelledby` and a title, one `.tz-alert--danger` sentence, a typed word, Cancel and a danger Delete. Delete is `tz-blocked` + `aria-disabled` until the word matches, then `org-btn-danger-solid`; `disabled` only while the request runs. Full screen (`.tz-deldlg--full`) when something must be done first (download tickets); the content stays 640 px wide. The input has `autocomplete="off"` and no spellcheck.
+
+## Goodbye window (`AccountDeletedNotice`, `.tz-bye`, F364)
+
+A calm closing window, not a splash: MUI `Dialog` fade, three lines that rise in turn (opacity and transform), the logo waving twice for an organizer (`tz-bye-wave`, rotation about the bottom edge, 2.2 s). Reduced motion: only the dialog fade (the rule in `motion.scss` keeps `--dur-fast` for it), no rise, no wave. A Continue button takes focus; Escape and a click outside end it. It lives in `_app` and is driven by `accountDeletedVar`; the session ends only when it closes. Compare: paid splash and approval celebration are `aria-hidden` overlays with confetti (`SplashOverlay`).
+
+## Card fields (`CardForm`, F366)
+
+Inputs inside `.demo__fields` (a `role="group"`, not a `<form>`). Own state, `validate()` through a ref. Never put the values in props, URLs, storage, logs or requests. Number and name take the full row; expiry and CVC share one.
+
+## Admin-only tags (`.adm-deletion`, F365)
+
+A bordered block in the member drawer with a note that it is admin-only. Do not request these fields in any query that a member or the public can run.

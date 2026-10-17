@@ -535,6 +535,17 @@
     "error": {
       "title": "Members could not be loaded",
       "text": "Ticketzy could not read the member list. Try again in a moment."
+    },
+    "deletion": {
+      "title": "Account deletion",
+      "note": "Visible to admins only. Never shown to the member or on public pages.",
+      "deletedAt": "Deleted on",
+      "reusableAt": "Email reusable from",
+      "previous": "Previous account (same email)",
+      "reusedBy": "Email reused by (new account)",
+      "openPrevious": "Open previous account",
+      "openNew": "Open new account",
+      "missing": "That account was not found among the newest 1,000. Search the members list."
     }
   },
   "commission": {

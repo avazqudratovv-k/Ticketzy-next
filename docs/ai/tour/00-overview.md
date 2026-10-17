@@ -170,7 +170,7 @@ Backend variable names seen in backend code (not verified against the backend `.
 | **Tier / `tierKey`** | A label connecting a layout section to a **ticket type** (price group). One ticket type per tier per event. |
 | **Seating type** | `RESERVED` (pick a seat) or `GENERAL` (just a quantity). Field `seatingType` on the event. |
 | **EventSeat** | One database row per physical seat of one event (status AVAILABLE, HELD, SOLD). Created when an admin approves a RESERVED event. |
-| **Hold** | Temporary claim on seats for `SEAT_HOLD_SECONDS` (default 30 s), at most 8 seats. |
+| **Hold** | Temporary claim on seats for `SEAT_HOLD_SECONDS` (default 120 s since backend #125), at most 8 seats. |
 | **Order** | A purchase: lines (ticket type, quantity, price), amounts, status. Created in `PENDING_PAYMENT`. |
 | **Ticket** | One per seat (or per purchased quantity), with a code and a signed `qrToken`. |
 | **Check-in** | Gate scan that turns a ticket `VALID` into `USED`. |

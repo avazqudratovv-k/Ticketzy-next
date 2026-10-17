@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Ticket } from 'phosphor-react';
+import { DownloadSimple, Ticket } from 'phosphor-react';
 import { GET_MY_TICKETS_LIST } from '../../apollo/user/query';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { withAccount } from '../../libs/components/account/AccountShell';
@@ -17,6 +17,7 @@ import Seo from '../../libs/components/common/Seo';
 import StateBlock from '../../libs/components/states/StateBlock';
 import Pagination from '../../libs/components/events/Pagination';
 import useUrlState from '../../libs/hooks/useUrlState';
+import useTicketDownload from '../../libs/hooks/useTicketDownload';
 import { formatNumber } from '../../libs/format';
 import { ROUTES } from '../../libs/routes';
 import { AccountTicket } from '../../libs/types/account';
@@ -32,6 +33,7 @@ const Tickets: NextPage = () => {
 	const { t } = useTranslation('account');
 	const { locale } = useRouter();
 	const { page, value, ready, update } = useUrlState('tab');
+	const download = useTicketDownload();
 	const tab: Tab = value === 'past' ? 'PAST' : 'UPCOMING';
 	const other: Tab = tab === 'PAST' ? 'UPCOMING' : 'PAST';
 
@@ -102,6 +104,34 @@ const Tickets: NextPage = () => {
 					/>
 				) : (
 					<>
+						{tab === 'UPCOMING' && (
+							<div className="tickets__bulk">
+								<Button
+									variant="outlined"
+									startIcon={<DownloadSimple size={20} aria-hidden="true" />}
+									className={download.busy ? 'tz-blocked' : undefined}
+									aria-disabled={download.busy ? true : undefined}
+									aria-describedby="tickets-bulk-hint"
+									onClick={() => {
+										if (!download.busy) void download.downloadAll();
+									}}
+								>
+									{download.busy ? t('tickets.downloadingAll') : t('tickets.downloadAll')}
+								</Button>
+								<p id="tickets-bulk-hint" className="breakdown__note">
+									{t('tickets.downloadAllHint')}
+								</p>
+								<div role="status">
+									{download.status?.kind === 'ok' && <p className="tz-alert tz-alert--success">{t('tickets.downloadedAll', { count: download.status.count })}</p>}
+									{download.status?.kind === 'none' && <p className="tz-alert tz-alert--info">{t('tickets.downloadNone')}</p>}
+									{download.status?.kind === 'error' && (
+										<p className="tz-alert" role="alert">
+											{t('ticket.downloadError')}
+										</p>
+									)}
+								</div>
+							</div>
+						)}
 						<ul className="tcards">
 							{list.map((ticket) => (
 								<TicketCard key={ticket._id} ticket={ticket} />

@@ -55,11 +55,11 @@
 |---|---|---|---|---|
 | `pages/orders/index.tsx` | `/orders` | `GetMyOrders` | `OrderRow`, `StatusBadge`, pagination | `common`, `events`, `checkout`, `account` |
 | `pages/orders/[orderId]/index.tsx` | `/orders/<orderId>` | `GetOrderDetail`, `GetMyTicketsList`, `GetTicketTypes`, `GetRefundQuote`, `RequestRefund` (inside the panel) | `RefundPanel`, `TicketCard`, `OrderSummary` | same |
-| `pages/tickets/index.tsx` | `/tickets` | `GetMyTicketsList` (upcoming/past) | `TicketCard`, `QrCode` not shown here | same |
-| `pages/tickets/[ticketId].tsx` | `/tickets/<ticketId>` | `GetTicket`, `GetMyTicketsList` (siblings of the same order, for the "1 of 2" stepper) | `QrCode`, MUI `Dialog` (full-screen QR), `buildIcs`/`downloadIcs`, `EventImage` | same |
+| `pages/tickets/index.tsx` | `/tickets` | `GetMyTicketsList` (upcoming/past) | "Download all" (`useTicketDownload`), `TicketCard`, `QrCode` not shown here | same |
+| `pages/tickets/[ticketId].tsx` | `/tickets/<ticketId>` | `GetTicket`, `GetMyTicketsList` (siblings of the same order, for the "1 of 2" stepper) | `useTicketDownload` (PDF), `QrCode`, MUI `Dialog` (full-screen QR), `buildIcs`/`downloadIcs`, `EventImage` | same |
 | `pages/notifications/index.tsx` | `/notifications` | `GetMyNotifications`, `MarkNotificationRead`, `MarkAllNotificationsRead` | `NotificationRow`, `useNotificationActions` (also used by organizer/admin) | same |
 | `pages/account/saved.tsx` | `/account/saved` | `GetMyFavorites` (liked events) | `EventCard` | same |
-| `pages/settings/index.tsx` | `/settings` | `UpdateMember`, `ImageUploader` | avatar upload (PNG/JPG, 5 MB client limit), nickname/name fields with `fieldErrors` | `common`, `events`, `checkout`, `account`, `auth` |
+| `pages/settings/index.tsx` | `/settings` | `UpdateMember`, `ImageUploader`, `GetMyAccountDeletionCheck`, `DeleteMyAccount` (via `DeleteAccount`) | avatar upload (PNG/JPG, 5 MB client limit), nickname/name fields with `fieldErrors` | `common`, `events`, `checkout`, `account`, `auth` |
 
 Loading/error pattern for these: skeleton blocks and `LoadError` (`error`, `onRetry`, `notFoundTitle`, `back`). A guest is redirected to login by `AccountShell` through `useRequireAuth()`; until the session check ends a skeleton is shown. Pages in this group also show for organizers/admins who open `/notifications` or `/settings` (solo layout without menu).
 

@@ -535,6 +535,17 @@
     "error": {
       "title": "Aʼzolarni yuklab boʻlmadi",
       "text": "Ticketzy aʼzolar roʻyxatini oʻqiy olmadi. Birozdan soʻng qayta urinib koʻring."
+    },
+    "deletion": {
+      "title": "Hisobni oʻchirish maʼlumotlari",
+      "note": "Faqat administratorlarga koʻrinadi. Aʼzoning oʻziga va ommaviy sahifalarda koʻrsatilmaydi.",
+      "deletedAt": "Oʻchirilgan sana",
+      "reusableAt": "Email qayta ishlatilishi mumkin boʻlgan sana",
+      "previous": "Oldingi hisob (bir xil email)",
+      "reusedBy": "Emailni qayta ishlatgan hisob (yangi)",
+      "openPrevious": "Oldingi hisobni ochish",
+      "openNew": "Yangi hisobni ochish",
+      "missing": "Hisob oxirgi 1000 ta hisob orasidan topilmadi. Aʼzolar roʻyxatidan qidiring."
     }
   },
   "commission": {

@@ -162,12 +162,7 @@
   },
   "pay": {
     "title": "Toʻlov",
-    "demoTitle": "Bu demo",
-    "demoText": "Haqiqiy pul yechilmaydi. Haqiqiy karta maʼlumotlarini kiritmang: quyidagi karta faqat namuna.",
-    "card": "Karta raqami",
-    "expiry": "Amal qilish muddati",
-    "cvc": "CVC",
-    "simulateFailure": "Muvaffaqiyatsiz toʻlovni sinash",
+    "simulateFailure": "Rad etilgan toʻlovni simulyatsiya qilish",
     "simulateHint": "Faqat demo uchun: toʻlov rad etiladi va qayta urinish jarayonini koʻrasiz.",
     "breakdown": "Narx tafsiloti",
     "fee": "Xizmat haqi",
@@ -178,7 +173,9 @@
     "payShort": "Toʻlash",
     "barLabel": "Toʻlov paneli",
     "noCard": "Demo toʻlov. Ticketzy bu yerda karta raqamini koʻrmaydi.",
-    "refund": "Pulni qaytarish {{date}} gacha mumkin."
+    "refund": "Pulni qaytarish {{date}} gacha mumkin.",
+    "cardNotice": "Demo toʻlov: hech qanday pul yechilmaydi va bu yerga yozganingiz brauzeringizdan tashqariga chiqmaydi.",
+    "testCard": "Sinab koʻrish uchun 4242 4242 4242 4242 test kartasidan, kelajakdagi istalgan amal qilish muddati va istalgan 3 raqamdan foydalaning."
   },
   "failed": {
     "title": "Toʻlov amalga oshmadi",
@@ -236,10 +233,38 @@
     "salesClosed": "Bu tadbir uchun chipta sotuvi yopilgan.",
     "buyerOnly": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi.",
     "paymentsDisabled": "Toʻlovlar hozir oʻchirilgan, shuning uchun buyurtmani toʻlab boʻlmaydi. Oʻrinlar taymer tugaguncha band qilib turiladi. Keyinroq qayta urinib koʻring.",
-    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring."
+    "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
+    "cardInvalid": "Yuqoridagi karta maʼlumotlarini tekshiring."
   },
   "countdown": {
     "announce_one": "{{count}} soniya qoldi",
     "announce_other": "{{count}} soniya qoldi"
+  },
+  "card": {
+    "group": "Karta maʼlumotlari (demo)",
+    "number": "Karta raqami",
+    "name": "Kartadagi ism",
+    "namePlaceholder": "Ism va familiya",
+    "expiry": "Amal qilish muddati (OO/YY)",
+    "expiryPlaceholder": "OO/YY",
+    "cvc": "CVC",
+    "errors": {
+      "number": {
+        "required": "Karta raqamini kiriting.",
+        "invalid": "Karta raqami notoʻgʻri. Raqamlarni tekshiring."
+      },
+      "name": {
+        "required": "Kartadagi ismni kiriting."
+      },
+      "expiry": {
+        "required": "Amal qilish muddatini kiriting.",
+        "invalid": "OO/YY koʻrinishida kiriting, masalan 08/29.",
+        "expired": "Karta muddati tugagan."
+      },
+      "cvc": {
+        "required": "CVC kiriting.",
+        "invalid": "CVC 3 yoki 4 raqamdan iborat."
+      }
+    }
   }
 }

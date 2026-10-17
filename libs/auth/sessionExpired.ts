@@ -7,6 +7,12 @@ const NOTICE_WINDOW_MS = 10000;
 export const SESSION_FREE_OPERATIONS = new Set(['Login', 'SignupUser', 'SignupOrganizer']);
 
 let expiredAt = 0;
+/** True while the "account deleted" window is up: the old token is already refused, but the window ends the session itself (F364). */
+let paused = false;
+export const pauseSessionExpiry = (on: boolean) => {
+	paused = on;
+};
+export const isSessionExpiryPaused = () => paused;
 let endSession: () => void = removeJwtToken;
 
 /** libs/auth/index.ts registers `clearSession` here (it imports the Apollo client, which imports this file). */
@@ -37,7 +43,7 @@ const onAuthPage = () => {
  */
 export function handleSessionExpired(sentToken?: string) {
 	const token = getJwtToken();
-	if (!token) return;
+	if (!token || paused) return;
 	if (sentToken && sentToken !== token) return;
 	// On the sign-in and sign-up pages there is nobody to tell: just drop the dead token.
 	if (typeof window !== 'undefined' && !onAuthPage()) expiredAt = Date.now();

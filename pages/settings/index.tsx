@@ -11,6 +11,7 @@ import { userVar } from '../../apollo/store';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { withAccount } from '../../libs/components/account/AccountShell';
 import PageHead from '../../libs/components/account/PageHead';
+import DeleteAccount from '../../libs/components/account/DeleteAccount';
 import Field from '../../libs/components/common/Field';
 import Seo from '../../libs/components/common/Seo';
 import { displayName } from '../../libs/components/common/Avatar';
@@ -245,6 +246,8 @@ const Settings: NextPage = () => {
 					</Button>
 				</div>
 			</section>
+
+			<DeleteAccount />
 		</>
 	);
 };

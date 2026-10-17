@@ -7,8 +7,8 @@ export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'hello@tic
 export const SITE_LOCALES = ['en', 'ko', 'ru', 'uz'] as const;
 export const DEFAULT_SITE_LOCALE = 'en';
 
-/** Rules quoted in the help pages; they match the backend defaults (docs/ai/DECISIONS.md #46, #47, #55). */
-export const SEAT_HOLD_SECONDS = 30;
+/** Rules quoted in the help pages; they match the backend defaults (docs/ai/DECISIONS.md #46, #47, #55; hold default 120 s since backend #125). */
+export const SEAT_HOLD_SECONDS = 120;
 export const MAX_SEATS_PER_ORDER = 8;
 
 /** Public pages with no data behind them: listed in the sitemap, one entry per language. */

@@ -162,6 +162,10 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				memberImage
 				memberEvents
 				completedEvents
+				deletedAt
+				emailReusableAt
+				previousAccountId
+				reusedByMemberId
 				createdAt
 				updatedAt
 			}

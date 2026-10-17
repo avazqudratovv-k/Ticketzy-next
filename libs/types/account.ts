@@ -101,6 +101,19 @@ export interface NotificationItem {
 	authorData?: { _id: string; memberType: string; memberNick?: string | null; memberFullName?: string | null; memberImage?: string | null } | null;
 }
 
+/** `getMyAccountDeletionCheck` (backend #123). `count` is the full number, `eventNames` at most 10 titles. */
+export type DeletionBlockReason = 'EVENTS_IN_REVIEW' | 'EVENTS_NOT_ENDED' | 'PAYOUTS_NOT_PAID';
+export interface DeletionBlocker {
+	reason: DeletionBlockReason | string;
+	count: number;
+	eventNames: string[];
+}
+export interface AccountDeletionCheck {
+	canDelete: boolean;
+	blockers: DeletionBlocker[];
+	unusedUpcomingTickets: number;
+}
+
 /** `getMyAccountState` and `markApprovalCelebrationDone`: the member's own status and whether the approval celebration is still owed. */
 export interface MyAccountState {
 	memberStatus: string;

@@ -974,3 +974,101 @@
 	align-items: center;
 	gap: var(--space-1);
 }
+
+/** DOWNLOAD TICKETS (F363) **/
+.tdetail__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+}
+.tdetail__dlstatus:not(:empty) {
+	margin-top: var(--space-3);
+}
+.tickets__bulk {
+	display: grid;
+	justify-items: start;
+	gap: var(--space-2);
+	margin-block: var(--space-4);
+	.breakdown__note {
+		margin: 0;
+	}
+	[role='status']:not(:empty) {
+		margin-top: var(--space-2);
+	}
+}
+
+/** DELETE ACCOUNT (F364) **/
+.del-blockers {
+	display: grid;
+	gap: var(--space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	&__item {
+		display: grid;
+		gap: var(--space-1);
+		padding: var(--space-4);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-md);
+		.breakdown__note {
+			margin: 0;
+		}
+	}
+	&__title {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		margin: 0;
+	}
+	&__names {
+		display: grid;
+		gap: var(--space-1);
+		margin: var(--space-2) 0 0;
+		padding-left: var(--space-5);
+		font: var(--text-body-sm);
+		overflow-wrap: anywhere;
+	}
+	&__more {
+		color: var(--ink-muted);
+		list-style: none;
+		margin-left: calc(var(--space-5) * -1);
+	}
+}
+.tz-deldlg {
+	&__body {
+		display: grid;
+		gap: var(--space-4);
+		padding-top: var(--space-1);
+	}
+	&__download {
+		margin-block: var(--space-3);
+	}
+	&__actions {
+		gap: var(--space-2);
+		padding: var(--space-4) var(--space-6) var(--space-5) !important;
+		flex-wrap: wrap;
+		.MuiButton-root {
+			min-height: 44px;
+		}
+	}
+	&--full .MuiDialogContent-root,
+	&--full .tz-deldlg__actions,
+	&--full .MuiDialogTitle-root {
+		max-width: 640px;
+		width: 100%;
+		margin-inline: auto;
+	}
+	&--full .MuiDialogTitle-root {
+		padding-top: var(--space-8);
+	}
+	&--full .tz-deldlg__actions {
+		justify-content: flex-end;
+	}
+	.tz-alert--danger {
+		border-color: var(--danger-text);
+	}
+	.tz-alert--warning {
+		border-color: var(--warning-text);
+	}
+}

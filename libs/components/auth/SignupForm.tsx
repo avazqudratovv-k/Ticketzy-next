@@ -6,11 +6,11 @@ import { CalendarPlus, Check, Clock, Ticket } from 'phosphor-react';
 import Field from '../common/Field';
 import AuthError from './AuthError';
 import { signUp } from '../../auth';
-import { ApiError, isApiError, parseApiError } from '../../errors';
+import { ApiError, EMAIL_RECENTLY_DELETED, isApiError, parseApiError } from '../../errors';
 import { MemberType } from '../../enums/member.enum';
 import { ROUTES } from '../../routes';
 import { EMAIL_PATTERN } from './validation';
-import { FieldIssues, fieldMessage, lengthRule, serverIssues } from '../../fieldErrors';
+import { FieldIssues, fieldMessage, lengthRule, RECENTLY_DELETED_RULE, serverIssues } from '../../fieldErrors';
 import useAdoptTypedValues from '../../hooks/useAdoptTypedValues';
 import useFocusInvalid from '../../hooks/useFocusInvalid';
 
@@ -85,7 +85,11 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 			onDone(role);
 		} catch (err) {
 			const apiError = isApiError(err) ? err : parseApiError(err);
-			const { issues: fromServer, banner } = serverIssues(apiError, FORM_FIELDS);
+			// A recently deleted email is shown under the email field, with our own text (no dates, backend #124)
+			const recentlyDeleted = apiError.code === EMAIL_RECENTLY_DELETED;
+			const { issues: found, banner: serverBanner } = serverIssues(apiError, FORM_FIELDS);
+			const fromServer = recentlyDeleted ? { memberEmail: RECENTLY_DELETED_RULE } : found;
+			const banner = recentlyDeleted ? false : serverBanner;
 			setIssues(fromServer);
 			setFormError(banner ? apiError : null);
 			if (Object.keys(fromServer).length > 0) focusInvalid();

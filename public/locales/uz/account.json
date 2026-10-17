@@ -69,7 +69,13 @@
     "emptyUpcoming": "Kelgusi chiptalar yoʻq",
     "emptyUpcomingText": "Hali tugamagan tadbirlarning chiptalari shu yerda koʻrinadi.",
     "emptyPast": "Oʻtgan chiptalar yoʻq",
-    "emptyPastText": "Tugagan tadbirlarning chiptalari shu yerga tushadi."
+    "emptyPastText": "Tugagan tadbirlarning chiptalari shu yerga tushadi.",
+    "downloadAll": "Hammasini yuklab olish",
+    "downloadingAll": "PDF tayyorlanmoqda…",
+    "downloadAllHint": "Kelgusi tadbirlarning foydalanilmagan chiptalari bitta PDF faylda, har sahifada bitta chipta.",
+    "downloadNone": "Yuklab olish uchun foydalanilmagan chipta yoʻq.",
+    "downloadedAll_one": "{{count}} ta chipta PDF sifatida saqlandi.",
+    "downloadedAll_other": "{{count}} ta chipta PDF sifatida saqlandi."
   },
   "ticket": {
     "seatLine": "{{section}}, {{row}}-qator, {{number}}-oʻrin",
@@ -133,7 +139,20 @@
     "pricePaid": "Toʻlangan narx",
     "orderRefundLink": "Buyurtmani koʻrish yoki pulni qaytarishni soʻrash",
     "orderLink": "Buyurtmani koʻrish",
-    "eventLink": "Tadbir sahifasi"
+    "eventLink": "Tadbir sahifasi",
+    "download": "Chiptani yuklab olish",
+    "downloading": "PDF tayyorlanmoqda…",
+    "downloaded": "Chipta PDF fayli saqlandi.",
+    "downloadError": "PDF yaratib boʻlmadi. Qayta urinib koʻring.",
+    "downloadText": "Chiptani PDF sifatida saqlang: chop etish yoki oflayn saqlash uchun.",
+    "pdf": {
+      "date": "Sana va vaqt",
+      "venue": "Joy",
+      "ticket": "Chipta",
+      "buyer": "Xaridor",
+      "code": "Chipta kodi",
+      "hint": "Kirishda ushbu QR kodni koʻrsating. Ticketzy demo loyiha, shuning uchun bu chiptaning haqiqiy qiymati yoʻq."
+    }
   },
   "refund": {
     "title": "Pulni qaytarish",
@@ -218,5 +237,51 @@
     "signOutTitle": "Chiqish",
     "signedInAs": "{{email}} sifatida kirgansiz.",
     "logout": "Chiqish"
+  },
+  "delete": {
+    "title": "Hisobni oʻchirish",
+    "textBuyer": "Hisobni oʻchirish qaytarib boʻlmaydi. Shundan keyin qayta kira olmaysiz.",
+    "textOrganizer": "Hisobni oʻchirish qaytarib boʻlmaydi. Tashkilotchi profilingiz koʻrsatilmay qoladi va qayta kira olmaysiz.",
+    "emailWarning": "Oʻchirgandan keyin qayta kira olmaysiz va bu email yangi hisob uchun 30 kun davomida ishlatilmaydi.",
+    "open": "Hisobimni oʻchirish",
+    "dialogTitle": "Hisob oʻchirilsinmi?",
+    "dialogSr": "Bu amalni qaytarib boʻlmaydi.",
+    "downloadAll": "Barcha chiptalarni yuklab olish",
+    "typeLabel": "Tasdiqlash uchun {{word}} deb yozing",
+    "typeAria": "Hisobni oʻchirishni tasdiqlash uchun {{word}} deb yozing",
+    "cancel": "Bekor qilish",
+    "confirm": "Hisobni oʻchirish",
+    "deleting": "Oʻchirilmoqda…",
+    "checkError": "Hisobni oʻchirish mumkinligini tekshirib boʻlmadi. Qayta urinib koʻring.",
+    "blockedIntro": "Hisobni hozircha oʻchirib boʻlmaydi. Avval quyidagilarni yakunlang, soʻng qaytib keling.",
+    "blockedNow": "Hisobni endi oʻchirib boʻlmaydi: vaziyat oʻzgardi. Sabablar quyida.",
+    "reason": {
+      "EVENTS_IN_REVIEW": {
+        "title": "Koʻrib chiqilishini kutayotgan tadbirlar",
+        "hint": "Administrator hali qaror qilmagan. Rad etilgan tadbirlar oʻchirishga toʻsqinlik qilmaydi."
+      },
+      "EVENTS_NOT_ENDED": {
+        "title": "Hali tugamagan tasdiqlangan tadbirlar",
+        "hint": "Bu tadbirlar tugagandan keyin hisobni oʻchirishingiz mumkin."
+      },
+      "PAYOUTS_NOT_PAID": {
+        "title": "Hali toʻlanmagan hisob-kitoblar",
+        "hint": "Bu tadbirlar boʻyicha kutilayotgan yoki muddati kelgan hisob-kitoblar bor. Hammasi toʻlangandan keyin oʻchirish ochiladi."
+      },
+      "OTHER": {
+        "title": "Yana tugallanmagan ishlar bor",
+        "hint": "Ularni yakunlang yoki yoping, soʻng qayta urinib koʻring."
+      }
+    },
+    "errors": {
+      "rate": "Juda koʻp urinish. Bir necha daqiqa kutib, qayta urinib koʻring.",
+      "confirmation": "Soʻz mos kelmadi. DELETE soʻzini aynan koʻrsatilganidek yozing.",
+      "notAllowed": "Bu hisobni hozir oʻchirib boʻlmaydi. U allaqachon oʻchirilgan boʻlishi mumkin.",
+      "generic": "Hisobni oʻchirib boʻlmadi. Qayta urinib koʻring."
+    },
+    "unusedTickets_one": "Sizda {{count}} ta foydalanilmagan chipta bor. Oʻchirishdan oldin uni yuklab oling, chunki qayta kira olmaysiz.",
+    "unusedTickets_other": "Sizda {{count}} ta foydalanilmagan chipta bor. Oʻchirishdan oldin ularni yuklab oling, chunki qayta kira olmaysiz.",
+    "more_one": "va yana {{count}} ta",
+    "more_other": "va yana {{count}} ta"
   }
 }
