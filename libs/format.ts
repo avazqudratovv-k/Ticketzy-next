@@ -237,6 +237,19 @@ export function formatViewerDate(iso: string, locale?: string, withTime = false)
 	return withTime ? `${date}, ${formatEventTime(iso, locale, zone)}` : date;
 }
 
+/**
+ * A moment printed on platform time (Asia/Seoul) with its zone label: "17 Oct 2026, 11:39 GMT+9". For admin records
+ * that must read the same on every computer (the browser's own zone and its daylight saving are not used).
+ */
+export function formatPlatformMoment(iso: string, locale?: string): string {
+	const zone = DEFAULT_TIMEZONE;
+	const date =
+		locale === 'uz'
+			? uzDate(new Date(iso), zone, true, false)
+			: new Intl.DateTimeFormat(intlLocale(locale), { timeZone: zone, day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
+	return `${date}, ${formatEventTime(iso, locale, zone)} ${formatZoneName(iso, locale, zone)}`;
+}
+
 /** Whole calendar days between a moment and now on the viewer's clock: 0 today, 1 yesterday. */
 export function daysAgo(iso: string): number {
 	const day = (date: Date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());

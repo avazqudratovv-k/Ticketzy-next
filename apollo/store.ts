@@ -8,6 +8,13 @@ export const userVar = makeVar<MemberProfile | null>(null);
 /** False until the first session restore has finished, so guards and the header do not flash the wrong state. */
 export const authReadyVar = makeVar<boolean>(false);
 
+/**
+ * True from the moment the sign-up form is submitted until it leaves the screen (redirect, or the organizer notice).
+ * The new session is stored as soon as the account exists, but the header keeps its guest look until then, so a
+ * signed-in header never sits above the sign-up form.
+ */
+export const signingUpVar = makeVar<boolean>(false);
+
 /** Organizer / admin messaging: the conversations of the signed-in member by id, kept live by the shared socket (libs/messaging). */
 export const conversationsVar = makeVar<Record<string, ConversationEntry>>({});
 

@@ -65,7 +65,7 @@ const Saved: NextPage = () => {
 				<>
 					<div className="tz-grid">
 						{list.map((event) => (
-							<EventCard key={event._id} event={event} />
+							<EventCard key={event._id} event={event} headingLevel={2} />
 						))}
 					</div>
 					<Pagination page={page} pageCount={pageCount} onChange={(next) => update({ page: next })} />

@@ -134,11 +134,30 @@ function refreshActiveQueries() {
 let resetting: Promise<unknown> = Promise.resolve();
 
 /**
+ * Lets the render that follows the sign-out settle: a page that was just left has not removed its queries yet (React runs
+ * their cleanup after the route change resolves, and Apollo's `useQuery` then unsubscribes in a `setTimeout`), and a page
+ * that stays has not applied `skip: !user` yet. A reset before that refetches member-only queries without a token
+ * ("Bearer Token is not provided!"). So: one timer (React's cleanup), then the browser's idle moment (the render is done;
+ * capped, because an idle callback may be late in a busy or hidden tab), then one more timer (Apollo's unsubscribe).
+ */
+const IDLE_CAP_MS = 400;
+const tick = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+const idle = () =>
+	new Promise<void>((resolve) => {
+		if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(() => resolve(), { timeout: IDLE_CAP_MS });
+		else setTimeout(resolve, 50);
+	});
+const afterRender = () => tick().then(idle).then(tick);
+
+/**
  * Empties the cache of the previous member and fetches every active query again (`resetStore`, not `clearStore`).
  * The requests cancelled by the reset are the ones sent again, so nothing stays in loading.
  */
 function resetCache() {
-	resetting = resetting.then(() => initializeApollo().resetStore()).catch(() => undefined);
+	resetting = resetting
+		.then(afterRender)
+		.then(() => initializeApollo().resetStore())
+		.catch(() => undefined);
 }
 
 /** Drops the token and the profile and the cached data of the previous member. No page reload. */

@@ -20,13 +20,15 @@ interface Props {
 	variant?: 'card' | 'row';
 	/** above the fold: loads at once (next/image `priority`) instead of lazily */
 	eager?: boolean;
+	/** the title is an h3 under a section heading; a page whose only heading above the grid is its h1 passes 2 */
+	headingLevel?: 2 | 3;
 }
 
 /**
  * One event: a single link (image, category, title, date, venue, starting price) with the like heart beside it. The heart is a
  * sibling of the link, not inside it (a button in a link is invalid), and is drawn from the same `meLiked` / `eventLikes` as the event page.
  */
-const EventCard = ({ event, variant = 'card', eager }: Props) => {
+const EventCard = ({ event, variant = 'card', eager, headingLevel = 3 }: Props) => {
 	const { t } = useTranslation('events');
 	const { locale } = useRouter();
 	const { title, lang, translated } = localizedEvent(event, locale);
@@ -51,7 +53,7 @@ const EventCard = ({ event, variant = 'card', eager }: Props) => {
 		<EventTag kind={seats}>{t(`card.seats.${seats}`)}</EventTag>
 	) : null;
 	// the compact cards sit beside the hero (h1) with no heading of their own, so they are second-level headings
-	const Heading = variant === 'row' ? 'h2' : 'h3';
+	const Heading = variant === 'row' || headingLevel === 2 ? 'h2' : 'h3';
 
 	return (
 		<div className={`tz-event-card${variant === 'row' ? ' tz-event-card--row' : ''}`}>

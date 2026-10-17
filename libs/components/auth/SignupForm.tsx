@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Button, Checkbox } from '@mui/material';
+import { Button, Checkbox, CircularProgress } from '@mui/material';
 import { Trans, useTranslation } from 'next-i18next';
 import { CalendarPlus, Check, Clock, Ticket } from 'phosphor-react';
 import Field from '../common/Field';
 import AuthError from './AuthError';
+import { signingUpVar } from '../../../apollo/store';
 import { signUp } from '../../auth';
 import { ApiError, EMAIL_RECENTLY_DELETED, isApiError, parseApiError } from '../../errors';
 import { MemberType } from '../../enums/member.enum';
@@ -41,6 +42,14 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 	const focusInvalid = useFocusInvalid(form);
 	const isOrganizer = role === MemberType.ORGANIZER;
 
+	// The header shows the new session only after this form is gone (see signingUpVar)
+	useEffect(
+		() => () => {
+			signingUpVar(false);
+		},
+		[],
+	);
+
 	const message = (field: string) => (issues[field] ? fieldMessage(t, field, issues[field]) : undefined);
 	/** Typing into a field clears its own issue only. */
 	const edit = (field: string, set: (value: string) => void) => (value: string) => {
@@ -74,6 +83,7 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 		if (!validate()) return;
 
 		setBusy(true);
+		signingUpVar(true);
 		try {
 			// The design has no separate nickname: the organization name becomes memberNick (see DECISIONS).
 			await signUp(role, {
@@ -94,6 +104,7 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 			setFormError(banner ? apiError : null);
 			if (Object.keys(fromServer).length > 0) focusInvalid();
 			setBusy(false);
+			signingUpVar(false);
 		}
 	};
 
@@ -121,7 +132,7 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 	);
 
 	return (
-		<form ref={form} className="pg-auth__form" method="post" onSubmit={submit} noValidate>
+		<form ref={form} className="pg-auth__form" method="post" onSubmit={submit} noValidate aria-busy={busy || undefined}>
 			<div>
 				<div className="pg-roles__label" id="signup-roles-label">
 					{t('signup.whatBringsYou')}
@@ -223,7 +234,14 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 					)}
 				</div>
 				<p className="tz-field__hint">{t('signup.noEmail')}</p>
-				<Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !hydrated}>
+				<Button
+					type="submit"
+					variant="contained"
+					size="large"
+					fullWidth
+					disabled={busy || !hydrated}
+					startIcon={busy ? <CircularProgress className="tz-btn-spinner" size={18} color="inherit" aria-hidden="true" /> : undefined}
+				>
 					{busy ? t('signup.submitting') : isOrganizer ? t('signup.submitOrganizer') : t('signup.submitBuyer')}
 				</Button>
 				<p className="pg-auth__switch">

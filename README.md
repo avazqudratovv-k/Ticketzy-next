@@ -27,7 +27,8 @@ Placeholders: add real images to `docs/screenshots/` and link them here.
 - Event page with images, translated title and description, ticket types, organizer, likes and comments.
 - Seat picker: zoomable seat map, section list, seat grid operable with the keyboard, a hold of 120 seconds (server setting) and at most 8 seats per order, with a live countdown. Events without seat numbers use a ticket-type picker.
 - Checkout with simulated payment, order confirmation, order history and per-order refunds until 23:59 on the day before the event in the venue time zone.
-- Tickets with QR codes, a PDF download (one ticket per page, or all unused tickets at once), calendar file, saved events, followed organizers, notifications.
+- Tickets with QR codes, a PDF download (one ticket per page, or all unused tickets at once), calendar file, saved events, notifications.
+- Delete your account from Settings (buyers and organizers). An organizer with events in review, events not yet ended or unpaid payouts is told what blocks it; a buyer with unused tickets can download them first. The email address can be used again after 30 days. Admins see the deletion dates in the member drawer.
 - Home page sections, an AI assistant widget, and four languages (English, Korean, Russian, Uzbek) with a light and a dark theme.
 
 ### Organizer
@@ -155,12 +156,16 @@ This repository is set up so AI coding tools and people follow the same rules.
 ## Known limitations
 
 - Payments, refunds and payouts are simulated; there is no real payment provider.
-- No password reset and no self-service account deletion.
+- No password reset: Ticketzy sends no emails, so the sign-in page points to the contact page and an admin resets the password.
 - Admin pages need an admin account created through the backend seed.
 - The sitemap and `robots.txt` are generated on request (cached for an hour) and need the backend to list events.
 - The contact page shows a sample address unless `NEXT_PUBLIC_CONTACT_EMAIL` is set; there is no contact form on purpose.
 - Terms and Privacy are sample text for a demo and not legal advice.
 - Automated accessibility checks cover the main pages; see `docs/ai/FRONTEND_COMPLETED_TASKS.md` for the latest results and remaining items.
+
+### Not tested
+
+- The admin "Open previous account" and "Open new account" links in the member drawer are untested: no deleted email has been reused yet (the backend holds a deleted email for 30 days).
 
 ## Deployment
 

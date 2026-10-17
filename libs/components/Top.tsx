@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Button, Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { Check, List, Moon, Sun } from 'phosphor-react';
 import { useTranslation } from 'next-i18next';
 import useAuth from '../hooks/useAuth';
+import { signingUpVar } from '../../apollo/store';
 import { ROUTES } from '../routes';
 import { categoryHref, CategorySlug } from '../events';
 import { LANGUAGES, LocaleCode, useChangeLanguage } from '../i18n';
@@ -24,7 +26,10 @@ import NotificationBell from './notifications/NotificationBell';
 const Top = () => {
 	const { t } = useTranslation('common');
 	const router = useRouter();
-	const { user, ready } = useAuth();
+	const { user: member, ready } = useAuth();
+	// While the sign-up form is finishing, the header stays as it was (see signingUpVar)
+	const signingUp = useReactiveVar(signingUpVar);
+	const user = signingUp ? null : member;
 	const { mode, toggleMode } = useThemeMode();
 	const changeLanguage = useChangeLanguage();
 	const { locale = 'en' } = router;

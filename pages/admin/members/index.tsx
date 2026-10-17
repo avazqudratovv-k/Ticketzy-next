@@ -35,7 +35,7 @@ import { AdminError, describeAdminError, isOnlyNoData } from '../../../libs/admi
 import { AdminMember, organizerName } from '../../../libs/admin/types';
 import { MemberStatus } from '../../../libs/enums/member.enum';
 import { GET_ALL_MEMBERS_BY_ADMIN, UPDATE_MEMBER_BY_ADMIN } from '../../../apollo/admin/mutation';
-import { formatNumber, formatViewerDate } from '../../../libs/format';
+import { formatNumber, formatPlatformMoment, formatViewerDate } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 
 export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
@@ -362,11 +362,11 @@ const AdminMembers: NextPage = () => {
 								</div>
 								<div>
 									<dt>{t('members.drawer.joined')}</dt>
-									<dd>{formatViewerDate(selected.createdAt, locale, true)}</dd>
+									<dd>{formatPlatformMoment(selected.createdAt, locale)}</dd>
 								</div>
 								<div>
 									<dt>{t('members.drawer.updated')}</dt>
-									<dd>{formatViewerDate(selected.updatedAt, locale, true)}</dd>
+									<dd>{formatPlatformMoment(selected.updatedAt, locale)}</dd>
 								</div>
 								{selected.memberType === 'ORGANIZER' && (
 									<div>
@@ -385,13 +385,13 @@ const AdminMembers: NextPage = () => {
 										{selected.deletedAt && (
 											<div>
 												<dt>{t('members.deletion.deletedAt')}</dt>
-												<dd>{formatViewerDate(selected.deletedAt, locale, true)}</dd>
+												<dd>{formatPlatformMoment(selected.deletedAt, locale)}</dd>
 											</div>
 										)}
 										{selected.emailReusableAt && (
 											<div>
 												<dt>{t('members.deletion.reusableAt')}</dt>
-												<dd>{formatViewerDate(selected.emailReusableAt, locale, true)}</dd>
+												<dd>{formatPlatformMoment(selected.emailReusableAt, locale)}</dd>
 											</div>
 										)}
 										{selected.previousAccountId && (

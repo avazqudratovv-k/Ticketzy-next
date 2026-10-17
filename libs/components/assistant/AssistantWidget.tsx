@@ -1,9 +1,9 @@
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useId, useRef, useState } from 'react';
 import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
-import { ArrowsClockwise, CaretDown, ChatCircleDots, NotePencil, PaperPlaneTilt, X } from 'phosphor-react';
+import { ArrowsClockwise, CaretDown, ChatCircleDots, Info, NotePencil, PaperPlaneTilt, X } from 'phosphor-react';
 import {
 	assistantVar,
 	discardFailedQuestion,
@@ -42,6 +42,11 @@ const AssistantWidget = () => {
 	const log = useRef<HTMLDivElement>(null);
 	const field = useRef<HTMLTextAreaElement>(null);
 	const fab = useRef<HTMLButtonElement>(null);
+	// The longer notice behind the info button (a small popover inside the header, so the phone focus trap still covers it)
+	const [infoOpen, setInfoOpen] = useState(false);
+	const infoId = useId();
+	const infoButton = useRef<HTMLButtonElement>(null);
+	const infoBox = useRef<HTMLDivElement>(null);
 	// the previous value, so a panel that is already open after a page change does not grab the focus again
 	const wasOpen = useRef(open);
 
@@ -122,6 +127,31 @@ const AssistantWidget = () => {
 		return () => document.removeEventListener('keydown', onKey);
 	}, [open]);
 
+	// The popover closes on Escape (before the panel's own Escape handler sees it, so the panel stays open) and on a press outside it.
+	useEffect(() => {
+		if (!infoOpen) return;
+		const onKey = (event: globalThis.KeyboardEvent) => {
+			if (event.key !== 'Escape') return;
+			event.preventDefault();
+			setInfoOpen(false);
+			infoButton.current?.focus();
+		};
+		const onPress = (event: PointerEvent) => {
+			const target = event.target as Node;
+			if (infoBox.current?.contains(target) || infoButton.current?.contains(target)) return;
+			setInfoOpen(false);
+		};
+		document.addEventListener('keydown', onKey, true);
+		document.addEventListener('pointerdown', onPress);
+		return () => {
+			document.removeEventListener('keydown', onKey, true);
+			document.removeEventListener('pointerdown', onPress);
+		};
+	}, [infoOpen]);
+	useEffect(() => {
+		if (!open) setInfoOpen(false);
+	}, [open]);
+
 	const send = (value: string) => {
 		if (!sendAssistantMessage(value, locale)) return;
 		setText('');
@@ -180,6 +210,18 @@ const AssistantWidget = () => {
 							<p className="pg-chatpanel__note">{t('assistant.note')}</p>
 						</div>
 						<button
+							ref={infoButton}
+							type="button"
+							className="pg-iconbtn"
+							onClick={() => setInfoOpen((value) => !value)}
+							aria-expanded={infoOpen}
+							aria-controls={infoId}
+							aria-label={t('assistant.infoLabel')}
+							title={t('assistant.infoLabel')}
+						>
+							<Info size={20} aria-hidden="true" />
+						</button>
+						<button
 							type="button"
 							className={`pg-iconbtn${empty && !error ? ' tz-blocked' : ''}`}
 							onClick={() => {
@@ -194,6 +236,11 @@ const AssistantWidget = () => {
 						<button type="button" className="pg-iconbtn" onClick={close} aria-label={t('assistant.close')} title={t('assistant.close')}>
 							<X size={20} aria-hidden="true" />
 						</button>
+						{infoOpen && (
+							<div ref={infoBox} id={infoId} className="pg-chatpanel__info" role="note">
+								{t('assistant.info')}
+							</div>
+						)}
 					</div>
 
 					<div ref={log} className="pg-chatpanel__log" role="log" aria-label={t('assistant.log')} aria-live="polite" aria-relevant="additions text">
