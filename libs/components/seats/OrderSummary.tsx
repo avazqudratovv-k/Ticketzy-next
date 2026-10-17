@@ -28,7 +28,7 @@ const OrderSummary = ({ order, event, seatLines, ticketName }: Props) => {
 	const { locale } = useRouter();
 	const source = event ?? (order.eventData as unknown as EventItem | undefined);
 	const title = source ? localizedEvent({ ...source, eventDesc: null, eventTranslations: (source.eventTranslations ?? []) as EventItem['eventTranslations'] }, locale).title : '';
-	const venue = event?.venueData;
+	const venue = event?.venueData ?? order.eventData?.venueData;
 	const currency = order.currency ?? 'KRW';
 
 	return (

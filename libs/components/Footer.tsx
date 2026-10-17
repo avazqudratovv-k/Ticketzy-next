@@ -88,6 +88,13 @@ const Footer = () => {
 							</li>
 						</ul>
 					</div>
+					{/* Phones: the language buttons follow the Help links; from 768 px they sit in the bottom bar (F354) */}
+					<div className="tz-footer__lang">
+						<h2 className="tz-footer__title" id="footer-lang-title">
+							{t('header.languageLabel')}
+						</h2>
+						<LanguageSwitcher variant="segmented" labelledBy="footer-lang-title" />
+					</div>
 				</div>
 				<div className="tz-footer__demo">
 					<DemoNotice variant="footer" />
@@ -106,7 +113,9 @@ const Footer = () => {
 							</ul>
 						</nav>
 					</div>
-					<LanguageSwitcher variant="segmented" />
+					<div className="tz-footer__lang-bar">
+						<LanguageSwitcher variant="segmented" />
+					</div>
 				</div>
 			</div>
 		</footer>

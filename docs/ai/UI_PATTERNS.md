@@ -101,3 +101,37 @@ Rejected input is shown under its field, from the same (property, rule) pair whe
 - `Field` already sets `aria-invalid` and `aria-describedby`; a custom control must set both. After a failed submit call `useFocusInvalid(formRef)`'s function next to the `setState` of the issues: focus goes to the first `[aria-invalid="true"]`.
 - Typing in a field clears only that field's issue. Limits live in `FIELD_LIMITS` (libs/fieldErrors.ts), read from the backend DTOs.
 
+
+## Date field (`DateField`, `.tz-datefield`, `.tz-cal`, F356)
+
+A text field plus a calendar popover, used instead of `<input type="date">` when the text must follow the site language, not the browser.
+
+```tsx
+<label htmlFor="f-from">{t('filters.from')}</label>
+<DateField id="f-from" value={filters.from} max={filters.to || undefined} onChange={(next) => update({ from: next })} />
+```
+
+- Value in and out is `YYYY-MM-DD` (or empty), the same as the native input, so URLs and server inputs do not change. All date maths is in `libs/dateField.ts` (pure, UTC days; no time zone can shift a day).
+- Shown and typed text: en `mm/dd/yyyy`, ko `2026. 10. 16.`, ru and uz `16.10.2026`; placeholders `mm/dd/yyyy`, `연도. 월. 일.`, `дд.мм.гггг`, `kk.oo.yyyy`. Week starts Sunday for en and ko, Monday for ru and uz. Month and weekday names come from Intl (en-US, ko, ru) and the hand-made Uzbek lists in `libs/format.ts`.
+- Keyboard: arrows move a day or a week, Home/End the week, PageUp/PageDown the month (Shift: the year), Enter or Space picks, Escape closes and returns focus to the calendar button, Alt+ArrowDown in the text field opens it. The grid is `role="grid"` with a roving tab stop; day buttons carry the full date as their name, `aria-current="date"` for today, `aria-disabled` outside `min`/`max`.
+- Days are 44 px (they shrink on very narrow screens); colours are tokens only (`--accent` for the picked day). Strings are `common:dateField.*`.
+- Native date inputs remain in the admin orders and payouts filters and the organizer event editor.
+
+## Actions column of a table (`.org-row__actions`, F359)
+
+Row actions sit side by side on one line, 12 px apart, and wrap only between actions when the column is too narrow. Each `.org-row` is its own grid, so the Actions track must be a **fixed width** that fits the longest pair of labels in en, ko and uz (admin organizers 170 px, commission 220 px); never `max-content`, which would make the head row and the body rows disagree. A single short action (members, events, venues) keeps its 90 to 110 px track. Add new actions as direct children of the cell; each one stays in one piece (`white-space: nowrap`).
+
+## Chat layout (`.msgs-page`, `.msgs-cluster`, F360)
+
+- The messaging page is exactly the height of the screen under the top bar (`100dvh - top bar - 2 x content padding`, from `--msgs-top` and `--msgs-pad`, minimum 440 px). `.msgs`, `.msgs-panel`, `.msgs-thread`, `.msgs-logwrap` all have `min-height: 0`; only `.msgs-convs` and `.msgs-log` scroll, and the page never does. Keep that chain when adding a block to the thread: it must be `flex: none`, and only the log grows.
+- Composer: textarea (one row, grows to about six) and a round 44 px paper-plane button with a `tz-sr` label; the hint line sits under both. The button keeps `tz-blocked` while empty.
+- Messages: a run of messages from one sender within 5 minutes is one `.msgs-cluster` with the name and time once on top; own runs right in `--accent-soft`, others left in `--neutral-soft`; the sent or read line shows only under my last message. Day separators come from `dayLabel` (Today, Yesterday, then the date in the site language).
+- Below 1024 px the list and the conversation are two screens (`?c=` decides, the back arrow in the thread header returns); while a conversation is open the page title is visually hidden, not removed.
+
+## Notification row (`NotificationRow`, F358)
+
+Avatar or type icon on the left, a sentence that starts with the sender in bold, an optional event-name chip (`.notif__chip`) or a detail line, the time below; unread rows are tinted with `--accent-soft` and carry a dot. Sentence keys are `common:notifications.sentence.<TYPE>` with `{{sender}}`; the component swaps the placeholder for a marker and splits the translated text so the bold name sits where the language wants it. A new notification type needs a sentence, an icon in `ICONS`, and (if it carries an event title) a case in `describeNotification`.
+
+## Price slider (F357)
+
+`Slider` (MUI) above the min and max fields: 0 to `PRICE_SLIDER_MAX` (300,000) in 5,000 steps, right end = any. Styled in `scss/events.scss` (`.browse__slider`) with `--accent-edge` and a 44 px hit area. Keep the draft values and the slider in sync through `useDebouncedCommit`; the URL keeps digits only.

@@ -19,7 +19,7 @@ import { localizedEvent, saleState } from '../../../libs/events';
 import { salesInfo, useSalesClock } from '../../../libs/salesWindow';
 import SalesNotice from '../../../libs/components/events/SalesNotice';
 import { formatEventWhen } from '../../../libs/format';
-import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
+import { EVENT_ENDED, NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { eventUrl, ROUTES } from '../../../libs/routes';
 import { SeatConfig } from '../../../libs/seats/types';
 import { EventItem, TicketTypeItem } from '../../../libs/types/event';
@@ -58,15 +58,17 @@ const Seats: NextPage = () => {
 	if (!allowed) return null;
 
 	if (error && !event) {
-		const network = parseApiError(error).code === NETWORK_ERROR;
+		const code = parseApiError(error).code;
+		const network = code === NETWORK_ERROR;
+		const ended = code === EVENT_ENDED;
 		return (
 			<div className="tz-container checkout">
 				<Seo title={t('page.seatsTitle')} noindex />
 				<StateBlock
 					alert={network}
-					icon={network ? <WarningCircle size={28} /> : <Prohibit size={28} />}
-					title={network ? t('page.loadError') : t('page.notFound')}
-					text={network ? t('errors.network') : t('page.notFoundText')}
+					icon={network ? <WarningCircle size={28} /> : ended ? <CalendarX size={28} /> : <Prohibit size={28} />}
+					title={network ? t('page.loadError') : ended ? t('page.endedTitle') : t('page.notFound')}
+					text={network ? t('errors.network') : ended ? t('page.endedText') : t('page.notFoundText')}
 					actions={
 						network ? (
 							<Button variant="outlined" onClick={() => refetch()}>

@@ -12,12 +12,55 @@
 	text-align: center;
 }
 
+/** The page fills the screen under the top bar (F360): only the message list scrolls, the composer stays at the bottom. The offsets
+ *  repeat the top bar height and the content padding of `.tz-topbar` and `.tz-content`. **/
+.msgs-page {
+	--msgs-top: 56px;
+	--msgs-pad: var(--space-4);
+	gap: var(--space-4);
+	height: calc(100vh - var(--msgs-top) - 2 * var(--msgs-pad));
+	height: calc(100dvh - var(--msgs-top) - 2 * var(--msgs-pad));
+	min-height: 440px;
+	padding-block: 0;
+	@media (min-width: 768px) {
+		--msgs-top: var(--navbar-height);
+		--msgs-pad: var(--space-6);
+	}
+	@media (min-width: 1024px) {
+		--msgs-pad: var(--space-8);
+	}
+	.tz-pagehead {
+		flex: none;
+		margin-bottom: 0;
+	}
+	// phones: the open conversation is a screen of its own, so the page title steps aside
+	@media (max-width: 1023px) {
+		// still in the page for screen readers (the heading), only out of the way
+		&.has-thread .tz-pagehead {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: 0;
+			overflow: hidden;
+			clip: rect(0 0 0 0);
+			white-space: nowrap;
+		}
+	}
+	> .tz-empty,
+	> .msgs {
+		flex: 1;
+		min-height: 0;
+	}
+}
+
 .msgs {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr);
 	gap: var(--space-4);
-	align-items: start;
+	align-items: stretch;
 	min-width: 0;
+	min-height: 0;
 	// Narrow screens show the list or the thread, never both
 	&.is-thread .msgs-list {
 		display: none;
@@ -47,6 +90,8 @@
 	border: 1px solid var(--border);
 	border-radius: var(--radius-lg);
 	background: var(--surface);
+	min-height: 0;
+	overflow: hidden;
 }
 
 .msgs-pick {
@@ -124,7 +169,11 @@
 
 .msgs-convs {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -216,9 +265,17 @@
 /** THREAD **/
 .msgs-thread {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: var(--space-3);
 	min-width: 0;
+	min-height: 0;
+	> * {
+		flex: none;
+	}
+	> .msgs-logwrap {
+		flex: 1;
+	}
 	&__head {
 		display: flex;
 		align-items: center;
@@ -333,13 +390,17 @@
 
 .msgs-logwrap {
 	position: relative;
+	display: flex;
+	flex-direction: column;
 	min-width: 0;
+	min-height: 0;
 }
 .msgs-log {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: var(--space-3);
-	height: clamp(280px, 52vh, 560px);
+	min-height: 0;
 	padding: var(--space-2) var(--space-1);
 	overflow-y: auto;
 	overscroll-behavior: contain;
@@ -378,21 +439,45 @@
 		}
 	}
 }
-.msgs-msg {
+.msgs-cluster {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
 	max-width: min(86%, 560px);
-	padding: 10px var(--space-4);
-	border-radius: var(--radius-lg);
-	font: var(--text-body);
 	&--them {
 		align-self: flex-start;
-		background: var(--neutral-soft);
-		border-end-start-radius: var(--radius-xs);
+		align-items: flex-start;
 	}
 	&--me {
 		align-self: flex-end;
+		align-items: flex-end;
+	}
+	// name and time once per run of messages
+	&__who {
+		margin-block: var(--space-1) 2px;
+		padding-inline: var(--space-2);
+		color: var(--ink-muted);
+		font: var(--text-caption);
+	}
+}
+.msgs-msg {
+	min-width: 0;
+	padding: 8px var(--space-4);
+	border-radius: var(--radius-lg);
+	font: var(--text-body);
+	&--them {
+		background: var(--neutral-soft);
+		// the corner of the first and last bubble of a run points to the sender's side
+		.msgs-cluster &:first-of-type {
+			border-start-start-radius: var(--radius-xs);
+		}
+	}
+	&--me {
 		background: var(--accent-soft);
 		border: 1px solid var(--border);
-		border-end-end-radius: var(--radius-xs);
+		.msgs-cluster &:first-of-type {
+			border-start-end-radius: var(--radius-xs);
+		}
 	}
 	&.is-sending {
 		opacity: 0.7;
@@ -529,17 +614,18 @@
 /** COMPOSER **/
 .msgs-composer {
 	display: flex;
-	align-items: flex-start;
-	gap: var(--space-2);
+	flex-direction: column;
 	padding-top: var(--space-3);
 	border-top: 1px solid var(--border);
-	&__field {
-		flex: 1;
-		min-width: 0;
+	&__row {
+		display: flex;
+		align-items: flex-end;
+		gap: var(--space-2);
 		.tz-input {
 			display: block;
-			width: 100%;
-			min-height: 0;
+			flex: 1;
+			min-width: 0;
+			min-height: var(--control-md);
 			padding-block: 10px;
 			resize: none;
 			overflow-y: auto;
@@ -563,21 +649,34 @@
 			font-weight: 700;
 		}
 	}
-	&__send.MuiButton-root {
+	// round paper-plane button, the same 44 px as the header icon buttons
+	&__send {
+		display: inline-grid;
 		flex: none;
-		min-height: var(--control-md);
-	}
-	@media (max-width: 479px) {
-		&__send.MuiButton-root {
-			min-width: 0;
-			padding-inline: var(--space-3);
-			.MuiButton-startIcon {
-				margin: 0;
-			}
-			font-size: 0;
-			.MuiButton-startIcon svg {
-				font-size: 20px;
-			}
+		place-items: center;
+		width: var(--control-md);
+		height: var(--control-md);
+		border: 0;
+		border-radius: var(--radius-full);
+		background: var(--accent);
+		color: var(--on-accent);
+		cursor: pointer;
+		&:hover:not(.tz-blocked) {
+			background: var(--accent-hover);
+		}
+		&:active:not(.tz-blocked) {
+			transform: scale(0.96);
+		}
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: 2px;
+		}
+		&:disabled {
+			opacity: 0.6;
+			cursor: progress;
+		}
+		&.tz-blocked {
+			border: 1px solid var(--border-control);
 		}
 	}
 }

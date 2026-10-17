@@ -53,6 +53,8 @@ function createIsomorphicLink() {
 				if ((error as { code?: string }).code === 'VALIDATION_FAILED') return;
 				// The backend answers an empty list with "No data found!"; callers treat it as an empty result (isOnlyNoData), so it is not an error worth a red line
 				if (message === 'No data found!') return;
+				// An event that is over is an expected state with its own screen (backend #121, F355), not a red line
+				if ((error as { code?: string }).code === 'EVENT_ENDED') return;
 				console.error(`[GraphQL error]: ${message}`, { locations, path });
 			});
 			if (networkError) console.error(`[Network error]: ${networkError}`);

@@ -46,7 +46,6 @@
     "emptyTitle": "Hozircha sotuvda tadbir yo‘q",
     "emptyText": "Tashkilotchilar e’lon qilishi bilanoq yangi tadbirlar shu yerda paydo bo‘ladi.",
     "browse": "Tadbirlarni ko‘rish",
-    "seeAll": "Hammasi",
     "organizers": "Tashkilotchilar",
     "ctaTitle": "Tadbir o‘tkazmoqchimisiz?",
     "ctaText": "O‘z konsertingiz, o‘yiningiz yoki shoyingiz chiptalarini soting. Birinchi tadbir e’lon qilinishidan oldin har bir tashkilotchini tekshiramiz.",
@@ -59,7 +58,13 @@
     },
     "featured": "Tavsiya etamiz",
     "rowPrev": "{{title}}: orqaga",
-    "rowNext": "{{title}}: oldinga"
+    "rowNext": "{{title}}: oldinga",
+    "seeAllLabels": {
+      "concert": "Barcha konsertlarni ko‘rish",
+      "football": "Barcha futbol o‘yinlarini ko‘rish",
+      "comedy": "Barcha komediya shoularini ko‘rish",
+      "other": "Boshqa tadbirlarning hammasini ko‘rish"
+    }
   },
   "list": {
     "title": "Tadbirlar",
@@ -87,7 +92,8 @@
     "max": "Eng ko‘p",
     "any": "Istalgan",
     "clear": "Filtrlarni tozalash",
-    "sortBy": "Saralash"
+    "sortBy": "Saralash",
+    "anyPrice": "Istalgan narx"
   },
   "sort": {
     "date": "Sana: yaqinlari birinchi",
@@ -171,7 +177,9 @@
     "ticketsFoot": "Narxlar yig‘imlarni o‘z ichiga oladi. Chiptalar “Mening chiptalarim” bo‘limida QR kod ko‘rinishida keladi.",
     "soldOutBadge": "Tugadi",
     "viewTickets": "Chiptalarni ko‘rish",
-    "barLabel": "Chiptalarga oʻtish"
+    "barLabel": "Chiptalarga oʻtish",
+    "endedTitle": "Bu tadbir tugagan",
+    "endedText": "U o‘tib bo‘ldi, shuning uchun tafsilotlar endi ko‘rsatilmaydi. Keyingi tadbirlarni ko‘rib chiqing."
   },
   "comments": {
     "title": "Izohlar",

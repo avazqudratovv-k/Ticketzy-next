@@ -706,9 +706,6 @@
 }
 
 .home__see-all {
-	display: inline-flex;
-	align-items: center;
-	min-height: 44px;
 	flex: none;
 }
 
@@ -938,7 +935,8 @@
 		flex-direction: column;
 		gap: var(--space-1);
 		min-width: 0;
-		> span {
+		> span,
+		> label {
 			font: var(--text-caption);
 			color: var(--ink-muted);
 		}
@@ -1503,5 +1501,210 @@
 	.tz-empty & {
 		align-self: stretch;
 		margin-block: var(--space-2);
+	}
+}
+
+/** DATE FIELD (common/DateField.tsx, F356): a text field with a calendar popover; text, names and week start follow the site language **/
+.tz-datefield {
+	position: relative;
+	display: block;
+	min-width: 0;
+	// the filter column is narrow (two fields side by side), so the text is a size smaller and the padding tight
+	&__input {
+		padding-inline: 10px 34px;
+		min-width: 0;
+		font: var(--text-body-sm);
+		text-overflow: clip;
+		&[aria-invalid='true'] {
+			border-color: var(--danger-text);
+		}
+	}
+	&__open {
+		position: absolute;
+		inset-block: 0;
+		inset-inline-end: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 34px;
+		border: 0;
+		border-radius: var(--radius-md);
+		background: none;
+		color: var(--ink-muted);
+		cursor: pointer;
+		&:hover,
+		&[aria-expanded='true'] {
+			color: var(--ink);
+		}
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: -2px;
+		}
+	}
+}
+
+.tz-cal {
+	// seven 44 px days (F262) plus the padding; narrower screens shrink the days
+	width: 332px;
+	max-width: calc(100vw - var(--space-4));
+	padding: var(--space-3);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg) !important;
+	background: var(--surface-raised) !important;
+	color: var(--ink);
+	box-shadow: var(--shadow-md) !important;
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-2);
+		margin-bottom: var(--space-2);
+	}
+	&__title {
+		margin: 0;
+		font: var(--text-label-lg);
+		text-align: center;
+	}
+	&__nav {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--control-md);
+		height: var(--control-md);
+		border: 0;
+		border-radius: var(--radius-full);
+		background: none;
+		color: var(--ink);
+		cursor: pointer;
+		&:hover {
+			background: var(--neutral-soft);
+		}
+	}
+	&__grid {
+		width: 100%;
+		border-collapse: collapse;
+		table-layout: fixed;
+		td {
+			padding: 1px 0;
+			text-align: center;
+		}
+	}
+	&__dow {
+		padding: var(--space-1) 0;
+		color: var(--ink-muted);
+		font: var(--text-caption);
+		text-align: center;
+	}
+	&__day {
+		width: 100%;
+		max-width: 44px;
+		height: 44px;
+		border: 1px solid transparent;
+		border-radius: var(--radius-full);
+		background: none;
+		color: var(--ink);
+		font: var(--text-body-sm);
+		cursor: pointer;
+		&:hover {
+			background: var(--neutral-soft);
+		}
+		&.is-outside {
+			color: var(--ink-muted);
+		}
+		&.is-today {
+			border-color: var(--border-control);
+		}
+		&.is-selected {
+			border-color: transparent;
+			background: var(--accent);
+			color: var(--on-accent);
+			font-weight: 700;
+		}
+		&.is-disabled {
+			color: var(--ink-subtle);
+			text-decoration: line-through;
+			cursor: not-allowed;
+			&:hover {
+				background: none;
+			}
+		}
+	}
+	&__nav:focus-visible,
+	&__day:focus-visible,
+	&__link:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 1px;
+	}
+	&__foot {
+		display: flex;
+		justify-content: space-between;
+		margin-top: var(--space-2);
+		padding-top: var(--space-2);
+		border-top: 1px solid var(--border);
+	}
+	&__link {
+		min-height: var(--control-md);
+		padding: 0 var(--space-3);
+		border: 0;
+		border-radius: var(--radius-md);
+		background: none;
+		color: var(--accent-text);
+		font: var(--text-label);
+		cursor: pointer;
+		&:hover {
+			text-decoration: underline;
+		}
+		&[aria-disabled='true'] {
+			color: var(--ink-subtle);
+			cursor: not-allowed;
+			text-decoration: none;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		* {
+			transition: none !important;
+		}
+	}
+}
+
+/** Price range slider of the events filter (F357): MUI Slider with Volt tokens; the thumb's hit area is 44 px **/
+.browse__slider.MuiSlider-root {
+	display: block;
+	box-sizing: border-box;
+	width: calc(100% - 24px);
+	margin: var(--space-1) 12px var(--space-3);
+	padding: 0;
+	height: 6px;
+	color: var(--accent-edge);
+	.MuiSlider-rail {
+		opacity: 1;
+		background: var(--border-control);
+	}
+	.MuiSlider-track {
+		border: 0;
+		background: var(--accent-edge);
+	}
+	.MuiSlider-thumb {
+		width: 22px;
+		height: 22px;
+		border: 2px solid var(--bg);
+		background: var(--accent-edge);
+		box-shadow: var(--shadow-sm);
+		transition: none;
+		&::after {
+			width: 44px;
+			height: 44px;
+			border-radius: 50%;
+		}
+		&::before {
+			display: none;
+		}
+		&:hover,
+		&.Mui-focusVisible {
+			box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--focus);
+		}
+		&.Mui-active {
+			box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--focus);
+		}
 	}
 }

@@ -97,6 +97,8 @@ export interface NotificationItem {
 	orderId?: string | null;
 	conversationId?: string | null;
 	createdAt: string;
+	/** Who caused it (the buyer who paid, the admin who approved, the sender of a message); null when that member is gone */
+	authorData?: { _id: string; memberType: string; memberNick?: string | null; memberFullName?: string | null; memberImage?: string | null } | null;
 }
 
 /** `getMyAccountState` and `markApprovalCelebrationDone`: the member's own status and whether the approval celebration is still owed. */

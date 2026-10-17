@@ -11,7 +11,7 @@ import { MARK_CONVERSATION_READ } from '../../../apollo/messaging';
 import { MemberType } from '../../enums/member.enum';
 import { formatEventWhen } from '../../format';
 import { organizerEventEditUrl } from '../../routes';
-import { dayLabel, formatClock, groupByDay, partyName } from '../../messaging/format';
+import { clusterMessages, dayLabel, formatClock, groupByDay, partyName } from '../../messaging/format';
 import { useSocketStatus } from '../../messaging/hooks';
 import { markThreadNotificationsRead, setUnread, upsertConversation } from '../../messaging/sync';
 import useThread from '../../messaging/useThread';
@@ -45,7 +45,9 @@ const Thread = ({ entry, role, meId, onBack }: Props) => {
 	const isAdmin = role === MemberType.ADMIN;
 	const thread = useThread(id, conversation, { id: meId, isAdmin });
 	const { messages } = thread;
-	const groups = useMemo(() => groupByDay(messages), [messages]);
+	const groups = useMemo(() => groupByDay(messages).map((group) => ({ ...group, clusters: clusterMessages(group.messages) })), [messages]);
+	// The state (sent, read) is shown once, under my last message; a message that is sending or failed always shows its own
+	const lastMineId = useMemo(() => [...messages].reverse().find((message) => message.senderId === meId && !message.local)?._id, [messages, meId]);
 
 	const log = useRef<HTMLDivElement>(null);
 	const stick = useRef(true);
@@ -235,17 +237,27 @@ const Thread = ({ entry, role, meId, onBack }: Props) => {
 								<div className="msgs-day__label">
 									<span>{label.kind === 'date' ? label.text : t(`thread.${label.kind}`)}</span>
 								</div>
-								{group.messages.map((message) => (
-									<Bubble
-										key={message._id}
-										message={message}
-										mine={message.senderId === meId}
-										name={senderName(message)}
-										locale={locale}
-										onRetry={() => thread.retry(message._id)}
-										onDiscard={() => thread.discard(message._id)}
-									/>
-								))}
+								{group.clusters.map((cluster) => {
+									const mine = cluster.senderId === meId;
+									const first = cluster.messages[0];
+									return (
+										<div key={cluster.key} className={`msgs-cluster ${mine ? 'msgs-cluster--me' : 'msgs-cluster--them'}`}>
+											<span className="msgs-cluster__who">
+												{senderName(first)} · {formatClock(first.createdAt, locale)}
+											</span>
+											{cluster.messages.map((message) => (
+												<Bubble
+													key={message._id}
+													message={message}
+													mine={mine}
+													showState={mine && (message._id === lastMineId || Boolean(message.local))}
+													onRetry={() => thread.retry(message._id)}
+													onDiscard={() => thread.discard(message._id)}
+												/>
+											))}
+										</div>
+									);
+								})}
 							</div>
 						);
 					})}
@@ -276,13 +288,13 @@ const Thread = ({ entry, role, meId, onBack }: Props) => {
 interface BubbleProps {
 	message: ThreadMessage;
 	mine: boolean;
-	name: string;
-	locale?: string;
+	/** Sent / read / sending / failed line: only under my last message */
+	showState: boolean;
 	onRetry: () => void;
 	onDiscard: () => void;
 }
 
-const Bubble = ({ message, mine, name, locale, onRetry, onDiscard }: BubbleProps) => {
+const Bubble = ({ message, mine, showState, onRetry, onDiscard }: BubbleProps) => {
 	const { t } = useTranslation('messages');
 	const failed = message.local === 'failed';
 	const sending = message.local === 'sending';
@@ -290,11 +302,8 @@ const Bubble = ({ message, mine, name, locale, onRetry, onDiscard }: BubbleProps
 	const errorText = error ? (error.network ? t('errors.network') : error.key ? t(`serverErrors.${error.key}`) : error.raw || t('errors.generic')) : '';
 	return (
 		<div className={`msgs-msg ${mine ? 'msgs-msg--me' : 'msgs-msg--them'}${failed ? ' is-failed' : ''}${sending ? ' is-sending' : ''}`}>
-			<span className="msgs-msg__who">
-				{name} · {formatClock(message.createdAt, locale)}
-			</span>
 			<p className="msgs-msg__body">{message.body}</p>
-			{mine && (
+			{showState && (
 				<span className="msgs-msg__state">
 					{sending && (
 						<>

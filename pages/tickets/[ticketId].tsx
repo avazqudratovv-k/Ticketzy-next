@@ -17,6 +17,7 @@ import { TicketBadge } from '../../libs/components/account/StatusBadge';
 import EventImage from '../../libs/components/events/EventImage';
 import TicketCode from '../../libs/components/common/TicketCode';
 import Seo from '../../libs/components/common/Seo';
+import { isPublicEvent } from '../../libs/events';
 import { useSectionNames } from '../../libs/hooks/useSectionNames';
 import { seatLabel } from '../../libs/seats/label';
 import { buildIcs, downloadIcs } from '../../libs/account/ics';
@@ -47,7 +48,7 @@ const TicketDetail: NextPage = () => {
 	const ticket: AccountTicket | undefined = data?.getTicket;
 	const event = ticket?.eventData;
 	const venue = event?.venueData;
-	const sectionNames = useSectionNames(ticket?.eventId, Boolean(ticket?.seatData));
+	const sectionNames = useSectionNames(ticket?.eventId, Boolean(ticket?.seatData) && isPublicEvent(event));
 	// Other tickets of the same order, for the "Ticket 1 of 2" stepper
 	const { data: siblingData } = useQuery(GET_MY_TICKETS_LIST, {
 		variables: { input: { page: 1, limit: 100 } },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Button, Divider, IconButton, Menu, MenuItem } from '@mui/material';
@@ -31,6 +31,13 @@ const Top = () => {
 	const themeLabel = mode === 'dark' ? t('header.themeToLight') : t('header.themeToDark');
 	const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 	const closeMenu = () => setMenuAnchor(null);
+	const menuOpen = Boolean(menuAnchor);
+	// The Ask Ticketzy button hides while the menu is open (F354)
+	useEffect(() => {
+		if (!menuOpen) return;
+		document.documentElement.setAttribute('data-menu-open', '');
+		return () => document.documentElement.removeAttribute('data-menu-open');
+	}, [menuOpen]);
 	const onEvents = router.pathname.startsWith(ROUTES.events);
 
 	return (

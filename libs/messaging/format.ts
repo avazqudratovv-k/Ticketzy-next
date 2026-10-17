@@ -44,6 +44,28 @@ export function groupByDay(messages: ThreadMessage[]): DayGroup[] {
 	return groups;
 }
 
+/** Messages from one sender closer together than this share one name-and-time line (F360). */
+export const CLUSTER_GAP_MS = 5 * 60_000;
+
+export interface MessageCluster {
+	key: string;
+	senderId: string;
+	messages: ThreadMessage[];
+}
+
+/** One day's messages (oldest first) in runs by sender: a new run starts when the sender changes or the gap to the previous message is over `gapMs`. */
+export function clusterMessages(messages: ThreadMessage[], gapMs = CLUSTER_GAP_MS): MessageCluster[] {
+	const clusters: MessageCluster[] = [];
+	for (const message of messages) {
+		const last = clusters[clusters.length - 1];
+		const previous = last?.messages[last.messages.length - 1];
+		const close = previous && new Date(message.createdAt).getTime() - new Date(previous.createdAt).getTime() <= gapMs;
+		if (last && previous && last.senderId === message.senderId && close) last.messages.push(message);
+		else clusters.push({ key: message._id, senderId: message.senderId, messages: [message] });
+	}
+	return clusters;
+}
+
 const byTime = (a: ChatMessage, b: ChatMessage) => a.createdAt.localeCompare(b.createdAt) || a._id.localeCompare(b._id);
 
 /** Adds messages to a thread without duplicates (a message can arrive from the mutation, the socket and a poll). */

@@ -46,7 +46,6 @@
     "emptyTitle": "No events on sale yet",
     "emptyText": "New events appear here as soon as organizers publish them.",
     "browse": "Browse events",
-    "seeAll": "See all",
     "organizers": "Organizers",
     "ctaTitle": "Organize an event?",
     "ctaText": "Sell tickets to your own concert, match or show. We review every organizer before the first event goes live.",
@@ -59,7 +58,13 @@
     },
     "featured": "Featured",
     "rowPrev": "{{title}}: previous",
-    "rowNext": "{{title}}: next"
+    "rowNext": "{{title}}: next",
+    "seeAllLabels": {
+      "concert": "See all concerts",
+      "football": "See all football matches",
+      "comedy": "See all comedy shows",
+      "other": "See all other events"
+    }
   },
   "list": {
     "title": "Browse events",
@@ -87,7 +92,8 @@
     "max": "Max",
     "any": "Any",
     "clear": "Clear filters",
-    "sortBy": "Sort by"
+    "sortBy": "Sort by",
+    "anyPrice": "Any price"
   },
   "sort": {
     "date": "Date, soonest first",
@@ -171,7 +177,9 @@
     "ticketsFoot": "Prices include fees. Tickets arrive as QR codes in My tickets.",
     "soldOutBadge": "Sold out",
     "viewTickets": "View tickets",
-    "barLabel": "Ticket shortcut"
+    "barLabel": "Ticket shortcut",
+    "endedTitle": "This event has ended",
+    "endedText": "It is over, so its details are no longer shown. Have a look at what is coming up."
   },
   "comments": {
     "title": "Comments",

@@ -38,6 +38,42 @@ export function titleKey(item: Pick<NotificationItem, 'notificationType'>, membe
 	return `notifications.type.${item.notificationType}`;
 }
 
+/** Key of the sentence of a notification (`{{sender}} approved your organizer account`), the same type rules as `titleKey`. */
+export const sentenceKey = (item: Pick<NotificationItem, 'notificationType'>, memberType?: MemberType): string | null =>
+	titleKey(item, memberType)?.replace('notifications.type.', 'notifications.sentence.') ?? null;
+
+/** Who the notification names: an admin is "Admin", anyone else by name; null when the member no longer exists. */
+export function senderOf(item: Pick<NotificationItem, 'authorData'>): { admin: boolean; name: string } | null {
+	const author = item.authorData;
+	if (!author) return null;
+	return { admin: author.memberType === MemberType.ADMIN, name: author.memberFullName || author.memberNick || '' };
+}
+
+/**
+ * The event name a notification carries as text (shown as a small chip), or the plain detail line otherwise. The server puts the
+ * event title in the description of some types and a longer sentence in others; only the shapes known from the backend are cut.
+ */
+export function describeNotification(item: Pick<NotificationItem, 'notificationType' | 'notificationDesc'>): { chip?: string; detail?: string } {
+	const desc = item.notificationDesc?.trim();
+	if (!desc) return {};
+	switch (item.notificationType) {
+		case 'LIKE':
+		case 'EVENT_REMINDER':
+		case 'EVENT_APPROVED':
+			return { chip: desc };
+		case 'PAYOUT_DUE': {
+			const match = desc.match(/^Payout for (.+) is due: .+$/);
+			return match ? { chip: match[1] } : { detail: desc };
+		}
+		case 'PAYOUT_PAID': {
+			const cut = desc.lastIndexOf(': ');
+			return cut > 0 ? { chip: desc.slice(0, cut), detail: desc.slice(cut + 2) } : { detail: desc };
+		}
+		default:
+			return { detail: desc };
+	}
+}
+
 /** Where a notification leads. Order and ticket pages are the buyer's own; organizers get event links only. */
 export function notificationHref(item: NotificationItem, memberType?: MemberType): string | null {
 	const buyer = !memberType || memberType === MemberType.USER;

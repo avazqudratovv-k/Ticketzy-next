@@ -46,7 +46,6 @@
     "emptyTitle": "아직 판매 중인 이벤트가 없어요",
     "emptyText": "주최자가 이벤트를 공개하면 바로 여기에 표시돼요.",
     "browse": "이벤트 둘러보기",
-    "seeAll": "전체 보기",
     "organizers": "주최자",
     "ctaTitle": "이벤트를 직접 열고 싶으신가요?",
     "ctaText": "내 콘서트, 경기, 공연의 티켓을 직접 판매하세요. 첫 이벤트가 공개되기 전에 모든 주최자를 검토합니다.",
@@ -59,7 +58,13 @@
     },
     "featured": "추천",
     "rowPrev": "{{title}}: 이전",
-    "rowNext": "{{title}}: 다음"
+    "rowNext": "{{title}}: 다음",
+    "seeAllLabels": {
+      "concert": "콘서트 전체 보기",
+      "football": "축구 경기 전체 보기",
+      "comedy": "코미디 공연 전체 보기",
+      "other": "기타 이벤트 전체 보기"
+    }
   },
   "list": {
     "title": "이벤트 둘러보기",
@@ -86,7 +91,8 @@
     "max": "최대",
     "any": "제한 없음",
     "clear": "필터 초기화",
-    "sortBy": "정렬"
+    "sortBy": "정렬",
+    "anyPrice": "가격 제한 없음"
   },
   "sort": {
     "date": "날짜 빠른 순",
@@ -166,7 +172,9 @@
     "ticketsFoot": "가격에 수수료가 포함돼 있어요. 티켓은 내 티켓에 QR 코드로 도착해요.",
     "soldOutBadge": "매진",
     "viewTickets": "티켓 보기",
-    "barLabel": "티켓 바로가기"
+    "barLabel": "티켓 바로가기",
+    "endedTitle": "이 이벤트는 종료되었어요",
+    "endedText": "종료된 이벤트라 자세한 내용은 더 이상 보여드리지 않아요. 예정된 이벤트를 둘러보세요."
   },
   "comments": {
     "title": "댓글",

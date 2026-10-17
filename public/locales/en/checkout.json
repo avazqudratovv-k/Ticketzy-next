@@ -35,7 +35,9 @@
         "title": "Sales are closed",
         "text": "The sale for this event has ended."
       }
-    }
+    },
+    "endedTitle": "This event has ended",
+    "endedText": "It is over, so its details are no longer shown. Have a look at what is coming up."
   },
   "map": {
     "label": "Seat map. Zoom and drag to explore. Use the section list below the map to choose seats with a keyboard.",

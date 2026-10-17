@@ -157,6 +157,31 @@
       "PAYOUT_PAID": "정산금 지급이 기록되었어요",
       "PAYOUT_DUE": "정산금 지급 기한이 되었어요",
       "PAYOUT_DUE_ADMIN": "정산금 지급 기한이 된 건이 있어요"
+    },
+    "sentence": {
+      "LIKE": "{{sender}}님이 내 이벤트를 좋아해요",
+      "COMMENT": "{{sender}}님이 내 이벤트에 댓글을 남겼어요",
+      "ORDER_PAID": "결제가 완료되었어요",
+      "ORDER_PAID_SALE": "{{sender}}님이 내 이벤트의 티켓을 구매했어요",
+      "EVENT_REMINDER": "곧 시작하는 이벤트가 있어요",
+      "ORGANIZER_VERIFIED": "{{sender}}님이 주최자 계정을 승인했어요",
+      "ORGANIZER_REJECTED": "{{sender}}님이 주최자 계정을 승인하지 않았어요",
+      "ORGANIZER_SUSPENDED": "{{sender}}님이 주최자 계정을 정지했어요",
+      "ORGANIZER_REINSTATED": "{{sender}}님이 주최자 계정을 다시 활성화했어요",
+      "COMMISSION_UPDATED": "{{sender}}님이 수수료율을 변경했어요",
+      "EVENT_APPROVED": "{{sender}}님이 이벤트를 승인했어요",
+      "EVENT_REJECTED": "{{sender}}님이 이벤트를 승인하지 않았어요",
+      "EVENT_CANCELLED": "이벤트가 취소되었어요",
+      "REFUND_COMPLETED": "주문이 환불되었어요",
+      "ORDER_REFUNDED": "주문 한 건이 환불되었어요",
+      "NEW_MESSAGE": "{{sender}}님이 메시지를 보냈어요",
+      "PAYOUT_PAID": "{{sender}}님이 내 이벤트의 정산을 기록했어요",
+      "PAYOUT_DUE": "내 이벤트의 정산 기한이 되었어요",
+      "PAYOUT_DUE_ADMIN": "{{sender}}님의 정산 기한이 되었어요"
+    },
+    "sender": {
+      "admin": "관리자",
+      "someone": "누군가"
     }
   },
   "approval": {
@@ -262,5 +287,12 @@
     "copy": "코드 복사",
     "copied": "코드를 복사했어요",
     "failed": "복사하지 못했어요"
+  },
+  "dateField": {
+    "open": "날짜 선택",
+    "prevMonth": "이전 달",
+    "nextMonth": "다음 달",
+    "today": "오늘",
+    "clear": "지우기"
   }
 }

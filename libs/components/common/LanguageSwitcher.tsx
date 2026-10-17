@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { LANGUAGES, languageLabel, LocaleCode, useChangeLanguage } from '../../i18n';
 
 /** Compact globe + code with a menu (navbar, top bar), or the segmented form (footer). */
-const LanguageSwitcher = ({ variant = 'menu' }: { variant?: 'menu' | 'segmented' }) => {
+const LanguageSwitcher = ({ variant = 'menu', labelledBy }: { variant?: 'menu' | 'segmented'; labelledBy?: string }) => {
 	const { t } = useTranslation('common');
 	const { locale = 'en' } = useRouter();
 	const changeLanguage = useChangeLanguage();
@@ -14,7 +14,7 @@ const LanguageSwitcher = ({ variant = 'menu' }: { variant?: 'menu' | 'segmented'
 
 	if (variant === 'segmented') {
 		return (
-			<div className="tz-lang--segmented" role="radiogroup" aria-label={t('header.languageLabel')}>
+			<div className="tz-lang--segmented" role="radiogroup" aria-label={labelledBy ? undefined : t('header.languageLabel')} aria-labelledby={labelledBy}>
 				{LANGUAGES.map(({ code, label }) => (
 					<button
 						key={code}

@@ -160,6 +160,31 @@
       "PAYOUT_PAID": "A payout was recorded",
       "PAYOUT_DUE": "Your payout is due",
       "PAYOUT_DUE_ADMIN": "A payout is due"
+    },
+    "sentence": {
+      "LIKE": "{{sender}} liked your event",
+      "COMMENT": "{{sender}} commented on your event",
+      "ORDER_PAID": "Your payment was received",
+      "ORDER_PAID_SALE": "{{sender}} bought tickets to your event",
+      "EVENT_REMINDER": "Your event is coming up",
+      "ORGANIZER_VERIFIED": "{{sender}} approved your organizer account",
+      "ORGANIZER_REJECTED": "{{sender}} did not approve your organizer account",
+      "ORGANIZER_SUSPENDED": "{{sender}} suspended your organizer account",
+      "ORGANIZER_REINSTATED": "{{sender}} reactivated your organizer account",
+      "COMMISSION_UPDATED": "{{sender}} changed your commission rate",
+      "EVENT_APPROVED": "{{sender}} approved your event",
+      "EVENT_REJECTED": "{{sender}} did not approve your event",
+      "EVENT_CANCELLED": "An event was cancelled",
+      "REFUND_COMPLETED": "Your order was refunded",
+      "ORDER_REFUNDED": "An order was refunded",
+      "NEW_MESSAGE": "{{sender}} sent you a message",
+      "PAYOUT_PAID": "{{sender}} recorded a payout for your event",
+      "PAYOUT_DUE": "Payout due for your event",
+      "PAYOUT_DUE_ADMIN": "{{sender}} has a payout due"
+    },
+    "sender": {
+      "admin": "Admin",
+      "someone": "Someone"
     }
   },
   "approval": {
@@ -265,5 +290,12 @@
     "copy": "Copy code",
     "copied": "Code copied",
     "failed": "Couldn’t copy"
+  },
+  "dateField": {
+    "open": "Choose date",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "today": "Today",
+    "clear": "Clear"
   }
 }

@@ -18,6 +18,7 @@ import Steps from '../../../libs/components/seats/Steps';
 import { useRequireAuth } from '../../../libs/auth/guards';
 import { formatEventDate, formatPrice } from '../../../libs/format';
 import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
+import { isPublicEvent } from '../../../libs/events';
 import { compareSeats } from '../../../libs/seats/layout';
 import { seatParts, sectionNamesOf } from '../../../libs/seats/label';
 import { LayoutSection, OrderData } from '../../../libs/seats/types';
@@ -35,6 +36,7 @@ interface TicketSeat {
 	orderId: string;
 	ticketTypeId: string;
 	seatData?: { sectionKey: string; row: number; number: number } | null;
+	ticketTypeData?: { ticketTypeName: string; ticketPrice: number } | null;
 }
 
 const Confirmation: NextPage = () => {
@@ -49,25 +51,35 @@ const Confirmation: NextPage = () => {
 	const order: OrderData | undefined = data?.getOrder;
 	const eventId = order?.eventId ?? '';
 	const paid = order?.orderStatus === 'PAID';
-	const { data: eventData } = useQuery<GetEventData, GetEventVars>(GET_EVENT, { variables: { eventId }, skip: !eventId });
-	const { data: ticketTypeData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip: !eventId });
-	// There is no filter by order: take the buyer's upcoming tickets and keep this order's
+	// The public event queries answer only for a live event (backend #121); an ended or hidden one is shown from the order and tickets (F355)
+	const live = isPublicEvent(order?.eventData);
+	const { data: eventData } = useQuery<GetEventData, GetEventVars>(GET_EVENT, { variables: { eventId }, skip: !eventId || !live });
+	const { data: ticketTypeData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip: !eventId || !live, errorPolicy: 'ignore' });
+	// There is no filter by order: take the buyer's tickets (past ones too, the event may be over) and keep this order's
 	const { data: ticketData } = useQuery(GET_MY_TICKETS, {
-		variables: { input: { page: 1, limit: 50, timeFilter: 'UPCOMING' } },
+		variables: { input: { page: 1, limit: 100 } },
 		skip: !paid,
 		fetchPolicy: 'network-only',
 	});
 	const reserved = (order?.seatIds.length ?? 0) > 0;
-	const { data: mapData } = useQuery(GET_EVENT_SEAT_MAP, { variables: { eventId }, skip: !paid || !reserved, fetchPolicy: 'cache-first', errorPolicy: 'ignore' });
+	const { data: mapData } = useQuery(GET_EVENT_SEAT_MAP, { variables: { eventId }, skip: !paid || !reserved || !live, fetchPolicy: 'cache-first', errorPolicy: 'ignore' });
 
 	const event: EventItem | undefined = eventData?.getEvent;
-	const ticketTypes: TicketTypeItem[] = useMemo(() => ticketTypeData?.getTicketTypes ?? [], [ticketTypeData]);
+	const orderTickets: TicketSeat[] = useMemo(() => (ticketData?.getMyTickets?.list ?? []).filter((ticket: TicketSeat) => ticket.orderId === orderId), [ticketData, orderId]);
+	// Names and prices: the event's ticket types while it is live, else what the buyer's own tickets carry
+	const ticketTypes: TicketTypeItem[] = useMemo(() => {
+		const live: TicketTypeItem[] = ticketTypeData?.getTicketTypes ?? [];
+		const own = orderTickets
+			.filter((ticket) => ticket.ticketTypeData && !live.some((type) => type._id === ticket.ticketTypeId))
+			.map((ticket) => ({ _id: ticket.ticketTypeId, ticketTypeName: ticket.ticketTypeData!.ticketTypeName, ticketPrice: ticket.ticketTypeData!.ticketPrice }) as TicketTypeItem);
+		return [...live, ...own];
+	}, [ticketTypeData, orderTickets]);
 	const sections: LayoutSection[] = useMemo(() => mapData?.getEventSeatMap?.venueLayout?.sections ?? [], [mapData]);
 	const names = useMemo(() => sectionNamesOf(sections), [sections]);
 	const ticketName = (id: string) => ticketTypes.find((tt) => tt._id === id)?.ticketTypeName ?? String(t('order.ticket'));
 
 	const seatLines: SeatLine[] = useMemo(() => {
-		const tickets: TicketSeat[] = (ticketData?.getMyTickets?.list ?? []).filter((ticket: TicketSeat) => ticket.orderId === orderId && ticket.seatData);
+		const tickets = orderTickets.filter((ticket) => ticket.seatData);
 		return tickets
 			.map((ticket) => ticket.seatData!)
 			.sort(compareSeats)
@@ -82,7 +94,7 @@ const Confirmation: NextPage = () => {
 					price,
 				};
 			});
-	}, [ticketData, orderId, ticketTypes, names, t]);
+	}, [orderTickets, ticketTypes, names, t]);
 
 	// A live region only announces text that changes after it is mounted, so it is mounted empty and filled once the order is shown
 	const [announcement, setAnnouncement] = useState('');

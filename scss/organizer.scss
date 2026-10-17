@@ -398,8 +398,13 @@ input.tz-input[type='time'] {
 	&__actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--space-2) var(--space-4);
+		// actions sit side by side on one line with a small gap; they wrap only when the column is too narrow (F359)
+		align-items: center;
+		gap: var(--space-1) var(--space-3);
 		font: var(--text-label);
+		> * {
+			white-space: nowrap;
+		}
 	}
 }
 .org-num {

@@ -30,6 +30,10 @@
 			}
 		}
 	}
+	// the header menu is open: the button steps aside (F354)
+	html[data-menu-open] &:not(.is-open) {
+		visibility: hidden;
+	}
 	// pages with their own bottom sheet on small screens
 	&--tight:not(.is-open) .pg-fab {
 		@media (max-width: 1023px) {
@@ -72,6 +76,17 @@
 	svg {
 		flex: none;
 		color: var(--accent-text);
+	}
+}
+
+// Phones: the button is the round icon alone (its text stays for screen readers), so it covers a corner and not a whole footer row (F354)
+@media (max-width: 767px) {
+	.pg-fab {
+		justify-content: center;
+		width: 56px;
+		padding: 0;
+		font-size: 0;
+		gap: 0;
 	}
 }
 

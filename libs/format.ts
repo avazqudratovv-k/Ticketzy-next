@@ -20,7 +20,7 @@ const safeZone = (timeZone?: string | null) => {
  * Browsers and Node ship no usable Uzbek date data (Intl prints "M11 8, Sun"), so Uzbek dates are composed by hand
  * from the calendar day in the venue's zone. Every other language goes through Intl.
  */
-const UZ_MONTHS = [
+export const UZ_MONTHS = [
 	'yanvar',
 	'fevral',
 	'mart',
@@ -34,7 +34,7 @@ const UZ_MONTHS = [
 	'noyabr',
 	'dekabr',
 ];
-const UZ_WEEKDAYS = ['yakshanba', 'dushanba', 'seshanba', 'chorshanba', 'payshanba', 'juma', 'shanba'];
+export const UZ_WEEKDAYS = ['yakshanba', 'dushanba', 'seshanba', 'chorshanba', 'payshanba', 'juma', 'shanba'];
 
 function uzDate(date: Date, timeZone: string, withYear: boolean, weekday = true): string {
 	const parts = new Intl.DateTimeFormat('en-CA', {

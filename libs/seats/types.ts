@@ -90,5 +90,6 @@ export interface OrderData {
 		startAt: string;
 		endAt: string;
 		venueId: string;
+		venueData?: { _id: string; venueName: string; venueCity: string; venueAddress?: string | null; venueTimezone: string } | null;
 	} | null;
 }

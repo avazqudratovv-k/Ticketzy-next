@@ -234,7 +234,7 @@ const Inbox = ({ role }: { role: Role }) => {
 	}
 
 	return (
-		<div className="org-page msgs-page">
+		<div className={`org-page msgs-page${selectedId ? ' has-thread' : ''}`}>
 			<Head>
 				<title>{`${t('page.title')} · Ticketzy`}</title>
 			</Head>

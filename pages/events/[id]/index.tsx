@@ -11,6 +11,7 @@ import {
 	ChatCircle,
 	Eye,
 	MapPin,
+	CalendarX,
 	Prohibit,
 	WarningCircle,
 	Info,
@@ -43,7 +44,7 @@ import {
 import { organizerUrl, ROUTES } from '../../../libs/routes';
 import { serverQuery } from '../../../libs/serverFetch';
 import { EventItem, TicketTypeItem } from '../../../libs/types/event';
-import { NETWORK_ERROR, parseApiError } from '../../../libs/errors';
+import { EVENT_ENDED, NETWORK_ERROR, parseApiError } from '../../../libs/errors';
 import { GetEventData, GetEventVars } from '../../../libs/types/queries';
 
 interface SeoProps {
@@ -103,6 +104,25 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 	if (!event) {
 		if (apiError) {
 			const missing = apiError.code !== NETWORK_ERROR;
+			// An event that is over: a calm note and the way back, no details (backend #121, F355)
+			if (apiError.code === EVENT_ENDED) {
+				return (
+					<div className="tz-container event">
+						<Seo title={t('detail.endedTitle')} noindex />
+						<StateBlock
+							as="h1"
+							icon={<CalendarX size={28} />}
+							title={t('detail.endedTitle')}
+							text={t('detail.endedText')}
+							actions={
+								<Button component={Link} href={ROUTES.events} variant="outlined">
+									{t('home.browse')}
+								</Button>
+							}
+						/>
+					</div>
+				);
+			}
 			return (
 				<div className="tz-container event">
 					<Seo

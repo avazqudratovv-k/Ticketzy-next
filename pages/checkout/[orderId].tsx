@@ -27,6 +27,7 @@ import { useRemainingMs } from '../../libs/seats/clock';
 import { checkoutErrorKey, isHoldExpired, isOrderNotPayable, isSeatConflict } from '../../libs/seats/errors';
 import { compareSeats, seatKey } from '../../libs/seats/layout';
 import { seatParts, sectionNamesOf } from '../../libs/seats/label';
+import { isPublicEvent } from '../../libs/events';
 import { loadRetryInfo } from '../../libs/seats/retry';
 import { OrderData } from '../../libs/seats/types';
 import { confirmationUrl, checkoutUrl, eventUrl, ROUTES, seatsUrl } from '../../libs/routes';
@@ -49,8 +50,10 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	const { data, error, refetch } = useQuery<GetOrderData, GetOrderVars>(GET_ORDER, { variables: { orderId }, fetchPolicy: 'network-only' });
 	const order: OrderData | undefined = data?.getOrder;
 	const eventId = order?.eventId ?? '';
-	const { data: eventData } = useQuery<GetEventData, GetEventVars>(GET_EVENT, { variables: { eventId }, skip: !eventId });
-	const { data: ticketData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip: !eventId });
+	// Only a live event answers the public queries (backend #121); the summary falls back to the order's own event data (F355)
+	const eventLive = isPublicEvent(order?.eventData);
+	const { data: eventData } = useQuery<GetEventData, GetEventVars>(GET_EVENT, { variables: { eventId }, skip: !eventId || !eventLive });
+	const { data: ticketData } = useQuery(GET_TICKET_TYPES, { variables: { eventId }, skip: !eventId || !eventLive, errorPolicy: 'ignore' });
 	const event: EventItem | undefined = eventData?.getEvent;
 	const ticketTypes: TicketTypeItem[] = useMemo(() => ticketData?.getTicketTypes ?? [], [ticketData]);
 

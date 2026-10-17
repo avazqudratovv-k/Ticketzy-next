@@ -17,6 +17,7 @@ import { OrderBadge, TicketBadge } from '../../../libs/components/account/Status
 import EventImage from '../../../libs/components/events/EventImage';
 import Seo from '../../../libs/components/common/Seo';
 import { ticketState } from '../../../libs/account/tickets';
+import { isPublicEvent } from '../../../libs/events';
 import { useSectionNames } from '../../../libs/hooks/useSectionNames';
 import { seatLabel, SectionNames } from '../../../libs/seats/label';
 import { formatEventWhen, formatPrice, formatViewerDate } from '../../../libs/format';
@@ -51,16 +52,21 @@ const OrderDetail: NextPage = () => {
 		skip: !paidLike,
 		fetchPolicy: 'cache-and-network',
 	});
-	const { data: typeData } = useQuery(GET_TICKET_TYPES, { variables: { eventId: order?.eventId ?? '' }, skip: !order, errorPolicy: 'ignore' });
+	const live = isPublicEvent(order?.eventData);
+	const { data: typeData } = useQuery(GET_TICKET_TYPES, { variables: { eventId: order?.eventId ?? '' }, skip: !order || !live, errorPolicy: 'ignore' });
 
 	const tickets: AccountTicket[] = useMemo(
 		() => ((ticketData?.getMyTickets?.list ?? []) as AccountTicket[]).filter((ticket) => ticket.orderId === orderId),
 		[ticketData, orderId],
 	);
 	const event = order?.eventData ?? undefined;
-	const sectionNames = useSectionNames(order?.eventId, paidLike && order?.seatIds.length !== 0);
+	const sectionNames = useSectionNames(order?.eventId, paidLike && order?.seatIds.length !== 0 && live);
 	const venue = event?.venueData;
-	const typeName = (id: string) => ((typeData?.getTicketTypes ?? []) as TicketTypeItem[]).find((type) => type._id === id)?.ticketTypeName ?? t('ticket.type');
+	// A live event names its types; otherwise the buyer's own tickets carry the name (F355)
+	const typeName = (id: string) =>
+		((typeData?.getTicketTypes ?? []) as TicketTypeItem[]).find((type) => type._id === id)?.ticketTypeName ??
+		tickets.find((ticket) => ticket.ticketTypeId === id)?.ticketTypeData?.ticketTypeName ??
+		t('ticket.type');
 
 	if (error && !order) {
 		return (

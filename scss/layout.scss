@@ -340,6 +340,33 @@
 		padding-block: var(--space-4);
 		border-top: 1px solid var(--border);
 	}
+	// Language buttons: after the Help column on phones, in the bottom bar from 768 px (F354)
+	&__lang {
+		.tz-lang--segmented {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			width: 100%;
+			overflow: visible;
+		}
+		.tz-lang__segment {
+			min-width: 0;
+		}
+		@media (min-width: 768px) {
+			display: none;
+		}
+	}
+	// the round Ask button sits in the bottom corner on phones: the bottom row keeps clear of it
+	&__bar {
+		@media (max-width: 767px) {
+			padding-inline-end: calc(56px + var(--space-4));
+		}
+	}
+	&__lang-bar {
+		display: none;
+		@media (min-width: 768px) {
+			display: block;
+		}
+	}
 	&__demo {
 		padding-block: var(--space-3);
 		border-top: 1px solid var(--border);
@@ -576,13 +603,13 @@
 	}
 }
 
-// Phones and tablets: the Ask Ticketzy button (56 px, 16 px from the bottom) floats over the last footer row, so the footer
-// ends with room for it; a sticky bar (`html[data-bar]`) adds its own height on top.
+// Phones and tablets: no room is kept for the Ask Ticketzy button any more (F354); only a sticky bottom bar (`html[data-bar]`)
+// adds its own height, and the footer rows keep clear of the button's corner instead.
 .tz-footer {
 	@media (max-width: 1023px) {
-		padding-bottom: calc(56px + var(--space-8) + env(safe-area-inset-bottom));
+		padding-bottom: env(safe-area-inset-bottom);
 		html[data-bar] & {
-			padding-bottom: calc(56px + var(--space-8) + var(--bar-h));
+			padding-bottom: var(--bar-h);
 		}
 	}
 }
@@ -610,7 +637,8 @@
  *  plain icon buttons (`.pg-sendbtn`, `.pg-iconbtn`) take the same class. **/
 .MuiButton-root.tz-blocked,
 .pg-sendbtn.tz-blocked,
-.pg-iconbtn.tz-blocked {
+.pg-iconbtn.tz-blocked,
+.msgs-composer__send.tz-blocked {
 	background: transparent;
 	border: 1px solid var(--border-control);
 	color: var(--ink-muted);

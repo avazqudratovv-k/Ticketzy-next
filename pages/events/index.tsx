@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { NextPage, GetStaticPropsContext } from 'next';
 import { useQuery } from '@apollo/client';
-import { Button, MenuItem, Select } from '@mui/material';
+import { Button, MenuItem, Select, Slider } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Check, FunnelSimple, MagnifyingGlass, SquaresFour, WarningCircle } from 'phosphor-react';
@@ -15,10 +15,18 @@ import Pagination from '../../libs/components/events/Pagination';
 import { categoryIcon } from '../../libs/components/events/CategoryChip';
 import { CATEGORY_SLUGS, EventSortKey, EVENT_SORTS } from '../../libs/events';
 import { buildEventsInput, PAGE_SIZE, useEventFilters } from '../../libs/hooks/useEventFilters';
-import { formatNumber } from '../../libs/format';
+import { formatNumber, formatPrice } from '../../libs/format';
+import DateField from '../../libs/components/common/DateField';
 import { EventItem } from '../../libs/types/event';
 import { useRouter } from 'next/router';
 import { GetEventsData, GetEventsVars } from '../../libs/types/queries';
+
+/** Price slider: KRW, steps of 5,000, the right end means "any" (F357) */
+const PRICE_STEP = 5000;
+const PRICE_SLIDER_MAX = 300000;
+const clampPrice = (value: number) => Math.min(PRICE_SLIDER_MAX, Math.max(0, Math.round(value / PRICE_STEP) * PRICE_STEP));
+/** Digits typed in a number field, with thousands separators of the site language when shown */
+const digitsOnly = (text: string) => text.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 9);
 
 export const getStaticProps = async ({ locale }: GetStaticPropsContext) => ({
 	props: {
@@ -176,31 +184,18 @@ const Events: NextPage = () => {
 					</div>
 
 					<div className="browse__group">
-						<label className="browse__label" htmlFor="f-from">
+						<h2 className="browse__label" id="f-date">
 							{t('filters.date')}
-						</label>
-						<div className="browse__pair">
-							<label className="browse__sub">
-								<span>{t('filters.from')}</span>
-								<input
-									id="f-from"
-									type="date"
-									className="tz-input"
-									value={filters.from}
-									max={filters.to || undefined}
-									onChange={(event) => update({ from: event.target.value })}
-								/>
-							</label>
-							<label className="browse__sub">
-								<span>{t('filters.to')}</span>
-								<input
-									type="date"
-									className="tz-input"
-									value={filters.to}
-									min={filters.from || undefined}
-									onChange={(event) => update({ to: event.target.value })}
-								/>
-							</label>
+						</h2>
+						<div className="browse__pair" role="group" aria-labelledby="f-date">
+							<div className="browse__sub">
+								<label htmlFor="f-from">{t('filters.from')}</label>
+								<DateField id="f-from" value={filters.from} max={filters.to || undefined} onChange={(next) => update({ from: next })} />
+							</div>
+							<div className="browse__sub">
+								<label htmlFor="f-to">{t('filters.to')}</label>
+								<DateField id="f-to" value={filters.to} min={filters.from || undefined} onChange={(next) => update({ to: next })} />
+							</div>
 						</div>
 					</div>
 
@@ -227,16 +222,39 @@ const Events: NextPage = () => {
 					</div>
 
 					<div className="browse__group">
-						<h2 className="browse__label">{t('filters.price')}</h2>
-						<div className="browse__pair">
+						<h2 className="browse__label" id="f-price">
+							{t('filters.price')}
+						</h2>
+						<Slider
+							className="browse__slider"
+							value={[min ? clampPrice(Number(min)) : 0, max ? clampPrice(Number(max)) : PRICE_SLIDER_MAX]}
+							min={0}
+							max={PRICE_SLIDER_MAX}
+							step={PRICE_STEP}
+							disableSwap
+							getAriaLabel={(index) => `${t('filters.price')}: ${index === 0 ? t('filters.min') : t('filters.max')}`}
+							getAriaValueText={(value, index) =>
+								index === 1 && value >= PRICE_SLIDER_MAX ? t('filters.anyPrice') : formatPrice(value, locale)
+							}
+							onChange={(_, next) => {
+								const [low, high] = next as number[];
+								setMin(low > 0 ? String(low) : '');
+								setMax(high < PRICE_SLIDER_MAX ? String(high) : '');
+							}}
+							onChangeCommitted={(_, next) => {
+								const [low, high] = next as number[];
+								update({ min: low > 0 ? String(low) : '', max: high < PRICE_SLIDER_MAX ? String(high) : '' }, 'replace');
+							}}
+						/>
+						<div className="browse__pair" role="group" aria-labelledby="f-price">
 							<label className="browse__sub">
 								<span>{t('filters.min')}</span>
 								<input
 									className="tz-input"
 									inputMode="numeric"
 									placeholder="0"
-									value={min}
-									onChange={(event) => setMin(event.target.value.replace(/\D/g, '').slice(0, 9))}
+									value={min ? formatNumber(Number(min), locale) : ''}
+									onChange={(event) => setMin(digitsOnly(event.target.value))}
 									onBlur={commitMin}
 								/>
 							</label>
@@ -246,8 +264,8 @@ const Events: NextPage = () => {
 									className="tz-input"
 									inputMode="numeric"
 									placeholder={t('filters.any')}
-									value={max}
-									onChange={(event) => setMax(event.target.value.replace(/\D/g, '').slice(0, 9))}
+									value={max ? formatNumber(Number(max), locale) : ''}
+									onChange={(event) => setMax(digitsOnly(event.target.value))}
 									onBlur={commitMax}
 								/>
 							</label>

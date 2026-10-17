@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { CalendarBlank, MapPin, Ticket } from 'phosphor-react';
 import { formatEventWhen } from '../../format';
 import { ticketState } from '../../account/tickets';
+import { isPublicEvent } from '../../events';
 import { useSectionNames } from '../../hooks/useSectionNames';
 import { seatLabel } from '../../seats/label';
 import { ticketUrl } from '../../routes';
@@ -20,7 +21,7 @@ const TicketCard = ({ ticket }: { ticket: AccountTicket }) => {
 	const venue = event?.venueData;
 	const state = ticketState(ticket);
 	const seat = ticket.seatData;
-	const sectionNames = useSectionNames(ticket.eventId, Boolean(seat));
+	const sectionNames = useSectionNames(ticket.eventId, Boolean(seat) && isPublicEvent(event));
 
 	return (
 		<li className="tcard">

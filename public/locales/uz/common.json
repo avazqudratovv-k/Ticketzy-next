@@ -160,6 +160,31 @@
       "PAYOUT_PAID": "To‘lov yozib qo‘yildi",
       "PAYOUT_DUE": "To‘lov muddati keldi",
       "PAYOUT_DUE_ADMIN": "To‘lov muddati kelgan"
+    },
+    "sentence": {
+      "LIKE": "{{sender}} tadbiringizni yoqtirdi",
+      "COMMENT": "{{sender}} tadbiringizga izoh qoldirdi",
+      "ORDER_PAID": "To‘lovingiz qabul qilindi",
+      "ORDER_PAID_SALE": "{{sender}} tadbiringizga chipta sotib oldi",
+      "EVENT_REMINDER": "Tadbiringiz yaqinlashmoqda",
+      "ORGANIZER_VERIFIED": "{{sender}} tashkilotchi hisobingizni tasdiqladi",
+      "ORGANIZER_REJECTED": "{{sender}} tashkilotchi hisobingizni tasdiqlamadi",
+      "ORGANIZER_SUSPENDED": "{{sender}} tashkilotchi hisobingizni to‘xtatdi",
+      "ORGANIZER_REINSTATED": "{{sender}} tashkilotchi hisobingizni qayta faollashtirdi",
+      "COMMISSION_UPDATED": "{{sender}} komissiya stavkangizni o‘zgartirdi",
+      "EVENT_APPROVED": "{{sender}} tadbiringizni tasdiqladi",
+      "EVENT_REJECTED": "{{sender}} tadbiringizni tasdiqlamadi",
+      "EVENT_CANCELLED": "Tadbir bekor qilindi",
+      "REFUND_COMPLETED": "Buyurtmangiz uchun pul qaytarildi",
+      "ORDER_REFUNDED": "Buyurtma bo‘yicha pul qaytarildi",
+      "NEW_MESSAGE": "{{sender}} sizga xabar yubordi",
+      "PAYOUT_PAID": "{{sender}} tadbiringiz uchun to‘lovni qayd etdi",
+      "PAYOUT_DUE": "Tadbiringiz uchun to‘lov muddati keldi",
+      "PAYOUT_DUE_ADMIN": "{{sender}} uchun to‘lov muddati keldi"
+    },
+    "sender": {
+      "admin": "Admin",
+      "someone": "Kimdir"
     }
   },
   "approval": {
@@ -265,5 +290,12 @@
     "copy": "Kodni nusxalash",
     "copied": "Kod nusxalandi",
     "failed": "Nusxalab boʻlmadi"
+  },
+  "dateField": {
+    "open": "Sanani tanlash",
+    "prevMonth": "Oldingi oy",
+    "nextMonth": "Keyingi oy",
+    "today": "Bugun",
+    "clear": "Tozalash"
   }
 }

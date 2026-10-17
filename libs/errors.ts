@@ -17,6 +17,8 @@ export interface FieldIssue {
 }
 
 export const NETWORK_ERROR = 'NETWORK_ERROR';
+/** Code of `getEvent`, `getTicketTypes` and `getComments` for an event that is over (backend #121). The public gets no data for it. */
+export const EVENT_ENDED = 'EVENT_ENDED';
 /** Code of a rejected input (backend decision #113); it replaced the bare `BAD_REQUEST` for validation failures. */
 export const VALIDATION_FAILED = 'VALIDATION_FAILED';
 /** Code of a GraphQL error when the database is unreachable or payments are switched off (backend decisions #92, #97). */

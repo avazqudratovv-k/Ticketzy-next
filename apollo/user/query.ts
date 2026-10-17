@@ -242,6 +242,13 @@ export const ORDER_FIELDS = gql`
 			startAt
 			endAt
 			venueId
+			venueData {
+				_id
+				venueName
+				venueCity
+				venueAddress
+				venueTimezone
+			}
 		}
 	}
 `;
@@ -283,6 +290,10 @@ export const GET_MY_TICKETS = gql`
 					sectionKey
 					row
 					number
+				}
+				ticketTypeData {
+					ticketTypeName
+					ticketPrice
 				}
 			}
 		}
@@ -455,6 +466,13 @@ export const GET_MY_NOTIFICATIONS = gql`
 				orderId
 				conversationId
 				createdAt
+				authorData {
+					_id
+					memberType
+					memberNick
+					memberFullName
+					memberImage
+				}
 			}
 			metaCounter {
 				total

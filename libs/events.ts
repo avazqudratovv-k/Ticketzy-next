@@ -50,6 +50,14 @@ export function localizedEvent(
 	return { title, description, translated: Boolean(own), lang: own ? wanted.toLowerCase() : 'en' };
 }
 
+/**
+ * Whether the public queries (`getEvent`, `getTicketTypes`, `getComments`, the seat map) still answer for an event: approved and
+ * not yet over (backend #121). A buyer's order or ticket page reads the event from the order or ticket and skips those queries
+ * when this is false, so an old order never shows an error (F355).
+ */
+export const isPublicEvent = (event?: { eventStatus?: string | null; endAt?: string | null } | null, now: number = serverNow()): boolean =>
+	Boolean(event) && event?.eventStatus === 'APPROVED' && new Date(event?.endAt ?? 0).getTime() > now;
+
 export type SaleState = 'cancelled' | 'ended' | 'soldOut' | 'notStarted' | 'saleClosed' | 'onSale';
 
 /** What the visitor can do with an event, from its status, dates and ticket types. */

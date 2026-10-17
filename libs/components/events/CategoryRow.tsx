@@ -2,8 +2,8 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
-import { Button } from '@mui/material';
-import { CaretLeft, CaretRight, WarningCircle } from 'phosphor-react';
+import { Button, IconButton } from '@mui/material';
+import { ArrowRight, CaretLeft, CaretRight, WarningCircle } from 'phosphor-react';
 import { GET_EVENTS } from '../../../apollo/user/query';
 import { CATEGORY_SLUGS, categoryHref } from '../../events';
 import { upcomingSearch } from '../../homeFeatured';
@@ -94,7 +94,7 @@ interface RowProps {
 	from: string;
 }
 
-/** One home section: title, "See all", and a sliding row of the soonest events of the category. Hidden when empty. */
+/** One home section: title, the round "See all" arrow (same IconButton as the header), and a sliding row of the soonest events of the category. Hidden when empty. */
 export const CategoryRow = ({ category, title, from }: RowProps) => {
 	const { t } = useTranslation('events');
 	const id = `home-row-${category.slug}`;
@@ -113,10 +113,9 @@ export const CategoryRow = ({ category, title, from }: RowProps) => {
 		<Reveal className="home__section" aria-busy={!data && loading ? true : undefined}>
 			<div className="home__section-head">
 				<h2 id={id}>{title}</h2>
-				<Link href={categoryHref(category.slug)} className="tz-link home__see-all">
-					{t('home.seeAll')}
-					<span className="tz-sr"> {title}</span>
-				</Link>
+				<IconButton component={Link} href={categoryHref(category.slug)} className="home__see-all" aria-label={t(`home.seeAllLabels.${category.slug}`)}>
+					<ArrowRight size={20} aria-hidden="true" />
+				</IconButton>
 			</div>
 			{!data && error ? (
 				<div className="tz-rail__error" role="alert">

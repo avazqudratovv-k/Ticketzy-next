@@ -35,7 +35,9 @@
         "title": "Sotuv yopilgan",
         "text": "Bu tadbir uchun chipta sotuvi tugagan."
       }
-    }
+    },
+    "endedTitle": "Bu tadbir tugagan",
+    "endedText": "U o‘tib bo‘ldi, shuning uchun tafsilotlar endi ko‘rsatilmaydi. Keyingi tadbirlarni ko‘rib chiqing."
   },
   "map": {
     "label": "Oʻrinlar sxemasi. Kattalashtiring va sudrab koʻring. Klaviatura bilan tanlash uchun sxema ostidagi seksiyalar roʻyxatidan foydalaning.",

@@ -1,6 +1,5 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect';
-import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { PaperPlaneTilt } from 'phosphor-react';
 import { MESSAGE_MAX_LENGTH } from '../../messaging/format';
@@ -53,6 +52,9 @@ const Composer = ({ conversationId, sending, onSend, onTyping }: Props) => {
 		submit();
 	};
 
+	const blocked = !sending && empty;
+	const sendLabel = sending ? t('composer.sending') : t('composer.send');
+
 	return (
 		<form
 			className="msgs-composer"
@@ -61,7 +63,7 @@ const Composer = ({ conversationId, sending, onSend, onTyping }: Props) => {
 				submit();
 			}}
 		>
-			<div className="msgs-composer__field">
+			<div className="msgs-composer__row">
 				<label className="tz-sr" htmlFor={`msg-${conversationId}`}>
 					{t('composer.label')}
 				</label>
@@ -69,7 +71,7 @@ const Composer = ({ conversationId, sending, onSend, onTyping }: Props) => {
 					id={`msg-${conversationId}`}
 					ref={field}
 					className="tz-input"
-					rows={2}
+					rows={1}
 					value={value}
 					maxLength={MESSAGE_MAX_LENGTH}
 					placeholder={t('composer.placeholder')}
@@ -81,25 +83,26 @@ const Composer = ({ conversationId, sending, onSend, onTyping }: Props) => {
 					onKeyDown={onKeyDown}
 					onBlur={() => onTyping(false)}
 				/>
-				<p id={`msg-hint-${conversationId}`} className="msgs-composer__hint">
-					<span>{t('composer.hint')}</span>
-					{value.length >= COUNTER_FROM && (
-						<span className={value.length >= MESSAGE_MAX_LENGTH ? 'is-full' : undefined} aria-live="polite">
-							{t('composer.counter', { count: value.length, max: MESSAGE_MAX_LENGTH })}
-						</span>
-					)}
-				</p>
+				{/* A round paper-plane button; the word "Send" stays for screen readers (F360) */}
+				<button
+					type="submit"
+					className={`msgs-composer__send${blocked ? ' tz-blocked' : ''}`}
+					disabled={sending}
+					aria-disabled={blocked ? true : undefined}
+					title={sendLabel}
+				>
+					<PaperPlaneTilt size={20} weight="fill" aria-hidden="true" />
+					<span className="tz-sr">{sendLabel}</span>
+				</button>
 			</div>
-			<Button
-				type="submit"
-				variant="contained"
-				className={`msgs-composer__send${!sending && empty ? ' tz-blocked' : ''}`}
-				disabled={sending}
-				aria-disabled={!sending && empty ? true : undefined}
-				startIcon={<PaperPlaneTilt size={20} aria-hidden="true" />}
-			>
-				{sending ? t('composer.sending') : t('composer.send')}
-			</Button>
+			<p id={`msg-hint-${conversationId}`} className="msgs-composer__hint">
+				<span>{t('composer.hint')}</span>
+				{value.length >= COUNTER_FROM && (
+					<span className={value.length >= MESSAGE_MAX_LENGTH ? 'is-full' : undefined} aria-live="polite">
+						{t('composer.counter', { count: value.length, max: MESSAGE_MAX_LENGTH })}
+					</span>
+				)}
+			</p>
 		</form>
 	);
 };

@@ -127,6 +127,8 @@ Enum `TicketStatus`: `VALID`, `USED`, `REFUNDED`, `CANCELLED`.
 
 Frontend label `expired` (VALID ticket of an ended event) is computed, never stored.
 
+**Ended events and the public (backend #121, F355).** An event is public only while it is `APPROVED` and `endAt` is ahead (backend `libs/event-visibility.ts`; it does not wait for the batch job). `getEvents`, favorites and visited hide it; `getEvent`, `getTicketTypes` and `getComments` answer `EVENT_ENDED` (HTTP 410, no data) for the public, `NO_DATA_FOUND` for a hidden event, and still give the owner and admins everything. `payOrder` refuses an ended event (`EVENT_ENDED_NO_SALES`). Buyers keep their orders and tickets: `getOrder`, `getMyOrders`, `getMyTickets` and `getTicket` join the event by id with no status filter, so the order, confirmation, ticket and My tickets pages read the event from that joined data and never call the public event queries for an event that is not live (`libs/events.ts` `isPublicEvent`).
+
 ### 1.9 Refund status
 
 Collection `refunds`, one per order (unique `orderId`). Enum `RefundStatus`: `PENDING`, `COMPLETED`, `FAILED`; `RefundSource`: `BUYER`, `ADMIN`, `EVENT_CANCELLED`.
