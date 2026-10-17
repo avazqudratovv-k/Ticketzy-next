@@ -225,7 +225,7 @@
     "buyerOnly": "구매자 계정만 티켓을 구매할 수 있습니다. 주최자 및 관리자 계정은 구매할 수 없습니다.",
     "paymentsDisabled": "현재 결제가 중단되어 이 주문을 결제할 수 없습니다. 타이머가 끝날 때까지 좌석은 유지됩니다. 나중에 다시 시도해 주세요.",
     "serviceUnavailable": "Ticketzy를 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
-    "cardInvalid": "위의 카드 정보를 확인하세요."
+    "cardInvalid": "카드 정보를 입력해 주세요."
   },
   "countdown": {
     "announce_other": "{{count}}초 남았습니다"
@@ -240,19 +240,19 @@
     "cvc": "CVC",
     "errors": {
       "number": {
-        "required": "카드 번호를 입력하세요.",
+        "required": "이 칸을 입력해 주세요.",
         "invalid": "카드 번호가 올바르지 않아요. 숫자를 확인하세요."
       },
       "name": {
-        "required": "카드에 표시된 이름을 입력하세요."
+        "required": "이 칸을 입력해 주세요."
       },
       "expiry": {
-        "required": "유효기간을 입력하세요.",
+        "required": "이 칸을 입력해 주세요.",
         "invalid": "MM/YY 형식으로 입력하세요. 예: 08/29",
         "expired": "만료된 카드예요."
       },
       "cvc": {
-        "required": "CVC를 입력하세요.",
+        "required": "이 칸을 입력해 주세요.",
         "invalid": "CVC는 3자리 또는 4자리 숫자예요."
       }
     }

@@ -234,7 +234,7 @@
     "buyerOnly": "Only buyer accounts can buy tickets. Organizer and admin accounts cannot.",
     "paymentsDisabled": "Payments are switched off right now, so this order can’t be paid. Your seats stay held until the timer ends. Try again later.",
     "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
-    "cardInvalid": "Check the card details above."
+    "cardInvalid": "Fill in the card details."
   },
   "countdown": {
     "announce_one": "{{count}} second left",
@@ -250,19 +250,19 @@
     "cvc": "CVC",
     "errors": {
       "number": {
-        "required": "Enter the card number.",
+        "required": "Fill in this field.",
         "invalid": "This card number is not valid. Check the digits."
       },
       "name": {
-        "required": "Enter the name on the card."
+        "required": "Fill in this field."
       },
       "expiry": {
-        "required": "Enter the expiry date.",
+        "required": "Fill in this field.",
         "invalid": "Use MM/YY, for example 08/29.",
         "expired": "This card has expired."
       },
       "cvc": {
-        "required": "Enter the CVC.",
+        "required": "Fill in this field.",
         "invalid": "The CVC has 3 or 4 digits."
       }
     }

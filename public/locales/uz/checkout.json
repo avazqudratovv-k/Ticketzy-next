@@ -234,7 +234,7 @@
     "buyerOnly": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi.",
     "paymentsDisabled": "Toʻlovlar hozir oʻchirilgan, shuning uchun buyurtmani toʻlab boʻlmaydi. Oʻrinlar taymer tugaguncha band qilib turiladi. Keyinroq qayta urinib koʻring.",
     "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
-    "cardInvalid": "Yuqoridagi karta maʼlumotlarini tekshiring."
+    "cardInvalid": "Karta ma'lumotlarini to'ldiring."
   },
   "countdown": {
     "announce_one": "{{count}} soniya qoldi",
@@ -250,19 +250,19 @@
     "cvc": "CVC",
     "errors": {
       "number": {
-        "required": "Karta raqamini kiriting.",
+        "required": "Bu maydonni to'ldiring.",
         "invalid": "Karta raqami notoʻgʻri. Raqamlarni tekshiring."
       },
       "name": {
-        "required": "Kartadagi ismni kiriting."
+        "required": "Bu maydonni to'ldiring."
       },
       "expiry": {
-        "required": "Amal qilish muddatini kiriting.",
+        "required": "Bu maydonni to'ldiring.",
         "invalid": "OO/YY koʻrinishida kiriting, masalan 08/29.",
         "expired": "Karta muddati tugagan."
       },
       "cvc": {
-        "required": "CVC kiriting.",
+        "required": "Bu maydonni to'ldiring.",
         "invalid": "CVC 3 yoki 4 raqamdan iborat."
       }
     }

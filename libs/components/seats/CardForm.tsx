@@ -15,8 +15,10 @@ import {
 } from '../../checkout/card';
 
 export interface CardFormHandle {
-	/** Checks every field, shows the errors, moves focus to the first wrong one. True when the card is complete and valid. */
+	/** Checks every field and shows the errors. True when the card is complete and valid. */
 	validate: () => boolean;
+	/** Moves focus to the first field with a problem (called once the summary message is on screen). */
+	focusFirstIssue: () => void;
 }
 
 /**
@@ -31,14 +33,17 @@ const CardForm = forwardRef<CardFormHandle>(function CardForm(_props, ref) {
 	const [issues, setIssues] = useState<CardIssues>({});
 	const root = useRef<HTMLDivElement>(null);
 	const inputs = useRef<Partial<Record<CardField, HTMLInputElement | null>>>({});
+	const firstIssue = useRef<CardField | undefined>();
 
 	useImperativeHandle(ref, () => ({
 		validate: () => {
 			const found = validateCard(values);
 			setIssues(found);
-			const first = CARD_FIELDS.find((field) => found[field]);
-			if (first) inputs.current[first]?.focus();
-			return !first;
+			firstIssue.current = CARD_FIELDS.find((field) => found[field]);
+			return !firstIssue.current;
+		},
+		focusFirstIssue: () => {
+			if (firstIssue.current) inputs.current[firstIssue.current]?.focus();
 		},
 	}));
 

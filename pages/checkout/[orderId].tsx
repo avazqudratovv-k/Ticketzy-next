@@ -142,6 +142,8 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 		// The card fields are checked here, in the browser. Their values stay in CardForm: the call below is the same as before.
 		if (card.current && !card.current.validate()) {
 			setPayError('errors.cardInvalid');
+			// focus moves after the summary message has rendered
+			requestAnimationFrame(() => card.current?.focusFirstIssue());
 			return;
 		}
 		busy.current = true;
