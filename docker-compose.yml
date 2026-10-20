@@ -1,0 +1,19 @@
+services:
+  ticketzy-next:
+    container_name: ticketzy-next
+    restart: always
+    image: node:24.15.0
+    ports:
+      - "127.0.0.1:4000:3000"
+    environment:
+      - PORT=3000
+    volumes:
+      - ./:/usr/src/ticketzy-next
+    working_dir: /usr/src/ticketzy-next
+    networks:
+      - client-network
+    command: bash -c "(command -v yarn || npm install -g yarn@1.22.22) && yarn install --frozen-lockfile && yarn run build && yarn run start"
+
+networks:
+  client-network:
+    driver: bridge
