@@ -138,6 +138,14 @@ export const getTheme = (mode: ThemeMode): Theme =>
 						padding: '9px var(--space-4)',
 						font: 'var(--text-body)',
 						'&::placeholder': { color: 'var(--ink-subtle)', opacity: 1 },
+						// MUI paints its own blue on autofill; use the field background instead (F376)
+						'&:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active': {
+							WebkitBoxShadow: '0 0 0 100px var(--surface) inset',
+							boxShadow: '0 0 0 100px var(--surface) inset',
+							WebkitTextFillColor: 'var(--ink)',
+							caretColor: 'var(--ink)',
+							borderRadius: 'inherit',
+						},
 					},
 				},
 			},
