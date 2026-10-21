@@ -1,8 +1,14 @@
 #!/bin/bash
+set -e
 
 # PRODUCTION
-git reset --hard
-git checkout master
-git pull origin master
+cd "$(dirname "$0")"
 
-docker compose up -d
+BRANCH=master
+
+git reset --hard
+git checkout "$BRANCH"
+git pull origin "$BRANCH"
+
+# The container builds the site when it starts, so recreate it to pick up the new code
+docker compose up -d --force-recreate
