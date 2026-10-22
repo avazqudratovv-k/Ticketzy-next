@@ -4,8 +4,8 @@
  */
 
 export type CardField = 'number' | 'name' | 'expiry' | 'cvc';
-/** `required`: empty. `invalid`: wrong shape or failed the Luhn check. `expired`: the expiry month has passed. */
-export type CardRule = 'required' | 'invalid' | 'expired';
+/** `required`: empty. `invalid`: wrong shape. `incomplete`: card number with fewer than 16 digits. `expired`: the expiry month has passed. */
+export type CardRule = 'required' | 'invalid' | 'incomplete' | 'expired';
 export type CardIssues = Partial<Record<CardField, CardRule>>;
 export interface CardValues {
 	number: string;
@@ -17,13 +17,13 @@ export interface CardValues {
 export const EMPTY_CARD: CardValues = { number: '', name: '', expiry: '', cvc: '' };
 export const CARD_FIELDS: readonly CardField[] = ['number', 'name', 'expiry', 'cvc'];
 
-const MAX_DIGITS = 19;
+const CARD_DIGITS = 16;
 const MAX_YEARS_AHEAD = 20;
 
 const digitsOf = (value: string) => value.replace(/\D/g, '');
 
-/** "4242424242424242" or "4242 4242-4242" shown as "4242 4242 4242 4242" (groups of 4, at most 19 digits). */
-export const formatCardNumber = (raw: string): string => (digitsOf(raw).slice(0, MAX_DIGITS).match(/.{1,4}/g) ?? []).join(' ');
+/** "4242424242424242" or "4242 4242-4242" shown as "4242 4242 4242 4242" (groups of 4, at most 16 digits). */
+export const formatCardNumber = (raw: string): string => (digitsOf(raw).slice(0, CARD_DIGITS).match(/.{1,4}/g) ?? []).join(' ');
 
 /**
  * Digits become "MM/YY". A first digit of 2 to 9 is a month with a leading zero ("5" gives "05/"); the slash appears once the month
@@ -37,30 +37,11 @@ export function formatExpiry(raw: string, deleting = false): string {
 	return `${digits.slice(0, 2)}/${digits.slice(2)}`;
 }
 
-export const formatCvc = (raw: string): string => digitsOf(raw).slice(0, 4);
-
-/** Luhn check of a digits-only string. */
-export function passesLuhn(digits: string): boolean {
-	let sum = 0;
-	let double = false;
-	for (let index = digits.length - 1; index >= 0; index--) {
-		let digit = digits.charCodeAt(index) - 48;
-		if (double) {
-			digit *= 2;
-			if (digit > 9) digit -= 9;
-		}
-		sum += digit;
-		double = !double;
-	}
-	return digits.length > 0 && sum % 10 === 0;
-}
+export const formatCvc = (raw: string): string => digitsOf(raw).slice(0, 3);
 
 export function checkNumber(value: string): CardRule | null {
 	if (!value.trim()) return 'required';
-	// spaces are allowed; anything else that is not a digit is not
-	if (/[^\d\s]/.test(value)) return 'invalid';
-	const digits = digitsOf(value);
-	return digits.length >= 13 && digits.length <= MAX_DIGITS && passesLuhn(digits) ? null : 'invalid';
+	return digitsOf(value).length === CARD_DIGITS ? null : 'incomplete';
 }
 
 export function checkName(value: string): CardRule | null {
@@ -83,7 +64,7 @@ export function checkExpiry(value: string, now: Date = new Date()): CardRule | n
 
 export function checkCvc(value: string): CardRule | null {
 	if (!value) return 'required';
-	return /^\d{3,4}$/.test(value) ? null : 'invalid';
+	return /^\d{3}$/.test(value) ? null : 'invalid';
 }
 
 export function validateCard(values: CardValues, now: Date = new Date()): CardIssues {

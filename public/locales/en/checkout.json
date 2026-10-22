@@ -175,7 +175,7 @@
     "noCard": "Demo payment. Ticketzy never sees a card number here.",
     "refund": "Refunds are open until {{date}}.",
     "cardNotice": "Demo payment: no money is charged, and nothing you type here leaves your browser.",
-    "testCard": "To try it, use the test card 4242 4242 4242 4242 with any future expiry and any 3 digits."
+    "testCard": "Demo only: any 16 digits, any future expiry and any 3 digits work."
   },
   "failed": {
     "title": "The payment did not go through",
@@ -251,7 +251,7 @@
     "errors": {
       "number": {
         "required": "Fill in this field.",
-        "invalid": "This card number is not valid. Check the digits."
+        "incomplete": "Enter all 16 digits."
       },
       "name": {
         "required": "Fill in this field."
@@ -263,7 +263,7 @@
       },
       "cvc": {
         "required": "Fill in this field.",
-        "invalid": "The CVC has 3 or 4 digits."
+        "invalid": "The CVC has 3 digits."
       }
     }
   }

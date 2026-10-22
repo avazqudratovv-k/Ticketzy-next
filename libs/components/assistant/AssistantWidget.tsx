@@ -20,7 +20,8 @@ import AssistantCard from './AssistantCard';
 const SUGGESTIONS = ['comedy', 'refunds', 'cheapest', 'seats'] as const;
 /** The counter shows once the text is this close to the limit. */
 const COUNTER_FROM = 800;
-const PHONE_QUERY = '(max-width: 767px)';
+/** Up to this width the panel is a bottom sheet over a dimmed page (F378). */
+const PHONE_QUERY = '(max-width: 600px)';
 /** Pages with their own bottom sheet on small screens (and the ticket, whose QR code the button would cover): the button steps aside there. */
 const TIGHT_ROUTES = ['/events/[id]/seats', '/checkout/[orderId]', '/tickets/[ticketId]'];
 
@@ -42,6 +43,9 @@ const AssistantWidget = () => {
 	const log = useRef<HTMLDivElement>(null);
 	const field = useRef<HTMLTextAreaElement>(null);
 	const fab = useRef<HTMLButtonElement>(null);
+	const root = useRef<HTMLDivElement>(null);
+	// the button is hidden under the sheet until the panel unmounts: focus returns to it then
+	const refocusFab = useRef(false);
 	// The longer notice behind the info button (a small popover inside the header, so the phone focus trap still covers it)
 	const [infoOpen, setInfoOpen] = useState(false);
 	const infoId = useId();
@@ -87,9 +91,17 @@ const AssistantWidget = () => {
 	// Focus goes into the panel on open and back to the button on close.
 	useEffect(() => {
 		if (open && !wasOpen.current) field.current?.focus();
-		if (!open && wasOpen.current) fab.current?.focus();
+		if (!open && wasOpen.current) {
+			fab.current?.focus();
+			refocusFab.current = document.activeElement !== fab.current;
+		}
 		wasOpen.current = open;
 	}, [open]);
+	useEffect(() => {
+		if (shown || !refocusFab.current) return;
+		refocusFab.current = false;
+		fab.current?.focus();
+	}, [shown]);
 
 	// Newest message in view.
 	useEffect(() => {
@@ -108,10 +120,40 @@ const AssistantWidget = () => {
 	// The phone sheet covers the page: it does not scroll behind it.
 	useEffect(() => {
 		if (!open || !isPhone()) return;
-		const previous = document.body.style.overflow;
-		document.body.style.overflow = 'hidden';
+		const { body, documentElement: html } = document;
+		const previous = [body.style.overflow, html.style.overflow];
+		body.style.overflow = 'hidden';
+		html.style.overflow = 'hidden';
 		return () => {
-			document.body.style.overflow = previous;
+			body.style.overflow = previous[0];
+			html.style.overflow = previous[1];
+		};
+	}, [open]);
+
+	// The phone keyboard covers the bottom of the layout viewport: the sheet is lifted by that overlap and capped to what is left,
+	// so the field and the send button stay in view.
+	useEffect(() => {
+		const el = root.current;
+		const viewport = window.visualViewport;
+		if (!open || !el || !viewport || !isPhone()) return;
+		const update = () => {
+			const gap = Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop);
+			if (gap > 1) {
+				el.style.setProperty('--vv-gap', `${gap}px`);
+				el.style.setProperty('--vv-h', `${viewport.height - 16}px`);
+			} else {
+				el.style.removeProperty('--vv-gap');
+				el.style.removeProperty('--vv-h');
+			}
+		};
+		update();
+		viewport.addEventListener('resize', update);
+		viewport.addEventListener('scroll', update);
+		return () => {
+			viewport.removeEventListener('resize', update);
+			viewport.removeEventListener('scroll', update);
+			el.style.removeProperty('--vv-gap');
+			el.style.removeProperty('--vv-h');
 		};
 	}, [open]);
 
@@ -159,7 +201,7 @@ const AssistantWidget = () => {
 	};
 
 	const onPanelKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-		// On a phone the sheet is the whole screen, so Tab stays inside it.
+		// On a phone the sheet is modal, so Tab stays inside it.
 		if (event.key === 'Tab' && isPhone() && panel.current) {
 			const items = Array.from(panel.current.querySelectorAll<HTMLElement>(FOCUSABLE));
 			if (!items.length) return;
@@ -191,7 +233,8 @@ const AssistantWidget = () => {
 	const errorText = error ? t(`assistant.errors.${error}`) : '';
 
 	return (
-		<div className={`pg-chat${shown ? ' is-open' : ''}${leaving ? ' is-leaving' : ''}${tight ? ' pg-chat--tight' : ''}`}>
+		<div ref={root} className={`pg-chat${shown ? ' is-open' : ''}${leaving ? ' is-leaving' : ''}${tight ? ' pg-chat--tight' : ''}`}>
+			{shown && <div className="pg-chat__backdrop" onClick={close} aria-hidden="true" />}
 			{shown && (
 				<section
 					ref={panel}

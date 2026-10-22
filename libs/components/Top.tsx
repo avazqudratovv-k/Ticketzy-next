@@ -150,15 +150,17 @@ const Top = () => {
 									{code === locale && <Check size={18} style={{ marginInlineStart: 'auto', color: 'var(--accent-text)' }} />}
 								</MenuItem>
 							))}
+							{/* Log in and Sign up share one row at the bottom of the menu (F378); the row is not a menu item, so the Menu's arrow keys skip it and Tab reaches both */}
+							{ready && !user && <Divider key="auth-divider" />}
 							{ready && !user && (
-								<MenuItem component={Link} href={ROUTES.login} onClick={closeMenu}>
-									{t('header.login')}
-								</MenuItem>
-							)}
-							{ready && !user && (
-								<MenuItem component={Link} href={ROUTES.signup} onClick={closeMenu}>
-									{t('header.signup')}
-								</MenuItem>
+								<li key="auth-row" role="none" className="tz-navbar__menu-auth">
+									<Button component={Link} href={ROUTES.login} role="menuitem" variant="outlined" onClick={closeMenu}>
+										{t('header.login')}
+									</Button>
+									<Button component={Link} href={ROUTES.signup} role="menuitem" variant="contained" onClick={closeMenu}>
+										{t('header.signup')}
+									</Button>
+								</li>
 							)}
 						</Menu>
 					</span>

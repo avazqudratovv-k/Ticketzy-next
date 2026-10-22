@@ -1003,3 +1003,13 @@ Frontend only, not committed. Decisions F326 to F328, patterns in `docs/ai/UI_PA
 - **Changed**: `scss/app.scss` (global `:-webkit-autofill` rule), `scss/MaterialTheme/index.ts` (same rule on `MuiOutlinedInput` input), DECISIONS F376.
 - **Checks**: `yarn typecheck`, `yarn lint` (results in the final report).
 - **Not tested**: not tried in Chrome with a saved or suggested password; light and dark on screen; axe; Safari and Firefox (the rule is WebKit/Blink only, Firefox keeps its own look).
+
+## Demo card number: any 16 digits (F377)
+- **Changed**: `libs/checkout/card.ts` (Luhn removed, 16-digit limit, new `incomplete` rule), `libs/components/seats/CardForm.tsx` (`maxLength` 19), `public/locales/{en,ko,ru,uz}/checkout.json` (`card.errors.number.incomplete` replaces `invalid`; `pay.testCard` hint), DECISIONS F377.
+- **Checks**: `yarn typecheck`, `yarn lint`, `yarn i18n:check` (results in the final report).
+- **Not tested**: not tried in the browser (typing, pasting letters or 20 digits, the new message in four languages, a full payment with a non-Luhn number); axe and light/dark (text-only change).
+
+## Phone layout: footer, assistant sheet, menu sign-in row (F378)
+- **Changed**: `scss/layout.scss` (footer 2-column lists, `.tz-navbar__menu-auth`), `scss/assistant.scss` (sheet, backdrop, 600 px breakpoint), `libs/components/assistant/AssistantWidget.tsx` (backdrop, keyboard lift, scroll lock, focus return), `libs/components/Top.tsx` (sign-in row), DECISIONS F378.
+- **Checks**: `yarn typecheck`, `yarn lint`, `yarn i18n:check` all pass.
+- **Not tested**: nothing was checked in a browser (the Chrome extension was not connected): no 390/360 px look, no axe in light/dark, no long ko/ru/uz labels, no 768 to 1023 px header line check, no phone keyboard, no iOS scroll lock, no focus return on screen.

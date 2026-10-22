@@ -100,7 +100,7 @@ const CardForm = forwardRef<CardFormHandle>(function CardForm(_props, ref) {
 			{field('number', t('card.number'), {
 				inputMode: 'numeric',
 				placeholder: '1234 5678 9012 3456',
-				maxLength: 23,
+				maxLength: 19,
 				onChange: (event) => change('number', formatCardNumber(event.target.value)),
 			})}
 			{field('name', t('card.name'), {
@@ -121,7 +121,7 @@ const CardForm = forwardRef<CardFormHandle>(function CardForm(_props, ref) {
 			{field('cvc', t('card.cvc'), {
 				inputMode: 'numeric',
 				placeholder: '123',
-				maxLength: 4,
+				maxLength: 3,
 				onChange: (event) => change('cvc', formatCvc(event.target.value)),
 			})}
 		</div>

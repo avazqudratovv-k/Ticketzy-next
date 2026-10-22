@@ -175,7 +175,7 @@
     "noCard": "Demo toʻlov. Ticketzy bu yerda karta raqamini koʻrmaydi.",
     "refund": "Pulni qaytarish {{date}} gacha mumkin.",
     "cardNotice": "Demo toʻlov: hech qanday pul yechilmaydi va bu yerga yozganingiz brauzeringizdan tashqariga chiqmaydi.",
-    "testCard": "Sinab koʻrish uchun 4242 4242 4242 4242 test kartasidan, kelajakdagi istalgan amal qilish muddati va istalgan 3 raqamdan foydalaning."
+    "testCard": "Faqat demo: istalgan 16 ta raqam, kelajakdagi muddat va istalgan 3 ta raqam ishlaydi."
   },
   "failed": {
     "title": "Toʻlov amalga oshmadi",
@@ -251,7 +251,7 @@
     "errors": {
       "number": {
         "required": "Bu maydonni to'ldiring.",
-        "invalid": "Karta raqami notoʻgʻri. Raqamlarni tekshiring."
+        "incomplete": "16 ta raqamni toʻliq kiriting."
       },
       "name": {
         "required": "Bu maydonni to'ldiring."
@@ -263,7 +263,7 @@
       },
       "cvc": {
         "required": "Bu maydonni to'ldiring.",
-        "invalid": "CVC 3 yoki 4 raqamdan iborat."
+        "invalid": "CVC 3 ta raqamdan iborat."
       }
     }
   }

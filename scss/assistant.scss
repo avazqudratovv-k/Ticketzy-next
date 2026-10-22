@@ -25,7 +25,7 @@
 			transform: translateY(calc(-1 * var(--bar-h)));
 		}
 		html[data-bar-shown] &.is-open {
-			@media (max-width: 767px) {
+			@media (max-width: 600px) {
 				transform: none;
 			}
 		}
@@ -40,16 +40,29 @@
 			display: none;
 		}
 	}
-	// the phone sheet is the whole screen, the button is under it
+	// phones (600 px and below): the panel is a bottom sheet over a dimmed page (F378); the button is under it
 	&.is-open {
-		@media (max-width: 767px) {
+		@media (max-width: 600px) {
 			inset: 0;
 			z-index: var(--z-modal);
 			gap: 0;
+			justify-content: flex-end;
+			align-items: stretch;
 			.pg-fab {
 				display: none;
 			}
 		}
+	}
+}
+
+.pg-chat__backdrop {
+	display: none;
+	@media (max-width: 600px) {
+		display: block;
+		position: absolute;
+		inset: 0;
+		background: var(--scrim);
+		animation: pg-fade 0.16s ease-out;
 	}
 }
 
@@ -108,12 +121,15 @@
 	background: var(--surface-raised);
 	box-shadow: var(--shadow-lg);
 	animation: pg-rise 0.16s ease-out;
-	@media (max-width: 767px) {
+	@media (max-width: 600px) {
+		position: relative;
 		width: 100%;
-		height: 100dvh;
+		// --vv-h / --vv-gap come from the widget while the keyboard is open (visualViewport), so the form stays above it
+		height: min(70dvh, 600px, var(--vv-h, 100dvh));
 		min-height: 0;
-		border: 0;
-		border-radius: 0;
+		margin-block-end: var(--vv-gap, 0px);
+		border-width: 1px 0 0;
+		border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 		animation-name: pg-slide;
 	}
 }
@@ -124,7 +140,6 @@
 	align-items: flex-start;
 	gap: var(--space-2);
 	padding: var(--space-4);
-	padding-block-start: max(var(--space-4), env(safe-area-inset-top));
 	border-bottom: 1px solid var(--border);
 }
 
@@ -404,7 +419,7 @@
 		font-weight: 700;
 	}
 	// the keyboard hint is for keyboards
-	@media (max-width: 767px) {
+	@media (max-width: 600px) {
 		&.is-plain span:first-child {
 			display: none;
 		}
@@ -443,7 +458,13 @@
 
 @keyframes pg-slide {
 	from {
-		transform: translateY(24px);
+		transform: translateY(32px);
+		opacity: 0;
+	}
+}
+
+@keyframes pg-fade {
+	from {
 		opacity: 0;
 	}
 }
@@ -463,6 +484,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.pg-chatpanel,
+	.pg-chat__backdrop,
 	.pg-thinking i {
 		animation: none;
 	}
