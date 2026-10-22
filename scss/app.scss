@@ -8,6 +8,12 @@
 
 html {
 	-webkit-text-size-adjust: 100%;
+	// The header (public navbar, dashboard top bar) is sticky from 768 px: anchor jumps, the skip link, focus on an invalid field
+	// and scrollIntoView land below it (F379, F384). On phones it scrolls away, so only a small gap is kept.
+	scroll-padding-top: var(--space-4);
+	@media (min-width: 768px) {
+		scroll-padding-top: calc(var(--navbar-height) + var(--space-4));
+	}
 }
 
 /* Hangul never breaks mid-word; Uzbek has no browser hyphenation (design: Four languages). */

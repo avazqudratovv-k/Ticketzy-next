@@ -24,7 +24,7 @@
     "tooLong": "A message can have at most 2000 characters.",
     "tooFast": "You are sending messages too fast. Please wait a few seconds.",
     "noData": "This conversation was not found.",
-    "notAuthenticated": "Please sign in again.",
+    "notAuthenticated": "Please log in again.",
     "generic": "Something went wrong. Please try again.",
     "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
     "badRequest": "Some of the information is not valid. Check the fields and try again."

@@ -59,11 +59,15 @@
 }
 
 .tz-navbar {
-	position: sticky;
-	top: 0;
+	// phones: the header scrolls away with the page; sticky from 768 px (F384)
+	position: relative;
 	z-index: var(--z-sticky);
 	background: var(--bg);
 	border-bottom: 1px solid var(--border);
+	@media (min-width: 768px) {
+		position: sticky;
+		top: 0;
+	}
 	&__inner {
 		display: flex;
 		align-items: center;
@@ -554,8 +558,7 @@
 }
 
 .tz-topbar {
-	position: sticky;
-	top: 0;
+	position: relative;
 	z-index: var(--z-sticky);
 	display: flex;
 	align-items: center;
@@ -565,6 +568,8 @@
 	background: var(--bg);
 	border-bottom: 1px solid var(--border);
 	@media (min-width: 768px) {
+		position: sticky;
+		top: 0;
 		min-height: var(--navbar-height);
 		padding-inline: var(--space-6);
 	}
@@ -612,6 +617,12 @@
 
 .tz-shell--admin .tz-content {
 	max-width: none;
+}
+
+// Messages pages fill the screen under a 56 px bar (`.msgs-page`, F360), so on phones the bar stays sticky here only (F384)
+.tz-main:has(.msgs-page) > .tz-topbar {
+	position: sticky;
+	top: 0;
 }
 
 .tz-pagehead {

@@ -120,6 +120,7 @@
 	border-radius: var(--radius-xl);
 	background: var(--surface-raised);
 	box-shadow: var(--shadow-lg);
+	transform-origin: 100% 100%; // toward the chat button
 	animation: pg-rise 0.16s ease-out;
 	@media (max-width: 600px) {
 		position: relative;
@@ -130,6 +131,7 @@
 		margin-block-end: var(--vv-gap, 0px);
 		border-width: 1px 0 0;
 		border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+		transform-origin: 50% 100%;
 		animation-name: pg-slide;
 	}
 }
@@ -451,15 +453,13 @@
 
 @keyframes pg-rise {
 	from {
-		opacity: 0;
-		transform: translateY(8px);
+		transform: translate(4px, 10px) scale(0.96);
 	}
 }
 
 @keyframes pg-slide {
 	from {
-		transform: translateY(32px);
-		opacity: 0;
+		transform: translateY(100%);
 	}
 }
 

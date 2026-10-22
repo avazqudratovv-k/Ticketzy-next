@@ -198,7 +198,7 @@
   },
   "profile": {
     "title": "Profile and settings",
-    "sub": "Your details and sign-in.",
+    "sub": "Your details and login.",
     "details": "Profile",
     "changePhoto": "Change photo",
     "photoFile": "Profile photo file (PNG or JPEG)",
@@ -211,7 +211,7 @@
     "nick": "Nickname",
     "nickHint": "3 to 50 characters. Shown on comments.",
     "email": "Email",
-    "emailHint": "You sign in with this address. It cannot be changed here.",
+    "emailHint": "You log in with this address. It cannot be changed here.",
     "phone": "Phone (optional)",
     "error": {
       "phone": "Enter a phone number with digits, for example +82 10 0000 0000."
@@ -236,15 +236,15 @@
       "SUSPENDED": "Suspended",
       "DELETE": "Deleted"
     },
-    "signOutTitle": "Sign out",
-    "signedInAs": "Signed in as {{email}}.",
+    "signOutTitle": "Log out",
+    "signedInAs": "Logged in as {{email}}.",
     "logout": "Log out"
   },
   "delete": {
     "title": "Delete account",
-    "textBuyer": "Deleting your account is permanent. You will not be able to sign in again.",
-    "textOrganizer": "Deleting your account is permanent. Your organizer profile will no longer be shown and you will not be able to sign in again.",
-    "emailWarning": "After deleting, you cannot sign in again, and this email cannot be used for a new account for 30 days.",
+    "textBuyer": "Deleting your account is permanent. You will not be able to log in again.",
+    "textOrganizer": "Deleting your account is permanent. Your organizer profile will no longer be shown and you will not be able to log in again.",
+    "emailWarning": "After deleting, you cannot log in again, and this email cannot be used for a new account for 30 days.",
     "open": "Delete my account",
     "dialogTitle": "Delete your account?",
     "dialogSr": "This cannot be undone.",
@@ -281,8 +281,8 @@
       "notAllowed": "This account cannot be deleted right now. It may already be deleted.",
       "generic": "We could not delete your account. Please try again."
     },
-    "unusedTickets_one": "You have {{count}} unused ticket. Download it before deleting, because you won't be able to sign in again.",
-    "unusedTickets_other": "You have {{count}} unused tickets. Download them before deleting, because you won't be able to sign in again.",
+    "unusedTickets_one": "You have {{count}} unused ticket. Download it before deleting, because you won't be able to log in again.",
+    "unusedTickets_other": "You have {{count}} unused tickets. Download them before deleting, because you won't be able to log in again.",
     "more_one": "and {{count}} more",
     "more_other": "and {{count}} more"
   }

@@ -35,7 +35,7 @@
     "noData": "We couldn’t find that. It may have been removed or you may not have access.",
     "imageFormat": "Use a JPG or PNG image.",
     "uploadFailed": "The upload failed. Try again.",
-    "notAuthenticated": "Your session has ended. Sign in again.",
+    "notAuthenticated": "Your session has ended. Log in again.",
     "notVerified": "Your account is not verified. Contact support.",
     "layoutInvalid": "The server could not accept the layout. Check the sections marked with a problem.",
     "layoutNoSections": "Add at least one section to the layout.",
@@ -1167,7 +1167,7 @@
       "likes": "Likes",
       "buyers": "Paid orders per view",
       "buyersSub": "Paid orders ÷ views",
-      "note": "Views are counted once per signed-in member, so visitors who were not signed in are missing. Views and likes are counters on your events. The ratio is derived and approximate."
+      "note": "Views are counted once per logged-in member, so visitors who were not logged in are missing. Views and likes are counters on your events. The ratio is derived and approximate."
     },
     "derivedNote": "Totals come from the server. The chart, the shares and the ratio are calculated in your browser from your paid orders and event counters."
   },
@@ -1193,7 +1193,7 @@
     "address": "Address or location",
     "addressHint": "Shown on your organizer page. Optional.",
     "email": "Contact email",
-    "emailHint": "The email you sign in with. It can’t be changed here.",
+    "emailHint": "The email you log in with. It can’t be changed here.",
     "phone": "Phone",
     "phoneHint": "For Ticketzy to reach you. Not shown on your public page. Optional.",
     "save": "Save changes",

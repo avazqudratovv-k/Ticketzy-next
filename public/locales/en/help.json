@@ -10,7 +10,7 @@
         "items": [
           {
             "q": "How do I buy tickets?",
-            "a": "Open an event, choose your tickets or seats and continue to checkout. You need to be signed in to check out. Browsing events is open to everyone."
+            "a": "Open an event, choose your tickets or seats and continue to checkout. You need to be logged in to check out. Browsing events is open to everyone."
           },
           {
             "q": "Is real money charged?",
@@ -114,7 +114,7 @@
           },
           {
             "q": "Can I contact the Ticketzy team?",
-            "a": "Yes. Signed-in organizers have a messaging inbox in the dashboard for conversations with the Ticketzy administrators."
+            "a": "Yes. Logged-in organizers have a messaging inbox in the dashboard for conversations with the Ticketzy administrators."
           },
           {
             "q": "Are payouts real?",
@@ -169,10 +169,10 @@
     },
     "organizers": {
       "title": "Organizers",
-      "text": "Signed-in organizers can message the Ticketzy administrators from the dashboard.",
+      "text": "Logged-in organizers can message the Ticketzy administrators from the dashboard.",
       "cta": "Open messages",
-      "signedOut": "Sign in to an organizer account to use the messaging inbox.",
-      "signIn": "Organizer sign in"
+      "signedOut": "Log in to an organizer account to use the messaging inbox.",
+      "signIn": "Organizer log in"
     },
     "faq": {
       "title": "Common questions",

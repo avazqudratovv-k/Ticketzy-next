@@ -25,6 +25,9 @@ const PHONE_QUERY = '(max-width: 600px)';
 /** Pages with their own bottom sheet on small screens (and the ticket, whose QR code the button would cover): the button steps aside there. */
 const TIGHT_ROUTES = ['/events/[id]/seats', '/checkout/[orderId]', '/tickets/[ticketId]'];
 
+/** How long the closing animation runs (= --dur-base); the panel is removed when it ends. */
+const CLOSE_MS = 200;
+
 /** Unsent text, so closing the panel or changing page does not lose it. */
 let draftText = '';
 
@@ -44,7 +47,7 @@ const AssistantWidget = () => {
 	const field = useRef<HTMLTextAreaElement>(null);
 	const fab = useRef<HTMLButtonElement>(null);
 	const root = useRef<HTMLDivElement>(null);
-	// the button is hidden under the sheet until the panel unmounts: focus returns to it then
+	// focus returns to the button once the closing animation is over and the panel is gone
 	const refocusFab = useRef(false);
 	// The longer notice behind the info button (a small popover inside the header, so the phone focus trap still covers it)
 	const [infoOpen, setInfoOpen] = useState(false);
@@ -54,21 +57,20 @@ const AssistantWidget = () => {
 	// the previous value, so a panel that is already open after a page change does not grab the focus again
 	const wasOpen = useRef(open);
 
-	// The panel stays mounted for the length of its closing animation
+	// The panel stays mounted for the length of its closing animation. `leaving` is set while rendering (not in an effect), so the
+	// render that closes never commits without the panel: no one-frame flash and no remount that restarts the animation.
 	const [leaving, setLeaving] = useState(false);
-	const wasShown = useRef(open);
+	const [prevOpen, setPrevOpen] = useState(open);
+	if (open !== prevOpen) {
+		setPrevOpen(open);
+		// reduced motion: no animation to wait for
+		setLeaving(!open && !(typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches));
+	}
 	useEffect(() => {
-		if (open) {
-			wasShown.current = true;
-			setLeaving(false);
-			return undefined;
-		}
-		if (!wasShown.current) return undefined;
-		wasShown.current = false;
-		setLeaving(true);
-		const id = window.setTimeout(() => setLeaving(false), 160);
+		if (!leaving) return undefined;
+		const id = window.setTimeout(() => setLeaving(false), CLOSE_MS);
 		return () => window.clearTimeout(id);
-	}, [open]);
+	}, [leaving]);
 	const shown = open || leaving;
 
 	const trimmed = text.trim();
@@ -91,16 +93,16 @@ const AssistantWidget = () => {
 	// Focus goes into the panel on open and back to the button on close.
 	useEffect(() => {
 		if (open && !wasOpen.current) field.current?.focus();
-		if (!open && wasOpen.current) {
-			fab.current?.focus();
-			refocusFab.current = document.activeElement !== fab.current;
-		}
+		if (open) refocusFab.current = false;
+		if (!open && wasOpen.current) refocusFab.current = true;
 		wasOpen.current = open;
 	}, [open]);
 	useEffect(() => {
 		if (shown || !refocusFab.current) return;
 		refocusFab.current = false;
-		fab.current?.focus();
+		// only when the focus was lost with the panel; a click elsewhere keeps its own focus
+		const active = document.activeElement;
+		if (!active || active === document.body) fab.current?.focus();
 	}, [shown]);
 
 	// Newest message in view.
@@ -117,18 +119,23 @@ const AssistantWidget = () => {
 		return () => clearTimeout(timer);
 	}, [pending, pendingSince]);
 
-	// The phone sheet covers the page: it does not scroll behind it.
+	// The phone sheet covers the page: it does not scroll behind it. Only the viewport (html) is locked, so the window keeps its
+	// scroll position, the sticky header stays put and the reserved scrollbar gutter keeps the page from shifting sideways (F381).
+	// Held for the whole time the sheet is mounted, closing animation included.
 	useEffect(() => {
-		if (!open || !isPhone()) return;
-		const { body, documentElement: html } = document;
-		const previous = [body.style.overflow, html.style.overflow];
-		body.style.overflow = 'hidden';
+		if (!shown || !isPhone()) return;
+		const html = document.documentElement;
+		const { scrollX, scrollY } = window;
+		const previous = [html.style.overflow, html.style.scrollbarGutter];
 		html.style.overflow = 'hidden';
+		html.style.scrollbarGutter = 'stable';
 		return () => {
-			body.style.overflow = previous[0];
-			html.style.overflow = previous[1];
+			html.style.overflow = previous[0];
+			html.style.scrollbarGutter = previous[1];
+			// a browser that reset the position while the lock was on (iOS Safari) gets it back
+			if (window.scrollY !== scrollY || window.scrollX !== scrollX) window.scrollTo({ left: scrollX, top: scrollY, behavior: 'instant' as ScrollBehavior });
 		};
-	}, [open]);
+	}, [shown]);
 
 	// The phone keyboard covers the bottom of the layout viewport: the sheet is lifted by that overlap and capped to what is left,
 	// so the field and the send button stay in view.
@@ -403,12 +410,12 @@ const AssistantWidget = () => {
 				ref={fab}
 				type="button"
 				className="pg-fab"
-				aria-expanded={open}
+				aria-expanded={shown}
 				aria-haspopup="dialog"
 				onClick={() => setAssistantOpen(!open)}
 			>
-				{open ? <CaretDown size={22} aria-hidden="true" /> : <ChatCircleDots size={24} weight="fill" aria-hidden="true" />}
-				{open ? t('assistant.hide') : t('assistant.fab')}
+				{shown ? <CaretDown size={22} aria-hidden="true" /> : <ChatCircleDots size={24} weight="fill" aria-hidden="true" />}
+				{shown ? t('assistant.hide') : t('assistant.fab')}
 			</button>
 		</div>
 	);

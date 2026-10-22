@@ -123,9 +123,9 @@
           "Ticketzy does not set cookies of its own. It uses the storage of your browser:"
         ],
         "list": [
-          "Local storage: the sign-in token (accessToken), your language (locale), your theme (ticketzy-theme) and whether you closed the demo notice (ticketzy-demo-notice).",
+          "Local storage: the login token (accessToken), your language (locale), your theme (ticketzy-theme) and whether you closed the demo notice (ticketzy-demo-notice).",
           "Session storage, which is cleared when the tab closes: the assistant conversation (ticketzy-assistant), a clock offset for the seat countdown (tz:clock-skew) and unsent form drafts.",
-          "You can clear all of it in your browser settings. You will then need to sign in again."
+          "You can clear all of it in your browser settings. You will then need to log in again."
         ]
       },
       {

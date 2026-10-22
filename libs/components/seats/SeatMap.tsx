@@ -41,15 +41,18 @@ export const SectionSeats = memo(function SectionSeats({ section, color, taken, 
 			seats.push(
 				<g key={key} className={`seat seat--${state}`} data-seat={key}>
 					<rect x={c.x - size / 2} y={c.y - size / 2} width={size} height={size} rx={size * 0.28} />
-					{state === 'sold' && (
-						<path
-							d={`M${c.x - size * 0.22} ${c.y - size * 0.22}l${size * 0.44} ${size * 0.44}m0 ${-size * 0.44}l${-size * 0.44} ${size * 0.44}`}
-						/>
-					)}
-					{(state === 'selected' || state === 'mine') && (
-						<path d={`M${c.x - size * 0.26} ${c.y}l${size * 0.18} ${size * 0.2}l${size * 0.34} ${-size * 0.4}`} />
-					)}
-					{state === 'held' && <circle cx={c.x} cy={c.y} r={size * 0.14} />}
+					{/* the icon is turned back by the section's rotation so it stays upright */}
+					<g className="seat__icon" transform={`rotate(${-section.rotation} ${c.x} ${c.y})`}>
+						{state === 'sold' && (
+							<path
+								d={`M${c.x - size * 0.22} ${c.y - size * 0.22}l${size * 0.44} ${size * 0.44}m0 ${-size * 0.44}l${-size * 0.44} ${size * 0.44}`}
+							/>
+						)}
+						{(state === 'selected' || state === 'mine') && (
+							<path d={`M${c.x - size * 0.26} ${c.y}l${size * 0.18} ${size * 0.2}l${size * 0.34} ${-size * 0.4}`} />
+						)}
+						{state === 'held' && <circle cx={c.x} cy={c.y} r={size * 0.14} />}
+					</g>
 				</g>,
 			);
 		}

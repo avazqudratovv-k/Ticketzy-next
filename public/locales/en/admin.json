@@ -32,7 +32,7 @@
     "noData": "This item was not found. It may have been removed.",
     "updateFailed": "The change could not be saved. Please try again.",
     "notAllowed": "You are not allowed to do that.",
-    "notAuthenticated": "Your session has ended. Please sign in again.",
+    "notAuthenticated": "Your session has ended. Please log in again.",
     "badRequest": "The request was not accepted. Please check what you entered.",
     "generic": "Something went wrong. Please try again.",
     "commissionClearReason": "A reason is required to clear a commission override.",
@@ -500,12 +500,12 @@
     "confirm": {
       "suspend": {
         "title": "Suspend this account?",
-        "text": "The member can no longer sign in. Their tickets and orders stay as they are. You can reactivate the account later.",
+        "text": "The member can no longer log in. Their tickets and orders stay as they are. You can reactivate the account later.",
         "confirm": "Suspend account"
       },
       "reactivate": {
         "title": "Reactivate this account?",
-        "text": "The member can sign in again.",
+        "text": "The member can log in again.",
         "confirm": "Reactivate account"
       }
     },

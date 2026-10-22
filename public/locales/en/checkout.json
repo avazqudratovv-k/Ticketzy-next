@@ -225,7 +225,7 @@
     "notAllowed": "That could not be done right now. The tickets may be sold out, or sales may have closed.",
     "notFound": "We could not find that.",
     "generic": "Something went wrong. Please try again.",
-    "session": "Your session ended. Sign in again to continue.",
+    "session": "Your session ended. Log in again to continue.",
     "network": "We could not reach Ticketzy. Check your connection and try again.",
     "retryTaken": "Some of those seats were taken while you were away. Choose seats again.",
     "eventEnded": "This event has ended, so tickets can no longer be bought.",

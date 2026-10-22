@@ -1013,3 +1013,33 @@ Frontend only, not committed. Decisions F326 to F328, patterns in `docs/ai/UI_PA
 - **Changed**: `scss/layout.scss` (footer 2-column lists, `.tz-navbar__menu-auth`), `scss/assistant.scss` (sheet, backdrop, 600 px breakpoint), `libs/components/assistant/AssistantWidget.tsx` (backdrop, keyboard lift, scroll lock, focus return), `libs/components/Top.tsx` (sign-in row), DECISIONS F378.
 - **Checks**: `yarn typecheck`, `yarn lint`, `yarn i18n:check` all pass.
 - **Not tested**: nothing was checked in a browser (the Chrome extension was not connected): no 390/360 px look, no axe in light/dark, no long ko/ru/uz labels, no 768 to 1023 px header line check, no phone keyboard, no iOS scroll lock, no focus return on screen.
+
+## Sticky header audit and "Log in" wording (F379, F380)
+- **Changed**: `scss/app.scss` (`html` scroll-padding-top), `scss/events.scss` and `scss/static.scss` (old scroll-margin-top removed), `public/locales/en/{account,admin,auth,checkout,common,help,legal,messages,organizer}.json` (39 values). Keys changed (all en): account `profile.sub`, `profile.emailHint`, `profile.signOutTitle`, `profile.signedInAs`, `delete.textBuyer`, `delete.textOrganizer`, `delete.emailWarning`, `delete.unusedTickets_one/_other`; admin `serverErrors.notAuthenticated`, `members.confirm.suspend.text`, `members.confirm.reactivate.text`; auth `login.title/subtitle/submit/submitting/pageTitle`, `signup.signIn`, `pending.text`, `errors.sessionExpired`, `errors.alreadyUsed`, `alreadySignedIn`, `sell.buyerLead/buyerStay/organizerLead/adminLead`; checkout `errors.session`; common `footer.organizerSignIn`; help `faq.groups.0.items.0.a`, `faq.groups.4.items.3.a`, `contact.organizers.text/signedOut/signIn`; legal `privacy.sections.3.list.0/2`; messages `serverErrors.notAuthenticated`; organizer `serverErrors.notAuthenticated`, `analytics.reach.note`, `profile.emailHint`.
+- **Checks**: `yarn typecheck`, `yarn lint`, `yarn i18n:check` (results in the final report).
+- **Not tested**: nothing in a browser: no iOS Safari / Android Chrome scroll, no anchor, skip-link or invalid-field landing check, no light/dark or axe run (text and one scroll rule only).
+
+## Assistant open/close glitches (F381)
+- **Changed**: `libs/components/assistant/AssistantWidget.tsx` (html-only scroll lock with position restore, `CLOSE_MS`, label/`aria-expanded` follow `shown`, focus return after unmount), `scss/motion.scss` (200 ms out animations for panel, phone sheet and backdrop), DECISIONS F381.
+- **Checks**: `yarn typecheck`, `yarn lint`, `yarn i18n:check` pass.
+- **Not tested**: the Chrome extension was not connected, so nothing ran in a browser: no open/close/reopen with X, backdrop and Escape at phone and desktop widths, no iOS or Android scroll check, no reduced-motion run, no axe.
+
+## Assistant close without see-through, upright seat icons (F382)
+- **Changed**: `scss/motion.scss`, `scss/assistant.scss` (opacity-free in/out keyframes), `libs/components/seats/SeatMap.tsx` (icon group counter-rotated), DECISIONS F382.
+- **Checks**: `yarn typecheck`, `yarn lint`, `yarn i18n:check` pass.
+- **Not tested**: no browser run (close at phone and desktop widths, reduced motion, rotated and unrotated sections with selected/held/sold seats, organizer venue preview), no axe.
+
+## Assistant close flash (F383)
+- **Changed**: `libs/components/assistant/AssistantWidget.tsx` (`leaving` set during render), DECISIONS F383.
+- **Checks**: Playwright (playwright-core in scratchpad, system Chrome, removed afterwards) sampled each frame at 375x667 and 1280x800 for X, Escape and phone backdrop click: before, one frame with no panel/backdrop then remount; after, panel present every frame, opacity 1, backdrop fades 1 to 0.25 to gone, scrollY constant, label correct only after unmount. `yarn typecheck`, `yarn lint`, `yarn i18n:check`.
+- **Not tested**: real iOS/Android, axe.
+
+## Header scrolls away on phones (F384)
+- **Changed**: `scss/layout.scss` (`.tz-navbar`, `.tz-topbar` sticky only from 768 px), `scss/app.scss` (`scroll-padding-top`), DECISIONS F384.
+- **Checks**: Playwright (scratchpad, removed) at 375 and 1280 px on home, login, an event page; menu position at top, with scroll attempts and on reopen; computed styles at 375/767/768/1280. `yarn typecheck`, `yarn lint`, `yarn i18n:check`.
+- **Not tested**: signed-in organizer/admin pages in a browser, real devices, axe.
+
+## Messages pages keep the top bar on phones (F384 update)
+- **Changed**: `scss/layout.scss` (`.tz-main:has(.msgs-page) > .tz-topbar` sticky), DECISIONS F384.
+- **Checks**: signed-in Playwright at 375x667 on /organizer/messages and /admin/messages: no gap, no page scroll, input at the bottom. `yarn typecheck`, `yarn lint`, `yarn i18n:check`.
+- **Not tested**: other dashboard pages after the change, real devices, axe, browsers without `:has`.

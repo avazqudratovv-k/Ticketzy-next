@@ -81,10 +81,19 @@
 		transform: scale(1.06);
 	}
 }
-@keyframes pg-out {
+@keyframes pg-slide-out {
+	to {
+		transform: translateY(100%);
+	}
+}
+@keyframes pg-fade-out {
 	to {
 		opacity: 0;
-		transform: translateY(8px);
+	}
+}
+@keyframes pg-out {
+	to {
+		transform: translate(4px, 10px) scale(0.96);
 	}
 }
 
@@ -317,7 +326,13 @@ img.qr {
 
 /** ASSISTANT PANEL: eases in (see assistant.scss) and out **/
 .pg-chat.is-leaving .pg-chatpanel {
-	animation: pg-out 160ms var(--ease-in) forwards;
+	animation: pg-out var(--dur-base) var(--ease-in) forwards;
+	@media (max-width: 600px) {
+		animation-name: pg-slide-out;
+	}
+}
+.pg-chat.is-leaving .pg-chat__backdrop {
+	animation: pg-fade-out var(--dur-base) var(--ease-in) forwards;
 }
 .pg-chatpanel {
 	animation-duration: var(--dur-base);

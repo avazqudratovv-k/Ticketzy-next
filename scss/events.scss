@@ -1270,7 +1270,6 @@
 
 /** TICKET PANEL **/
 .tickets {
-	scroll-margin-top: calc(56px + var(--space-4)); // under the sticky header when "View tickets" scrolls here
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-4);
