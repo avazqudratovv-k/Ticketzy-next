@@ -136,7 +136,7 @@
           },
           {
             "q": "Parolimni unutdim.",
-            "a": "Bu demoda parolni tiklash mavjud emas. Boshqa email bilan yangi hisob yaratishingiz mumkin."
+            "a": "Kirish sahifasida “Parolni unutdingizmi?” tugmasini bosing va emailingizni kiriting. Yangi parol tanlash uchun havola yuboramiz, u bir marta ishlaydi. Xat kelmasa, spam jildini tekshiring."
           },
           {
             "q": "Qaysi tillar va mavzular mavjud?",

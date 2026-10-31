@@ -3,6 +3,14 @@ const { PHASE_PRODUCTION_BUILD } = require('next/constants');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
+	// Pages opened from an emailed link carry a one-time token in the address: they tell no other site where the visitor came from
+	// (the pages also set <meta name="referrer">; the header covers the first request). Locale prefixes are matched by Next itself.
+	async headers() {
+		return ['/verify-email', '/reset-password'].map((source) => ({
+			source,
+			headers: [{ key: 'Referrer-Policy', value: 'no-referrer' }],
+		}));
+	},
 };
 
 const { i18n } = require('./next-i18next.config');

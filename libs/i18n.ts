@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
+import { userVar } from '../apollo/store';
+import { syncMemberLang } from './auth/emailAuth';
 
 export const LOCALE_STORAGE_KEY = 'locale';
 
@@ -18,7 +20,7 @@ export const isLocale = (value: string | null | undefined): value is LocaleCode 
 
 export const languageLabel = (code: string) => LANGUAGES.find((language) => language.code === code)?.label ?? code;
 
-/** Switches the interface language on the same page and remembers the choice. */
+/** Switches the interface language on the same page, remembers the choice and, for a signed-in member, keeps `memberLang` in step. */
 export function useChangeLanguage() {
 	const router = useRouter();
 	return useCallback(
@@ -28,6 +30,8 @@ export function useChangeLanguage() {
 			} catch {
 				// the choice then lasts for this visit only
 			}
+			// A signed-in member's emails follow the language they chose; the switch does not wait for it
+			if (userVar()) void syncMemberLang(code);
 			return router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
 				locale: code,
 				scroll: false,

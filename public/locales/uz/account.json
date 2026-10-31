@@ -211,7 +211,7 @@
     "nick": "Taxallus",
     "nickHint": "3 dan 50 tagacha belgi. Izohlarda koʻrinadi.",
     "email": "Email",
-    "emailHint": "Shu manzil bilan kirasiz. Uni bu yerda oʻzgartirib boʻlmaydi.",
+    "emailHint": "Siz shu manzil bilan kirasiz. Boshqasini ishlatish uchun uni quyida oʻzgartiring.",
     "phone": "Telefon (ixtiyoriy)",
     "error": {
       "phone": "Telefon raqamini raqamlar bilan kiriting, masalan +82 10 0000 0000."
@@ -238,7 +238,10 @@
     },
     "signOutTitle": "Chiqish",
     "signedInAs": "{{email}} sifatida kirgansiz.",
-    "logout": "Chiqish"
+    "logout": "Chiqish",
+    "emailStatus": "Email",
+    "emailConfirmed": "Tasdiqlangan",
+    "emailUnconfirmed": "Tasdiqlanmagan"
   },
   "delete": {
     "title": "Hisobni oʻchirish",
@@ -285,5 +288,18 @@
     "unusedTickets_other": "Sizda {{count}} ta foydalanilmagan chipta bor. Oʻchirishdan oldin ularni yuklab oling, chunki qayta kira olmaysiz.",
     "more_one": "va yana {{count}} ta",
     "more_other": "va yana {{count}} ta"
+  },
+  "changeEmail": {
+    "title": "Emailni oʻzgartirish",
+    "explain": "Tasdiqlash havolasi yangi manzilga yuboriladi. Havolani ochmaguningizcha joriy manzil ({{email}}) ishlaydi.",
+    "newEmail": "Yangi email",
+    "currentPassword": "Joriy parol",
+    "passwordHint": "Boshqa hech kim akkauntingizni koʻchirmasligi uchun soʻraymiz.",
+    "submit": "Tasdiqlash havolasini yuborish",
+    "sending": "Yuborilmoqda…",
+    "sent": "{{email}} manziliga havola yubordik. Yakunlash uchun uni oching. Shu vaqtgacha emailingiz {{current}} boʻlib qoladi.",
+    "same": "Bu allaqachon sizning emailingiz.",
+    "wrongPassword": "Parol notoʻgʻri.",
+    "used": "Bu email boshqa akkauntda ishlatilmoqda."
   }
 }

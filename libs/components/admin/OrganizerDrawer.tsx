@@ -102,6 +102,12 @@ const OrganizerDrawer = ({ organizer, onClose, onChanged }: Props) => {
 									<dt>{t('organizers.drawer.email')}</dt>
 									<dd>{organizer.memberEmail || '–'}</dd>
 								</div>
+								{organizer.emailVerified !== undefined && (
+									<div>
+										<dt>{t('organizers.drawer.emailStatus')}</dt>
+										<dd>{t(organizer.emailVerified ? 'organizers.drawer.emailConfirmed' : 'organizers.drawer.emailUnconfirmed')}</dd>
+									</div>
+								)}
 								<div>
 									<dt>{t('organizers.drawer.phone')}</dt>
 									<dd>{organizer.memberPhone || '–'}</dd>
@@ -129,6 +135,12 @@ const OrganizerDrawer = ({ organizer, onClose, onChanged }: Props) => {
 									</dd>
 								</div>
 							</dl>
+							{organizer.emailVerified === false && actions.approve && (
+								<p className="tz-alert tz-alert--warning" role="note">
+									<WarningCircle size={20} aria-hidden="true" />
+									<span>{t('organizers.drawer.emailUnconfirmedNote')}</span>
+								</p>
+							)}
 							{organizer.commissionOverride && (
 								<p className="adm-muted">
 									{overrideActive(organizer.commissionOverride)

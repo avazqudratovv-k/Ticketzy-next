@@ -44,6 +44,8 @@
 		margin-top: calc(var(--space-3) * -1); // tucks under the password field inside the form's gap
 	}
 	&__forgot-btn {
+		display: inline-flex;
+		align-items: center;
 		align-self: flex-start;
 		min-height: 44px;
 		padding: 0;
@@ -238,5 +240,51 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-3);
+	}
+}
+
+// Status screens (check your inbox, email confirmed, link expired, reset sent): the pending layout with another icon tone
+.pg-pending__icon--success {
+	background: var(--success-soft);
+	color: var(--success-text);
+}
+.pg-pending__icon--danger {
+	background: var(--danger-soft);
+	color: var(--danger-text);
+}
+.pg-pending__icon--info {
+	background: var(--info-soft);
+	color: var(--info-text);
+}
+.pg-pending__note {
+	margin: 0;
+	font: var(--text-body-sm);
+}
+
+// "Resend link" with its cooldown and the line saying what happened (banner, sign-up panel, verify page)
+.tz-resend {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: var(--space-1) var(--space-3);
+	align-items: center;
+	&__btn.MuiButton-root {
+		min-height: 36px;
+		@media (max-width: 767px), (pointer: coarse) {
+			min-height: 44px;
+		}
+		&[aria-disabled='true'] {
+			color: var(--ink-muted);
+			border-color: var(--border-control);
+			cursor: default;
+			&:hover {
+				background: transparent;
+			}
+		}
+	}
+	&__note {
+		font: var(--text-body-sm);
+		&:empty {
+			display: none;
+		}
 	}
 }

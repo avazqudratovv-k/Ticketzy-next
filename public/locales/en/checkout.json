@@ -208,7 +208,7 @@
     "orders": "Go to My orders",
     "continuePay": "Continue to payment",
     "demoNote": "Demo payment: no real money was charged, and no real card details were used.",
-    "noEmail": "Demo only. No emails are sent, so no confirmation email will arrive.",
+    "noEmail": "Demo only. Order emails are not sent, so no confirmation email will arrive.",
     "status": {
       "PENDING_PAYMENT": "This order is waiting for payment",
       "FAILED": "The payment for this order failed",
@@ -245,7 +245,9 @@
     "buyerOnly": "Only buyer accounts can buy tickets. Organizer and admin accounts cannot.",
     "paymentsDisabled": "Payments are switched off right now, so this order can’t be paid. Your seats stay held until the timer ends. Try again later.",
     "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
-    "cardInvalid": "Fill in the card details."
+    "cardInvalid": "Fill in the card details.",
+    "emailNotVerified": "Confirm your email first. Open the link we sent you, or use Resend link in the bar at the top of the page.",
+    "rateLimited": "Too many requests. Wait a moment, then try again."
   },
   "countdown": {
     "announce_one": "{{count}} second left",

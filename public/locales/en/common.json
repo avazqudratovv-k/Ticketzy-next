@@ -38,7 +38,11 @@
   },
   "banner": {
     "pendingTitle": "Your organizer account is being reviewed.",
-    "pendingText": "You can create events once an admin approves it."
+    "pendingText": "You can create events once an admin approves it.",
+    "verifyLabel": "Confirm your email",
+    "verifyTitle": "Confirm your email to buy tickets.",
+    "verifyTitleOther": "Confirm your email to continue.",
+    "verifyText": "We sent you a link. Check your inbox and spam folder."
   },
   "footer": {
     "tagline": "Tickets for concerts, football and comedy. Bought in a minute, scanned at the door.",
@@ -241,7 +245,7 @@
     "noteLabel": "Notice"
   },
   "demo": {
-    "noEmail": "Demo only. No emails are sent.",
+    "noEmail": "Demo only. Only account emails (confirm, reset) are sent, no order emails.",
     "notice": "Demo project: payments are simulated, no real money is charged.",
     "dismiss": "Dismiss the demo notice"
   },
@@ -312,5 +316,14 @@
       "text": "Thank you for organizing with Ticketzy.",
       "sub": "Your account has been deleted."
     }
+  },
+  "resend": {
+    "button": "Resend link",
+    "wait": "Resend in {{seconds}} s",
+    "sending": "Sending…",
+    "sent": "Link sent. Check your inbox and spam folder.",
+    "already": "Your email is already confirmed.",
+    "rateLimited": "Too many requests. Wait a moment, then try again.",
+    "failed": "We could not send the link. Try again in a moment."
   }
 }

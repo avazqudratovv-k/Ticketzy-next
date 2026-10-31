@@ -209,7 +209,7 @@
     "nick": "닉네임",
     "nickHint": "3~50자. 댓글에 표시됩니다.",
     "email": "이메일",
-    "emailHint": "이 주소로 로그인합니다. 여기에서는 변경할 수 없습니다.",
+    "emailHint": "이 주소로 로그인해요. 다른 주소를 쓰려면 아래에서 변경하세요.",
     "phone": "전화번호(선택)",
     "error": {
       "phone": "숫자로 된 전화번호를 입력해 주세요. 예: +82 10 0000 0000"
@@ -236,7 +236,10 @@
     },
     "signOutTitle": "로그아웃",
     "signedInAs": "{{email}} 계정으로 로그인했습니다.",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "emailStatus": "이메일",
+    "emailConfirmed": "확인됨",
+    "emailUnconfirmed": "확인 안 됨"
   },
   "delete": {
     "title": "계정 삭제",
@@ -281,5 +284,18 @@
     },
     "unusedTickets_other": "사용하지 않은 티켓이 {{count}}장 있어요. 삭제하면 다시 로그인할 수 없으니, 삭제하기 전에 티켓을 다운로드하세요.",
     "more_other": "외 {{count}}건"
+  },
+  "changeEmail": {
+    "title": "이메일 변경",
+    "explain": "새 주소로 확인 링크를 보내드려요. 링크를 열기 전까지는 현재 주소({{email}})를 계속 사용해요.",
+    "newEmail": "새 이메일",
+    "currentPassword": "현재 비밀번호",
+    "passwordHint": "다른 사람이 계정을 옮기지 못하도록 확인해요.",
+    "submit": "확인 링크 보내기",
+    "sending": "보내는 중…",
+    "sent": "{{email}}(으)로 링크를 보냈어요. 링크를 열면 변경이 완료돼요. 그때까지는 {{current}}이(가) 계속 사용돼요.",
+    "same": "이미 사용 중인 이메일이에요.",
+    "wrongPassword": "비밀번호가 올바르지 않아요.",
+    "used": "이미 다른 계정에서 사용 중인 이메일이에요."
   }
 }

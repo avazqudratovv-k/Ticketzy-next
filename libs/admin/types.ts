@@ -112,6 +112,8 @@ export interface AdminOrganizer {
 	memberEvents: number;
 	completedEvents: number;
 	rejectReason?: string | null;
+	/** Whether the organizer confirmed their email; approving needs it (backend #135) */
+	emailVerified?: boolean;
 	createdAt: string;
 	updatedAt: string;
 	commissionOverride?: CommissionOverride | null;

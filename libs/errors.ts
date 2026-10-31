@@ -27,6 +27,19 @@ export const EMAIL_RECENTLY_DELETED = 'EMAIL_RECENTLY_DELETED';
 export const EVENT_ENDED = 'EVENT_ENDED';
 /** Code of a rejected input (backend decision #113); it replaced the bare `BAD_REQUEST` for validation failures. */
 export const VALIDATION_FAILED = 'VALIDATION_FAILED';
+/** Code of buying (hold, checkout, pay) and of approving an organizer while the account's email is not confirmed yet (backend #135). */
+export const EMAIL_NOT_VERIFIED = 'EMAIL_NOT_VERIFIED';
+/** Code of `verifyEmail` and `resetPassword` for a link that is wrong, expired or already used (backend #135). */
+export const INVALID_OR_EXPIRED_TOKEN = 'INVALID_OR_EXPIRED_TOKEN';
+/** Code of a request over the server's limit; `retryAfterSeconds` says when to try again. */
+export const RATE_LIMITED = 'RATE_LIMITED';
+/** Message of `resendVerificationEmail` for an address that is already confirmed (it has no code). */
+export const EMAIL_ALREADY_VERIFIED_MESSAGE = 'Your email address is already verified!';
+/** Message of `verifyEmail` when the link was an email-change link (the other success message is "verified"). */
+export const EMAIL_CHANGED_MESSAGE = 'Your email address was changed.';
+/** Messages of `requestEmailChange` (no codes). */
+export const WRONG_PASSWORD_MESSAGE = 'The password is not correct!';
+export const EMAIL_CHANGE_SAME_MESSAGE = 'That is already your email address!';
 /** Code of a GraphQL error when the database is unreachable or payments are switched off (backend decisions #92, #97). */
 export const SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE';
 
@@ -88,6 +101,11 @@ export function parseApiError(err: unknown): ApiError {
 				...(reasons ? { reasons } : {}),
 				...(typeof first.retryAfterSeconds === 'number' ? { retryAfterSeconds: first.retryAfterSeconds } : {}),
 			};
+		}
+		// The general per-IP limit answers HTTP 429 with the same `{ errors: [{ code, message, retryAfterSeconds }] }` body
+		const body = (err.networkError as { result?: { errors?: { code?: string; message?: string; retryAfterSeconds?: unknown }[] } } | null)?.result?.errors?.[0];
+		if (body?.code === RATE_LIMITED) {
+			return { code: RATE_LIMITED, message: body.message ?? err.message, ...(typeof body.retryAfterSeconds === 'number' ? { retryAfterSeconds: body.retryAfterSeconds } : {}) };
 		}
 		if (err.networkError) return { code: NETWORK_ERROR, message: err.networkError.message };
 		return { code: 'UNKNOWN', message: err.message };

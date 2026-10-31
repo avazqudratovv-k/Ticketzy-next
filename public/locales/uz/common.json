@@ -38,7 +38,11 @@
   },
   "banner": {
     "pendingTitle": "Tashkilotchi akkauntingiz tekshirilmoqda.",
-    "pendingText": "Administrator tasdiqlagach, tadbir yaratishingiz mumkin boʻladi."
+    "pendingText": "Administrator tasdiqlagach, tadbir yaratishingiz mumkin boʻladi.",
+    "verifyLabel": "Emailni tasdiqlash",
+    "verifyTitle": "Chipta sotib olish uchun emailni tasdiqlang.",
+    "verifyTitleOther": "Davom etish uchun emailni tasdiqlang.",
+    "verifyText": "Havolani yubordik. Kiruvchi xatlar va spam jildini tekshiring."
   },
   "footer": {
     "tagline": "Konsert, futbol va komediya chiptalari. Bir daqiqada sotib olinadi, kirishda skanerlanadi.",
@@ -241,7 +245,7 @@
     "noteLabel": "Eslatma"
   },
   "demo": {
-    "noEmail": "Faqat demo. Xatlar yuborilmaydi.",
+    "noEmail": "Faqat demo. Faqat akkaunt xatlari (tasdiqlash, tiklash) yuboriladi, buyurtma xatlari yuborilmaydi.",
     "notice": "Demo loyiha: toʻlovlar taqlid qilinadi, haqiqiy pul yechilmaydi.",
     "dismiss": "Demo eslatmasini yopish"
   },
@@ -312,5 +316,14 @@
       "text": "Ticketzy bilan tadbirlar tashkil qilganingiz uchun rahmat.",
       "sub": "Hisobingiz oʻchirildi."
     }
+  },
+  "resend": {
+    "button": "Havolani qayta yuborish",
+    "wait": "{{seconds}} soniyadan keyin qayta yuborish",
+    "sending": "Yuborilmoqda…",
+    "sent": "Havola yuborildi. Kiruvchi xatlar va spam jildini tekshiring.",
+    "already": "Email allaqachon tasdiqlangan.",
+    "rateLimited": "Soʻrovlar juda koʻp. Biroz kutib, qayta urinib koʻring.",
+    "failed": "Havolani yuborib boʻlmadi. Birozdan keyin qayta urinib koʻring."
   }
 }

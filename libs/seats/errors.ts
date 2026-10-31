@@ -1,4 +1,4 @@
-import { ApiError, NETWORK_ERROR, SERVICE_UNAVAILABLE } from '../errors';
+import { ApiError, EMAIL_NOT_VERIFIED, NETWORK_ERROR, RATE_LIMITED, SERVICE_UNAVAILABLE } from '../errors';
 import { BUYER_ONLY_API_MESSAGE } from '../buyerGate';
 
 /**
@@ -38,6 +38,9 @@ export interface CheckoutErrorKey {
 export function checkoutErrorKey(error: ApiError): CheckoutErrorKey {
 	if (error.code === 'UNAUTHENTICATED') return { key: 'errors.session', auth: true };
 	if (error.code === NETWORK_ERROR) return { key: 'errors.network', auth: false };
+	// Holding seats, checking out and paying need a confirmed email (backend #135): a friendly sentence, not the raw error
+	if (error.code === EMAIL_NOT_VERIFIED) return { key: 'errors.emailNotVerified', auth: false };
+	if (error.code === RATE_LIMITED) return { key: 'errors.rateLimited', auth: false };
 	// A message we know wins (payments off says more than "service unavailable"); any other SERVICE_UNAVAILABLE is the temporary-outage text
 	return { key: MESSAGES[error.message] ?? (error.code === SERVICE_UNAVAILABLE ? 'errors.serviceUnavailable' : 'errors.generic'), auth: false };
 }

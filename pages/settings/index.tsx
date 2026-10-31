@@ -12,6 +12,7 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { withAccount } from '../../libs/components/account/AccountShell';
 import PageHead from '../../libs/components/account/PageHead';
 import DeleteAccount from '../../libs/components/account/DeleteAccount';
+import ChangeEmail from '../../libs/components/account/ChangeEmail';
 import Field from '../../libs/components/common/Field';
 import Seo from '../../libs/components/common/Seo';
 import { displayName } from '../../libs/components/common/Avatar';
@@ -201,6 +202,8 @@ const Settings: NextPage = () => {
 				</div>
 			</form>
 
+			<ChangeEmail />
+
 			<section className="card settings__card" aria-labelledby="account-heading">
 				<h2 id="account-heading" className="card__title">
 					{t('profile.accountTitle')}
@@ -218,6 +221,14 @@ const Settings: NextPage = () => {
 							<span className={`tz-badge tz-badge--${user.memberStatus === 'ACTIVE' ? 'success' : user.memberStatus === 'PENDING' ? 'warning' : 'danger'}`}>{t(`profile.status.${user.memberStatus}`)}</span>
 						</dd>
 					</div>
+					{user.emailVerified !== undefined && (
+						<div className="breakdown__row">
+							<dt>{t('profile.emailStatus')}</dt>
+							<dd>
+								<span className={`tz-badge tz-badge--${user.emailVerified ? 'success' : 'warning'}`}>{t(user.emailVerified ? 'profile.emailConfirmed' : 'profile.emailUnconfirmed')}</span>
+							</dd>
+						</div>
+					)}
 					<div className="breakdown__row">
 						<dt>{t('profile.since')}</dt>
 						<dd>{formatViewerDate(user.createdAt, locale)}</dd>

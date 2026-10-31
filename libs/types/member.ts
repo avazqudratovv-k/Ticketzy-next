@@ -13,6 +13,10 @@ export interface MemberProfile {
 	memberAddress?: string | null;
 	memberDesc?: string | null;
 	rejectReason?: string | null;
+	/** False until the emailed link is opened (backend #135); undefined only for a profile loaded by an older API */
+	emailVerified?: boolean;
+	/** The language of the emails sent to the member (`en`, `ko`, `ru`, `uz` in the API's enum as EN, KO, RU, UZ) */
+	memberLang?: 'EN' | 'KO' | 'RU' | 'UZ' | null;
 	createdAt: string;
 }
 
@@ -23,4 +27,6 @@ export interface SignupInput {
 	memberNick?: string;
 	memberPhone?: string;
 	memberFullName?: string;
+	/** The interface language at sign-up, so the confirmation email arrives in it */
+	memberLang?: 'EN' | 'KO' | 'RU' | 'UZ';
 }

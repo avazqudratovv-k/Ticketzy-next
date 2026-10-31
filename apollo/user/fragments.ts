@@ -13,6 +13,8 @@ export const MEMBER_FIELDS = gql`
 		memberAddress
 		memberDesc
 		rejectReason
+		emailVerified
+		memberLang
 		createdAt
 	}
 `;

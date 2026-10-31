@@ -1,6 +1,6 @@
 import { WarningCircle } from 'phosphor-react';
 import { useTranslation } from 'next-i18next';
-import { ApiError, knownMessageKey, NETWORK_ERROR } from '../../errors';
+import { ApiError, knownMessageKey, NETWORK_ERROR, RATE_LIMITED } from '../../errors';
 
 /** Text for a failed call: a translation for the server messages we know, the server's own message otherwise. */
 export const useErrorText = () => {
@@ -9,6 +9,12 @@ export const useErrorText = () => {
 		const key = knownMessageKey(error);
 		if (key) return t(key);
 		if (error.code === NETWORK_ERROR) return t('errors.network');
+		// Over a server limit: say when to try again, in seconds for a short wait and minutes for a longer one
+		if (error.code === RATE_LIMITED) {
+			const wait = error.retryAfterSeconds;
+			if (!wait) return t('errors.rateLimitedSoon');
+			return wait <= 90 ? t('errors.rateLimitedSeconds', { count: wait }) : t('errors.rateLimitedMinutes', { count: Math.ceil(wait / 60) });
+		}
 		return error.message || t('errors.generic');
 	};
 };

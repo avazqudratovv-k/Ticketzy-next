@@ -211,7 +211,7 @@
     "nick": "Nickname",
     "nickHint": "3 to 50 characters. Shown on comments.",
     "email": "Email",
-    "emailHint": "You log in with this address. It cannot be changed here.",
+    "emailHint": "You log in with this address. To use another one, change it below.",
     "phone": "Phone (optional)",
     "error": {
       "phone": "Enter a phone number with digits, for example +82 10 0000 0000."
@@ -238,7 +238,10 @@
     },
     "signOutTitle": "Log out",
     "signedInAs": "Logged in as {{email}}.",
-    "logout": "Log out"
+    "logout": "Log out",
+    "emailStatus": "Email",
+    "emailConfirmed": "Confirmed",
+    "emailUnconfirmed": "Not confirmed"
   },
   "delete": {
     "title": "Delete account",
@@ -285,5 +288,18 @@
     "unusedTickets_other": "You have {{count}} unused tickets. Download them before deleting, because you won't be able to log in again.",
     "more_one": "and {{count}} more",
     "more_other": "and {{count}} more"
+  },
+  "changeEmail": {
+    "title": "Change email",
+    "explain": "We send a confirmation link to the new address. Your current address ({{email}}) stays in use until you open that link.",
+    "newEmail": "New email",
+    "currentPassword": "Current password",
+    "passwordHint": "We ask for it so nobody else can move your account.",
+    "submit": "Send confirmation link",
+    "sending": "Sending…",
+    "sent": "We sent a link to {{email}}. Open it to finish. Until then {{current}} stays your email.",
+    "same": "This is already your email.",
+    "wrongPassword": "The password is not correct.",
+    "used": "This email is already used by another account."
   }
 }

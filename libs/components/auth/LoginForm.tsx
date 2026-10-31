@@ -24,7 +24,6 @@ const LoginForm = () => {
 	const [issues, setIssues] = useState<FieldIssues>({});
 	const [formError, setFormError] = useState<ApiError | null>(null);
 	const [busy, setBusy] = useState(false);
-	const [forgotOpen, setForgotOpen] = useState(false);
 	const form = useRef<HTMLFormElement>(null);
 	const hydrated = useAdoptTypedValues(form, { email: setEmail, password: setPassword });
 	const focusInvalid = useFocusInvalid(form);
@@ -96,20 +95,9 @@ const LoginForm = () => {
 				disabled={busy}
 			/>
 			<div className="pg-auth__forgot">
-				<button type="button" className="pg-auth__forgot-btn" aria-expanded={forgotOpen} aria-controls="login-forgot" onClick={() => setForgotOpen((open) => !open)}>
+				<Link href={ROUTES.forgotPassword} className="pg-auth__forgot-btn">
 					{t('login.forgot')}
-				</button>
-				{forgotOpen && (
-					<div id="login-forgot" className="tz-alert tz-alert--info">
-						<span className="tz-alert__icon">
-							<Info size={18} weight="fill" aria-hidden="true" />
-						</span>
-						<span className="tz-alert__title">
-							{t('login.forgotText')}{' '}
-							<Link href={ROUTES.contact}>{t('login.forgotCta')}</Link>
-						</span>
-					</div>
-				)}
+				</Link>
 			</div>
 			<Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !hydrated}>
 				{busy ? t('login.submitting') : t('login.submit')}

@@ -303,6 +303,15 @@
 	strong {
 		font-weight: 600;
 	}
+	// A banner with an action beside the sentence (confirm your email)
+	&__inner--action {
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-2) var(--space-4);
+	}
+	&__text {
+		flex: 1 1 280px;
+	}
 }
 
 .tz-footer {

@@ -208,7 +208,7 @@
     "orders": "Buyurtmalarimga oʻtish",
     "continuePay": "Toʻlovni davom ettirish",
     "demoNote": "Demo toʻlov: haqiqiy pul yechilmadi va haqiqiy karta maʼlumotlari ishlatilmadi.",
-    "noEmail": "Faqat demo. Xatlar yuborilmaydi, shuning uchun tasdiqlash xati kelmaydi.",
+    "noEmail": "Faqat demo. Buyurtma xatlari yuborilmaydi, shuning uchun tasdiqlash xati kelmaydi.",
     "status": {
       "PENDING_PAYMENT": "Bu buyurtma toʻlovni kutmoqda",
       "FAILED": "Bu buyurtma toʻlovi amalga oshmadi",
@@ -245,7 +245,9 @@
     "buyerOnly": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi.",
     "paymentsDisabled": "Toʻlovlar hozir oʻchirilgan, shuning uchun buyurtmani toʻlab boʻlmaydi. Oʻrinlar taymer tugaguncha band qilib turiladi. Keyinroq qayta urinib koʻring.",
     "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
-    "cardInvalid": "Karta ma'lumotlarini to'ldiring."
+    "cardInvalid": "Karta ma'lumotlarini to'ldiring.",
+    "emailNotVerified": "Avval emailni tasdiqlang. Yuborilgan havolani oching yoki sahifa tepasidagi “Havolani qayta yuborish” tugmasini bosing.",
+    "rateLimited": "Soʻrovlar juda koʻp. Biroz kutib, qayta urinib koʻring."
   },
   "countdown": {
     "announce_one": "{{count}} soniya qoldi",

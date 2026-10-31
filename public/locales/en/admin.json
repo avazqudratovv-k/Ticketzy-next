@@ -50,7 +50,9 @@
     "serviceUnavailable": "Ticketzy is temporarily unavailable. Please try again in a moment.",
     "adminPassword": "The password of another admin can’t be reset. Admins change their own password.",
     "duplicate": "That value is already in use. Choose a different one.",
-    "eventLayoutLocked": "The venue and the seating type can’t be changed once the event is approved or has seats. Other changes can still be saved."
+    "eventLayoutLocked": "The venue and the seating type can’t be changed once the event is approved or has seats. Other changes can still be saved.",
+    "organizerEmailNotVerified": "Not approved: this organizer has not confirmed their email yet. Ask them to open the link we sent, then try again.",
+    "rateLimited": "Too many requests. Wait a moment, then try again."
   },
   "memberStatus": {
     "PENDING": "Waiting for approval",
@@ -398,7 +400,11 @@
       "completed": "Completed events",
       "rate": "Commission rate",
       "about": "About",
-      "rejectedWith": "Rejected with this reason:"
+      "rejectedWith": "Rejected with this reason:",
+      "emailStatus": "Email status",
+      "emailConfirmed": "Confirmed",
+      "emailUnconfirmed": "Not confirmed",
+      "emailUnconfirmedNote": "This organizer has not confirmed their email yet. Approval is refused until they do."
     },
     "reject": {
       "title": "Reject this organizer?",

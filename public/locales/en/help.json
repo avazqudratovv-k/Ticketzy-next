@@ -136,7 +136,7 @@
           },
           {
             "q": "I forgot my password.",
-            "a": "Password reset is not available in this demo. You can create a new account with another email."
+            "a": "Choose Forgot password? on the log in page and enter your email. We send a link to choose a new password; it works once. If nothing arrives, check your spam folder."
           },
           {
             "q": "Which languages and themes are available?",

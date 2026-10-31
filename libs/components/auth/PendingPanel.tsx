@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 import { Check, Clock } from 'phosphor-react';
@@ -5,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { ROUTES } from '../../routes';
 
 /** "Awaiting approval" screen after organizer signup (design: OrgPending). */
-const PendingPanel = () => {
+const PendingPanel = ({ children }: { children?: ReactNode }) => {
 	const { t } = useTranslation('auth');
 	return (
 		<div className="pg-pending" role="status">
@@ -34,6 +35,7 @@ const PendingPanel = () => {
 					{t('pending.stepDecision')}
 				</li>
 			</ol>
+			{children}
 			<div className="pg-pending__actions">
 				<Button component={Link} href={ROUTES.organizerDashboard} variant="contained">
 					{t('pending.toDashboard')}

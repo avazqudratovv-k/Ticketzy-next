@@ -50,8 +50,8 @@ function createIsomorphicLink() {
 			if (process.env.NODE_ENV !== 'development' || isSessionExpiryPaused()) return;
 			graphQLErrors?.forEach((error) => {
 				const { message, locations, path } = error;
-				// A rejected input is shown under its field by the form (libs/fieldErrors.ts), and a blocked deletion or a recently deleted email has its own message, so none is a red line
-				if (['VALIDATION_FAILED', 'ACCOUNT_DELETE_BLOCKED', 'EMAIL_RECENTLY_DELETED'].includes((error as { code?: string }).code ?? '')) return;
+				// A rejected input is shown under its field by the form (libs/fieldErrors.ts), and a blocked deletion or a recently deleted email has its own message, so none is a red line (an unconfirmed email, a spent link and a rate limit are expected states too)
+				if (['VALIDATION_FAILED', 'ACCOUNT_DELETE_BLOCKED', 'EMAIL_RECENTLY_DELETED', 'EMAIL_NOT_VERIFIED', 'INVALID_OR_EXPIRED_TOKEN', 'RATE_LIMITED'].includes((error as { code?: string }).code ?? '')) return;
 				// The backend answers an empty list with "No data found!"; callers treat it as an empty result (isOnlyNoData), so it is not an error worth a red line
 				if (message === 'No data found!') return;
 				// An event that is over is an expected state with its own screen (backend #121, F355), not a red line

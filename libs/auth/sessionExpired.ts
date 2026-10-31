@@ -4,7 +4,7 @@ import { getJwtToken, removeJwtToken } from './token';
 /** How long after an expiry a guard that sends the visitor to login still adds `reason=expired`. */
 const NOTICE_WINDOW_MS = 10000;
 /** Operations where UNAUTHENTICATED means "wrong credentials", not "your session ended". */
-export const SESSION_FREE_OPERATIONS = new Set(['Login', 'SignupUser', 'SignupOrganizer']);
+export const SESSION_FREE_OPERATIONS = new Set(['Login', 'SignupUser', 'SignupOrganizer', 'RequestPasswordReset', 'ResetPassword', 'VerifyEmail']);
 
 let expiredAt = 0;
 /** True while the "account deleted" window is up: the old token is already refused, but the window ends the session itself (F364). */
@@ -30,7 +30,7 @@ export const resetSessionExpired = () => {
 
 const onAuthPage = () => {
 	const path = Router.pathname || '';
-	return path === '/account/login' || path === '/account/signup';
+	return path === '/account/login' || path === '/account/signup' || path === '/forgot-password' || path === '/reset-password';
 };
 
 /**

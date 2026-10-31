@@ -50,7 +50,9 @@
     "serviceUnavailable": "Ticketzy vaqtincha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
     "adminPassword": "Boshqa administratorning parolini tiklab boʻlmaydi. Administratorlar parolni oʻzlari oʻzgartiradi.",
     "duplicate": "Bu qiymat allaqachon band. Boshqasini tanlang.",
-    "eventLayoutLocked": "Tadbir tasdiqlangandan keyin yoki oʻrindiqlari boʻlsa, joy va oʻrindiq turini oʻzgartirib boʻlmaydi. Boshqa oʻzgarishlarni saqlash mumkin."
+    "eventLayoutLocked": "Tadbir tasdiqlangandan keyin yoki oʻrindiqlari boʻlsa, joy va oʻrindiq turini oʻzgartirib boʻlmaydi. Boshqa oʻzgarishlarni saqlash mumkin.",
+    "organizerEmailNotVerified": "Tasdiqlanmadi: bu tashkilotchi hali emailini tasdiqlamagan. Yuborilgan havolani ochishini soʻrang va qayta urinib koʻring.",
+    "rateLimited": "Soʻrovlar juda koʻp. Biroz kutib, qayta urinib koʻring."
   },
   "memberStatus": {
     "PENDING": "Tasdiqlanishi kutilmoqda",
@@ -398,7 +400,11 @@
       "completed": "Oʻtkazilgan tadbirlar",
       "rate": "Komissiya",
       "about": "Haqida",
-      "rejectedWith": "Quyidagi sabab bilan rad etilgan:"
+      "rejectedWith": "Quyidagi sabab bilan rad etilgan:",
+      "emailStatus": "Email holati",
+      "emailConfirmed": "Tasdiqlangan",
+      "emailUnconfirmed": "Tasdiqlanmagan",
+      "emailUnconfirmedNote": "Bu tashkilotchi hali emailini tasdiqlamagan. Tasdiqlamaguncha uni tasdiqlab boʻlmaydi."
     },
     "reject": {
       "title": "Bu tashkilotchini rad etasizmi?",

@@ -6,6 +6,7 @@ import Top from '../Top';
 import Backdrop from './Backdrop';
 import Footer from '../Footer';
 import PendingBanner from '../common/PendingBanner';
+import VerifyEmailBanner from '../common/VerifyEmailBanner';
 import WakeNote from '../common/WakeNote';
 
 // The chat panel is not needed for the first paint; it loads after hydration
@@ -29,6 +30,7 @@ const withLayoutBasic = <P extends object>(Component: ComponentType<P>) => {
 					</a>
 					<Top />
 					<PendingBanner />
+					<VerifyEmailBanner />
 					<WakeNote contained />
 					<main id="main">
 						<Component {...props} />

@@ -219,6 +219,7 @@ export const ADMIN_ORGANIZER_FIELDS = gql`
 		memberEvents
 		completedEvents
 		rejectReason
+		emailVerified
 		createdAt
 		updatedAt
 		commissionOverride {

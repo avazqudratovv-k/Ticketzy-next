@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Button, Checkbox, CircularProgress } from '@mui/material';
 import { Trans, useTranslation } from 'next-i18next';
 import { CalendarPlus, Check, Clock, Ticket } from 'phosphor-react';
@@ -7,6 +8,7 @@ import Field from '../common/Field';
 import AuthError from './AuthError';
 import { signingUpVar } from '../../../apollo/store';
 import { signUp } from '../../auth';
+import { memberLangOf, RESEND_COOLDOWN_MS, resendUntilVar } from '../../auth/emailAuth';
 import { ApiError, EMAIL_RECENTLY_DELETED, isApiError, parseApiError } from '../../errors';
 import { MemberType } from '../../enums/member.enum';
 import { ROUTES } from '../../routes';
@@ -27,6 +29,7 @@ interface SignupFormProps {
 
 const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 	const { t } = useTranslation('auth');
+	const { locale } = useRouter();
 	const [role, setRole] = useState<Role>(initialRole);
 	const [fullName, setFullName] = useState('');
 	const [organization, setOrganization] = useState('');
@@ -90,8 +93,12 @@ const SignupForm = ({ initialRole, onDone }: SignupFormProps) => {
 				memberEmail: email,
 				memberPassword: password,
 				memberFullName: fullName.trim(),
+				// The confirmation email is written in the language the visitor is reading now
+				memberLang: memberLangOf(locale),
 				...(isOrganizer ? { memberNick: organization.trim() } : {}),
 			});
+			// The confirmation link went out with the account: the next one is allowed after the cooldown
+			resendUntilVar(Date.now() + RESEND_COOLDOWN_MS);
 			onDone(role);
 		} catch (err) {
 			const apiError = isApiError(err) ? err : parseApiError(err);

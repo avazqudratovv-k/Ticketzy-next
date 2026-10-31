@@ -55,6 +55,9 @@ const KNOWN: Record<string, string> = {
 /** Backend error codes (keys of libs/enums/common.enum.ts) read before the message text, as F350 does; the message above stays the fallback. */
 const CODES: Record<string, string> = {
 	EVENT_LAYOUT_LOCKED: 'eventLayoutLocked',
+	// verifyOrganizerByAdmin for an organizer who has not confirmed their email (backend #135)
+	EMAIL_NOT_VERIFIED: 'organizerEmailNotVerified',
+	RATE_LIMITED: 'rateLimited',
 };
 
 /** AI check failures: shared cause (libs/aiErrors.ts) to the key under `ai.errors.` in admin.json. The check is advisory, so none of these block a decision. */

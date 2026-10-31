@@ -169,8 +169,46 @@ export const UPDATE_MEMBER = gql`
 			memberAddress
 			memberDesc
 			rejectReason
+			emailVerified
+			memberLang
 			createdAt
 		}
+	}
+`;
+
+/**************************
+ *  EMAIL AND PASSWORD    *
+ *************************/
+
+// Each returns a message string; the UI shows its own translated text and never the server's.
+
+export const VERIFY_EMAIL = gql`
+	mutation VerifyEmail($token: String!) {
+		verifyEmail(token: $token)
+	}
+`;
+
+export const RESEND_VERIFICATION_EMAIL = gql`
+	mutation ResendVerificationEmail {
+		resendVerificationEmail
+	}
+`;
+
+export const REQUEST_EMAIL_CHANGE = gql`
+	mutation RequestEmailChange($input: EmailChangeInput!) {
+		requestEmailChange(input: $input)
+	}
+`;
+
+export const REQUEST_PASSWORD_RESET = gql`
+	mutation RequestPasswordReset($email: String!) {
+		requestPasswordReset(email: $email)
+	}
+`;
+
+export const RESET_PASSWORD = gql`
+	mutation ResetPassword($token: String!, $newPassword: String!) {
+		resetPassword(token: $token, newPassword: $newPassword)
 	}
 `;
 
