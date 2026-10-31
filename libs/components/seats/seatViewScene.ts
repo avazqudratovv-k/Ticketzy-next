@@ -17,6 +17,7 @@ import {
 	WebGLRenderer,
 } from 'three';
 import { standingSize, tierColor, tierIndexes } from '../../seats/layout';
+import { pitchSurround } from '../../seats/surround';
 import { FocalArea, LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
 import {
 	buildViewModel,
@@ -142,11 +143,39 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		addBox(fw, STAGE_DECK_HEIGHT, fd, fc.x, STAGE_DECK_HEIGHT / 2, fc.z, solid((p) => p.raised.clone().lerp(p.ink, 0.12)));
 		addBox(fw, STAGE_BACKDROP_HEIGHT, 0.3, fc.x, STAGE_BACKDROP_HEIGHT / 2, fc.z - fd / 2 - 0.15, solid((p) => p.sunken.clone().lerp(p.accent, 0.05)));
 	} else {
-		const field = new Mesh(track(new PlaneGeometry(fw, fd)), solid((p) => p.raised.clone().lerp(p.ink, 0.06)));
+		/** Run-off, boards (1 m), two covered dugouts and the tunnel mouth, from the same geometry as the 2D map */
+		const addSurround = (runColor: Color) => {
+			const around = pitchSurround(focal);
+			const at = (r: { x: number; y: number; w: number; h: number }) => {
+				const c = toWorld(r.x + r.w / 2, r.y + r.h / 2);
+				return { x: c.x, z: c.z, w: r.w * SCALE, d: r.h * SCALE };
+			};
+			const run = at(around.runoff);
+			addBox(run.w, 0.02, run.d, run.x, 0, run.z, solid(() => runColor));
+			const board = solid((p) => p.line);
+			for (const b of around.boards) {
+				const r = at(b);
+				addBox(r.w, 1, r.d, r.x, 0.5, r.z, board);
+			}
+			const wall = solid((p) => p.raised);
+			const roof = solid((p) => p.line);
+			for (const d of around.dugouts) {
+				const r = at(d);
+				addBox(r.w, 1.5, 0.06, r.x, 0.75, r.z - r.d / 2 + 0.03, wall);
+				addBox(r.w + 0.2, 0.08, r.d + 0.2, r.x, 1.55, r.z, roof);
+			}
+			const tun = at(around.tunnel);
+			addBox(tun.w, 2.2, tun.d, tun.x, 1.1, tun.z, solid(() => new Color('#0c0f14')));
+		};
+		// Grass, run-off and chalk are fixed colors (same as the 2D map); boards and dugouts follow the theme
+		const grass = new Color('#276b32');
+		const runGrass = new Color('#1c5226');
+		const chalk = new Color('#ffffff');
+		const field = new Mesh(track(new PlaneGeometry(fw, fd)), solid(() => grass));
 		field.rotation.x = -Math.PI / 2;
 		field.position.set(fc.x, 0.02, fc.z);
 		scene.add(field);
-		const lineMaterial = solid((p) => p.line);
+		const lineMaterial = solid(() => chalk);
 		const strip = (x: number, z: number, w: number, d: number) => addBox(w, 0.02, d, fc.x + x, 0.04, fc.z + z, lineMaterial);
 		const t = 0.12;
 		const rect = (cx: number, cz: number, w: number, d: number) => {
@@ -157,6 +186,7 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		};
 		rect(0, 0, fw, fd);
 		strip(0, 0, t, fd);
+		addSurround(runGrass);
 		const ring = new Mesh(track(new RingGeometry((fw * 9.15) / 105 - t / 2, (fw * 9.15) / 105 + t / 2, 48)), lineMaterial);
 		ring.rotation.x = -Math.PI / 2;
 		ring.position.set(fc.x, 0.04, fc.z);

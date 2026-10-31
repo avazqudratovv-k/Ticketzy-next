@@ -322,22 +322,61 @@
 			font: 600 11px var(--font-sans);
 		}
 	}
+	// Football pitch (F400). The grass greens are fixed values that read the same on a dark and a light sheet; the boards,
+	// dugouts and line work use the theme tokens or white on the grass.
 	&__pitch {
-		line,
-		circle,
-		rect {
-			fill: none;
-			stroke: var(--border-control);
-			stroke-width: 1.2;
-		}
+		--grass: #276b32;
+		--grass-run: #1c5226;
+		--chalk: #fff;
 		.seatmap__pitch-field {
-			fill: var(--surface-raised);
-			stroke: var(--border-control);
+			fill: var(--grass);
+		}
+		.seatmap__mow {
+			fill: var(--chalk);
+			opacity: 0.05;
+		}
+		.seatmap__lines {
+			rect,
+			path,
+			circle,
+			line {
+				fill: none;
+				stroke: var(--chalk);
+				stroke-opacity: 0.85;
+				stroke-width: 1.2;
+			}
+			.seatmap__spot {
+				fill: var(--chalk);
+				fill-opacity: 0.85;
+				stroke: none;
+			}
 		}
 		text {
-			fill: var(--ink-muted);
+			fill: var(--chalk);
 			font: 600 11px var(--font-sans);
 		}
+	}
+	&__runoff {
+		fill: var(--grass-run);
+	}
+	&__board {
+		fill: var(--ink-subtle);
+	}
+	&__dugout {
+		rect {
+			fill: var(--surface-raised);
+			stroke: var(--border-control);
+			stroke-width: 0.8;
+		}
+		.seatmap__dugout-roof {
+			fill: var(--border-control);
+			stroke: none;
+		}
+	}
+	&__tunnel {
+		fill: #0c0f14;
+		stroke: var(--border-control);
+		stroke-width: 0.8;
 	}
 	&__name {
 		fill: var(--ink-muted);

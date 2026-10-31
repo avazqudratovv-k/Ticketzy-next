@@ -12,6 +12,7 @@ import {
 	tierColor,
 } from '../../seats/layout';
 import { readFocalArea } from '../../seats/focal';
+import { pitchMarkings, pitchSurround, Rect } from '../../seats/surround';
 import { FocalArea, LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
 import { seatVisual } from '../../seats/visual';
 
@@ -96,6 +97,8 @@ export const SectionSeats = memo(function SectionSeats({ section, color, taken, 
 	);
 });
 
+const rectOf = (r: Rect) => ({ x: r.x, y: r.y, width: r.w, height: r.h });
+
 /**
  * The stage bar or the football pitch of a layout, on the venue canvas. Shared with the organizer's editor so both draw it the same.
  * The label is left out when the shape is too small to hold it.
@@ -104,15 +107,49 @@ export const FocalShape = ({ focal, stageLabel, pitchLabel }: { focal: FocalArea
 	const cx = focal.x + focal.width / 2;
 	const cy = focal.y + focal.height / 2;
 	if (focal.type === 'PITCH') {
-		const r = focal.height * 0.14;
-		const box = { w: focal.width * 0.16, h: focal.height * 0.5 };
+		const m = pitchMarkings(focal);
+		const around = pitchSurround(focal);
+		const right = focal.x + focal.width;
+		const stripe = focal.width / 12;
 		return (
 			<g className="seatmap__pitch" data-focal="PITCH" pointerEvents="none">
-				<rect className="seatmap__pitch-field" x={focal.x} y={focal.y} width={focal.width} height={focal.height} rx={6} />
-				<line x1={cx} y1={focal.y} x2={cx} y2={focal.y + focal.height} />
-				<circle cx={cx} cy={cy} r={r} />
-				<rect x={focal.x} y={cy - box.h / 2} width={box.w} height={box.h} />
-				<rect x={focal.x + focal.width - box.w} y={cy - box.h / 2} width={box.w} height={box.h} />
+				<g className="seatmap__surround" aria-hidden="true">
+					<rect className="seatmap__runoff" {...rectOf(around.runoff)} />
+					{around.boards.map((b, i) => (
+						<rect key={i} className="seatmap__board" {...rectOf(b)} />
+					))}
+					{around.dugouts.map((d, i) => (
+						<g key={i} className="seatmap__dugout">
+							<rect {...rectOf(d)} rx={1.5} />
+							<rect className="seatmap__dugout-roof" x={d.x} y={d.y} width={d.w} height={1.6} />
+						</g>
+					))}
+					<rect className="seatmap__tunnel" {...rectOf(around.tunnel)} />
+				</g>
+				<rect className="seatmap__pitch-field" x={focal.x} y={focal.y} width={focal.width} height={focal.height} />
+				{Array.from({ length: 6 }, (_, i) => (
+					<rect key={i} className="seatmap__mow" x={focal.x + stripe * (i * 2 + 1)} y={focal.y} width={stripe} height={focal.height} />
+				))}
+				<g className="seatmap__lines">
+					<rect x={focal.x} y={focal.y} width={focal.width} height={focal.height} />
+					<line x1={cx} y1={focal.y} x2={cx} y2={focal.y + focal.height} />
+					<circle cx={cx} cy={cy} r={m.circle} />
+					{[-1, 1].map((side) => {
+						const edge = side < 0 ? focal.x : right;
+						const front = edge - side * m.penalty.w;
+						const spotX = edge - side * m.spot;
+						return (
+							<g key={side}>
+								<rect x={side < 0 ? edge : edge - m.penalty.w} y={cy - m.penalty.h / 2} width={m.penalty.w} height={m.penalty.h} />
+								<rect x={side < 0 ? edge : edge - m.goalBox.w} y={cy - m.goalBox.h / 2} width={m.goalBox.w} height={m.goalBox.h} />
+								<path d={`M${front} ${cy - m.arcDy}A${m.circle} ${m.circle} 0 0 ${side < 0 ? 1 : 0} ${front} ${cy + m.arcDy}`} />
+								<circle className="seatmap__spot" cx={spotX} cy={cy} r={1.6} />
+								<rect x={side < 0 ? edge - m.goal.depth : right} y={cy - m.goal.w / 2} width={m.goal.depth} height={m.goal.w} />
+							</g>
+						);
+					})}
+					<circle className="seatmap__spot" cx={cx} cy={cy} r={2} />
+				</g>
 				<text x={cx} y={focal.y + 16} textAnchor="middle" dominantBaseline="central">
 					{pitchLabel}
 				</text>
