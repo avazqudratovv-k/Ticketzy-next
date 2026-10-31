@@ -494,6 +494,10 @@
 
 .tz-shell--admin .tz-sidebar {
 	background: var(--surface-sunken);
+	/* the phone menu: a narrow panel, with the page still showing beside it (F386) */
+	&.is-open {
+		width: min(264px, 72vw);
+	}
 }
 
 .tz-scrim {

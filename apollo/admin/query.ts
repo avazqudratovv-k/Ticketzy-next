@@ -170,6 +170,14 @@ export const GET_ADMIN_EVENT = gql`
 						rotation
 						spacing
 						tierKey
+						level
+					}
+					focalArea {
+						type
+						x
+						y
+						width
+						height
 					}
 				}
 			}

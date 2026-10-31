@@ -35,11 +35,18 @@ export function seatCenter(section: LayoutSection, row: number, number: number) 
 }
 
 /** Axis-aligned bounds of the whole layout (rotated sections included) with a margin; the map fits to this box. */
-export function layoutBounds(sections: LayoutSection[], margin = 36) {
+export function layoutBounds(sections: LayoutSection[], margin = 36, focal?: { x: number; y: number; width: number; height: number } | null) {
 	let minX = Infinity;
 	let minY = Infinity;
 	let maxX = -Infinity;
 	let maxY = -Infinity;
+	// The stage or pitch has to fit in the view too (a stage above the first row, a pitch in the middle)
+	if (focal) {
+		minX = focal.x;
+		minY = focal.y;
+		maxX = focal.x + focal.width;
+		maxY = focal.y + focal.height;
+	}
 	for (const section of sections) {
 		const box = sectionBounds(section);
 		minX = Math.min(minX, box.x);
@@ -62,9 +69,6 @@ export function sectionBounds(section: LayoutSection) {
 	const bh = w * sin + h * cos;
 	return { x: section.x - bw / 2, y: section.y - bh / 2, w: bw, h: bh };
 }
-
-/** Where the "Stage" bar goes: at the top, unless the layout has a standing area (that is the floor itself). */
-export const hasStage = (sections: LayoutSection[]) => !sections.some((section) => section.kind === 'STANDING');
 
 /** The CSS color class index of a tier: tiers are numbered by the order of their first section. */
 export function tierIndexes(sections: LayoutSection[]): Map<string, number> {

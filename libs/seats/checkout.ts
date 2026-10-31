@@ -8,7 +8,7 @@ import { SeatHold, SeatRef } from './types';
  * Hold the seats, then turn the hold into a pending order. Returns the order id.
  * The hold is sent as coordinates (`seats`); the old `seatIds` form is not used.
  */
-export async function holdAndCheckout(client: ApolloClient<object>, eventId: string, seats: SeatRef[]): Promise<string> {
+export async function holdAndCheckout(client: ApolloClient<object>, eventId: string, seats: SeatRef[], acknowledgeNonRefundable?: boolean): Promise<string> {
 	const sentAt = Date.now();
 	const { data } = await client.mutate({
 		mutation: HOLD_SEATS,
@@ -18,7 +18,7 @@ export async function holdAndCheckout(client: ApolloClient<object>, eventId: str
 	updateClockSkew(hold.serverTime, sentAt, Date.now());
 	const order = await client.mutate({
 		mutation: CREATE_CHECKOUT,
-		variables: { input: { eventId, seatIds: hold.seats.map((seat) => seat._id) } },
+		variables: { input: { eventId, seatIds: hold.seats.map((seat) => seat._id), ...(acknowledgeNonRefundable ? { acknowledgeNonRefundable: true } : {}) } },
 	});
 	const orderId = order.data.createCheckout._id as string;
 	saveRetryInfo(orderId, { eventId, seats });
@@ -30,8 +30,9 @@ export async function checkoutQuantities(
 	client: ApolloClient<object>,
 	eventId: string,
 	items: { ticketTypeId: string; quantity: number }[],
+	acknowledgeNonRefundable?: boolean,
 ): Promise<string> {
-	const order = await client.mutate({ mutation: CREATE_CHECKOUT, variables: { input: { eventId, items } } });
+	const order = await client.mutate({ mutation: CREATE_CHECKOUT, variables: { input: { eventId, items, ...(acknowledgeNonRefundable ? { acknowledgeNonRefundable: true } : {}) } } });
 	const orderId = order.data.createCheckout._id as string;
 	saveRetryInfo(orderId, { eventId, items });
 	return orderId;

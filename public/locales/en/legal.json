@@ -49,7 +49,7 @@
       {
         "title": "Refunds",
         "p": [
-          "A paid order can be refunded as a whole until 23:59 on the day before the event, in the time zone of the venue, as long as none of its tickets has been used. When an event is cancelled, its paid orders are refunded.",
+          "A paid order can be refunded as a whole, as long as none of its tickets has been used and its event is refundable, until 23:59 on the day the organizer set for that event (1 to 30 days before the event), in the time zone of the venue. The policy is shown on the event page and at checkout, and an order keeps the policy it was bought under. Tickets for a non-refundable event can’t be refunded; buyers confirm this before they pay. When an event is cancelled, its paid orders are refunded.",
           "Refunds are simulated, like payments."
         ],
         "list": []

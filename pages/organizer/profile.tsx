@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@apollo/client';
-import { Avatar as MuiAvatar, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ArrowSquareOut, CheckCircle, Info, WarningCircle } from 'phosphor-react';
@@ -16,7 +16,7 @@ import BlockedPanel from '../../libs/components/organizer/BlockedPanel';
 import CommissionTier from '../../libs/components/organizer/sales/CommissionTier';
 import ProfilePreview from '../../libs/components/organizer/sales/ProfilePreview';
 import Field from '../../libs/components/common/Field';
-import { imageSrc } from '../../libs/components/events/EventImage';
+import InitialsAvatar from '../../libs/components/common/InitialsAvatar';
 import useAuth from '../../libs/hooks/useAuth';
 import useUnsavedGuard from '../../libs/hooks/useUnsavedGuard';
 import { commissionState } from '../../libs/organizer/commission';
@@ -170,7 +170,7 @@ const Profile: NextPage = () => {
 	};
 
 	const state = member ? commissionState(member.completedEvents, member.commissionOverride) : null;
-	const image = preview ?? imageSrc(member?.memberImage ?? user.memberImage);
+	const image = preview ?? member?.memberImage ?? user.memberImage;
 	const publicUrl = organizerUrl(user._id);
 	const active = (member?.memberStatus ?? user.memberStatus) === 'ACTIVE';
 
@@ -218,9 +218,7 @@ const Profile: NextPage = () => {
 					</p>
 
 					<div className="settings__avatar">
-						<MuiAvatar src={image} alt="" sx={{ width: 72, height: 72 }}>
-							{(values.memberFullName || values.memberNick || '?').trim().charAt(0).toUpperCase()}
-						</MuiAvatar>
+						<InitialsAvatar src={image} name={values.memberFullName || values.memberNick || ''} size={72} />
 						<div>
 							<input ref={input} id="org-avatar" className="tz-sr" type="file" accept="image/png,image/jpeg" onChange={(e) => pick(e.target.files?.[0])} aria-label={t('profile.logoFile')} aria-describedby="org-avatar-hint" />
 							<Button variant="outlined" onClick={() => input.current?.click()} disabled={saving}>

@@ -35,7 +35,11 @@ export interface DraftSection {
 	rotation: number;
 	spacing: SectionSpacing;
 	tierKey: string;
+	/** 0 floor, 1 lower tier, 2 upper tier (the 3D view from a seat) */
+	level: number;
 }
+
+export const LEVELS = [0, 1, 2] as const;
 
 export type Layout = DraftSection[];
 
@@ -56,6 +60,7 @@ export function fromServer(sections: LayoutSection[] | undefined | null): Layout
 		rotation: s.rotation,
 		spacing: s.spacing,
 		tierKey: s.tierKey ?? '',
+		level: s.level === 1 || s.level === 2 ? s.level : 0,
 	}));
 }
 
@@ -73,6 +78,7 @@ export function toInput(layout: Layout) {
 			y: s.y,
 			rotation: s.rotation,
 			spacing: s.spacing,
+			level: LEVELS.includes(s.level as 0) ? s.level : 0,
 			...(s.kind === 'SEATED' ? { tierKey: s.tierKey.trim() } : {}),
 		})),
 	};
@@ -100,6 +106,7 @@ function sectionToBuyer(s: DraftSection): LayoutSection {
 		rotation: Number.isFinite(s.rotation) ? s.rotation : 0,
 		spacing: s.spacing,
 		tierKey: s.kind === 'SEATED' ? s.tierKey : null,
+		level: s.level,
 	};
 }
 
@@ -261,8 +268,8 @@ export function uniqueKey(layout: Layout, base: string) {
 export function newSection(layout: Layout, kind: SectionKind, labels: { seated: string; standing: string }): DraftSection {
 	const base: DraftSection =
 		kind === 'SEATED'
-			? { id: newId(), key: '', name: '', kind, rows: 5, seatsPerRow: 10, capacity: null, x: 500, y: 350, rotation: 0, spacing: 'NORMAL', tierKey: '' }
-			: { id: newId(), key: '', name: '', kind, rows: 1, seatsPerRow: 1, capacity: 200, x: 500, y: 350, rotation: 0, spacing: 'COMPACT', tierKey: '' };
+			? { id: newId(), key: '', name: '', kind, rows: 5, seatsPerRow: 10, capacity: null, x: 500, y: 350, rotation: 0, spacing: 'NORMAL', tierKey: '', level: 0 }
+			: { id: newId(), key: '', name: '', kind, rows: 1, seatsPerRow: 1, capacity: 200, x: 500, y: 350, rotation: 0, spacing: 'COMPACT', tierKey: '', level: 0 };
 	const number = layout.filter((s) => s.kind === kind).length + 1;
 	const name = `${kind === 'SEATED' ? labels.seated : labels.standing} ${number}`.slice(0, LIMITS.sectionName.max);
 	const key = uniqueKey(layout, kind === 'SEATED' ? `SEC_${number}` : `FLOOR_${number}`);

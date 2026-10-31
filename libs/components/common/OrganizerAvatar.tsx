@@ -1,5 +1,4 @@
-import { Avatar as MuiAvatar } from '@mui/material';
-import { imageSrc } from '../events/EventImage';
+import InitialsAvatar from './InitialsAvatar';
 
 interface Person {
 	memberNick?: string | null;
@@ -7,22 +6,9 @@ interface Person {
 	memberImage?: string | null;
 }
 
-const initialsOf = (name: string) =>
-	name
-		.split(/\s+/)
-		.filter(Boolean)
-		.slice(0, 2)
-		.map((part) => Array.from(part)[0]?.toUpperCase())
-		.join('');
-
-/** Avatar for any public member (organizer, commenter): photo, or initials when there is none. */
-const OrganizerAvatar = ({ member, size = 40 }: { member: Person; size?: number }) => {
-	const name = member.memberFullName || member.memberNick || '';
-	return (
-		<MuiAvatar src={imageSrc(member.memberImage)} alt="" sx={{ width: size, height: size }}>
-			{initialsOf(name) || '?'}
-		</MuiAvatar>
-	);
-};
+/** Avatar for any public member (organizer, commenter): the logo or photo, or the letters of the name when there is none. */
+const OrganizerAvatar = ({ member, size = 40, className }: { member: Person; size?: number; className?: string }) => (
+	<InitialsAvatar src={member.memberImage} name={member.memberFullName || member.memberNick || ''} size={size} className={className} />
+);
 
 export default OrganizerAvatar;

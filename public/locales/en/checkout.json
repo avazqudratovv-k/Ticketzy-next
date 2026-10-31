@@ -50,7 +50,8 @@
     "live": "Live",
     "reconnecting": "Reconnecting…",
     "loading": "Loading seats…",
-    "unavailable": "The seat map is not available for this event."
+    "unavailable": "The seat map is not available for this event.",
+    "pitch": "Pitch"
   },
   "state": {
     "available": "Available",
@@ -173,7 +174,6 @@
     "payShort": "Pay now",
     "barLabel": "Payment bar",
     "noCard": "Demo payment. Ticketzy never sees a card number here.",
-    "refund": "Refunds are open until {{date}}.",
     "cardNotice": "Demo payment: no money is charged, and nothing you type here leaves your browser.",
     "testCard": "Demo only: any 16 digits, any future expiry and any 3 digits work."
   },

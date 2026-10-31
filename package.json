@@ -11,7 +11,8 @@
 		"lint": "next lint",
 		"typecheck": "tsc --noEmit",
 		"i18n:check": "node scripts/i18n-check.js",
-		"check:return-to": "node scripts/check-return-to.js"
+		"check:return-to": "node scripts/check-return-to.js",
+		"check:refund-deadline": "node scripts/check-refund-deadline.js"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.5.10",

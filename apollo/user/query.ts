@@ -174,6 +174,14 @@ export const GET_EVENT_SEAT_MAP = gql`
 					rotation
 					spacing
 					tierKey
+					level
+				}
+				focalArea {
+					type
+					x
+					y
+					width
+					height
 				}
 			}
 			seats {
@@ -210,6 +218,11 @@ export const ORDER_FIELDS = gql`
 		totalAmount
 		expiresAt
 		paidAt
+		refundPolicy {
+			policyType
+			daysBefore
+		}
+		nonRefundableAcknowledgedAt
 		createdAt
 		eventData {
 			_id
@@ -305,6 +318,11 @@ export const ACCOUNT_ORDER_FIELDS = gql`
 		expiresAt
 		paidAt
 		refundedAt
+		refundPolicy {
+			policyType
+			daysBefore
+		}
+		nonRefundableAcknowledgedAt
 		createdAt
 		eventData {
 			_id
@@ -361,6 +379,10 @@ export const GET_REFUND_QUOTE = gql`
 			refundable
 			deadline
 			venueTimezone
+			refundPolicy {
+				policyType
+				daysBefore
+			}
 			refundableAmount
 			currency
 			reason

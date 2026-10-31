@@ -193,13 +193,20 @@
 				margin-top: 2px;
 			}
 			// the date and the venue wrap to two lines before they are cut (long Russian and Uzbek dates)
-			span {
+			> span {
 				min-width: 0;
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
 				-webkit-line-clamp: 2;
 				overflow: hidden;
 				overflow-wrap: anywhere;
+			}
+		}
+		// the organizer: the logo (or the letters) at 20 px and the name on one line
+		.tz-event-card__org {
+			align-items: center;
+			> span {
+				-webkit-line-clamp: 1;
 			}
 		}
 	}
@@ -1726,5 +1733,114 @@
 		&.Mui-active {
 			box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--focus);
 		}
+	}
+}
+
+/* REFUND POLICY: the note on the event page, in the seat summary and at checkout; the confirmation for a non-refundable event */
+.tz-refund {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--space-3);
+	padding: var(--space-4);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface-raised);
+	color: var(--ink);
+	> svg {
+		flex: none;
+		margin-top: 2px;
+		color: var(--ink-muted);
+	}
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		min-width: 0;
+	}
+	strong {
+		font: var(--text-label-lg);
+		overflow-wrap: anywhere;
+	}
+	span {
+		font: var(--text-body-sm);
+		color: var(--ink-muted);
+	}
+	&--none,
+	&--closed {
+		border-color: var(--warning-text);
+		> svg {
+			color: var(--warning-text);
+		}
+	}
+	&--compact {
+		padding: var(--space-3);
+		margin-top: var(--space-3);
+		gap: var(--space-2);
+	}
+}
+.tz-refund-ack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	padding: var(--space-3);
+	border: 1px solid var(--warning-text);
+	border-radius: var(--radius-md);
+	background: var(--surface-raised);
+	&.is-on {
+		border-color: var(--border-control);
+	}
+	&__title {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		margin: 0;
+		font: var(--text-label-lg);
+		color: var(--warning-text);
+	}
+	&__check {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-3);
+		min-height: 44px;
+		padding: var(--space-2) 0;
+		font: var(--text-body);
+		cursor: pointer;
+		input {
+			flex: none;
+			width: 24px;
+			height: 24px;
+			margin: 0;
+			accent-color: var(--accent);
+			cursor: pointer;
+			&:focus-visible {
+				outline: 2px solid var(--focus);
+				outline-offset: 2px;
+			}
+		}
+	}
+	&__hint {
+		margin: 0;
+		font: var(--text-body-sm);
+		color: var(--ink-muted);
+	}
+}
+.tz-refund-confirmed {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	svg {
+		flex: none;
+		color: var(--success-text);
+	}
+}
+.orow__refund {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	font: var(--text-body-sm);
+	color: var(--ink-muted);
+	&--closed,
+	&--non_refundable {
+		color: var(--warning-text);
 	}
 }

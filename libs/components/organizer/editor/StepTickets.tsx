@@ -6,6 +6,7 @@ import { formatNumber } from '../../../format';
 import { LIMITS, tiersOfVenue, validateSaleWindow } from '../../../organizer/form';
 import { isUntouched } from '../../../organizer/useEventEditor';
 import { FormField, useErrorText } from './fields';
+import RefundFields from './RefundFields';
 import { StepProps } from './types';
 
 const StepTickets = ({ editor, readOnly }: StepProps) => {
@@ -124,6 +125,8 @@ const StepTickets = ({ editor, readOnly }: StepProps) => {
 				</FormField>
 			</div>
 			<p className="org-hint">{t('form.tickets.saleRule')}</p>
+
+			<RefundFields editor={editor} readOnly={readOnly} />
 		</div>
 	);
 };

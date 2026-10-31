@@ -39,14 +39,20 @@ interface Props {
 	onNavigate?: () => void;
 }
 
-/** "Today, 14:32", "Yesterday, 10:05", then a full date; in the viewer's time zone and language. */
+/**
+ * The time of a notification, in the viewer's time zone and language. `full` is "Today, 14:32", "Yesterday, 10:05", then a date (the
+ * tooltip and the machine-readable value); `short` is what the narrow right-hand column shows: "14:32", "Yesterday", then the date.
+ */
 function useWhen(iso: string) {
 	const { t } = useTranslation('common');
 	const { locale } = useRouter();
+	const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	const days = daysAgo(iso);
-	if (days === 0) return t('notifications.today', { time: formatEventTime(iso, locale, Intl.DateTimeFormat().resolvedOptions().timeZone) });
-	if (days === 1) return t('notifications.yesterday', { time: formatEventTime(iso, locale, Intl.DateTimeFormat().resolvedOptions().timeZone) });
-	return formatViewerDate(iso, locale);
+	const time = formatEventTime(iso, locale, zone);
+	if (days === 0) return { full: t('notifications.today', { time }), short: time };
+	if (days === 1) return { full: t('notifications.yesterday', { time }), short: t('notifications.yesterdayShort') };
+	const date = formatViewerDate(iso, locale);
+	return { full: date, short: date };
 }
 
 /**
@@ -70,19 +76,21 @@ const NotificationRow = ({ item, memberType, onOpen, onNavigate }: Props) => {
 
 	const text = sentence ? t(sentence, { sender: SENDER_MARK }) : title ? t(title) : item.notificationTitle;
 	const parts = text.split(SENDER_MARK);
+	// The event name and the detail share one line; the line is cut with an ellipsis, the full text is in the title of the link
+	const preview = [chip, detail].filter(Boolean).join(' · ');
 
 	const body = (
 		<>
 			{person ? (
 				<span className="notif__avatar" aria-hidden="true">
-					<OrganizerAvatar member={person} size={40} />
+					<OrganizerAvatar member={person} size={32} />
 					<span className="notif__badge">
 						<Icon size={12} weight="fill" />
 					</span>
 				</span>
 			) : (
 				<span className="notif__icon" aria-hidden="true">
-					<Icon size={20} />
+					<Icon size={18} />
 				</span>
 			)}
 			<span className="notif__text">
@@ -94,16 +102,19 @@ const NotificationRow = ({ item, memberType, onOpen, onNavigate }: Props) => {
 						</span>
 					))}
 				</span>
-				{chip && <span className="notif__chip">{chip}</span>}
-				{detail && <span className="notif__desc">{detail}</span>}
-				<span className="notif__when">{when}</span>
+				{preview && <span className="notif__preview">{preview}</span>}
 			</span>
-			{unread && (
-				<>
-					<span className="notif__dot" aria-hidden="true" />
-					<span className="tz-sr">{t('notifications.unread')}</span>
-				</>
-			)}
+			<span className="notif__side">
+				<time className="notif__when" dateTime={item.createdAt} title={when.full}>
+					{when.short}
+				</time>
+				{unread && (
+					<>
+						<span className="notif__dot" aria-hidden="true" />
+						<span className="tz-sr">{t('notifications.unread')}</span>
+					</>
+				)}
+			</span>
 		</>
 	);
 

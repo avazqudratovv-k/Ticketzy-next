@@ -34,6 +34,7 @@ const EventLayoutPreview = ({ venue, ticketTypes }: { venue: AdminVenue; ticketT
 	return (
 		<div className="adm-layout">
 			<SeatMap
+				focalArea={venue.venueLayout?.focalArea}
 				sections={sections}
 				tiers={tiers}
 				taken={NO_TAKEN}

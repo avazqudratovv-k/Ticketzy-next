@@ -197,7 +197,8 @@ export const getTheme = (mode: ThemeMode): Theme =>
 			MuiDivider: { styleOverrides: { root: { borderColor: 'var(--border)' } } },
 			MuiAvatar: {
 				styleOverrides: {
-					root: { background: 'var(--neutral-soft)', color: 'var(--ink)', font: 'var(--text-label)' },
+					// The letters are sized by `.tz-avatar__letter` (scss/app.scss), so the circle has no font shorthand of its own
+					root: { background: 'var(--neutral-soft)', color: 'var(--ink)', fontFamily: 'var(--font-sans)' },
 				},
 			},
 			MuiTooltip: {

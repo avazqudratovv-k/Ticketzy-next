@@ -1,32 +1,31 @@
 import { useCallback, useReducer } from 'react';
-import { Layout } from './model';
 
 export const HISTORY_LIMIT = 100;
 const COALESCE_MS = 900;
 
-interface State {
-	past: Layout[];
-	present: Layout;
-	future: Layout[];
+interface State<T> {
+	past: T[];
+	present: T;
+	future: T[];
 	/** The layout before a drag or another gesture that is still going on (it becomes one undo step when it ends) */
-	base: Layout | null;
+	base: T | null;
 	lastKey: string | null;
 	lastAt: number;
 	/** Bumped when the history is replaced (load, save), so the editor can tell a reset from an edit */
 	epoch: number;
 }
 
-type Action =
-	| { type: 'set'; layout: Layout; key?: string; now: number }
-	| { type: 'preview'; layout: Layout }
+type Action<T> =
+	| { type: 'set'; layout: T; key?: string; now: number }
+	| { type: 'preview'; layout: T }
 	| { type: 'commit' }
 	| { type: 'undo' }
 	| { type: 'redo' }
-	| { type: 'reset'; layout: Layout };
+	| { type: 'reset'; layout: T };
 
-const push = (past: Layout[], layout: Layout) => [...past, layout].slice(-HISTORY_LIMIT);
+const push = <T,>(past: T[], layout: T) => [...past, layout].slice(-HISTORY_LIMIT);
 
-function reduce(state: State, action: Action): State {
+function reduce<T>(state: State<T>, action: Action<T>): State<T> {
 	switch (action.type) {
 		case 'set': {
 			if (action.layout === state.present) return state;
@@ -63,17 +62,17 @@ function reduce(state: State, action: Action): State {
 	}
 }
 
-/** Undo and redo of the layout (the last 100 steps). `set` records a step, `preview` + `commit` make one step of a drag. */
-export default function useLayoutHistory(initial: Layout) {
-	const [state, dispatch] = useReducer(reduce, { past: [], present: initial, future: [], base: null, lastKey: null, lastAt: 0, epoch: 0 });
-	const set = useCallback((layout: Layout, key?: string) => dispatch({ type: 'set', layout, key, now: Date.now() }), []);
-	const preview = useCallback((layout: Layout) => dispatch({ type: 'preview', layout }), []);
+/** Undo and redo of the whole venue drawing (sections and focal area; the last 100 steps). `set` records a step, `preview` + `commit` make one step of a drag. */
+export default function useLayoutHistory<T>(initial: T) {
+	const [state, dispatch] = useReducer(reduce as (state: State<T>, action: Action<T>) => State<T>, { past: [], present: initial, future: [], base: null, lastKey: null, lastAt: 0, epoch: 0 });
+	const set = useCallback((layout: T, key?: string) => dispatch({ type: 'set', layout, key, now: Date.now() }), []);
+	const preview = useCallback((layout: T) => dispatch({ type: 'preview', layout }), []);
 	const commit = useCallback(() => dispatch({ type: 'commit' }), []);
 	const undo = useCallback(() => dispatch({ type: 'undo' }), []);
 	const redo = useCallback(() => dispatch({ type: 'redo' }), []);
-	const reset = useCallback((layout: Layout) => dispatch({ type: 'reset', layout }), []);
+	const reset = useCallback((layout: T) => dispatch({ type: 'reset', layout }), []);
 	return {
-		layout: state.present,
+		present: state.present,
 		set,
 		preview,
 		commit,

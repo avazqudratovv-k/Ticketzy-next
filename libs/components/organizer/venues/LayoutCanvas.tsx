@@ -1,9 +1,10 @@
 import { PointerEvent as ReactPointerEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { ArrowsOut, GridFour, Magnet, MagnifyingGlassMinus, MagnifyingGlassPlus } from 'phosphor-react';
-import { SectionSeats, StandingArea } from '../../seats/SeatMap';
-import { hasStage, sectionBounds, tierColor, tierIndexes } from '../../../seats/layout';
-import { TakenSeat } from '../../../seats/types';
+import { FocalShape, SectionSeats, StandingArea } from '../../seats/SeatMap';
+import { FOCAL_CANVAS, MIN_STAGE } from '../../../seats/focal';
+import { sectionBounds, tierColor, tierIndexes } from '../../../seats/layout';
+import { FocalArea, TakenSeat } from '../../../seats/types';
 import { asLayoutSections, boundsOf, CANVAS, clampToCanvas, DraftSection, GRID, Layout, layoutSectionOf, SectionIssues, sizeOf, snap } from '../../../venues/model';
 
 const NONE_TAKEN = new Map<string, TakenSeat>();
@@ -22,8 +23,44 @@ interface View {
 }
 const FIT: View = { cx: FULL.x + FULL.w / 2, cy: FULL.y + FULL.h / 2, zoom: 1 };
 
+/** The corners and the middle of the left and right sides: what a STAGE can be pulled by. */
+type Handle = 'nw' | 'ne' | 'sw' | 'se' | 'w' | 'e';
+const HANDLES: Handle[] = ['nw', 'ne', 'sw', 'se', 'w', 'e'];
+type StageRect = Pick<FocalArea, 'x' | 'y' | 'width' | 'height'>;
+
+const handlePoint = (stage: StageRect, handle: Handle) => ({
+	x: handle.includes('w') ? stage.x : stage.x + stage.width,
+	y: handle === 'w' || handle === 'e' ? stage.y + stage.height / 2 : handle.startsWith('n') ? stage.y : stage.y + stage.height,
+});
+
+/** The stage after a handle is pulled to the point (px, py): the opposite side stays where it is. */
+function resizeStage(orig: StageRect, handle: Handle, px: number, py: number): StageRect {
+	const right = orig.x + orig.width;
+	const bottom = orig.y + orig.height;
+	const x = Math.min(FOCAL_CANVAS.width, Math.max(0, px));
+	const y = Math.min(FOCAL_CANVAS.height, Math.max(0, py));
+	let next = { ...orig };
+	if (handle.includes('w')) {
+		const left = Math.min(x, right - MIN_STAGE.width);
+		next = { ...next, x: left, width: right - left };
+	}
+	if (handle.includes('e')) next = { ...next, width: Math.max(MIN_STAGE.width, x - orig.x) };
+	if (handle.startsWith('n')) {
+		const top = Math.min(y, bottom - MIN_STAGE.height);
+		next = { ...next, y: top, height: bottom - top };
+	}
+	if (handle.startsWith('s')) next = { ...next, height: Math.max(MIN_STAGE.height, y - orig.y) };
+	return next;
+}
+
 interface Props {
 	layout: Layout;
+	/** Stage or pitch. A pitch is drawn at its fixed size and has no handles. */
+	focal: FocalArea;
+	focalSelected: boolean;
+	onSelectFocal: () => void;
+	/** A stage drag or resize in progress (not an undo step yet) */
+	onStagePreview: (next: StageRect) => void;
 	selectedId: string | null;
 	issues: Map<string, SectionIssues>;
 	readOnly: boolean;
@@ -42,18 +79,24 @@ interface Props {
  * organizer edits is what buyers see. Drag a section to move it; drag the empty canvas to pan; pinch, Ctrl + wheel or the
  * buttons to zoom.
  */
-const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGrid, onSnap, onSelect, onPreview, onDragEnd }: Props) => {
+const LayoutCanvas = ({ layout, focal, focalSelected, onSelectFocal, onStagePreview, selectedId, issues, readOnly, grid, snapOn, onGrid, onSnap, onSelect, onPreview, onDragEnd }: Props) => {
 	const { t } = useTranslation(['organizer', 'checkout']);
 	const [view, setView] = useState<View>(FIT);
 	const svgRef = useRef<SVGSVGElement>(null);
 	const wrapRef = useRef<HTMLDivElement>(null);
 	const pointers = useRef(new Map<number, { x: number; y: number }>());
 	const gesture = useRef<{ pinch: number; moved: boolean; startX: number; startY: number }>({ pinch: 0, moved: false, startX: 0, startY: 0 });
-	const drag = useRef<{ id: string; pointerId: number; offX: number; offY: number; started: boolean } | null>(null);
+	type Drag =
+		| { kind: 'section'; id: string; pointerId: number; offX: number; offY: number; started: boolean }
+		| { kind: 'stage'; pointerId: number; offX: number; offY: number; started: boolean }
+		| { kind: 'resize'; handle: Handle; orig: StageRect; pointerId: number; started: boolean };
+	const drag = useRef<Drag | null>(null);
+	const [pxPerUnit, setPxPerUnit] = useState(1);
+	const [coarse, setCoarse] = useState(false);
 
 	const sections = useMemo(() => asLayoutSections(layout), [layout]);
 	const tiers = useMemo(() => tierIndexes(sections), [sections]);
-	const stage = hasStage(sections);
+	const editableStage = focal.type === 'STAGE' && !readOnly;
 
 	const viewBox = useMemo(() => {
 		const w = FULL.w / view.zoom;
@@ -62,6 +105,24 @@ const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGr
 		const cy = Math.min(FULL.y + FULL.h - h / 2, Math.max(FULL.y + h / 2, view.cy));
 		return { x: cx - w / 2, y: cy - h / 2, w, h };
 	}, [view]);
+
+	// Pixels per canvas unit, so the handles keep a fixed size on screen (and a 44 px target on touch screens)
+	useEffect(() => {
+		const element = wrapRef.current;
+		if (!element) return undefined;
+		const measure = () => setPxPerUnit(element.clientWidth / viewBox.w || 1);
+		measure();
+		const observer = new ResizeObserver(measure);
+		observer.observe(element);
+		return () => observer.disconnect();
+	}, [viewBox.w]);
+	useEffect(() => {
+		const query = window.matchMedia('(pointer: coarse)');
+		const update = () => setCoarse(query.matches);
+		update();
+		query.addEventListener('change', update);
+		return () => query.removeEventListener('change', update);
+	}, []);
 
 	const toSvg = useCallback((clientX: number, clientY: number) => {
 		const svg = svgRef.current;
@@ -108,6 +169,7 @@ const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGr
 	}, [selectedId]);
 
 	const sectionAt = (target: EventTarget | null) => (target as Element | null)?.closest?.('[data-sec]')?.getAttribute('data-sec') ?? null;
+	const focalAt = (target: EventTarget | null) => Boolean((target as Element | null)?.closest?.('[data-focal-hit]'));
 
 	const onPointerDown = (event: ReactPointerEvent<SVGSVGElement>) => {
 		pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
@@ -118,13 +180,29 @@ const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGr
 			drag.current = null;
 			return;
 		}
+		const handle = (event.target as Element | null)?.closest?.('[data-handle]')?.getAttribute('data-handle') as Handle | null | undefined;
+		if (handle && editableStage) {
+			drag.current = { kind: 'resize', handle, orig: { x: focal.x, y: focal.y, width: focal.width, height: focal.height }, pointerId: event.pointerId, started: false };
+			svgRef.current?.setPointerCapture?.(event.pointerId);
+			return;
+		}
 		const id = sectionAt(event.target);
 		if (id) {
 			onSelect(id);
 			const section = layout.find((s) => s.id === id);
 			const point = toSvg(event.clientX, event.clientY);
 			if (section && point && !readOnly) {
-				drag.current = { id, pointerId: event.pointerId, offX: point.x - section.x, offY: point.y - section.y, started: false };
+				drag.current = { kind: 'section', id, pointerId: event.pointerId, offX: point.x - section.x, offY: point.y - section.y, started: false };
+				svgRef.current?.setPointerCapture?.(event.pointerId);
+			}
+			return;
+		}
+		if (focalAt(event.target)) {
+			onSelectFocal();
+			const point = toSvg(event.clientX, event.clientY);
+			// A pitch is selected (to read about it) but never dragged
+			if (editableStage && point) {
+				drag.current = { kind: 'stage', pointerId: event.pointerId, offX: point.x - focal.x, offY: point.y - focal.y, started: false };
 				svgRef.current?.setPointerCapture?.(event.pointerId);
 			}
 		}
@@ -154,7 +232,21 @@ const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGr
 		gesture.current.moved = true;
 
 		const current = drag.current;
-		if (current && current.pointerId === event.pointerId) {
+		if (current && current.pointerId === event.pointerId && current.kind === 'resize') {
+			const point = toSvg(event.clientX, event.clientY);
+			if (!point) return;
+			current.started = true;
+			onStagePreview(resizeStage(current.orig, current.handle, snap(point.x, snapOn), snap(point.y, snapOn)));
+			return;
+		}
+		if (current && current.pointerId === event.pointerId && current.kind === 'stage') {
+			const point = toSvg(event.clientX, event.clientY);
+			if (!point) return;
+			current.started = true;
+			onStagePreview({ x: snap(point.x - current.offX, snapOn), y: snap(point.y - current.offY, snapOn), width: focal.width, height: focal.height });
+			return;
+		}
+		if (current && current.pointerId === event.pointerId && current.kind === 'section') {
 			const section = layout.find((s) => s.id === current.id);
 			const point = toSvg(event.clientX, event.clientY);
 			if (!section || !point) return;
@@ -175,11 +267,10 @@ const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGr
 			if (drag.current.started) onDragEnd();
 			drag.current = null;
 		}
-		if (!gesture.current.moved && !sectionAt(event.target) && pointers.current.size === 0) onSelect(null);
+		if (!gesture.current.moved && !sectionAt(event.target) && !focalAt(event.target) && pointers.current.size === 0) onSelect(null);
 	};
 
 	const selected = layout.find((s) => s.id === selectedId);
-	const plateStage = Math.min(CANVAS.w * 0.5, 320);
 
 	return (
 		<div className="seatmap lc">
@@ -224,20 +315,16 @@ const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGr
 					<rect className="lc__sheet" x={0} y={0} width={CANVAS.w} height={CANVAS.h} />
 					{grid && <rect x={0} y={0} width={CANVAS.w} height={CANVAS.h} fill="url(#lc-grid)" pointerEvents="none" />}
 					<rect className="lc__edge" x={0} y={0} width={CANVAS.w} height={CANVAS.h} pointerEvents="none" />
-					{stage ? (
-						<g className="seatmap__stage" pointerEvents="none">
-							<rect x={CANVAS.w / 2 - plateStage / 2} y={4} width={plateStage} height={22} rx={11} />
-							<text x={CANVAS.w / 2} y={15} textAnchor="middle" dominantBaseline="central">
-								{t('checkout:map.stage')}
-							</text>
-						</g>
-					) : (
-						<g className="lc__field" pointerEvents="none">
-							<text x={CANVAS.w / 2} y={CANVAS.h - 10} textAnchor="middle">
-								{t('organizer:venues.canvas.field')}
-							</text>
-						</g>
-					)}
+					<FocalShape focal={focal} stageLabel={t('checkout:map.stage')} pitchLabel={t('checkout:map.pitch')} />
+					<rect
+						className={`lc__focal ${focal.type === 'STAGE' && editableStage ? 'is-movable' : ''} ${focalSelected ? 'is-selected' : ''}`}
+						data-focal-hit
+						x={focal.x}
+						y={focal.y}
+						width={focal.width}
+						height={focal.height}
+						rx={focal.type === 'STAGE' ? Math.min(11, focal.height / 2) : 6}
+					/>
 					{layout.map((section) => {
 						const mapSection = layoutSectionOf(section);
 						const problems = issues.get(section.id);
@@ -270,6 +357,22 @@ const LayoutCanvas = ({ layout, selectedId, issues, readOnly, grid, snapOn, onGr
 						);
 					})}
 					{selected && <SelectionFrame section={selected} bad={Boolean(issues.get(selected.id)?.errors.length)} />}
+					{focalSelected && editableStage && (
+						<g className="lc__handles">
+							{HANDLES.map((handle) => {
+								const at = handlePoint(focal, handle);
+								const size = 10 / pxPerUnit;
+								// 44 px target on a touch screen, 28 px with a mouse
+								const reach = (coarse ? 22 : 14) / pxPerUnit;
+								return (
+									<g key={handle} data-handle={handle} className={`lc__handle lc__handle--${handle}`}>
+										<circle className="lc__handle-hit" cx={at.x} cy={at.y} r={reach} />
+										<rect className="lc__handle-dot" x={at.x - size / 2} y={at.y - size / 2} width={size} height={size} rx={size * 0.2} pointerEvents="none" />
+									</g>
+								);
+							})}
+						</g>
+					)}
 				</svg>
 			</div>
 		</div>

@@ -27,6 +27,10 @@ interface Props {
 	/** `blocked`: nothing to continue with yet; outlined `tz-blocked` look with `aria-disabled` and the `hint` line (F329). `disabled` is for a request in flight. */
 	action: { label: string; busyLabel: string; busy: boolean; disabled: boolean; blocked?: boolean; hint?: string; onClick: () => void };
 	secondary?: ReactNode;
+	/** The refund policy of the event, under the total */
+	policy?: ReactNode;
+	/** The non-refundable confirmation (a checkbox), right above the button */
+	gate?: ReactNode;
 	empty: string;
 	/** Overrides of the "N seats" labels, for tickets without seats */
 	countLabel?: string;
@@ -34,7 +38,7 @@ interface Props {
 }
 
 /** The sticky summary of the picked seats or tickets; on phones it is a bottom sheet with the total always visible. */
-const SeatSummary = ({ heading, lines, count, total, currency, note, timer, action, secondary, empty, countLabel, totalLabel }: Props) => {
+const SeatSummary = ({ heading, lines, count, total, currency, note, timer, action, secondary, policy, gate, empty, countLabel, totalLabel }: Props) => {
 	const { t } = useTranslation('checkout');
 	const { locale } = useRouter();
 	const [open, setOpen] = useState(false);
@@ -82,8 +86,10 @@ const SeatSummary = ({ heading, lines, count, total, currency, note, timer, acti
 					</div>
 					{note && <span className="summary__note">{note}</span>}
 				</div>
+				{policy}
 			</div>
 			<div className="summary__actions">
+				{gate}
 				{action.blocked && action.hint && (
 					<p id="summary-hint" className="summary__hint">
 						{action.hint}

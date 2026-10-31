@@ -184,7 +184,8 @@
     "sender": {
       "admin": "Admin",
       "someone": "Kimdir"
-    }
+    },
+    "yesterdayShort": "Kecha"
   },
   "approval": {
     "message": "Tashkilotchi hisobingiz tasdiqlandi. Ticketzyga xush kelibsiz!"

@@ -190,7 +190,8 @@
     "sender": {
       "admin": "Администратор",
       "someone": "Кто-то"
-    }
+    },
+    "yesterdayShort": "Вчера"
   },
   "approval": {
     "message": "Аккаунт организатора одобрен. Добро пожаловать в Ticketzy!"

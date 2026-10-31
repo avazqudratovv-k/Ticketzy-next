@@ -180,3 +180,29 @@ select:-webkit-autofill:active {
 		color: var(--warning-text);
 	}
 }
+
+/* AVATAR: the letters are exactly centered, at every size (F387) */
+.tz-avatar.MuiAvatar-root {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	line-height: 1;
+	overflow: hidden;
+}
+.tz-avatar__letter {
+	display: block;
+	/* follows the circle: 40% of its size, never below 10px */
+	font-size: max(10px, calc(var(--avatar-size, 40px) * 0.4));
+	font-weight: 600;
+	line-height: 1;
+	letter-spacing: 0;
+	text-align: center;
+	white-space: nowrap;
+	/* The box is cut to the capital letters, so the circle's center is the letters' center (without it, the line box has
+	   uneven room above and below). Browsers without it keep line-height 1, which is close to centered. */
+	@supports (text-box: trim-both cap alphabetic) {
+		text-box: trim-both cap alphabetic;
+	}
+}

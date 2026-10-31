@@ -165,7 +165,6 @@
     "notPaid": "Only paid orders can be refunded.",
     "quoteError": "We could not check if this order can be refunded.",
     "deadline": "Refund deadline: {{date}}",
-    "rule": "Orders are refunded as a whole. Refunds are open until 23:59 on the day before the event, in the venue's time zone.",
     "amount": "Refundable amount",
     "request": "Request a refund",
     "irreversible": "Refunded tickets stop working straight away and the seats go back on sale. This cannot be undone.",
@@ -181,7 +180,8 @@
       "checkedIn": "An order with a ticket that was already scanned cannot be refunded.",
       "notPaid": "Only paid orders can be refunded.",
       "inProgress": "This order is being refunded right now. Check back in a moment.",
-      "failed": "The refund failed and nothing was changed. Please try again."
+      "failed": "The refund failed and nothing was changed. Please try again.",
+      "nonRefundable": "The tickets of this event are non-refundable."
     },
     "error": {
       "generic": "The refund could not be completed. Please try again."

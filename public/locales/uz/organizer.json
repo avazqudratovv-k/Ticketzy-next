@@ -349,7 +349,8 @@
       "tickets": "Chiptalar: {{formatted}}",
       "noTranslations": "Faqat inglizcha",
       "fixErrors": "Ba’zi maydonlar e’tibor talab qiladi. Yuborishdan oldin ularni tuzating.",
-      "after": "Administrator har bir tadbirni sotuvga chiqishidan oldin tekshiradi. Yuborganingizdan keyin holat “Koʻrib chiqilmoqda” boʻladi va administrator qaror chiqarguncha tadbir bloklanadi."
+      "after": "Administrator har bir tadbirni sotuvga chiqishidan oldin tekshiradi. Yuborganingizdan keyin holat “Koʻrib chiqilmoqda” boʻladi va administrator qaror chiqarguncha tadbir bloklanadi.",
+      "refundNone": "Qaytarilmaydi"
     },
     "errors": {
       "title": "3 dan 100 tagacha belgi kiriting.",
@@ -372,7 +373,23 @@
       "lastDayBeforeFirst": "Oxirgi kun birinchi kundan oldin boʻlishi mumkin emas.",
       "dailyEndBeforeStart": "Tugash vaqti boshlanish vaqtidan keyin boʻlishi kerak. Kunlik vaqt yarim tundan oshib ketmaydi.",
       "saleEndAfterEventEnd": "Sotuv tadbir tugaganidan keyin tugashi mumkin emas.",
-      "saleStartAfterEventEnd": "Sotuv tadbir tugashidan oldin boshlanishi kerak."
+      "saleStartAfterEventEnd": "Sotuv tadbir tugashidan oldin boshlanishi kerak.",
+      "refundDays": "1 dan 30 gacha butun kun sonini kiriting."
+    },
+    "refund": {
+      "title": "Qaytarish siyosati",
+      "hint": "Xaridorlar buni tadbir sahifasida va toʻlov bosqichida koʻradi. Buyurtma sotib olingan paytdagi siyosatni saqlaydi, shuning uchun keyingi oʻzgarish faqat yangi buyurtmalarga taʼsir qiladi.",
+      "REFUNDABLE": {
+        "title": "Qaytariladi",
+        "text": "Xaridorlar oʻsha kuni maydon vaqti bilan 23:59 gacha butun buyurtmani qaytarishi mumkin."
+      },
+      "NON_REFUNDABLE": {
+        "title": "Qaytarilmaydi",
+        "text": "Xaridor toʻlashdan oldin biletlar qaytarilmasligini tushunganini belgilashi kerak."
+      },
+      "days": "Tadbirdan necha kun oldin",
+      "daysHint": "1 dan 30 gacha butun son. 1 oldingi kun oxirigacha degani.",
+      "deadline": "Hozirgi sanalar boʻyicha qaytarish {{date}} da yopiladi."
     }
   },
   "ai": {
@@ -628,8 +645,7 @@
     "canvas": {
       "label": "Joy sxemasi maydoni, {{size}}. Seksiyani koʻchirish uchun uni sudrang.",
       "grid": "Toʻr",
-      "snap": "{{size}} ga moslash",
-      "field": "Maydon"
+      "snap": "{{size}} ga moslash"
     },
     "panel": {
       "label": "Seksiya xususiyatlari va roʻyxat",
@@ -665,7 +681,9 @@
       "duplicate": "Nusxalash",
       "delete": "Oʻchirish",
       "decrease": "Kamaytirish: {{field}}",
-      "increase": "Koʻpaytirish: {{field}}"
+      "increase": "Koʻpaytirish: {{field}}",
+      "level": "Qavat",
+      "levelHint": "Joydan 3D koʻrinishda ishlatiladi."
     },
     "issues": {
       "keyRequired": "Kalitni kiriting.",
@@ -705,36 +723,58 @@
       "meta": "Seksiyalar: {{sections}} · Sigʻim: {{capacity}}",
       "use": "Bu sxemani ishlatish",
       "cancel": "Bekor qilish",
-      "theater": {
-        "name": "Kichik teatr",
-        "text": "Sahna roʻparasida oldingi qatorlar, uch blokli parter va balkon.",
+      "CONCERT_HALL": {
+        "name": "Konsert zali",
+        "text": "Tepada sahna, parter oʻrindiqlari, yon lojalar, pastki va yuqori qavat.",
         "sections": {
-          "FRONT": "Oldingi qatorlar",
-          "ORCH_C": "Parter, markaz",
-          "ORCH_L": "Parter, chap",
-          "ORCH_R": "Parter, oʻng",
-          "BALCONY": "Balkon"
+          "FLOOR": "Parter",
+          "BOX_L": "Chap lojalar",
+          "BOX_R": "Oʻng lojalar",
+          "LOWER": "Pastki qavat",
+          "UPPER": "Yuqori qavat"
         }
       },
-      "stadium": {
-        "name": "Tik turish maydonli stadion",
-        "text": "Oʻrtada tik turish maydoni, toʻrt tomonda oʻrindiqli tribunalar.",
+      "ARENA": {
+        "name": "Arena",
+        "text": "Bir chetda sahna, tik turib koʻriladigan maydon va qolgan uch tomonda pastki va yuqori qavatlar.",
         "sections": {
           "FLOOR": "Tik turish maydoni",
-          "NORTH": "Shimoliy tribuna",
-          "SOUTH": "Janubiy tribuna",
-          "EAST": "Sharqiy tribuna",
-          "WEST": "Gʻarbiy tribuna"
+          "LOWER_L": "Pastki chap",
+          "LOWER_R": "Pastki oʻng",
+          "LOWER_END": "Pastki orqa",
+          "UPPER_L": "Yuqori chap",
+          "UPPER_R": "Yuqori oʻng",
+          "UPPER_END": "Yuqori orqa"
         }
       },
-      "club": {
-        "name": "Komediya klubi stollari",
-        "text": "Ikki qator stollar va orqada tik turib foydalaniladigan bar.",
+      "FOOTBALL_STADIUM": {
+        "name": "Futbol stadioni",
+        "text": "Markazda oʻlchami qat’iy 105:68 maydon va toʻrtta tribuna (shimol, janub, gʻarb, sharq), har birida pastki va yuqori daraja.",
         "sections": {
-          "TABLE": "Stol",
-          "BAR": "Tik turish bari"
+          "LOWER_N": "Shimol, pastki",
+          "UPPER_N": "Shimol, yuqori",
+          "LOWER_S": "Janub, pastki",
+          "UPPER_S": "Janub, yuqori",
+          "LOWER_W": "Asosiy tribuna (gʻarb)",
+          "UPPER_W": "Gʻarb, yuqori",
+          "LOWER_E": "Sharq, pastki",
+          "UPPER_E": "Sharq, yuqori"
         }
-      }
+      },
+      "COMEDY_CLUB": {
+        "name": "Komediya klubi / kichik teatr",
+        "text": "Kichik sahna va bir necha qator: old stollar, asosiy blok va orqa qatorlar, hammasi bir qavatda.",
+        "sections": {
+          "FRONT": "Old stollar",
+          "MAIN": "Asosiy qatorlar",
+          "BACK": "Orqa qatorlar"
+        }
+      },
+      "loading": "Shablonlar yuklanmoqda…",
+      "error": "Shablonlarni yuklab boʻlmadi.",
+      "retry": "Qayta urinish",
+      "pitchNote": "Maydon (oʻlchami qat’iy)",
+      "stageNote": "Sahna"
     },
     "delete": {
       "title": "“{{name}}” oʻchirilsinmi?",
@@ -762,6 +802,27 @@
         "title": "Joy topilmadi",
         "text": "U oʻchirilgan yoki havola notoʻgʻri boʻlishi mumkin."
       }
+    },
+    "level": {
+      "0": "Parter",
+      "1": "Pastki qavat",
+      "2": "Yuqori qavat"
+    },
+    "focal": {
+      "listTitle": "Sahna yoki maydon",
+      "stage": "Sahna",
+      "pitch": "Maydon",
+      "stageSize": "{{width}} × {{height}}",
+      "pitchFixed": "oʻlchami qat’iy",
+      "stageTitle": "Sahna",
+      "pitchTitle": "Maydon",
+      "x": "Chap (X)",
+      "y": "Yuqori (Y)",
+      "width": "Eni",
+      "height": "Balandligi",
+      "stageHint": "Sahnani polotnoda suring, oʻlchamini burchakdan tortib oʻzgartiring yoki raqamlarni kiriting. U {{width}} × {{height}} polotno ichida qoladi.",
+      "pitchNote": "Maydonning oʻlchami qat’iy (105 × 68 m, masshtabda) va u polotno markazida turadi. Uni surib yoki oʻlchamini oʻzgartirib boʻlmaydi.",
+      "handle": "Sahna oʻlchamini oʻzgartirish"
     }
   },
   "orders": {

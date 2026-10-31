@@ -60,6 +60,9 @@ const StepReview = ({ editor, onGo }: StepProps & { onGo: (step: StepId) => void
 						))
 					)}
 				</Row>
+				<Row step="tickets" label={t('form.refund.title')}>
+					{values.refundType === 'NON_REFUNDABLE' ? t('form.review.refundNone') : te('refund.daysBefore', { count: Number(values.refundDays) || 1 })}
+				</Row>
 				<Row step="translations" label={t('form.steps.translations')}>
 					{translated.length === 0 ? t('form.review.noTranslations') : translated.map((code) => t(`form.translations.locales.${code}`)).join(', ')}
 				</Row>

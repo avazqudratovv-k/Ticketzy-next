@@ -293,13 +293,44 @@
 		fill: var(--ink-subtle);
 		opacity: 0.55;
 	}
-	&__field {
-		text {
-			fill: var(--ink-subtle);
-			font: 600 12px var(--font-sans);
-			letter-spacing: 0.08em;
-			text-transform: uppercase;
+	/* The invisible target over the stage or pitch; a stage is dragged by it, a pitch only selects */
+	&__focal {
+		fill: transparent;
+		stroke: none;
+		cursor: pointer;
+		&.is-movable {
+			cursor: move;
 		}
+		&.is-selected {
+			stroke: var(--ink);
+			stroke-width: 1.5;
+			stroke-dasharray: 5 4;
+			vector-effect: non-scaling-stroke;
+		}
+	}
+	&__handle {
+		touch-action: none;
+		&--w,
+		&--e {
+			cursor: ew-resize;
+		}
+		&--nw,
+		&--se {
+			cursor: nwse-resize;
+		}
+		&--ne,
+		&--sw {
+			cursor: nesw-resize;
+		}
+	}
+	&__handle-hit {
+		fill: transparent;
+	}
+	&__handle-dot {
+		fill: var(--surface);
+		stroke: var(--ink);
+		stroke-width: 1.5;
+		vector-effect: non-scaling-stroke;
 	}
 	&__sec {
 		cursor: move;
@@ -447,6 +478,15 @@
 	align-items: center;
 	gap: var(--space-2);
 }
+.sp-xy--grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: start;
+	gap: var(--space-3);
+	.sp-num {
+		width: 100%;
+	}
+}
 .sp-xy label {
 	font: var(--text-label);
 	color: var(--ink-muted);
@@ -504,7 +544,7 @@
 	padding: 0;
 	list-style: none;
 	@media (min-width: 720px) {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 	&__card {
 		display: flex;

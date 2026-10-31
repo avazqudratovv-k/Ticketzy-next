@@ -59,6 +59,8 @@ export interface EventItem {
 	saleStartAt?: string | null;
 	saleEndAt?: string | null;
 	cancelReason?: string | null;
+	/** absent in old data: refundable until the day before */
+	refundPolicy?: { policyType: 'REFUNDABLE' | 'NON_REFUNDABLE'; daysBefore: number } | null;
 	venueData?: Venue | null;
 	memberData?: EventOrganizer | null;
 	meLiked?: { myFavorite: boolean }[] | null;

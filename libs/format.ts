@@ -194,31 +194,6 @@ export function formatShortDate(iso: string, locale?: string): string {
 	}).format(new Date(iso));
 }
 
-/**
- * Refund policy (backend DECISIONS #55): refunds are possible until 23:59 on the day before the event starts,
- * on the wall clock of the venue. Returns that day as a localized date.
- */
-export function formatRefundDeadlineDay(startIso: string, locale?: string, timeZone?: string | null): string {
-	const zone = safeZone(timeZone);
-	const parts = new Intl.DateTimeFormat('en-CA', {
-		timeZone: zone,
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-	}).formatToParts(new Date(startIso));
-	const get = (type: string) => Number(parts.find((p) => p.type === type)?.value);
-	// A calendar day minus one, computed on UTC so it is not affected by any DST shift
-	const dayBefore = new Date(Date.UTC(get('year'), get('month') - 1, get('day') - 1));
-	if (locale === 'uz') return uzDate(dayBefore, 'UTC', true);
-	return new Intl.DateTimeFormat(intlLocale(locale), {
-		timeZone: 'UTC',
-		weekday: 'short',
-		day: 'numeric',
-		month: 'long',
-		year: 'numeric',
-	}).format(dayBefore);
-}
-
 /** Value for an `<input type="date">` boundary: start or end of that day on Seoul time (the platform default). */
 export const dayBoundaryIso = (day: string, end: boolean) => `${day}T${end ? '23:59:59.999' : '00:00:00.000'}+09:00`;
 

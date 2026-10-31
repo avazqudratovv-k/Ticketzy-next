@@ -322,6 +322,23 @@
 			font: 600 11px var(--font-sans);
 		}
 	}
+	&__pitch {
+		line,
+		circle,
+		rect {
+			fill: none;
+			stroke: var(--border-control);
+			stroke-width: 1.2;
+		}
+		.seatmap__pitch-field {
+			fill: var(--surface-raised);
+			stroke: var(--border-control);
+		}
+		text {
+			fill: var(--ink-muted);
+			font: 600 11px var(--font-sans);
+		}
+	}
 	&__name {
 		fill: var(--ink-muted);
 		font: 600 11px var(--font-sans);

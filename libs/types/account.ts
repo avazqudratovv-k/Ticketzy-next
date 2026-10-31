@@ -31,6 +31,9 @@ export interface AccountOrder {
 	expiresAt: string;
 	paidAt?: string | null;
 	refundedAt?: string | null;
+	/** the event's policy when the order was placed */
+	refundPolicy?: { policyType: 'REFUNDABLE' | 'NON_REFUNDABLE'; daysBefore: number } | null;
+	nonRefundableAcknowledgedAt?: string | null;
 	createdAt: string;
 	eventData?: AccountEvent | null;
 }
@@ -62,6 +65,7 @@ export interface RefundQuote {
 	refundable: boolean;
 	deadline: string;
 	venueTimezone: string;
+	refundPolicy?: { policyType: 'REFUNDABLE' | 'NON_REFUNDABLE'; daysBefore: number } | null;
 	refundableAmount: number;
 	currency?: string | null;
 	reason?: string | null;

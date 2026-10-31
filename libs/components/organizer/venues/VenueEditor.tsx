@@ -17,6 +17,7 @@ import { VenueRecord } from '../../../venues/types';
 import SeatMap from '../../seats/SeatMap';
 import { FormField } from '../editor/fields';
 import { organizerEventEditUrl } from '../../../routes';
+import FocalPanel from './FocalPanel';
 import LayoutCanvas from './LayoutCanvas';
 import SectionPanel from './SectionPanel';
 import TemplateDialog from './TemplateDialog';
@@ -61,7 +62,7 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 			onSaved(saved, created);
 		},
 	});
-	const { values, setField, fieldErrors, showErrors, layout, history, selectedId, setSelectedId, checked, sums, tiers, saving, save, serverError, locked, savedAt, dirty } = editor;
+	const { values, setField, fieldErrors, showErrors, layout, focal, focalSelected, selectFocal, history, selectedId, setSelectedId, checked, sums, tiers, saving, save, serverError, locked, savedAt, dirty } = editor;
 	allowRoute.current = useUnsavedGuard(dirty && !foreign, t('organizer:venues.leave')).allowNextRoute;
 
 	useEffect(() => {
@@ -128,6 +129,18 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 		if (mod && key === 'y') {
 			event.preventDefault();
 			history.redo();
+			return;
+		}
+		if (!selected && focalSelected && !locked && mode === 'edit') {
+			// The stage: arrows move it, Alt + arrows resize it. A pitch is fixed, so nothing happens.
+			if (key === 'escape') setSelectedId(null);
+			if (focal.type !== 'STAGE' || !key.startsWith('arrow') || mod) return;
+			event.preventDefault();
+			const step = (event.shiftKey ? 10 : 1) * (editor.snapOn ? GRID : 1);
+			const dx = key === 'arrowleft' ? -step : key === 'arrowright' ? step : 0;
+			const dy = key === 'arrowup' ? -step : key === 'arrowdown' ? step : 0;
+			if (event.altKey) editor.updateStage({ width: focal.width + dx, height: focal.height + dy }, 'keys');
+			else editor.updateStage({ x: focal.x + dx, y: focal.y + dy }, 'keys');
 			return;
 		}
 		if (!selected || locked || mode !== 'edit') return;
@@ -364,6 +377,10 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 						{mode === 'edit' ? (
 							<LayoutCanvas
 								layout={layout}
+								focal={focal}
+								focalSelected={focalSelected}
+								onSelectFocal={selectFocal}
+								onStagePreview={editor.previewStage}
 								selectedId={selectedId}
 								issues={checked.bySection}
 								readOnly={locked}
@@ -382,6 +399,7 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 									<p className="org-hint">{t('organizer:venues.layout.empty')}</p>
 								) : (
 									<SeatMap
+										focalArea={focal}
 										sections={previewSections}
 										tiers={tierIndex}
 										taken={NO_TAKEN}
@@ -420,11 +438,22 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 					</div>
 
 					<section className="ve__side" aria-label={t('organizer:venues.panel.label')}>
-						{mode === 'edit' && selected ? (
+						{mode === 'edit' && focalSelected && !selected ? (
+							<FocalPanel editor={editor} />
+						) : mode === 'edit' && selected ? (
 							<SectionPanel editor={editor} section={selected} onDelete={setDeleteId} tierKeys={tierKeys} />
 						) : (
 							<p className="org-hint">{mode === 'edit' ? t('organizer:venues.panel.none') : t('organizer:venues.panel.previewOnly')}</p>
 						)}
+						<h3 className="ve__sub">{t('organizer:venues.focal.listTitle')}</h3>
+						<ul className="ve__list">
+							<li>
+								<button type="button" className={`ve__item ${focalSelected && !selected ? 'is-on' : ''}`} aria-current={focalSelected && !selected ? 'true' : undefined} onClick={() => { selectFocal(); setMode('edit'); }}>
+									<span className="ve__item-name">{focal.type === 'PITCH' ? t('organizer:venues.focal.pitch') : t('organizer:venues.focal.stage')}</span>
+									<span className="ve__item-n">{focal.type === 'PITCH' ? t('organizer:venues.focal.pitchFixed') : t('organizer:venues.focal.stageSize', { width: focal.width, height: focal.height })}</span>
+								</button>
+							</li>
+						</ul>
 						<h3 className="ve__sub">{t('organizer:venues.panel.sections', { n: layout.length })}</h3>
 						<ul className="ve__list">
 							{layout.map((section) => {
@@ -475,7 +504,7 @@ const VenueEditor = ({ venue = null, events, foreign = false, returnTo = null, o
 				existing={layout.length}
 				onClose={() => setTemplatesOpen(false)}
 				onPick={(next) => {
-					editor.replaceLayout(next);
+					editor.replaceDrawing(next);
 					setTemplatesOpen(false);
 				}}
 			/>

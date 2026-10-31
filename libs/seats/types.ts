@@ -15,6 +15,19 @@ export interface LayoutSection {
 	rotation: number;
 	spacing: SectionSpacing;
 	tierKey?: string | null;
+	/** 0 floor, 1 lower tier, 2 upper tier (absent in old data: floor) */
+	level?: number | null;
+}
+
+export type FocalAreaType = 'STAGE' | 'PITCH';
+
+/** The stage or pitch drawn on the 1000 x 700 canvas. A layout without one reads as the default stage. */
+export interface FocalArea {
+	type: FocalAreaType;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
 }
 
 /** A seat that is not available. Every seat not listed in the map is available. */
@@ -30,7 +43,7 @@ export interface TakenSeat {
 export interface SeatMapData {
 	eventId: string;
 	venueTimezone: string;
-	venueLayout: { sections: LayoutSection[] };
+	venueLayout: { sections: LayoutSection[]; focalArea?: FocalArea | null };
 	seats: TakenSeat[];
 }
 
@@ -79,6 +92,9 @@ export interface OrderData {
 	totalAmount: number;
 	expiresAt: string;
 	paidAt?: string | null;
+	/** the event's refund policy when the order was placed */
+	refundPolicy?: { policyType: 'REFUNDABLE' | 'NON_REFUNDABLE'; daysBefore: number } | null;
+	nonRefundableAcknowledgedAt?: string | null;
 	createdAt: string;
 	eventData?: {
 		_id: string;

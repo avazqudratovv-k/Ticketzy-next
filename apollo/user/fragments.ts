@@ -42,6 +42,16 @@ export const EVENT_CARD_FIELDS = gql`
 		endAt
 		saleStartAt
 		saleEndAt
+		refundPolicy {
+			policyType
+			daysBefore
+		}
+		memberData {
+			_id
+			memberNick
+			memberFullName
+			memberImage
+		}
 		venueData {
 			_id
 			venueName

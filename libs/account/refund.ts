@@ -11,6 +11,7 @@ const REFUND_MESSAGES: Record<string, string> = {
 	'Only a paid order can be refunded!': 'refund.reason.notPaid',
 	'This order is being refunded right now!': 'refund.reason.inProgress',
 	'The refund failed, nothing was changed. Please try again!': 'refund.reason.failed',
+	'The tickets of this event are non-refundable!': 'refund.reason.nonRefundable',
 };
 
 export const refundMessageKey = (message?: string | null): string | undefined => (message ? REFUND_MESSAGES[message] : undefined);

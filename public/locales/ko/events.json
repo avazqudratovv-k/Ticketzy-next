@@ -147,7 +147,6 @@
       "RESERVED": "지정석"
     },
     "refundTitle": "환불 정책",
-    "refundText": "공연장 현지 시간({{zone}}) 기준으로 공연 전날인 {{date}} 23:59까지 전액 환불받을 수 있어요.",
     "venue": "공연장",
     "timezone": "시간은 공연장 시간대({{zone}}) 기준이에요",
     "openMaps": "지도에서 열기",
@@ -216,5 +215,22 @@
     "endedOn": "티켓 판매가 {{day}} {{time}}({{zone}})에 종료되었습니다.",
     "typeStarts": "{{name}}: {{day}} {{time}}부터 판매",
     "notYet": "아직 티켓 판매 전입니다. {{day}} {{time}}({{zone}})에 판매가 시작됩니다."
+  },
+  "refund": {
+    "title": "환불 정책",
+    "refundable": "{{date}}까지 환불 가능",
+    "refundableShort": "환불 가능",
+    "daysBefore_other": "행사 {{count}}일 전",
+    "rule": "환불은 주문 전체 단위로 처리되며 {{when}} 23:59(공연장 현지 시간)에 마감됩니다.",
+    "nonRefundable": "환불 불가",
+    "nonRefundableText": "이 행사의 티켓은 구매 후 환불할 수 없습니다.",
+    "windowClosed": "환불 기간 종료",
+    "closedOn": "환불 기간이 {{date}}에 종료되었습니다.",
+    "warningTitle": "이 행사는 환불이 되지 않습니다",
+    "warningText": "결제하면 행사 전이라도 이 티켓은 환불할 수 없습니다.",
+    "ackLabel": "이 티켓은 환불할 수 없다는 점을 이해했습니다",
+    "ackHint": "결제하려면 위 확인란을 선택해 주세요.",
+    "orderNonRefundable": "이 티켓은 환불할 수 없다는 점을 확인하셨습니다.",
+    "closedNow": "환불 기간이 {{date}}에 종료되어 지금 구매한 티켓은 환불할 수 없습니다."
   }
 }

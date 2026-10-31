@@ -54,7 +54,7 @@
         "items": [
           {
             "q": "Pulni qaytarib olsam boʻladimi?",
-            "a": "Ha, tadbir oʻtadigan joyning vaqt mintaqasi boʻyicha tadbirdan oldingi kun 23:59 gacha. Seulda 15-noyabrdagi tadbir uchun 14-noyabr Seul vaqti bilan 23:59 gacha qaytarish mumkin. Undan keyin buyurtmani qaytarib boʻlmaydi."
+            "a": "Tadbirga bogʻliq. Har bir tadbirda oʻz siyosati koʻrsatilgan: yoki tashkilotchi belgilagan kuni (tadbirdan 1–30 kun oldin) joyning vaqt mintaqasi boʻyicha 23:59 gacha qaytarish mumkin, yoki qaytarib boʻlmaydi. Aniq muddat tadbir sahifasida va toʻlov bosqichida koʻrsatiladi. Masalan, Seulda 15-noyabrdagi tadbir 3 kun oldingacha qaytariladigan boʻlsa, 12-noyabr Seul vaqti bilan 23:59 gacha qaytarish mumkin. Qaytarilmaydigan tadbir chiptalarini qaytarib boʻlmaydi va buni toʻlovdan oldin tasdiqlaysiz. Muddatdan keyin buyurtmani qaytarib boʻlmaydi."
           },
           {
             "q": "Chiptalarning faqat bir qismini qaytarsam boʻladimi?",
@@ -62,7 +62,7 @@
           },
           {
             "q": "Pulni qaytarishni qanday soʻrayman?",
-            "a": "Hisobingizdagi “Buyurtmalar” boʻlimidan buyurtmani oching va qaytarish panelidan foydalaning. U tasdiqlashdan oldin joyning vaqti boʻyicha muddatni va summani koʻrsatadi."
+            "a": "Hisobingizdagi “Buyurtmalar” boʻlimidan buyurtmani oching va qaytarish panelidan foydalaning. U tasdiqlashdan oldin joyning vaqti boʻyicha muddatni va summani koʻrsatadi. Buyurtmaga sotib olingan paytdagi siyosat qoʻllanadi."
           },
           {
             "q": "Tadbir bekor qilinsa-chi?",

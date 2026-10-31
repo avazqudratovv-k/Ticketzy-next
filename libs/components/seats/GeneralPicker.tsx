@@ -12,19 +12,25 @@ import { checkoutErrorKey } from '../../seats/errors';
 import { checkoutUrl } from '../../routes';
 import { TicketTypeItem } from '../../types/event';
 import { SeatConfig } from '../../seats/types';
+import { isNonRefundable, RefundPolicy } from '../../refundPolicy';
+import RefundPolicyNote from '../events/RefundPolicyNote';
+import RefundAck from './RefundAck';
 import SeatSummary, { SummaryLine } from './SeatSummary';
 
 interface Props {
 	eventId: string;
 	ticketTypes: TicketTypeItem[];
 	config: SeatConfig;
+	refundPolicy?: Partial<RefundPolicy> | null;
+	startAt: string;
+	timeZone?: string | null;
 }
 
 /**
  * General admission: no map. The order itself reserves the stock, so there is no separate hold step; the order
  * then expires after the same hold time (backend DECISIONS #46).
  */
-const GeneralPicker = ({ eventId, ticketTypes, config }: Props) => {
+const GeneralPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZone }: Props) => {
 	const { t } = useTranslation('checkout');
 	const { locale, push } = useRouter();
 	const client = useApolloClient();
@@ -32,6 +38,10 @@ const GeneralPicker = ({ eventId, ticketTypes, config }: Props) => {
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
 	const busyRef = useRef(false);
+	/** Non-refundable event: the buyer has to confirm before the order is made */
+	const nonRefundable = isNonRefundable({ refundPolicy });
+	const [acknowledged, setAcknowledged] = useState(false);
+	const needsAck = nonRefundable && !acknowledged;
 
 	const limit = (tt: TicketTypeItem) => Math.max(0, Math.min(tt.maxPerOrder, tt.totalQuantity - tt.soldQuantity));
 	const currency = ticketTypes[0]?.ticketCurrency ?? 'KRW';
@@ -46,7 +56,7 @@ const GeneralPicker = ({ eventId, ticketTypes, config }: Props) => {
 	};
 
 	const goOn = async () => {
-		if (busyRef.current || picked.length === 0) return;
+		if (busyRef.current || picked.length === 0 || needsAck) return;
 		busyRef.current = true;
 		setBusy(true);
 		setError(null);
@@ -55,6 +65,7 @@ const GeneralPicker = ({ eventId, ticketTypes, config }: Props) => {
 				client,
 				eventId,
 				picked.map((tt) => ({ ticketTypeId: tt._id, quantity: counts[tt._id] })),
+				nonRefundable ? true : undefined,
 			);
 			await push(checkoutUrl(orderId));
 		} catch (err) {
@@ -140,7 +151,9 @@ const GeneralPicker = ({ eventId, ticketTypes, config }: Props) => {
 						<p className="countdown__text">{t('general.idle', { seconds: config.seatHoldSeconds })}</p>
 					</div>
 				}
-				action={{ label: t('summary.continue'), busyLabel: t('summary.holding'), busy, disabled: false, blocked: count === 0, hint: t('general.selectHint'), onClick: goOn }}
+				action={{ label: t('summary.continue'), busyLabel: t('summary.holding'), busy, disabled: needsAck && count > 0, blocked: count === 0, hint: t('general.selectHint'), onClick: goOn }}
+				policy={<RefundPolicyNote policy={refundPolicy} startAt={startAt} timeZone={timeZone} className="tz-refund--compact" />}
+				gate={nonRefundable ? <RefundAck checked={acknowledged} onChange={setAcknowledged} disabled={busy} /> : undefined}
 			/>
 		</div>
 	);

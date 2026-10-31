@@ -1,4 +1,4 @@
-import { LayoutSection } from '../seats/types';
+import { FocalArea, LayoutSection } from '../seats/types';
 import { VenueType } from './model';
 
 export interface VenueRecord {
@@ -14,5 +14,5 @@ export interface VenueRecord {
 	memberId: string;
 	createdAt: string;
 	updatedAt: string;
-	venueLayout?: { sections: LayoutSection[] } | null;
+	venueLayout?: { sections: LayoutSection[]; focalArea?: FocalArea | null } | null;
 }

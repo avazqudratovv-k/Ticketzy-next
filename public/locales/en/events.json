@@ -151,7 +151,6 @@
       "RESERVED": "Reserved seats"
     },
     "refundTitle": "Refund policy",
-    "refundText": "You can get a full refund until 23:59 on {{date}}, the day before the event, on venue time ({{zone}}).",
     "venue": "Venue",
     "timezone": "Times are shown in the venue’s time zone: {{zone}}",
     "openMaps": "Open in maps",
@@ -224,5 +223,23 @@
     "endedOn": "Ticket sales ended on {{day}} at {{time}} ({{zone}}).",
     "typeStarts": "{{name}}: on sale from {{day}} at {{time}}.",
     "notYet": "Tickets are not on sale yet. Sales start on {{day}} at {{time}} ({{zone}})."
+  },
+  "refund": {
+    "title": "Refund policy",
+    "refundable": "Refundable until {{date}}",
+    "refundableShort": "Refundable",
+    "daysBefore_one": "{{count}} day before the event",
+    "daysBefore_other": "{{count}} days before the event",
+    "rule": "Refunds cover the whole order and close at 23:59 venue time, {{when}}.",
+    "nonRefundable": "Non-refundable",
+    "nonRefundableText": "Tickets for this event can’t be refunded once you buy them.",
+    "windowClosed": "Refund window closed",
+    "closedOn": "The refund window closed on {{date}}.",
+    "warningTitle": "No refunds for this event",
+    "warningText": "Once you pay, these tickets can’t be refunded, not even before the event.",
+    "ackLabel": "I understand these tickets can’t be refunded",
+    "ackHint": "Tick the box above to enable payment.",
+    "orderNonRefundable": "You confirmed that these tickets can’t be refunded.",
+    "closedNow": "The refund window closed on {{date}}, so tickets bought now can’t be refunded."
   }
 }

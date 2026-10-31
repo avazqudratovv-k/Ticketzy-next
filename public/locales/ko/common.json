@@ -181,7 +181,8 @@
     "sender": {
       "admin": "관리자",
       "someone": "누군가"
-    }
+    },
+    "yesterdayShort": "어제"
   },
   "approval": {
     "message": "주최자 계정이 승인되었습니다. Ticketzy에 오신 것을 환영합니다!"

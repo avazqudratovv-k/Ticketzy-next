@@ -41,6 +41,8 @@ export interface OrgEvent {
 	saleEndAt?: string | null;
 	rejectReason?: string | null;
 	cancelReason?: string | null;
+	/** absent in old data: refundable until the day before */
+	refundPolicy?: { policyType: 'REFUNDABLE' | 'NON_REFUNDABLE'; daysBefore: number } | null;
 	createdAt: string;
 	updatedAt: string;
 	venueData?: OrgVenue | null;

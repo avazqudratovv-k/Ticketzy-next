@@ -25,6 +25,10 @@ export const ORGANIZER_EVENT_FIELDS = gql`
 		saleEndAt
 		rejectReason
 		cancelReason
+		refundPolicy {
+			policyType
+			daysBefore
+		}
 		createdAt
 		updatedAt
 		venueData {

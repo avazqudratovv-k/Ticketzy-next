@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
-import { Avatar as MuiAvatar, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CheckCircle, SignOut, WarningCircle } from 'phosphor-react';
@@ -15,7 +15,7 @@ import DeleteAccount from '../../libs/components/account/DeleteAccount';
 import Field from '../../libs/components/common/Field';
 import Seo from '../../libs/components/common/Seo';
 import { displayName } from '../../libs/components/common/Avatar';
-import { imageSrc } from '../../libs/components/events/EventImage';
+import InitialsAvatar from '../../libs/components/common/InitialsAvatar';
 import useAuth from '../../libs/hooks/useAuth';
 import { logOut } from '../../libs/auth';
 import { avatarProblem, AVATAR_MAX_BYTES, PHONE_FORMAT, ProfileValues, validateProfile } from '../../libs/account/profile';
@@ -29,14 +29,6 @@ import { MemberProfile } from '../../libs/types/member';
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'events', 'checkout', 'account', 'auth'])) },
 });
-
-const initials = (name: string) =>
-	name
-		.split(/\s+/)
-		.filter(Boolean)
-		.slice(0, 2)
-		.map((part) => Array.from(part)[0]?.toUpperCase())
-		.join('');
 
 /** The inputs of this form, by backend property name. */
 const FORM_FIELDS = ['memberFullName', 'memberNick', 'memberPhone'] as const;
@@ -167,9 +159,7 @@ const Settings: NextPage = () => {
 				</h2>
 
 				<div className="settings__avatar">
-					<MuiAvatar src={preview ?? imageSrc(user.memberImage)} alt="" sx={{ width: 72, height: 72 }}>
-						{initials(name) || '?'}
-					</MuiAvatar>
+					<InitialsAvatar src={preview ?? user.memberImage} name={name} size={72} />
 					<div>
 						<input ref={input} id="avatar-file" className="tz-sr" type="file" accept="image/png,image/jpeg" onChange={(event) => pick(event.target.files?.[0])} aria-label={t('profile.photoFile')} aria-describedby="avatar-hint" />
 						<Button variant="outlined" onClick={() => input.current?.click()} disabled={saving}>

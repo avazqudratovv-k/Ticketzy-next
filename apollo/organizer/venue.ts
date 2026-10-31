@@ -28,6 +28,50 @@ export const VENUE_FIELDS = gql`
 				rotation
 				spacing
 				tierKey
+				level
+			}
+			focalArea {
+				type
+				x
+				y
+				width
+				height
+			}
+		}
+	}
+`;
+
+/** The four server templates (concert hall, arena, football stadium, comedy club); a venue is created from a copy. */
+export const GET_VENUE_TEMPLATES = gql`
+	query GetVenueTemplates {
+		getVenueTemplates {
+			key
+			name
+			description
+			venueType
+			capacity
+			layout {
+				sections {
+					key
+					name
+					kind
+					rows
+					seatsPerRow
+					capacity
+					x
+					y
+					rotation
+					spacing
+					tierKey
+					level
+				}
+				focalArea {
+					type
+					x
+					y
+					width
+					height
+				}
 			}
 		}
 	}

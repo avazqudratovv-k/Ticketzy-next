@@ -151,7 +151,6 @@
       "RESERVED": "Belgilangan o‘rinlar"
     },
     "refundTitle": "Pulni qaytarish qoidasi",
-    "refundText": "Tadbirdan bir kun oldin, {{date}} kuni 23:59 gacha, maydon vaqti bo‘yicha ({{zone}}) to‘liq qaytarib olishingiz mumkin.",
     "venue": "Maydon",
     "timezone": "Vaqt maydonning vaqt mintaqasida ko‘rsatilgan: {{zone}}",
     "openMaps": "Xaritada ochish",
@@ -224,5 +223,23 @@
     "endedOn": "Chiptalar sotuvi {{day}} kuni soat {{time}} da ({{zone}}) tugadi.",
     "typeStarts": "{{name}}: {{day}} kuni soat {{time}} dan sotuvda.",
     "notYet": "Chiptalar hali sotuvda emas. Sotuv {{day}} kuni soat {{time}} da ({{zone}}) boshlanadi."
+  },
+  "refund": {
+    "title": "Qaytarish siyosati",
+    "refundable": "{{date}} gacha qaytarish mumkin",
+    "refundableShort": "Qaytariladi",
+    "daysBefore_one": "tadbirdan {{count}} kun oldin",
+    "daysBefore_other": "tadbirdan {{count}} kun oldin",
+    "rule": "Qaytarish butun buyurtma uchun amal qiladi va maydon vaqti bilan 23:59 da yopiladi, {{when}}.",
+    "nonRefundable": "Qaytarilmaydi",
+    "nonRefundableText": "Bu tadbir biletlarini sotib olgandan keyin qaytarib boʻlmaydi.",
+    "windowClosed": "Qaytarish muddati tugagan",
+    "closedOn": "Qaytarish muddati {{date}} da tugagan.",
+    "warningTitle": "Bu tadbir uchun qaytarish yoʻq",
+    "warningText": "Toʻlovdan keyin bu biletlarni tadbirdan oldin ham qaytarib boʻlmaydi.",
+    "ackLabel": "Bu biletlarni qaytarib boʻlmasligini tushunaman",
+    "ackHint": "Toʻlovni yoqish uchun yuqoridagi katakchani belgilang.",
+    "orderNonRefundable": "Bu biletlarni qaytarib boʻlmasligini tasdiqlagansiz.",
+    "closedNow": "Qaytarish muddati {{date}} da tugagan, shuning uchun hozir olingan biletlarni qaytarib boʻlmaydi."
   }
 }

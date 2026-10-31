@@ -50,7 +50,8 @@
     "live": "Jonli",
     "reconnecting": "Qayta ulanmoqda…",
     "loading": "Oʻrinlar yuklanmoqda…",
-    "unavailable": "Bu tadbir uchun oʻrinlar sxemasi mavjud emas."
+    "unavailable": "Bu tadbir uchun oʻrinlar sxemasi mavjud emas.",
+    "pitch": "Maydon"
   },
   "state": {
     "available": "Boʻsh",
@@ -173,7 +174,6 @@
     "payShort": "Toʻlash",
     "barLabel": "Toʻlov paneli",
     "noCard": "Demo toʻlov. Ticketzy bu yerda karta raqamini koʻrmaydi.",
-    "refund": "Pulni qaytarish {{date}} gacha mumkin.",
     "cardNotice": "Demo toʻlov: hech qanday pul yechilmaydi va bu yerga yozganingiz brauzeringizdan tashqariga chiqmaydi.",
     "testCard": "Faqat demo: istalgan 16 ta raqam, kelajakdagi muddat va istalgan 3 ta raqam ishlaydi."
   },

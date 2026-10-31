@@ -3,10 +3,12 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { ArrowUUpLeft, CheckCircle, Clock, Info, WarningCircle } from 'phosphor-react';
+import { ArrowUUpLeft, CheckCircle, Clock, Info, Prohibit, WarningCircle } from 'phosphor-react';
 import { REQUEST_REFUND } from '../../../apollo/user/mutation';
 import { GET_REFUND_QUOTE } from '../../../apollo/user/query';
-import { formatEventDate, formatPrice, formatViewerDate, formatZoneName } from '../../format';
+import { formatPrice, formatViewerDate } from '../../format';
+import { readRefundPolicy } from '../../refundPolicy';
+import { formatRefundDeadline } from '../../refundText';
 import { NETWORK_ERROR, parseApiError } from '../../errors';
 import { isEligibilityError, refundMessageKey } from '../../account/refund';
 import { AccountOrder, RefundQuote } from '../../types/account';
@@ -23,6 +25,7 @@ type Outcome =
  */
 const RefundPanel = ({ order }: { order: AccountOrder }) => {
 	const { t } = useTranslation('account');
+	const { t: te } = useTranslation('events');
 	const { locale } = useRouter();
 	const paid = order.orderStatus === 'PAID';
 	const { data, loading, error, refetch } = useQuery(GET_REFUND_QUOTE, {
@@ -69,7 +72,10 @@ const RefundPanel = ({ order }: { order: AccountOrder }) => {
 
 	const refunded = order.orderStatus === 'REFUNDED';
 	const currency = quote?.currency ?? order.currency ?? 'KRW';
-	const deadline = quote ? `${formatEventDate(quote.deadline, locale, quote.venueTimezone, true)} (${formatZoneName(quote.deadline, locale, quote.venueTimezone)})` : '';
+	const deadline = quote ? formatRefundDeadline(quote.deadline, locale, quote.venueTimezone) : '';
+	// The policy the order was bought under (the quote repeats it); the server decides, this only words it
+	const policy = readRefundPolicy({ refundPolicy: quote?.refundPolicy ?? order.refundPolicy });
+	const noRefunds = policy.policyType === 'NON_REFUNDABLE';
 
 	return (
 		<section className="card" aria-labelledby="refund-title">
@@ -115,16 +121,36 @@ const RefundPanel = ({ order }: { order: AccountOrder }) => {
 				</p>
 			)}
 
+			{(paid || refunded) && noRefunds && !quote && order.refundPolicy && (
+				<div className="refund__deadline">
+					<Prohibit size={20} aria-hidden="true" />
+					<div>
+						<strong>{te('refund.nonRefundable')}</strong>
+						<span>{te('refund.orderNonRefundable')}</span>
+					</div>
+				</div>
+			)}
+
 			{paid && quote && (
 				<>
-					<div className="refund__deadline">
-						<Clock size={20} aria-hidden="true" />
-						<div>
-							<strong>{t('refund.deadline', { date: deadline })}</strong>
-							<span>{t('refund.rule')}</span>
+					{noRefunds ? (
+						<div className="refund__deadline">
+							<Prohibit size={20} aria-hidden="true" />
+							<div>
+								<strong>{te('refund.nonRefundable')}</strong>
+								<span>{order.nonRefundableAcknowledgedAt ? te('refund.orderNonRefundable') : te('refund.nonRefundableText')}</span>
+							</div>
 						</div>
-					</div>
-					{quote.refundable ? (
+					) : (
+						<div className="refund__deadline">
+							<Clock size={20} aria-hidden="true" />
+							<div>
+								<strong>{t('refund.deadline', { date: deadline })}</strong>
+								<span>{te('refund.rule', { when: te('refund.daysBefore', { count: policy.daysBefore }) })}</span>
+							</div>
+						</div>
+					)}
+					{noRefunds ? null : quote.refundable ? (
 						<>
 							<p className="refund__amount">
 								<span>{t('refund.amount')}</span>

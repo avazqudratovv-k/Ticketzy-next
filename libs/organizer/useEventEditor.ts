@@ -145,6 +145,7 @@ export default function useEventEditor({ event: initialEvent = null, ticketTypes
 		// The sale rules compare start, end and the event end, so any sale edit clears both sale errors (the step re-checks live)
 		if (/^sale(Start|End)(Date|Time)$/.test(name as string)) keys.push('saleStart', 'saleEnd');
 		if (name === 'venueId') keys.push('seatingType');
+		if (name === 'refundType') keys.push('refundDays');
 		// the double-booking refusal is about the venue and the dates: editing either answers it (the form is kept as typed)
 		if (name === 'venueId' || /^(start|end)(Date|Time)$/.test(name as string)) setServerError((current) => (current?.booked ? null : current));
 		setErrors((current) => {

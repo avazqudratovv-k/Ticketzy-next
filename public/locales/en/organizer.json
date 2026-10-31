@@ -349,7 +349,8 @@
       "tickets": "{{formatted}} tickets",
       "noTranslations": "English only",
       "fixErrors": "Some fields need attention. Fix them before submitting.",
-      "after": "An admin reviews every event before it goes on sale. After you submit, the status changes to In review and the event is locked until the admin decides."
+      "after": "An admin reviews every event before it goes on sale. After you submit, the status changes to In review and the event is locked until the admin decides.",
+      "refundNone": "Non-refundable"
     },
     "errors": {
       "title": "Use 3 to 100 characters.",
@@ -372,7 +373,23 @@
       "lastDayBeforeFirst": "The last day can’t be before the first day.",
       "dailyEndBeforeStart": "The end time must be after the start time. Daily hours can’t run past midnight.",
       "saleEndAfterEventEnd": "Sales can’t end after the event ends.",
-      "saleStartAfterEventEnd": "Sales must start before the event ends."
+      "saleStartAfterEventEnd": "Sales must start before the event ends.",
+      "refundDays": "Enter a whole number of days from 1 to 30."
+    },
+    "refund": {
+      "title": "Refund policy",
+      "hint": "Buyers see this on the event page and at checkout. An order keeps the policy it was bought under, so a later change only affects new orders.",
+      "REFUNDABLE": {
+        "title": "Refundable",
+        "text": "Buyers can refund a whole order until 23:59 on that day, on the venue’s clock."
+      },
+      "NON_REFUNDABLE": {
+        "title": "Non-refundable",
+        "text": "Buyers must tick a box to confirm they understand tickets can’t be refunded before they can pay."
+      },
+      "days": "Days before the event",
+      "daysHint": "A whole number from 1 to 30. 1 means until the end of the day before.",
+      "deadline": "With these dates, refunds close on {{date}}."
     }
   },
   "ai": {
@@ -628,8 +645,7 @@
     "canvas": {
       "label": "Venue layout canvas, {{size}}. Drag a section to move it.",
       "grid": "Grid",
-      "snap": "Snap to {{size}}",
-      "field": "Field"
+      "snap": "Snap to {{size}}"
     },
     "panel": {
       "label": "Section properties and list",
@@ -665,7 +681,9 @@
       "duplicate": "Duplicate",
       "delete": "Delete",
       "decrease": "Decrease: {{field}}",
-      "increase": "Increase: {{field}}"
+      "increase": "Increase: {{field}}",
+      "level": "Level",
+      "levelHint": "Used by the 3D view from a seat."
     },
     "issues": {
       "keyRequired": "Enter a key.",
@@ -705,36 +723,58 @@
       "meta": "Sections: {{sections}} · Capacity: {{capacity}}",
       "use": "Use this layout",
       "cancel": "Cancel",
-      "theater": {
-        "name": "Small theater",
-        "text": "Front rows, an orchestra in three blocks and a balcony, facing a stage.",
+      "CONCERT_HALL": {
+        "name": "Concert hall",
+        "text": "A stage at the top, seated floor stalls, side boxes, a lower tier and an upper tier.",
         "sections": {
-          "FRONT": "Front rows",
-          "ORCH_C": "Orchestra center",
-          "ORCH_L": "Orchestra left",
-          "ORCH_R": "Orchestra right",
-          "BALCONY": "Balcony"
+          "FLOOR": "Floor Stalls",
+          "BOX_L": "Left Boxes",
+          "BOX_R": "Right Boxes",
+          "LOWER": "Lower Tier",
+          "UPPER": "Upper Tier"
         }
       },
-      "stadium": {
-        "name": "Stadium with a standing floor",
-        "text": "A standing pitch in the middle and seated stands on four sides.",
+      "ARENA": {
+        "name": "Arena",
+        "text": "A stage at one end, a standing floor, and lower and upper tiers around the other three sides.",
         "sections": {
-          "FLOOR": "Standing floor",
-          "NORTH": "North stand",
-          "SOUTH": "South stand",
-          "EAST": "East stand",
-          "WEST": "West stand"
+          "FLOOR": "Standing Floor",
+          "LOWER_L": "Lower Left",
+          "LOWER_R": "Lower Right",
+          "LOWER_END": "Lower End",
+          "UPPER_L": "Upper Left",
+          "UPPER_R": "Upper Right",
+          "UPPER_END": "Upper End"
         }
       },
-      "club": {
-        "name": "Comedy club tables",
-        "text": "Two rows of tables and a standing bar at the back.",
+      "FOOTBALL_STADIUM": {
+        "name": "Football stadium",
+        "text": "A fixed 105:68 pitch in the middle and four stands (north, south, west, east), each with a lower and an upper level.",
         "sections": {
-          "TABLE": "Table",
-          "BAR": "Standing bar"
+          "LOWER_N": "Lower North",
+          "UPPER_N": "Upper North",
+          "LOWER_S": "Lower South",
+          "UPPER_S": "Upper South",
+          "LOWER_W": "Main Stand (West)",
+          "UPPER_W": "Upper West",
+          "LOWER_E": "Lower East",
+          "UPPER_E": "Upper East"
         }
-      }
+      },
+      "COMEDY_CLUB": {
+        "name": "Comedy club / small theater",
+        "text": "A small stage and a few rows: front tables, a main block and back rows, all on the floor.",
+        "sections": {
+          "FRONT": "Front Tables",
+          "MAIN": "Main Rows",
+          "BACK": "Back Rows"
+        }
+      },
+      "loading": "Loading templates…",
+      "error": "The templates could not be loaded.",
+      "retry": "Try again",
+      "pitchNote": "Pitch (fixed size)",
+      "stageNote": "Stage"
     },
     "delete": {
       "title": "Delete “{{name}}”?",
@@ -762,6 +802,27 @@
         "title": "Venue not found",
         "text": "It may have been removed, or the link is wrong."
       }
+    },
+    "level": {
+      "0": "Floor",
+      "1": "Lower tier",
+      "2": "Upper tier"
+    },
+    "focal": {
+      "listTitle": "Stage or pitch",
+      "stage": "Stage",
+      "pitch": "Pitch",
+      "stageSize": "{{width}} × {{height}}",
+      "pitchFixed": "fixed size",
+      "stageTitle": "Stage",
+      "pitchTitle": "Pitch",
+      "x": "Left (X)",
+      "y": "Top (Y)",
+      "width": "Width",
+      "height": "Height",
+      "stageHint": "Drag the stage on the canvas, pull a corner to resize it, or type the numbers. It stays inside the {{width}} × {{height}} canvas.",
+      "pitchNote": "The pitch has a fixed size (105 × 68 m, drawn to scale) in the middle of the canvas. It can’t be moved or resized.",
+      "handle": "Resize the stage"
     }
   },
   "orders": {

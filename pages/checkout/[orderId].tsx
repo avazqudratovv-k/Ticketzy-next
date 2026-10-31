@@ -7,7 +7,7 @@ import { useApolloClient, useQuery } from '@apollo/client';
 import { Button, Checkbox, FormControlLabel } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CreditCard, Info, Lock, Prohibit, Timer, WarningCircle } from 'phosphor-react';
+import { CheckCircle, CreditCard, Info, Lock, Prohibit, Timer, WarningCircle } from 'phosphor-react';
 import { CANCEL_PENDING_ORDER, PAY_ORDER } from '../../apollo/user/mutation';
 import { GET_EVENT, GET_ORDER, GET_TICKET_TYPES } from '../../apollo/user/query';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -21,7 +21,8 @@ import CardForm, { CardFormHandle } from '../../libs/components/seats/CardForm';
 import { clearSession } from '../../libs/auth';
 import { useRequireAuth } from '../../libs/auth/guards';
 import useBuyerOnlyRedirect from '../../libs/hooks/useBuyerOnlyRedirect';
-import { formatPrice, formatRefundDeadlineDay } from '../../libs/format';
+import { formatPrice } from '../../libs/format';
+import RefundPolicyNote from '../../libs/components/events/RefundPolicyNote';
 import { useSeatMap } from '../../libs/hooks/useSeatMap';
 import { NETWORK_ERROR, parseApiError } from '../../libs/errors';
 import { checkoutQuantities, holdAndCheckout } from '../../libs/seats/checkout';
@@ -45,6 +46,7 @@ type Outcome = 'failed' | 'expired' | 'lost' | null;
 
 const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	const { t } = useTranslation('checkout');
+	const { t: te } = useTranslation('events');
 	const router = useRouter();
 	const { locale } = router;
 	const client = useApolloClient();
@@ -193,10 +195,12 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 		busy.current = true;
 		setRetrying(true);
 		setRetryNote(null);
+		// The buyer already confirmed a non-refundable event on the order that ran out
+		const acknowledged = order.nonRefundableAcknowledgedAt ? true : undefined;
 		try {
 			const id = info.seats
-				? await holdAndCheckout(client, info.eventId, info.seats)
-				: await checkoutQuantities(client, info.eventId, info.items ?? []);
+				? await holdAndCheckout(client, info.eventId, info.seats, acknowledged)
+				: await checkoutQuantities(client, info.eventId, info.items ?? [], acknowledged);
 			handoff.current = true;
 			await router.replace(checkoutUrl(id));
 		} catch (err) {
@@ -317,7 +321,8 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 	}
 
 	const startAt = event?.startAt ?? order.eventData?.startAt;
-	const refundDay = startAt ? formatRefundDeadlineDay(startAt, locale, event?.venueData?.venueTimezone) : null;
+	const refundPolicy = order.refundPolicy ?? event?.refundPolicy;
+	const refundZone = event?.venueData?.venueTimezone ?? order.eventData?.venueData?.venueTimezone;
 
 	return (
 		<div className="tz-container checkout">
@@ -397,7 +402,12 @@ const CheckoutInner = ({ orderId }: { orderId: string }) => {
 					<p className="breakdown__note">
 						<Lock size={16} aria-hidden="true" /> {t('pay.noCard')}
 					</p>
-					{refundDay && <p className="breakdown__note">{t('pay.refund', { date: refundDay })}</p>}
+					{startAt && <RefundPolicyNote policy={refundPolicy} startAt={startAt} timeZone={refundZone} className="tz-refund--compact" />}
+					{order.nonRefundableAcknowledgedAt && (
+						<p className="breakdown__note tz-refund-confirmed">
+							<CheckCircle size={16} weight="fill" aria-hidden="true" /> {te('refund.orderNonRefundable')}
+						</p>
+					)}
 				</aside>
 			</div>
 			<PayBar

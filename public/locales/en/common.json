@@ -184,7 +184,8 @@
     "sender": {
       "admin": "Admin",
       "someone": "Someone"
-    }
+    },
+    "yesterdayShort": "Yesterday"
   },
   "approval": {
     "message": "Your organizer account is approved. Welcome to Ticketzy!"

@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { ArrowClockwise, ArrowCounterClockwise, Copy, Minus, Plus, TrashSimple, WarningCircle, Warning } from 'phosphor-react';
 import { Button } from '@mui/material';
 import { formatNumber } from '../../../format';
-import { CANVAS, DraftSection, IssueCode, LIMITS, SPACINGS, sectionSeats } from '../../../venues/model';
+import { CANVAS, DraftSection, IssueCode, LEVELS, LIMITS, SPACINGS, sectionSeats } from '../../../venues/model';
 import { ServerIssue } from '../../../venues/serverIssues';
 import { VenueEditorState } from '../../../venues/useVenueEditor';
 import { useRouter } from 'next/router';
@@ -221,6 +221,20 @@ const SectionPanel = ({ editor, section, onDelete, tierKeys }: Props) => {
 					{byField.has('capacity') ? <FieldError text={byField.get('capacity') as string} /> : <span className="tz-field__hint">{t('venues.panel.capacityHint')}</span>}
 				</div>
 			)}
+
+			<div className="sp-field">
+				<span className="sp-label" id={`${nameId}-level`}>
+					{t('venues.panel.level')}
+				</span>
+				<div className="sp-seg" role="radiogroup" aria-labelledby={`${nameId}-level`}>
+					{LEVELS.map((level) => (
+						<button key={level} type="button" role="radio" aria-checked={section.level === level} className={section.level === level ? 'is-on' : ''} disabled={locked} onClick={() => set({ level }, 'level')}>
+							{t(`venues.level.${level}`)}
+						</button>
+					))}
+				</div>
+				<span className="tz-field__hint">{t('venues.panel.levelHint')}</span>
+			</div>
 
 			<div className="sp-field">
 				<label className="sp-label" htmlFor={rotId}>

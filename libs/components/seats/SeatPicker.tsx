@@ -23,6 +23,9 @@ import { seatVisual } from '../../seats/visual';
 import { checkoutUrl } from '../../routes';
 import { TicketTypeItem } from '../../types/event';
 import Countdown from './Countdown';
+import { isNonRefundable, RefundPolicy } from '../../refundPolicy';
+import RefundPolicyNote from '../events/RefundPolicyNote';
+import RefundAck from './RefundAck';
 import SeatSummary, { SummaryLine } from './SeatSummary';
 import { SeatGrid, SectionInfo, SectionList } from './SectionList';
 import { GetMyOrdersVars, ListResult } from '../../types/queries';
@@ -36,6 +39,9 @@ interface Props {
 	eventId: string;
 	ticketTypes: TicketTypeItem[];
 	config: SeatConfig;
+	refundPolicy?: Partial<RefundPolicy> | null;
+	startAt: string;
+	timeZone?: string | null;
 }
 
 type Notice =
@@ -53,7 +59,7 @@ interface PendingOrder {
 }
 
 /** The interactive seat map with its summary, polling and hold. */
-const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
+const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZone }: Props) => {
 	const { t } = useTranslation('checkout');
 	const { locale, push, events: routerEvents } = useRouter();
 	const client = useApolloClient();
@@ -65,6 +71,10 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 	const [active, setActive] = useState<string | null>(null);
 	const [focus, setFocus] = useState<string | null>(null);
 	const [pending, setPending] = useState<PendingOrder | null>(null);
+	/** Non-refundable event: the buyer has to confirm before the seats are held and the order is made */
+	const nonRefundable = isNonRefundable({ refundPolicy });
+	const [acknowledged, setAcknowledged] = useState(false);
+	const needsAck = nonRefundable && !acknowledged;
 	const busyRef = useRef(false);
 	const handoff = useRef(false);
 
@@ -239,12 +249,12 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 
 	/** CONTINUE: hold, then create the order, then go to payment **/
 	const goOn = async () => {
-		if (busyRef.current || selected.length === 0 || pending) return;
+		if (busyRef.current || selected.length === 0 || pending || needsAck) return;
 		busyRef.current = true;
 		setBusy(true);
 		setNotice(null);
 		try {
-			const orderId = await holdAndCheckout(client, eventId, selected);
+			const orderId = await holdAndCheckout(client, eventId, selected, nonRefundable ? true : undefined);
 			handoff.current = true;
 			await push(checkoutUrl(orderId));
 		} catch (err) {
@@ -387,6 +397,7 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 					<div className="seatmap__skeleton tz-skel" aria-busy="true" aria-label={t('map.loading')} />
 				) : (
 					<SeatMap
+						focalArea={map?.venueLayout.focalArea}
 						sections={sections}
 						tiers={tiers}
 						taken={taken}
@@ -440,11 +451,14 @@ const SeatPicker = ({ eventId, ticketTypes, config }: Props) => {
 					label: t('summary.continue'),
 					busyLabel: t('summary.holding'),
 					busy,
-					disabled: Boolean(pending),
+					// really disabled (not only marked) until the non-refundable box is ticked: no click, no request
+					disabled: Boolean(pending) || (needsAck && selected.length > 0),
 					blocked: selected.length === 0,
 					hint: t('summary.selectHint'),
 					onClick: goOn,
 				}}
+				policy={<RefundPolicyNote policy={refundPolicy} startAt={startAt} timeZone={timeZone} className="tz-refund--compact" />}
+				gate={nonRefundable ? <RefundAck checked={acknowledged} onChange={setAcknowledged} disabled={busy} /> : undefined}
 				secondary={
 					mine.length > 0 && !pending ? (
 						<Button variant="text" onClick={release} disabled={busy}>

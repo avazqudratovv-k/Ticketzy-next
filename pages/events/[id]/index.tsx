@@ -30,6 +30,7 @@ import { useSalesClock } from '../../../libs/salesWindow';
 import TicketPanel from '../../../libs/components/events/TicketPanel';
 import TicketBar from '../../../libs/components/events/TicketBar';
 import Comments from '../../../libs/components/events/Comments';
+import RefundPolicyNote from '../../../libs/components/events/RefundPolicyNote';
 import Avatar from '../../../libs/components/common/OrganizerAvatar';
 import useAuth from '../../../libs/hooks/useAuth';
 import { CATEGORY_SLUGS, categoryHref, localizedEvent, saleState } from '../../../libs/events';
@@ -38,7 +39,6 @@ import {
 	isMultiDay,
 	formatEventTime,
 	formatNumber,
-	formatRefundDeadlineDay,
 	formatZoneName,
 } from '../../../libs/format';
 import { organizerUrl, ROUTES } from '../../../libs/routes';
@@ -315,12 +315,7 @@ const EventDetail: NextPage<{ seo: SeoProps | null }> = ({ seo }) => {
 					{state !== 'cancelled' && state !== 'ended' && (
 						<section className="event__section" aria-labelledby="event-refund">
 							<h2 id="event-refund">{t('detail.refundTitle')}</h2>
-							<p className="event__desc">
-								{t('detail.refundText', {
-									date: formatRefundDeadlineDay(event.startAt, locale, zone),
-									zone: zone ?? 'Asia/Seoul',
-								})}
-							</p>
+							<RefundPolicyNote policy={event.refundPolicy} startAt={event.startAt} timeZone={zone} />
 						</section>
 					)}
 

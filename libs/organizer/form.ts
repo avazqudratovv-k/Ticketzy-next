@@ -1,4 +1,5 @@
 import { EventCategory } from '../types/event';
+import { DEFAULT_REFUND_DAYS, MAX_REFUND_DAYS, readRefundPolicy, RefundPolicyType } from '../refundPolicy';
 import { EditMode } from './events';
 import { OrgEvent, OrgTicketType, OrgVenue, TranslatedLocale, TRANSLATED_LOCALES } from './types';
 import { isoToZoned, zonedToIso } from './zoned';
@@ -21,6 +22,9 @@ export interface FormValues {
 	saleStartTime: string;
 	saleEndDate: string;
 	saleEndTime: string;
+	/** Refund policy: REFUNDABLE until `refundDays` days before the event, or NON_REFUNDABLE (the days are then ignored) */
+	refundType: RefundPolicyType;
+	refundDays: string;
 	translations: Record<TranslatedLocale, { title: string; description: string }>;
 }
 
@@ -70,6 +74,8 @@ export const emptyValues = (): FormValues => ({
 	saleStartTime: '',
 	saleEndDate: '',
 	saleEndTime: '',
+	refundType: 'REFUNDABLE',
+	refundDays: String(DEFAULT_REFUND_DAYS),
 	translations: { KO: { title: '', description: '' }, RU: { title: '', description: '' }, UZ: { title: '', description: '' } },
 });
 
@@ -80,6 +86,7 @@ export function valuesFromEvent(event: OrgEvent, venue?: OrgVenue | null): FormV
 	const saleStart = isoToZoned(event.saleStartAt, zone);
 	const saleEnd = isoToZoned(event.saleEndAt, zone);
 	const values = emptyValues();
+	const policy = readRefundPolicy(event);
 	TRANSLATED_LOCALES.forEach((locale) => {
 		const entry = event.eventTranslations?.find((item) => item.locale === locale);
 		values.translations[locale] = { title: entry?.title ?? '', description: entry?.description ?? '' };
@@ -101,6 +108,8 @@ export function valuesFromEvent(event: OrgEvent, venue?: OrgVenue | null): FormV
 		saleStartTime: saleStart.time,
 		saleEndDate: saleEnd.date,
 		saleEndTime: saleEnd.time,
+		refundType: policy.policyType,
+		refundDays: policy.policyType === 'REFUNDABLE' ? String(policy.daysBefore) : String(DEFAULT_REFUND_DAYS),
 	};
 }
 
@@ -299,6 +308,20 @@ export function validateTickets(rows: TicketRow[], seatingType: 'GENERAL' | 'RES
 	return errors;
 }
 
+/** A refundable event needs a whole number of days from 1 to 30 (backend `getRefundPolicyError`). */
+export function validateRefund(values: FormValues): FieldErrors {
+	if (values.refundType !== 'REFUNDABLE') return {};
+	const days = Number(values.refundDays);
+	return values.refundDays.trim() !== '' && Number.isInteger(days) && days >= 1 && days <= MAX_REFUND_DAYS ? {} : { refundDays: 'refundDays' };
+}
+
+/** The policy as the API takes it, or null while the days are not valid (the server then keeps the stored policy). */
+export function refundPolicyInput(values: FormValues) {
+	if (values.refundType === 'NON_REFUNDABLE') return { policyType: 'NON_REFUNDABLE' as const };
+	if (Object.keys(validateRefund(values)).length) return null;
+	return { policyType: 'REFUNDABLE' as const, daysBefore: Number(values.refundDays) };
+}
+
 /** Translations: a language is filled in when it has any text; then the title is required and both fields follow the DTO limits. */
 export function validateTranslations(values: FormValues): FieldErrors {
 	const errors: FieldErrors = {};
@@ -318,6 +341,7 @@ export function stepOfError(field: string): StepId {
 	if (field === 'title' || field === 'category' || field === 'description') return 'details';
 	if (field === 'images') return 'images';
 	if (['venueId', 'seatingType', 'start', 'end', 'endDate', 'endTime'].includes(field)) return 'venue';
+	if (field === 'refundDays') return 'tickets';
 	if (field.startsWith('sale') || field.includes('.')) return /^(KO|RU|UZ)\./.test(field) ? 'translations' : 'tickets';
 	return 'details';
 }
@@ -328,6 +352,7 @@ export function allErrors(values: FormValues, rows: TicketRow[], venue?: OrgVenu
 		...validateImages(values),
 		...validateVenue(values, venue, savedStartAt),
 		...validateSaleWindow(values, venue),
+		...validateRefund(values),
 		...validateTickets(rows, values.seatingType),
 		...validateTranslations(values),
 	};
@@ -359,6 +384,8 @@ export function toUpdateInput(id: string, values: FormValues, venue?: OrgVenue |
 		saleStartAt: values.saleStartDate && values.saleStartTime ? isoOf(values.saleStartDate, values.saleStartTime, venue) : null,
 		saleEndAt: values.saleEndDate && values.saleEndTime ? isoOf(values.saleEndDate, values.saleEndTime, venue) : null,
 	};
+	const refundPolicy = refundPolicyInput(values);
+	if (refundPolicy) input.refundPolicy = refundPolicy;
 	// Venue and seating type are not sent once orders can exist (an APPROVED event): see DECISIONS F98
 	if (mode === 'full') {
 		input.venueId = values.venueId;

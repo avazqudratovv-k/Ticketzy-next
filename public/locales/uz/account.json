@@ -165,7 +165,6 @@
     "notPaid": "Faqat toʻlangan buyurtmani qaytarish mumkin.",
     "quoteError": "Bu buyurtmani qaytarish mumkinligini tekshirib boʻlmadi.",
     "deadline": "Qaytarish muddati: {{date}}",
-    "rule": "Buyurtma butunlay qaytariladi. Qaytarish tadbirdan bir kun oldin soat 23:59 gacha, tadbir joyining vaqt mintaqasi boʻyicha ochiq.",
     "amount": "Qaytariladigan summa",
     "request": "Pulni qaytarishni soʻrash",
     "irreversible": "Qaytarilgan chiptalar darhol amal qilmay qoʻyadi, oʻrinlar esa yana sotuvga chiqadi. Buni bekor qilib boʻlmaydi.",
@@ -181,7 +180,8 @@
       "checkedIn": "Skaner qilingan chiptasi bor buyurtmani qaytarib boʻlmaydi.",
       "notPaid": "Faqat toʻlangan buyurtmani qaytarish mumkin.",
       "inProgress": "Bu buyurtma hozir qaytarilmoqda. Birozdan keyin qayta tekshiring.",
-      "failed": "Qaytarish amalga oshmadi, hech narsa oʻzgarmadi. Qayta urinib koʻring."
+      "failed": "Qaytarish amalga oshmadi, hech narsa oʻzgarmadi. Qayta urinib koʻring.",
+      "nonRefundable": "Bu tadbir biletlarini qaytarib boʻlmaydi."
     },
     "error": {
       "generic": "Pulni qaytarishni yakunlab boʻlmadi. Qayta urinib koʻring."

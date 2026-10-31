@@ -8,6 +8,7 @@ import { formatEventWhen, formatPrice, formatShortDay } from '../../format';
 import { serverNow } from '../../seats/clock';
 import { eventUrl } from '../../routes';
 import { isEventLiked } from '../../eventLike';
+import OrganizerAvatar from '../common/OrganizerAvatar';
 import { seatBadge } from '../../seatAvailability';
 import CategoryChip, { categoryIcon } from './CategoryChip';
 import EventImage from './EventImage';
@@ -37,6 +38,8 @@ const EventCard = ({ event, variant = 'card', eager, headingLevel = 3 }: Props) 
 	const when = formatEventWhen(event.startAt, event.endAt, locale, zone);
 	const where = venue ? `${venue.venueName}, ${venue.venueCity}` : null;
 	const fallbackLang = translated ? undefined : lang;
+	const organizer = event.memberData;
+	const organizerName = organizer?.memberFullName || organizer?.memberNick || '';
 	const seats = seatBadge(event.eventTotalSeats, event.eventSoldSeats);
 	// Sales that have not started: a date chip in place of any seat-availability badge (nothing can be bought yet)
 	const salesStart =
@@ -86,6 +89,12 @@ const EventCard = ({ event, variant = 'card', eager, headingLevel = 3 }: Props) 
 							<li>
 								<MapPin size={16} aria-hidden="true" />
 								<span>{where}</span>
+							</li>
+						)}
+						{variant === 'card' && organizer && organizerName && (
+							<li className="tz-event-card__org">
+								<OrganizerAvatar member={organizer} size={20} />
+								<span>{organizerName}</span>
 							</li>
 						)}
 					</ul>

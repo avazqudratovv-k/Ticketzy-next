@@ -54,7 +54,7 @@
         "items": [
           {
             "q": "Can I get a refund?",
-            "a": "Yes, until 23:59 on the day before the event, in the time zone of the venue. For an event on 15 November in Seoul, you can refund until 23:59 Seoul time on 14 November. After that the order can no longer be refunded."
+            "a": "It depends on the event. Each event shows its own policy: either refundable until 23:59, in the time zone of the venue, on a day the organizer set (1 to 30 days before the event), or non-refundable. The event page and checkout show the exact deadline. For example, if an event in Seoul on 15 November is refundable until 3 days before, you can refund until 23:59 Seoul time on 12 November. Tickets for a non-refundable event can’t be refunded, and you confirm that before you pay. After the deadline the order can no longer be refunded."
           },
           {
             "q": "Can I refund only some of my tickets?",
@@ -62,7 +62,7 @@
           },
           {
             "q": "How do I ask for a refund?",
-            "a": "Open the order from Orders in your account and use the refund panel. It shows the deadline in the venue’s time zone and the amount before you confirm."
+            "a": "Open the order from Orders in your account and use the refund panel. It shows the deadline in the venue’s time zone and the amount before you confirm. An order keeps the policy it was bought under."
           },
           {
             "q": "What if the event is cancelled?",

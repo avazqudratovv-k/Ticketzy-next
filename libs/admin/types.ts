@@ -1,5 +1,5 @@
 import { EventCategory, EventLocaleCode, EventStatus } from '../types/event';
-import { LayoutSection } from '../seats/types';
+import { FocalArea, LayoutSection } from '../seats/types';
 import { VenueConflict } from '../venueConflict';
 import { MemberStatus, MemberType } from '../enums/member.enum';
 
@@ -71,7 +71,7 @@ export interface AdminVenue {
 	venueTimezone: string;
 	venueCapacity?: number;
 	venueStatus?: string;
-	venueLayout?: { sections: LayoutSection[] } | null;
+	venueLayout?: { sections: LayoutSection[]; focalArea?: FocalArea | null } | null;
 }
 
 export interface AdminEvent extends Omit<AdminEventRow, 'memberData' | 'venueData' | 'eventTranslations'> {

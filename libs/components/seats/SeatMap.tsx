@@ -2,7 +2,6 @@ import { memo, PointerEvent as ReactPointerEvent, useCallback, useEffect, useMem
 import { useTranslation } from 'next-i18next';
 import { MagnifyingGlassMinus, MagnifyingGlassPlus, ArrowsOut } from 'phosphor-react';
 import {
-	hasStage,
 	layoutBounds,
 	pitchOf,
 	SEAT_FILL,
@@ -12,7 +11,8 @@ import {
 	sectionSize,
 	tierColor,
 } from '../../seats/layout';
-import { LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
+import { readFocalArea } from '../../seats/focal';
+import { FocalArea, LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
 import { seatVisual } from '../../seats/visual';
 
 interface SectionProps {
@@ -96,8 +96,46 @@ export const SectionSeats = memo(function SectionSeats({ section, color, taken, 
 	);
 });
 
+/**
+ * The stage bar or the football pitch of a layout, on the venue canvas. Shared with the organizer's editor so both draw it the same.
+ * The label is left out when the shape is too small to hold it.
+ */
+export const FocalShape = ({ focal, stageLabel, pitchLabel }: { focal: FocalArea; stageLabel: string; pitchLabel: string }) => {
+	const cx = focal.x + focal.width / 2;
+	const cy = focal.y + focal.height / 2;
+	if (focal.type === 'PITCH') {
+		const r = focal.height * 0.14;
+		const box = { w: focal.width * 0.16, h: focal.height * 0.5 };
+		return (
+			<g className="seatmap__pitch" data-focal="PITCH" pointerEvents="none">
+				<rect className="seatmap__pitch-field" x={focal.x} y={focal.y} width={focal.width} height={focal.height} rx={6} />
+				<line x1={cx} y1={focal.y} x2={cx} y2={focal.y + focal.height} />
+				<circle cx={cx} cy={cy} r={r} />
+				<rect x={focal.x} y={cy - box.h / 2} width={box.w} height={box.h} />
+				<rect x={focal.x + focal.width - box.w} y={cy - box.h / 2} width={box.w} height={box.h} />
+				<text x={cx} y={focal.y + 16} textAnchor="middle" dominantBaseline="central">
+					{pitchLabel}
+				</text>
+			</g>
+		);
+	}
+	const radius = Math.min(11, focal.height / 2);
+	return (
+		<g className="seatmap__stage" data-focal="STAGE" pointerEvents="none">
+			<rect x={focal.x} y={focal.y} width={focal.width} height={focal.height} rx={radius} />
+			{focal.width >= 60 && focal.height >= 14 && (
+				<text x={cx} y={cy} textAnchor="middle" dominantBaseline="central">
+					{stageLabel}
+				</text>
+			)}
+		</g>
+	);
+};
+
 interface Props {
 	sections: LayoutSection[];
+	/** Stage or pitch from the venue layout; none (old data) reads as the default stage */
+	focalArea?: FocalArea | null;
 	tiers: Map<string, number>;
 	taken: Map<string, TakenSeat>;
 	selected: Set<string>;
@@ -125,9 +163,10 @@ const parseKey = (key: string): SeatRef => {
 };
 
 /** Interactive 2D seat map: SVG on the venue's canvas, zoom (wheel, pinch, buttons) and pan (drag). */
-const SeatMap = ({ sections, tiers, taken, selected, lockedTiers, activeSection, tooltip, onSeat, onSection, focusSection }: Props) => {
+const SeatMap = ({ sections, focalArea, tiers, taken, selected, lockedTiers, activeSection, tooltip, onSeat, onSection, focusSection }: Props) => {
 	const { t } = useTranslation('checkout');
-	const bounds = useMemo(() => layoutBounds(sections), [sections]);
+	const focal = useMemo(() => readFocalArea(focalArea), [focalArea]);
+	const bounds = useMemo(() => layoutBounds(sections, 36, focal), [sections, focal]);
 	const [view, setView] = useState<View>({ cx: bounds.x + bounds.w / 2, cy: bounds.y + bounds.h / 2, zoom: 1 });
 	const [hover, setHover] = useState<{ text: string; x: number; y: number } | null>(null);
 	const svgRef = useRef<SVGSVGElement>(null);
@@ -259,9 +298,7 @@ const SeatMap = ({ sections, tiers, taken, selected, lockedTiers, activeSection,
 		if (section) onSection(section);
 	};
 
-	const stage = hasStage(sections);
 	const showRows = view.zoom >= 2.4;
-	const stageWidth = Math.min(bounds.w * 0.5, 320);
 
 	return (
 		<div className="seatmap">
@@ -293,14 +330,7 @@ const SeatMap = ({ sections, tiers, taken, selected, lockedTiers, activeSection,
 					onPointerLeave={() => setHover(null)}
 					onClick={onClick}
 				>
-					{stage && (
-						<g className="seatmap__stage">
-							<rect x={bounds.x + bounds.w / 2 - stageWidth / 2} y={bounds.y + 4} width={stageWidth} height={22} rx={11} />
-							<text x={bounds.x + bounds.w / 2} y={bounds.y + 15} textAnchor="middle" dominantBaseline="central">
-								{t('map.stage')}
-							</text>
-						</g>
-					)}
+					<FocalShape focal={focal} stageLabel={t('map.stage')} pitchLabel={t('map.pitch')} />
 					{sections.map((section) =>
 						section.kind === 'STANDING' ? (
 							<StandingArea key={section.key} section={section} label={t('map.standing')} sub={t('map.standingNote')} />

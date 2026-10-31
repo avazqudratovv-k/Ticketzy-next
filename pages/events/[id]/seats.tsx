@@ -116,9 +116,9 @@ const Seats: NextPage = () => {
 
 			{state === 'onSale' ? (
 				reserved ? (
-					<SeatPicker eventId={event._id} ticketTypes={ticketTypes} config={config} />
+					<SeatPicker eventId={event._id} ticketTypes={ticketTypes} config={config} refundPolicy={event.refundPolicy} startAt={event.startAt} timeZone={venue?.venueTimezone} />
 				) : (
-					<GeneralPicker eventId={event._id} ticketTypes={ticketTypes} config={config} />
+					<GeneralPicker eventId={event._id} ticketTypes={ticketTypes} config={config} refundPolicy={event.refundPolicy} startAt={event.startAt} timeZone={venue?.venueTimezone} />
 				)
 			) : (
 				<StateBlock
