@@ -81,6 +81,17 @@
     "row": "Row {{row}}",
     "aria": "Row {{row}}, seat {{number}}, {{state}}"
   },
+  "view": {
+    "title": "View from your seat",
+    "button": "View from your seat",
+    "open": "View from {{seat}}",
+    "close": "Close the view",
+    "loading": "Loading the view…",
+    "unsupported": "This device can't show the 3D view.",
+    "label": "Approximate view, based on the venue layout.",
+    "hint": "Drag to look around. Scroll or pinch to zoom.",
+    "canvasLabel": "3D view from the selected seat"
+  },
   "summary": {
     "title": "Your seats",
     "empty": "Pick a seat on the map to start.",

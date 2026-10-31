@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useApolloClient } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
 import { Button } from '@mui/material';
-import { Warning, WifiHigh } from 'phosphor-react';
+import { Eye, Warning, WifiHigh } from 'phosphor-react';
 import { CANCEL_PENDING_ORDER, RELEASE_SEATS } from '../../../apollo/user/mutation';
 import { GET_MY_PENDING_ORDERS } from '../../../apollo/user/query';
 import { clearSession } from '../../auth';
@@ -34,6 +34,9 @@ const SeatMap = dynamic(() => import('./SeatMap'), {
 	ssr: false,
 	loading: () => <div className="seatmap seatmap--loading tz-skel" aria-hidden="true" />,
 });
+
+// The 3D "View from your seat" panel: its code (and `three`) loads only after the first open
+const SeatViewDialog = dynamic(() => import('./SeatViewDialog'), { ssr: false });
 
 interface Props {
 	eventId: string;
@@ -71,6 +74,10 @@ const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZ
 	const [active, setActive] = useState<string | null>(null);
 	const [focus, setFocus] = useState<string | null>(null);
 	const [pending, setPending] = useState<PendingOrder | null>(null);
+	/** "View from your seat": the seat shown, the button that opened it (focus goes back there), the seat picked last */
+	const [viewSeat, setViewSeat] = useState<SeatRef | null>(null);
+	const viewOpener = useRef<HTMLElement | null>(null);
+	const [lastPicked, setLastPicked] = useState<SeatRef | null>(null);
 	/** Non-refundable event: the buyer has to confirm before the seats are held and the order is made */
 	const nonRefundable = isNonRefundable({ refundPolicy });
 	const [acknowledged, setAcknowledged] = useState(false);
@@ -105,6 +112,22 @@ const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZ
 		});
 		return locked;
 	}, [sections, ticketByTier]);
+
+	const selectedKeysSeen = useRef(new Set<string>());
+	useEffect(() => {
+		const added = selected.filter((ref) => !selectedKeysSeen.current.has(seatKey(ref)));
+		selectedKeysSeen.current = new Set(selected.map(seatKey));
+		if (added.length > 0) setLastPicked(added[added.length - 1]);
+	}, [selected]);
+	const openView = (ref: SeatRef, opener: HTMLElement | null) => {
+		viewOpener.current = opener;
+		setViewSeat(ref);
+	};
+	const closeView = () => {
+		setViewSeat(null);
+		const opener = viewOpener.current;
+		window.setTimeout(() => opener?.isConnected && opener.focus(), 0);
+	};
 
 	const sectionInfo: SectionInfo[] = useMemo(
 		() =>
@@ -341,7 +364,10 @@ const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZ
 		price: priceOf(ref),
 		onRemove: pending ? undefined : () => toggle(ref),
 		removeLabel: t('summary.remove', { seat: seatText(ref) }),
+		onView: (opener) => openView(ref, opener),
+		viewLabel: t('view.open', { seat: seatText(ref) }),
 	}));
+	const viewTarget = lastPicked && selectedKeys.has(seatKey(lastPicked)) ? lastPicked : selected[selected.length - 1];
 	const total = selected.reduce((sum, ref) => sum + priceOf(ref), 0);
 	const activeInfo = sectionInfo.find((info) => info.section.key === active);
 
@@ -411,6 +437,14 @@ const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZ
 					/>
 				)}
 
+				{map && viewTarget && (
+					<div className="picker__view">
+						<Button variant="outlined" startIcon={<Eye size={18} aria-hidden="true" />} onClick={(e) => openView(viewTarget, e.currentTarget)}>
+							{t('view.button')}
+						</Button>
+					</div>
+				)}
+
 				<Legend sectionInfo={sectionInfo} />
 
 				{map && (
@@ -467,6 +501,18 @@ const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZ
 					) : undefined
 				}
 			/>
+
+			{map && viewSeat && (
+				<SeatViewDialog
+					seat={viewSeat}
+					seatText={seatText(viewSeat)}
+					sections={sections}
+					focalArea={map.venueLayout.focalArea}
+					taken={taken}
+					selected={selectedKeys}
+					onClose={closeView}
+				/>
+			)}
 		</div>
 	);
 };

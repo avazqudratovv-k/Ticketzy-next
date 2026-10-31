@@ -1116,3 +1116,107 @@
 		font: 800 32px/40px var(--font-sans);
 	}
 }
+
+/** VIEW FROM YOUR SEAT (F391) **/
+.picker__view {
+	margin-top: var(--space-3);
+}
+.summary__view {
+	@media (pointer: coarse) {
+		width: 44px;
+		height: 44px;
+	}
+}
+.seatview {
+	display: flex;
+	flex-direction: column;
+	background: var(--surface);
+	color: var(--ink);
+	&.MuiDialog-paper {
+		background-image: none;
+		background-color: var(--surface);
+		color: var(--ink);
+	}
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-3);
+		padding: var(--space-3) var(--space-4);
+		border-bottom: 1px solid var(--border);
+	}
+	&__title {
+		margin: 0;
+		font: var(--text-title);
+	}
+	&__seat {
+		margin: 0;
+		color: var(--ink-muted);
+		font: var(--text-body-sm);
+	}
+	&__close {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		border: 0;
+		border-radius: 50%;
+		background: transparent;
+		color: var(--ink);
+		cursor: pointer;
+		&:hover {
+			background: var(--surface-raised);
+		}
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+		}
+	}
+	&__stage {
+		position: relative;
+		flex: 1 1 auto;
+		height: min(64vh, 620px);
+		min-height: 240px;
+		background: var(--bg);
+		&[data-state='ready'] canvas {
+			animation: seatview-in var(--dur-base, 200ms) var(--ease-out, ease-out);
+		}
+		canvas:focus-visible {
+			outline: 2px solid var(--focus);
+		}
+	}
+	&__msg {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		margin: 0;
+		padding: var(--space-4);
+		text-align: center;
+		color: var(--ink-muted);
+		font: var(--text-body);
+	}
+	&__foot {
+		padding: var(--space-3) var(--space-4);
+		border-top: 1px solid var(--border);
+		font: var(--text-body-sm);
+		p {
+			margin: 0;
+		}
+	}
+	&__hint {
+		color: var(--ink-muted);
+	}
+}
+.MuiDialog-paperFullScreen.seatview .seatview__stage {
+	height: auto;
+}
+@keyframes seatview-in {
+	from {
+		opacity: 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.seatview__stage[data-state='ready'] canvas {
+		animation: none;
+	}
+}

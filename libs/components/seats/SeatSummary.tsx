@@ -2,7 +2,7 @@ import { ReactNode, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
-import { CaretUp, X } from 'phosphor-react';
+import { CaretUp, Eye, X } from 'phosphor-react';
 import { formatPrice } from '../../format';
 
 export interface SummaryLine {
@@ -13,6 +13,9 @@ export interface SummaryLine {
 	/** Remove button; omitted for read-only lines */
 	onRemove?: () => void;
 	removeLabel?: string;
+	/** Opens "View from your seat" (F391) */
+	onView?: (opener: HTMLButtonElement) => void;
+	viewLabel?: string;
 }
 
 interface Props {
@@ -70,6 +73,11 @@ const SeatSummary = ({ heading, lines, count, total, currency, note, timer, acti
 									<span className="summary__meta">{line.meta}</span>
 								</div>
 								<span className="summary__price">{formatPrice(line.price, locale, currency)}</span>
+								{line.onView && (
+									<button type="button" className="summary__remove summary__view" onClick={(e) => line.onView?.(e.currentTarget)} aria-label={line.viewLabel}>
+										<Eye size={18} />
+									</button>
+								)}
 								{line.onRemove && (
 									<button type="button" className="summary__remove" onClick={line.onRemove} aria-label={line.removeLabel}>
 										<X size={18} />
