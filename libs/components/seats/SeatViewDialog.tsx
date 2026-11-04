@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { Dialog, useMediaQuery } from '@mui/material';
-import { ArrowCounterClockwise, CaretLeft, CaretRight, X } from 'phosphor-react';
+import { ArrowCounterClockwise, CaretLeft, CaretRight, Eye, X } from 'phosphor-react';
 import { FocalArea, LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
 import type { SeatViewHandle } from './seatViewScene';
 
@@ -32,6 +32,7 @@ const SeatViewDialog = ({ seat, seatText, sections, focalArea, taken, selected, 
 	const handleRef = useRef<SeatViewHandle | null>(null);
 	// The seat the camera sits in; the buyer can step through the seats picked so far (F401)
 	const [current, setCurrent] = useState<SeatRef>(seat);
+	const [mode, setMode] = useState<'seat' | 'overview'>('seat');
 	const seats = useMemo(() => {
 		const list = [...selected].map(parseKey);
 		return list.some((item) => sameSeat(item, seat)) ? list : [seat, ...list];
@@ -63,6 +64,10 @@ const SeatViewDialog = ({ seat, seatText, sections, focalArea, taken, selected, 
 	useEffect(() => {
 		handleRef.current?.setSeat(current);
 	}, [current, state]);
+
+	useEffect(() => {
+		handleRef.current?.setMode(mode);
+	}, [mode, state]);
 
 	return (
 		<Dialog
@@ -108,6 +113,10 @@ const SeatViewDialog = ({ seat, seatText, sections, focalArea, taken, selected, 
 							</button>
 						</div>
 					)}
+					<button type="button" className="seatview__tool seatview__tool--text" aria-pressed={mode === 'overview'} onClick={() => setMode(mode === 'seat' ? 'overview' : 'seat')}>
+						<Eye size={18} aria-hidden="true" />
+						{mode === 'seat' ? t('view.overview') : t('view.fromSeat')}
+					</button>
 					<button type="button" className="seatview__tool seatview__tool--text" onClick={() => handleRef.current?.resetView()}>
 						<ArrowCounterClockwise size={18} aria-hidden="true" />
 						{t('view.reset')}
@@ -116,7 +125,7 @@ const SeatViewDialog = ({ seat, seatText, sections, focalArea, taken, selected, 
 			)}
 			<footer className="seatview__foot">
 				<p>{t('view.label')}</p>
-				<p className="seatview__hint">{t('view.hint')}</p>
+				<p className="seatview__hint">{t(mode === 'seat' ? 'view.hint' : 'view.hintOverview')}</p>
 			</footer>
 		</Dialog>
 	);

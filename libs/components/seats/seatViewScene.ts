@@ -13,6 +13,7 @@ import {
 	Matrix4,
 	Mesh,
 	MeshBasicMaterial,
+	Object3D,
 	MeshLambertMaterial,
 	PerspectiveCamera,
 	PlaneGeometry,
@@ -28,12 +29,13 @@ import {
 	buildViewModel,
 	chairWidth,
 	ROOF_CLEARANCE,
+	roomBox,
 	sectionShells,
 	seatSize,
 	SCALE as BASE_SCALE,
 	startCamera,
-	STAGE_BACKDROP_HEIGHT,
 	STAGE_DECK_HEIGHT,
+	stageDepthOf,
 	toWorld,
 } from '../../seats/view3d';
 
@@ -46,6 +48,8 @@ export interface SeatViewInput {
 	/** keys of every seat the buyer has selected */
 	selected: Set<string>;
 	seat: SeatRef;
+	/** a venue with a stage is a closed room (walls, ceiling) unless this is false, for an open-air venue */
+	indoor?: boolean;
 	/** accessible name of the canvas */
 	label: string;
 }
@@ -56,6 +60,8 @@ export interface SeatViewHandle {
 	setSeat: (seat: SeatRef) => boolean;
 	/** Looks at the stage or pitch again with the starting zoom */
 	resetView: () => void;
+	/** `overview`: the whole venue from above, ceilings and roofs hidden, drag to turn. `seat`: back in the chair. */
+	setMode: (mode: 'seat' | 'overview') => void;
 }
 
 /** Same numbers every time, so the crowd does not shuffle when the theme changes or the panel reopens */
@@ -107,7 +113,8 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	if (!mine) return null;
 	/** meters per canvas unit, and how much bigger than a stage venue the world is */
 	const SCALE = model.scale;
-	const GROW = SCALE / BASE_SCALE;
+	const GROW = Math.max(1, SCALE / BASE_SCALE);
+	const indoor = model.focal.type === 'STAGE' && input.indoor !== false;
 	let renderer: WebGLRenderer;
 	try {
 		renderer = new WebGLRenderer({ antialias: true, powerPreference: 'low-power' });
@@ -136,9 +143,9 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	container.appendChild(canvas);
 
 	// Sky and ground light make tops brighter than sides, so tiers, walls and roofs read as shapes
-	scene.add(new AmbientLight(0xffffff, 0.9));
-	scene.add(new HemisphereLight(0xffffff, 0x8f95a3, 1.0));
-	const sun = new DirectionalLight(0xffffff, 1.4);
+	scene.add(new AmbientLight(0xffffff, indoor ? 0.7 : 0.9));
+	scene.add(new HemisphereLight(0xffffff, 0x8f95a3, indoor ? 0.8 : 1.0));
+	const sun = new DirectionalLight(0xffffff, indoor ? 0.8 : 1.4);
 	sun.position.set(20 * GROW, 50 * GROW, 30 * GROW);
 	scene.add(sun);
 
@@ -165,6 +172,9 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		return material;
 	};
 	const white = new Color('#ffffff');
+	/** Walls, ceiling and roofs: hidden in the overview so the whole venue can be seen */
+	const covers: Object3D[] = [];
+	const cover = <T extends Object3D>(object: T): T => (covers.push(object), object);
 
 	// Ground
 	const ground = new Mesh(track(new PlaneGeometry(400 * GROW, 400 * GROW)), solid((p) => p.surface));
@@ -177,41 +187,63 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	const fw = focal.width * SCALE;
 	const fd = focal.height * SCALE;
 	const fc = model.focalCenter;
+	const room = indoor ? roomBox(model) : null;
 	if (focal.type === 'STAGE') {
-		addBox(fw + 0.3, 0.14, fd + 0.3, fc.x, STAGE_DECK_HEIGHT - 0.07, fc.z, solid((p) => p.accent));
-		addBox(fw, STAGE_DECK_HEIGHT, fd, fc.x, STAGE_DECK_HEIGHT / 2, fc.z, solid((p) => p.raised.clone().lerp(p.ink, 0.12)));
-		addBox(fw, STAGE_BACKDROP_HEIGHT, 0.3, fc.x, STAGE_BACKDROP_HEIGHT / 2, fc.z - fd / 2 - 0.15, solid((p) => p.sunken.clone().lerp(p.accent, 0.05)));
+		// The canvas stage is a thin bar, so in 3D it is deeper than drawn, growing backwards; the front edge stays where the map has it
+		const sd = stageDepthOf(fw, fd);
+		const frontZ = fc.z + fd / 2;
+		const midZ = frontZ - sd / 2;
+		const backZ = frontZ - sd;
+		const ceiling = room?.height ?? 12;
+		const top = Math.min(ceiling - 1.5, STAGE_DECK_HEIGHT + 6.5);
+		const deckColor = solid((p) => p.raised.clone().lerp(p.ink, 0.12));
+		addBox(fw + 0.3, 0.14, sd + 0.3, fc.x, STAGE_DECK_HEIGHT - 0.06, midZ, solid((p) => p.accent));
+		addBox(fw, STAGE_DECK_HEIGHT, sd, fc.x, STAGE_DECK_HEIGHT / 2, midZ, deckColor);
+		addBox(fw, top, 0.3, fc.x, top / 2, backZ - 0.15, solid((p) => p.sunken.clone().lerp(p.accent, 0.05)));
 		// A video wall on the backdrop, speaker stacks, a lighting truss with lamps and beams, and the front barrier
-		const backZ = fc.z - fd / 2;
-		addBox(fw * 0.7, 3, 0.1, fc.x, STAGE_DECK_HEIGHT + 2.1, backZ + 0.05, glow((p) => p.accent.clone().lerp(white, 0.15)));
+		const wallHeight = Math.min(3, top - STAGE_DECK_HEIGHT - 1);
+		addBox(fw * 0.7, wallHeight, 0.1, fc.x, STAGE_DECK_HEIGHT + 0.6 + wallHeight / 2, backZ + 0.05, glow((p) => p.accent.clone().lerp(white, 0.15)));
 		const speaker = solid(() => new Color('#14171d'));
 		const cone = solid(() => new Color('#2a2f3a'));
 		for (const side of [-1, 1]) {
 			const sx = fc.x + side * (fw / 2 - 1.2);
 			for (let level = 0; level < 3; level += 1) {
-				addBox(1.3, 1.1, 1.1, sx, STAGE_DECK_HEIGHT + 0.55 + level * 1.12, fc.z - fd / 4, speaker);
-				addBox(0.8, 0.5, 0.05, sx, STAGE_DECK_HEIGHT + 0.55 + level * 1.12, fc.z - fd / 4 + 0.58, cone);
+				addBox(1.3, 1.1, 1.1, sx, STAGE_DECK_HEIGHT + 0.55 + level * 1.12, frontZ - sd * 0.18, speaker);
+				addBox(0.8, 0.5, 0.05, sx, STAGE_DECK_HEIGHT + 0.55 + level * 1.12, frontZ - sd * 0.18 + 0.58, cone);
 			}
 		}
 		const truss = solid(() => new Color('#3a404c'));
-		const trussY = STAGE_DECK_HEIGHT + 5.6;
-		addBox(fw, 0.18, 0.18, fc.x, trussY, fc.z - fd / 4, truss);
-		for (const side of [-1, 1]) addBox(0.18, trussY - STAGE_DECK_HEIGHT, 0.18, fc.x + side * (fw / 2 - 0.2), STAGE_DECK_HEIGHT + (trussY - STAGE_DECK_HEIGHT) / 2, fc.z - fd / 4, truss);
-		const lamps = Math.max(3, Math.min(9, Math.round(fw / 3)));
+		const trussY = top - 0.4;
+		const trussZ = frontZ - sd * 0.4;
+		addBox(fw, 0.18, 0.18, fc.x, trussY, trussZ, truss);
+		for (const side of [-1, 1]) addBox(0.18, trussY - STAGE_DECK_HEIGHT, 0.18, fc.x + side * (fw / 2 - 0.2), STAGE_DECK_HEIGHT + (trussY - STAGE_DECK_HEIGHT) / 2, trussZ, truss);
+		const lamps = Math.max(3, Math.min(9, Math.round(fw / 2.5)));
 		const lampMaterial = glow((p) => p.accent.clone().lerp(white, 0.6));
 		const beamMaterial = new MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.09, depthWrite: false, side: DoubleSide });
 		materials.push(beamMaterial);
 		paints.push((p) => beamMaterial.color.copy(p.accent.clone().lerp(white, 0.4)));
-		const beam = track(new ConeGeometry(1.5, 8, 16, 1, true));
+		const beamLength = trussY - STAGE_DECK_HEIGHT - 0.4;
+		const beam = track(new ConeGeometry(1.2, beamLength, 16, 1, true));
 		for (let i = 0; i < lamps; i += 1) {
 			const lx = fc.x - fw / 2 + 1 + ((fw - 2) * i) / (lamps - 1);
-			addBox(0.45, 0.3, 0.45, lx, trussY - 0.25, fc.z - fd / 4, lampMaterial);
+			addBox(0.45, 0.3, 0.45, lx, trussY - 0.25, trussZ, lampMaterial);
 			const ray = new Mesh(beam, beamMaterial);
-			ray.position.set(lx, trussY - 0.4 - 4, fc.z - fd / 4);
+			ray.position.set(lx, trussY - 0.4 - beamLength / 2, trussZ);
 			ray.rotation.set(0.18 + (i % 2) * 0.1, 0, (i / (lamps - 1) - 0.5) * 0.5);
 			scene.add(ray);
 		}
-		addBox(fw + 2, 1.1, 0.12, fc.x, 0.55, fc.z + fd / 2 + 1.6, solid((p) => p.line));
+		addBox(fw + 2, 1.1, 0.12, fc.x, 0.55, frontZ + 1, solid((p) => p.line));
+		// The proscenium: two columns and a header frame the opening, velvet curtains fold at both sides
+		const frame = solid((p) => p.sunken.clone().lerp(p.ink, 0.1));
+		const velvet = solid((p) => p.accent.clone().lerp(p.bg, 0.5));
+		for (const side of [-1, 1]) {
+			addBox(0.9, top, 0.9, fc.x + side * (fw / 2 + 0.45), top / 2, frontZ - 0.45, frame);
+			for (let k = 0; k < 4; k += 1) {
+				addBox(fw * 0.035, top - 1.3 - STAGE_DECK_HEIGHT, 0.12, fc.x + side * (fw / 2 - 0.3 - k * fw * 0.04), STAGE_DECK_HEIGHT + (top - 1.3 - STAGE_DECK_HEIGHT) / 2, frontZ - 0.9 + (k % 2) * 0.15, velvet);
+			}
+		}
+		addBox(fw + 1.8, 1.3, 0.9, fc.x, top - 0.65, frontZ - 0.45, frame);
+		addBox(fw, 0.3, 0.12, fc.x, top - 1.45, frontZ - 0.9, velvet);
 	} else {
 		/** Run-off, boards (1 m), two covered dugouts and the tunnel mouth, from the same geometry as the 2D map */
 		const addSurround = (runColor: Color) => {
@@ -285,6 +317,31 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		}
 	}
 
+	// The room of an indoor venue: floor, four walls with a lit band, a ceiling with recessed lights
+	if (room) {
+		const w = room.maxX - room.minX;
+		const d = room.maxZ - room.minZ;
+		const cx = (room.minX + room.maxX) / 2;
+		const cz = (room.minZ + room.maxZ) / 2;
+		const h = room.height;
+		addBox(w, 0.1, d, cx, -0.07, cz, solid((p) => p.sunken.clone().lerp(p.accent, 0.04)));
+		const wallMaterial = solid((p) => p.raised.clone().lerp(p.bg, 0.55));
+		const band = glow((p) => p.accent.clone().lerp(p.bg, 0.55));
+		cover(addBox(w, h, 0.4, cx, h / 2, room.minZ - 0.2, wallMaterial));
+		cover(addBox(w, h, 0.4, cx, h / 2, room.maxZ + 0.2, wallMaterial));
+		cover(addBox(0.4, h, d, room.minX - 0.2, h / 2, cz, wallMaterial));
+		cover(addBox(0.4, h, d, room.maxX + 0.2, h / 2, cz, wallMaterial));
+		cover(addBox(w, 0.12, 0.05, cx, 2.6, room.maxZ - 0.02, band));
+		cover(addBox(0.05, 0.12, d, room.minX + 0.02, 2.6, cz, band));
+		cover(addBox(0.05, 0.12, d, room.maxX - 0.02, 2.6, cz, band));
+		cover(addBox(w + 0.8, 0.4, d + 0.8, cx, h + 0.2, cz, solid((p) => p.sunken.clone().lerp(p.bg, 0.3))));
+		const spots: { x: number; z: number }[] = [];
+		for (let x = room.minX + 3; x < room.maxX - 1; x += 6) for (let z = room.minZ + 3; z < room.maxZ - 1; z += 6) spots.push({ x, z });
+		const panels = cover(new InstancedMesh(track(new BoxGeometry(1, 0.06, 1)), glow((p) => p.ink.clone().lerp(p.bg, 0.25)), spots.length));
+		spots.forEach((spot, i) => panels.setMatrixAt(i, new Matrix4().setPosition(spot.x, h - 0.04, spot.z)));
+		scene.add(panels);
+	}
+
 	// Standing areas: a flat patch with a crowd on it
 	const crowdAreas: { key: string; x: number; z: number; w: number; d: number; ry: number; capacity: number }[] = [];
 	for (const section of input.sections) {
@@ -331,6 +388,7 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	// Seats: three instanced meshes (seat, back, riser under a tier) so even a stadium is three draw calls.
 	// Every seat is drawn; the one the camera sits in is scaled to nothing, so the buyer can move to another seat.
 	const seats = model.seats;
+	const seatedShade: number[] = [];
 	const indexOf = new Map(seats.map((seat, i) => [seat.key, i]));
 	const unit = track(new BoxGeometry(1, 1, 1));
 	const baseMesh = new InstancedMesh(unit, lambert(), seats.length);
@@ -373,6 +431,26 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		scene.add(mesh);
 	});
 
+	// People in the seats that are taken (not the buyer's own): a torso and a head each, facing the stage or pitch
+	const occupied = seats.filter((seat) => {
+		const taken = input.taken.get(seat.key);
+		return Boolean(taken && !taken.mine);
+	});
+	const torsos = new InstancedMesh(track(new BoxGeometry(0.4, 0.55, 0.26)), lambert(), occupied.length);
+	const faces = new InstancedMesh(track(new SphereGeometry(0.115, 8, 6)), lambert(), occupied.length);
+	occupied.forEach((seat, i) => {
+		const facing = Math.atan2(-(fc.x - seat.x), -(fc.z - seat.z));
+		const shade = ((hash(seat.key) % 100) / 100) * 0.4;
+		matrix.makeRotationY(facing).setPosition(seat.x + Math.sin(facing) * 0.12, seat.y + 0.55, seat.z + Math.cos(facing) * 0.12);
+		torsos.setMatrixAt(i, matrix);
+		matrix.makeTranslation(seat.x + Math.sin(facing) * 0.1, seat.y + 0.98, seat.z + Math.cos(facing) * 0.1);
+		faces.setMatrixAt(i, matrix);
+		seatedShade.push(shade);
+	});
+	torsos.instanceMatrix.needsUpdate = true;
+	faces.instanceMatrix.needsUpdate = true;
+	if (occupied.length) scene.add(torsos, faces);
+
 	// Rails in front of each tier, and a back wall and a roof on the top tier: they frame the view and can hide a little of it, as in the venue
 	const railMaterial = solid((p) => p.line);
 	const wallMaterial = solid((p) => p.sunken.clone().lerp(p.ink, 0.08));
@@ -382,25 +460,27 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		const rail = { x: shell.front.x - shell.out.x * shell.cell * 0.5, z: shell.front.z - shell.out.z * shell.cell * 0.5 };
 		addBox(shell.rowLength, 0.07, 0.07, rail.x, shell.front.y + 0.85, rail.z, railMaterial, shell.ry);
 		addBox(shell.rowLength, 0.05, 0.05, rail.x, shell.front.y + 0.45, rail.z, railMaterial, shell.ry);
-		if (!shell.isTop) continue;
+		if (!shell.isTop || indoor) continue;
 		const wallGap = shell.cell * 0.6;
 		const wallBottom = shell.back.y - 0.3;
 		const wallHeight = ROOF_CLEARANCE + 0.3;
 		const wall = { x: shell.back.x + shell.out.x * wallGap, z: shell.back.z + shell.out.z * wallGap };
-		addBox(shell.rowLength, wallHeight, 0.3, wall.x, wallBottom + wallHeight / 2, wall.z, wallMaterial, shell.ry);
+		cover(addBox(shell.rowLength, wallHeight, 0.3, wall.x, wallBottom + wallHeight / 2, wall.z, wallMaterial, shell.ry));
 		// the roof reaches a quarter of the section's depth past the front row
 		const overhang = shell.depth * 0.25;
 		const span = shell.depth + overhang + wallGap;
 		const mid = (overhang + wallGap) / 2;
-		addBox(
-			shell.rowLength,
-			0.4,
-			span,
-			shell.front.x + shell.out.x * (shell.depth / 2 + mid - overhang),
-			wallBottom + wallHeight,
-			shell.front.z + shell.out.z * (shell.depth / 2 + mid - overhang),
-			roofMaterial,
-			shell.ry,
+		cover(
+			addBox(
+				shell.rowLength,
+				0.4,
+				span,
+				shell.front.x + shell.out.x * (shell.depth / 2 + mid - overhang),
+				wallBottom + wallHeight,
+				shell.front.z + shell.out.z * (shell.depth / 2 + mid - overhang),
+				roofMaterial,
+				shell.ry,
+			),
 		);
 	}
 
@@ -420,11 +500,15 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		risers.forEach((seat, i) => {
 			riserMesh.setColorAt(i, color.copy(p.sunken).lerp(resolve(tierColor(seat.section.tierKey ? tiers.get(seat.section.tierKey) : 0)), 0.3));
 		});
+		occupied.forEach((_, i) => {
+			torsos.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.45 + seatedShade[i]).lerp(p.accent, seatedShade[i] > 0.37 ? 0.45 : 0));
+			faces.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.25));
+		});
 		people.forEach((person, i) => {
 			bodies.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.35 + person.shade * 0.4).lerp(p.accent, person.shade > 0.85 ? 0.5 : 0));
 			heads.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.2));
 		});
-		for (const mesh of [baseMesh, backMesh, riserMesh, bodies, heads]) if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+		for (const mesh of [baseMesh, backMesh, riserMesh, bodies, heads, torsos, faces]) if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
 	};
 
 	const paint = () => {
@@ -443,7 +527,42 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	let pitch = start.pitch;
 	let hfov = HFOV.start;
 	const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+	// Overview: the camera circles the middle of the venue; the buyer's seat gets a marker
+	let mode: 'seat' | 'overview' = 'seat';
+	const extent = (() => {
+		let minX = Infinity;
+		let maxX = -Infinity;
+		let minZ = Infinity;
+		let maxZ = -Infinity;
+		for (const seat of seats) {
+			minX = Math.min(minX, seat.x);
+			maxX = Math.max(maxX, seat.x);
+			minZ = Math.min(minZ, seat.z);
+			maxZ = Math.max(maxZ, seat.z);
+		}
+		return { x: (minX + maxX) / 2, z: (minZ + maxZ) / 2, radius: Math.max(10, Math.hypot(maxX - minX, maxZ - minZ) / 2) };
+	})();
+	const orbit = { az: 0, el: 0.75, dist: extent.radius * 1.7 };
+	const marker = new Mesh(track(new SphereGeometry(Math.max(0.5, extent.radius * 0.012), 12, 8)), glow((p) => p.accent));
+	marker.visible = false;
+	scene.add(marker);
+	const placeMarker = () => marker.position.set(mine!.x, mine!.y + 1.2, mine!.z);
+	placeMarker();
 	const aim = () => {
+		if (mode === 'overview') {
+			orbit.el = clamp(orbit.el, 0.12, 1.45);
+			orbit.dist = clamp(orbit.dist, extent.radius * 0.4, extent.radius * 3.2);
+			camera.position.set(
+				extent.x + orbit.dist * Math.sin(orbit.az) * Math.cos(orbit.el),
+				2 + orbit.dist * Math.sin(orbit.el),
+				extent.z + orbit.dist * Math.cos(orbit.az) * Math.cos(orbit.el),
+			);
+			camera.lookAt(extent.x, 2, extent.z);
+			camera.fov = 50;
+			camera.updateProjectionMatrix();
+			schedule();
+			return;
+		}
 		yaw = clamp(yaw, start.yaw - YAW_LIMIT, start.yaw + YAW_LIMIT);
 		pitch = clamp(pitch, start.pitch - PITCH_DOWN, start.pitch + PITCH_UP);
 		hfov = clamp(hfov, HFOV.min, HFOV.max);
@@ -455,10 +574,34 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	};
 
 	function resetView() {
+		orbit.az = 0;
+		orbit.el = 0.75;
+		orbit.dist = extent.radius * 1.7;
 		yaw = start.yaw;
 		pitch = start.pitch;
 		hfov = HFOV.start;
 	}
+	/** Looking around: seat mode turns the head, overview mode circles the venue */
+	const turn = (dx: number, dy: number) => {
+		if (mode === 'overview') {
+			orbit.az -= dx;
+			orbit.el += dy;
+		} else {
+			yaw += dx;
+			pitch += dy;
+		}
+	};
+	const zoom = (factor: number) => {
+		if (mode === 'overview') orbit.dist *= factor;
+		else hfov *= factor;
+	};
+	const setMode = (next: 'seat' | 'overview') => {
+		mode = next;
+		covers.forEach((object) => (object.visible = next === 'seat'));
+		marker.visible = next === 'overview';
+		if (next === 'seat') camera.position.set(start.eye.x, start.eye.y, start.eye.z);
+		aim();
+	};
 	const setSeat = (seat: SeatRef) => {
 		const next = model.bySeat.get(`${seat.sectionKey}:${seat.row}:${seat.number}`);
 		const nextIndex = next ? indexOf.get(next.key) : undefined;
@@ -474,7 +617,8 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		mine = next;
 		myRow = `${next.sectionKey}:${next.row}:`;
 		start = startCamera(model, next);
-		camera.position.set(start.eye.x, start.eye.y, start.eye.z);
+		if (mode === 'seat') camera.position.set(start.eye.x, start.eye.y, start.eye.z);
+		placeMarker();
 		resetView();
 		paintSeats(readPalette());
 		aim();
@@ -525,11 +669,10 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		if (pointers.size === 2) {
 			const [a, b] = [...pointers.values()];
 			const now = Math.hypot(a.x - b.x, a.y - b.y);
-			if (pinch > 0 && now > 0) hfov *= pinch / now;
+			if (pinch > 0 && now > 0) zoom(pinch / now);
 			pinch = now;
 		} else {
-			yaw += (next.x - last.x) * degPerPx();
-			pitch += (next.y - last.y) * degPerPx();
+			turn((next.x - last.x) * degPerPx(), (next.y - last.y) * degPerPx());
 		}
 		aim();
 	};
@@ -539,19 +682,19 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	};
 	const onWheel = (e: WheelEvent) => {
 		e.preventDefault();
-		hfov *= Math.exp(e.deltaY * 0.001);
+		zoom(Math.exp(e.deltaY * 0.001));
 		aim();
 	};
 	const onKey = (e: KeyboardEvent) => {
 		const step = 4 * DEG;
 		const moves: Record<string, () => void> = {
-			ArrowLeft: () => (yaw += step),
-			ArrowRight: () => (yaw -= step),
-			ArrowUp: () => (pitch += step),
-			ArrowDown: () => (pitch -= step),
-			'+': () => (hfov *= 0.9),
-			'=': () => (hfov *= 0.9),
-			'-': () => (hfov *= 1.1),
+			ArrowLeft: () => turn(step, 0),
+			ArrowRight: () => turn(-step, 0),
+			ArrowUp: () => turn(0, step),
+			ArrowDown: () => turn(0, -step),
+			'+': () => zoom(0.9),
+			'=': () => zoom(0.9),
+			'-': () => zoom(1.1),
 			r: () => resetView(),
 			R: () => resetView(),
 			Home: () => resetView(),
@@ -581,6 +724,7 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 
 	return {
 		setSeat,
+		setMode,
 		resetView: () => {
 			resetView();
 			aim();
@@ -598,7 +742,7 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 			canvas.removeEventListener('pointercancel', onUp);
 			canvas.removeEventListener('wheel', onWheel);
 			canvas.removeEventListener('keydown', onKey);
-			[baseMesh, backMesh, riserMesh, bodies, heads].forEach((mesh) => mesh.dispose());
+			[baseMesh, backMesh, riserMesh, bodies, heads, torsos, faces].forEach((mesh) => mesh.dispose());
 			geometries.forEach((g) => g.dispose());
 			materials.forEach((m) => m.dispose());
 			renderer.dispose();

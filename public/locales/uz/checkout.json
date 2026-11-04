@@ -95,7 +95,10 @@
     "prev": "Oldingi o'rin",
     "next": "Keyingi o'rin",
     "count": "{{total}} ta o'rindan {{index}}-si",
-    "reset": "Ko'rinishni tiklash"
+    "reset": "Ko'rinishni tiklash",
+    "overview": "Butun zal",
+    "fromSeat": "O'rnimga qaytish",
+    "hintOverview": "Zalni aylantirish uchun suring. Yaqinlashtirish uchun aylantiring yoki chimchilang. Nuqta — sizning o'rningiz."
   },
   "summary": {
     "title": "Tanlangan oʻrinlar",

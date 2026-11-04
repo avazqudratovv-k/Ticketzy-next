@@ -1075,3 +1075,8 @@ Frontend only, not committed. Decisions F326 to F328, patterns in `docs/ai/UI_PA
 Changed: `libs/seats/view3d.ts` (world scale, edge-based tier height, `sectionShells`, `chairWidth`), `libs/components/seats/seatViewScene.ts` (rails, back wall and roof, stage and pitch scenery, crowd, lighting, `setSeat` / `resetView`), `SeatViewDialog.tsx` (seat stepper, reset button), `SeatPicker.tsx` (passes `seatText` as a function), `scss/seats.scss`, `checkout.json` in en, ko, ru, uz.
 Verified: `yarn typecheck`, `yarn lint`, `yarn i18n:check` pass; a node script on the maths (stadium stands start at the same height, section directions and top tier correct for a stadium and a hall).
 Not tested: the scene was not looked at in a browser (the Chrome extension was not connected and the backend was not running), so colors, roof/wall placement, crowd density and the new buttons in light and dark, axe, and touch/pinch are unchecked.
+
+## 3D view for stage venues, people and overview (F402)
+Changed: `libs/seats/view3d.ts` (`STAGE_SCALE`, `stageDepthOf`, `roomBox`), `seatViewScene.ts` (room, deeper stage with proscenium and curtains, seated people, overview mode and marker, `setMode`), `SeatViewDialog.tsx` (overview toggle), `checkout.json` in en, ko, ru, uz.
+Verified: `yarn typecheck`, `yarn lint`, `yarn i18n:check`; a node script on a hall and a club (room size, tier heights, stage depth).
+Not tested: nothing was looked at in a browser (the Chrome extension was not connected). Colors, ceiling lights, curtains, seated people, the overview camera, light and dark, axe and touch are unchecked.

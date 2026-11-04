@@ -95,7 +95,10 @@
     "prev": "이전 좌석",
     "next": "다음 좌석",
     "count": "{{total}}석 중 {{index}}번째",
-    "reset": "시점 초기화"
+    "reset": "시점 초기화",
+    "overview": "전체 보기",
+    "fromSeat": "내 좌석으로",
+    "hintOverview": "드래그하여 회전하고 스크롤하거나 두 손가락으로 확대·축소하세요. 점은 내 좌석입니다."
   },
   "summary": {
     "title": "선택한 좌석",

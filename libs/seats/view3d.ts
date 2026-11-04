@@ -8,6 +8,10 @@ import { FOCAL_CANVAS, readFocalArea } from './focal';
 export const SCALE = 0.1;
 /** Meters per canvas unit around a PITCH: the fixed 420 x 272 pitch becomes a real 105 x 68 m (F401). */
 export const PITCH_SCALE = 0.25;
+/** Meters per canvas unit in a venue with a stage: a seat cell becomes a real 0.65 to 1 m and a 400-unit stage 20 m (F402). */
+export const STAGE_SCALE = 0.05;
+/** Raked seating in a hall is steeper per meter than the tiers of the old scale, because the rows are closer together */
+const STAGE_RISE_FACTOR = 1.5;
 /** Tiers around a pitch are 2.5 times deeper in meters, so they rise a little less per meter (a row still steps about 0.8 m). */
 const PITCH_RISE_FACTOR = 0.7;
 /** Roof above the highest seat of the top tier, and the height of the wall behind it */
@@ -36,7 +40,7 @@ export const toWorld = (cx: number, cy: number, scale = SCALE) => ({
 });
 
 /** Real size around a pitch, the map's proportions for a stage */
-export const worldScale = (focal: Pick<FocalArea, 'type'>): number => (focal.type === 'PITCH' ? PITCH_SCALE : SCALE);
+export const worldScale = (focal: Pick<FocalArea, 'type'>): number => (focal.type === 'PITCH' ? PITCH_SCALE : STAGE_SCALE);
 
 export interface SeatPlacement extends SeatRef {
 	key: string;
@@ -62,7 +66,7 @@ export interface ViewModel {
 export function buildViewModel(sections: LayoutSection[], focalArea: Partial<FocalArea> | null | undefined): ViewModel {
 	const focal = readFocalArea(focalArea);
 	const scale = worldScale(focal);
-	const riseFactor = scale === PITCH_SCALE ? PITCH_RISE_FACTOR : 1;
+	const riseFactor = scale === PITCH_SCALE ? PITCH_RISE_FACTOR : STAGE_RISE_FACTOR;
 	const focalCenter = toWorld(focal.x + focal.width / 2, focal.y + focal.height / 2, scale);
 	const raw: Omit<SeatPlacement, 'y'>[] = [];
 	for (const section of sections) {
@@ -92,6 +96,38 @@ export function buildViewModel(sections: LayoutSection[], focalArea: Partial<Foc
 		return { ...seat, y: spec.base + spec.rise * riseFactor * (distance(seat) - (nearest.get(seat.level) ?? 0)) };
 	});
 	return { focal, scale, focalCenter, seats, bySeat: new Map(seats.map((seat) => [seat.key, seat])) };
+}
+
+/** The canvas stage is a thin bar; in 3D it gets a real depth (up to 12 m) that grows backwards, away from the audience */
+export const stageDepthOf = (width: number, depth: number): number => Math.max(depth, Math.min(width * 0.45, 12));
+
+export interface RoomBox {
+	minX: number;
+	maxX: number;
+	minZ: number;
+	maxZ: number;
+	height: number;
+}
+
+/** The walls and ceiling of an indoor venue: every seat and the whole stage with a margin, as high as the top tier plus clearance */
+export function roomBox(model: ViewModel): RoomBox {
+	const { focal, focalCenter: fc, scale } = model;
+	const fw = focal.width * scale;
+	const fd = focal.height * scale;
+	const backZ = fc.z + fd / 2 - stageDepthOf(fw, fd);
+	let minX = fc.x - fw / 2 - 2;
+	let maxX = fc.x + fw / 2 + 2;
+	let minZ = backZ - 1.5;
+	let maxZ = fc.z + fd / 2 + 2;
+	let top = 0;
+	for (const seat of model.seats) {
+		minX = Math.min(minX, seat.x - 3);
+		maxX = Math.max(maxX, seat.x + 3);
+		minZ = Math.min(minZ, seat.z - 3);
+		maxZ = Math.max(maxZ, seat.z + 3);
+		top = Math.max(top, seat.y);
+	}
+	return { minX, maxX, minZ, maxZ, height: Math.max(7.5, top + 5) };
 }
 
 export const seatSize = (section: LayoutSection, scale = SCALE) => pitchOf(section) * scale;

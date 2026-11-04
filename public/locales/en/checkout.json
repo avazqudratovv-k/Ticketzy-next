@@ -95,7 +95,10 @@
     "prev": "Previous seat",
     "next": "Next seat",
     "count": "Seat {{index}} of {{total}}",
-    "reset": "Reset view"
+    "reset": "Reset view",
+    "overview": "Whole venue",
+    "fromSeat": "Back to my seat",
+    "hintOverview": "Drag to turn the venue. Scroll or pinch to zoom. The dot is your seat."
   },
   "summary": {
     "title": "Your seats",
