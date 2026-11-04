@@ -505,7 +505,7 @@ const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZ
 			{map && viewSeat && (
 				<SeatViewDialog
 					seat={viewSeat}
-					seatText={seatText(viewSeat)}
+					seatText={seatText}
 					sections={sections}
 					focalArea={map.venueLayout.focalArea}
 					taken={taken}

@@ -89,8 +89,13 @@
     "loading": "Ko‘rinish yuklanmoqda…",
     "unsupported": "Bu qurilma 3D ko‘rinishni ko‘rsata olmaydi.",
     "label": "Zal sxemasiga asoslangan taxminiy ko‘rinish.",
-    "hint": "Atrofga qarash uchun suring. Masshtab uchun aylantiring yoki ikki barmoq bilan cho‘zing.",
-    "canvasLabel": "Tanlangan joydan 3D ko‘rinish"
+    "hint": "Atrofga qarash uchun suring. Yaqinlashtirish uchun aylantiring yoki chimchilang. R tugmasi ko'rinishni tiklaydi.",
+    "canvasLabel": "Tanlangan joydan 3D ko‘rinish",
+    "seats": "Tanlangan o'rinlar",
+    "prev": "Oldingi o'rin",
+    "next": "Keyingi o'rin",
+    "count": "{{total}} ta o'rindan {{index}}-si",
+    "reset": "Ko'rinishni tiklash"
   },
   "summary": {
     "title": "Tanlangan oʻrinlar",

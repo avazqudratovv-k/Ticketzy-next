@@ -89,8 +89,13 @@
     "loading": "Loading the view…",
     "unsupported": "This device can't show the 3D view.",
     "label": "Approximate view, based on the venue layout.",
-    "hint": "Drag to look around. Scroll or pinch to zoom.",
-    "canvasLabel": "3D view from the selected seat"
+    "hint": "Drag to look around. Scroll or pinch to zoom. R resets the view.",
+    "canvasLabel": "3D view from the selected seat",
+    "seats": "Your selected seats",
+    "prev": "Previous seat",
+    "next": "Next seat",
+    "count": "Seat {{index}} of {{total}}",
+    "reset": "Reset view"
   },
   "summary": {
     "title": "Your seats",
