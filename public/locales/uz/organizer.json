@@ -1136,7 +1136,7 @@
     "schedule": {
       "title": "To‘lov jadvali",
       "explain": "To‘lov tadbir tugaganidan 3 kun keyinga belgilanadi. Summalar har bir buyurtmada saqlangan komissiya bo‘yicha hisoblanadi.",
-      "demo": "Demo: administrator to‘lovlarni Ticketzy’da yozib qo‘yadi, haqiqiy pul o‘tkazilmaydi.",
+      "demo": "Hozircha administrator toʻlovlarni Ticketzy’da yozib qoʻyadi, haqiqiy pul oʻtkazilmaydi.",
       "totals": "To‘lov jami",
       "statusFilter": "To‘lov holati",
       "sort": "To‘lov sanasi bo‘yicha tartiblash",

@@ -14,7 +14,7 @@
           },
           {
             "q": "Is real money charged?",
-            "a": "No. Ticketzy is a portfolio demo and payments are simulated. No card is needed and no money moves."
+            "a": "Not yet. Ticketzy is under development and payments are simulated for now. No card is needed and no money moves."
           },
           {
             "q": "Do prices include fees?",
@@ -44,7 +44,7 @@
           },
           {
             "q": "Why is the hold so short?",
-            "a": "{{seconds}} seconds is the default of this demo, so the hold is easy to see in action. It is a server setting that a real service would set longer."
+            "a": "{{seconds}} seconds is the current setting, so the hold is easy to see in action. It is a server setting and may change."
           }
         ]
       },
@@ -144,7 +144,7 @@
           },
           {
             "q": "What data do you keep?",
-            "a": "See the Privacy page. It is sample text written for this demo."
+            "a": "See the Privacy page. It is sample text for now."
           }
         ]
       }
@@ -157,10 +157,10 @@
   },
   "contact": {
     "title": "Contact",
-    "lead": "Ticketzy is a portfolio project, so there is no support team behind it. This page says how to reach the person who built it.",
+    "lead": "Ticketzy is still under development, so there is no support team yet. This page says how to reach the person who built it.",
     "note": {
-      "title": "Demo project",
-      "text": "The address below is a sample address for this demo and may not be monitored. Do not send personal or payment information."
+      "title": "Under development",
+      "text": "The address below is a sample address and may not be monitored yet. Do not send personal or payment information."
     },
     "email": {
       "title": "Email",
@@ -179,6 +179,6 @@
       "text": "Refunds, the seat hold, tickets and check-in are explained in the FAQ.",
       "cta": "Read the FAQ"
     },
-    "response": "Replies are not guaranteed: this is a demo."
+    "response": "Replies are not guaranteed while the project is under development."
   }
 }

@@ -23,8 +23,8 @@
     ]
   },
   "portfolio": {
-    "title": "Built as a portfolio project",
-    "text": "Ticketzy is not a company and sells no real tickets. Events, venues and organizers are demo data, and payments and payouts are simulated, so no real money is ever charged or sent. It exists to show how a full ticketing flow can be built and designed."
+    "title": "Still under development",
+    "text": "Ticketzy is still under development and does not sell real tickets yet. Payments and payouts are simulated for now, so no real money is charged or sent. It shows how a full ticketing flow can be built and designed."
   },
   "cta": {
     "events": "Browse events",

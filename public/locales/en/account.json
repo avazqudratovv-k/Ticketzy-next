@@ -153,7 +153,7 @@
       "ticket": "Ticket",
       "buyer": "Buyer",
       "code": "Ticket code",
-      "hint": "Show this QR code at the entrance. Ticketzy is a demo, so this ticket has no real value."
+      "hint": "Show this QR code at the entrance. Ticketzy is under development, so this ticket has no real value yet."
     }
   },
   "refund": {

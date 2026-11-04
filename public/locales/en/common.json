@@ -245,9 +245,9 @@
     "noteLabel": "Notice"
   },
   "demo": {
-    "noEmail": "Demo only. Only account emails (confirm, reset) are sent, no order emails.",
-    "notice": "Demo project: payments are simulated, no real money is charged.",
-    "dismiss": "Dismiss the demo notice"
+    "noEmail": "Only account emails (confirm, reset) are sent for now, no order emails.",
+    "notice": "Payments are simulated for now. Ticketzy is under development and no real money is charged.",
+    "dismiss": "Dismiss this notice"
   },
   "errors": {
     "serverTitle": "Something went wrong on our side",
@@ -276,7 +276,7 @@
   "buyerOnly": {
     "message": "Only buyer accounts can buy tickets. Organizer and admin accounts cannot."
   },
-  "wakeNote": "The demo server is waking up, this can take up to a minute.",
+  "wakeNote": "The server is waking up, this can take up to a minute.",
   "wakeDismiss": "Dismiss the server message",
   "seatLabel": {
     "full": "{{section}}, row {{row}}, seat {{number}}",

@@ -1136,7 +1136,7 @@
     "schedule": {
       "title": "Payout schedule",
       "explain": "A payout is scheduled 3 days after the event ends. Amounts use the commission saved on each order.",
-      "demo": "Demo: an admin records payouts in Ticketzy and no real money moves.",
+      "demo": "For now an admin records payouts in Ticketzy and no real money moves.",
       "totals": "Payout totals",
       "statusFilter": "Payout status",
       "sort": "Sort by payout date",

@@ -46,7 +46,7 @@
     "fit": "Butun sxema",
     "stage": "Sahna",
     "standing": "Tik turish joyi",
-    "standingNote": "Bu demoda onlayn sotilmaydi",
+    "standingNote": "Hozircha onlayn sotilmaydi",
     "live": "Jonli",
     "reconnecting": "Qayta ulanmoqda…",
     "loading": "Oʻrinlar yuklanmoqda…",
@@ -175,7 +175,7 @@
   "pay": {
     "title": "Toʻlov",
     "simulateFailure": "Rad etilgan toʻlovni simulyatsiya qilish",
-    "simulateHint": "Faqat demo uchun: toʻlov rad etiladi va qayta urinish jarayonini koʻrasiz.",
+    "simulateHint": "Sinov uchun: toʻlov rad etiladi va qayta urinish jarayonini koʻrasiz.",
     "breakdown": "Narx tafsiloti",
     "fee": "Xizmat haqi",
     "included": "Kiritilgan",
@@ -184,9 +184,9 @@
     "paying": "Bajarilmoqda…",
     "payShort": "Toʻlash",
     "barLabel": "Toʻlov paneli",
-    "noCard": "Demo toʻlov. Ticketzy bu yerda karta raqamini koʻrmaydi.",
-    "cardNotice": "Demo toʻlov: hech qanday pul yechilmaydi va bu yerga yozganingiz brauzeringizdan tashqariga chiqmaydi.",
-    "testCard": "Faqat demo: istalgan 16 ta raqam, kelajakdagi muddat va istalgan 3 ta raqam ishlaydi."
+    "noCard": "Taqlid toʻlov. Ticketzy bu yerda karta raqamini koʻrmaydi.",
+    "cardNotice": "Ticketzy ishlab chiqilmoqda, hozircha toʻlovlar taqlid qilinadi: pul yechilmaydi va bu yerga yozganingiz brauzeringizdan tashqariga chiqmaydi.",
+    "testCard": "Hozircha istalgan 16 ta raqam, kelajakdagi muddat va istalgan 3 ta raqam ishlaydi."
   },
   "failed": {
     "title": "Toʻlov amalga oshmadi",
@@ -207,8 +207,8 @@
     "paidOn": "{{amount}} {{date}} da toʻlandi",
     "orders": "Buyurtmalarimga oʻtish",
     "continuePay": "Toʻlovni davom ettirish",
-    "demoNote": "Demo toʻlov: haqiqiy pul yechilmadi va haqiqiy karta maʼlumotlari ishlatilmadi.",
-    "noEmail": "Faqat demo. Buyurtma xatlari yuborilmaydi, shuning uchun tasdiqlash xati kelmaydi.",
+    "demoNote": "Ticketzy ishlab chiqilmoqda, shuning uchun toʻlov taqlid qilindi: haqiqiy pul yechilmadi va haqiqiy karta maʼlumotlari ishlatilmadi.",
+    "noEmail": "Buyurtma xatlari hozircha yuborilmaydi, shuning uchun tasdiqlash xati kelmaydi.",
     "status": {
       "PENDING_PAYMENT": "Bu buyurtma toʻlovni kutmoqda",
       "FAILED": "Bu buyurtma toʻlovi amalga oshmadi",
@@ -254,7 +254,7 @@
     "announce_other": "{{count}} soniya qoldi"
   },
   "card": {
-    "group": "Karta maʼlumotlari (demo)",
+    "group": "Karta maʼlumotlari (taqlid)",
     "number": "Karta raqami",
     "name": "Kartadagi ism",
     "namePlaceholder": "Ism va familiya",

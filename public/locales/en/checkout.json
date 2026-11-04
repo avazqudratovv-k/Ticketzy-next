@@ -46,7 +46,7 @@
     "fit": "Fit map",
     "stage": "Stage",
     "standing": "Standing area",
-    "standingNote": "Not sold online in this demo",
+    "standingNote": "Not sold online yet",
     "live": "Live",
     "reconnecting": "Reconnecting…",
     "loading": "Loading seats…",
@@ -175,7 +175,7 @@
   "pay": {
     "title": "Payment",
     "simulateFailure": "Simulate a declined payment",
-    "simulateHint": "Demo only: the payment is declined so you can see the retry flow.",
+    "simulateHint": "For testing: the payment is declined so you can see the retry flow.",
     "breakdown": "Price breakdown",
     "fee": "Service fee",
     "included": "Included",
@@ -184,9 +184,9 @@
     "paying": "Processing…",
     "payShort": "Pay now",
     "barLabel": "Payment bar",
-    "noCard": "Demo payment. Ticketzy never sees a card number here.",
-    "cardNotice": "Demo payment: no money is charged, and nothing you type here leaves your browser.",
-    "testCard": "Demo only: any 16 digits, any future expiry and any 3 digits work."
+    "noCard": "Simulated payment. Ticketzy never sees a card number here.",
+    "cardNotice": "Payments are simulated for now while Ticketzy is under development: no money is charged, and nothing you type here leaves your browser.",
+    "testCard": "For now any 16 digits, any future expiry and any 3 digits work."
   },
   "failed": {
     "title": "The payment did not go through",
@@ -207,8 +207,8 @@
     "paidOn": "{{amount}} paid on {{date}}",
     "orders": "Go to My orders",
     "continuePay": "Continue to payment",
-    "demoNote": "Demo payment: no real money was charged, and no real card details were used.",
-    "noEmail": "Demo only. Order emails are not sent, so no confirmation email will arrive.",
+    "demoNote": "Simulated payment while Ticketzy is under development: no real money was charged, and no real card details were used.",
+    "noEmail": "Order emails are not sent yet, so no confirmation email will arrive.",
     "status": {
       "PENDING_PAYMENT": "This order is waiting for payment",
       "FAILED": "The payment for this order failed",
@@ -254,7 +254,7 @@
     "announce_other": "{{count}} seconds left"
   },
   "card": {
-    "group": "Card details (demo)",
+    "group": "Card details (simulated)",
     "number": "Card number",
     "name": "Name on card",
     "namePlaceholder": "Full name",

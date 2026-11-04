@@ -245,9 +245,9 @@
     "noteLabel": "Eslatma"
   },
   "demo": {
-    "noEmail": "Faqat demo. Faqat akkaunt xatlari (tasdiqlash, tiklash) yuboriladi, buyurtma xatlari yuborilmaydi.",
-    "notice": "Demo loyiha: toʻlovlar taqlid qilinadi, haqiqiy pul yechilmaydi.",
-    "dismiss": "Demo eslatmasini yopish"
+    "noEmail": "Hozircha faqat akkaunt xatlari (tasdiqlash, tiklash) yuboriladi, buyurtma xatlari yuborilmaydi.",
+    "notice": "Hozircha toʻlovlar taqlid qilinadi. Ticketzy ishlab chiqilmoqda, haqiqiy pul yechilmaydi.",
+    "dismiss": "Eslatmani yopish"
   },
   "errors": {
     "serverTitle": "Bizning tomonda xatolik yuz berdi",
@@ -276,7 +276,7 @@
   "buyerOnly": {
     "message": "Chiptalarni faqat xaridor hisoblari sotib olishi mumkin. Tashkilotchi va administrator hisoblari sotib ola olmaydi."
   },
-  "wakeNote": "Demo server uygʻonmoqda, bu bir daqiqagacha vaqt olishi mumkin.",
+  "wakeNote": "Server uygʻonmoqda, bu bir daqiqagacha vaqt olishi mumkin.",
   "wakeDismiss": "Server xabarini yopish",
   "seatLabel": {
     "full": "{{section}}, {{row}}-qator, {{number}}-oʻrin",

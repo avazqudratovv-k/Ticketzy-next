@@ -1,18 +1,18 @@
 {
   "updated": "Sample text, last edited 9 October 2026.",
   "note": {
-    "title": "Sample text for a demo project",
-    "text": "This page is sample text written for a portfolio project. It is not legal advice and not a real agreement. Ticketzy is not a company and sells no real tickets."
+    "title": "Sample text",
+    "text": "This page is sample text written while Ticketzy is under development. It is not legal advice and not a real agreement. Ticketzy does not sell real tickets yet."
   },
   "terms": {
     "title": "Terms of use",
-    "lead": "Sample rules for using the Ticketzy demo.",
+    "lead": "Sample rules for using Ticketzy.",
     "sections": [
       {
         "title": "About this service",
         "p": [
-          "Ticketzy is a portfolio project that shows how an event ticketing site could work. It is not a company and does not sell real tickets.",
-          "The events, venues, organizers and prices are demo data."
+          "Ticketzy is an event ticketing site under development. Payments are simulated for now and it does not sell real tickets yet.",
+          "Events, venues, organizers and prices may change while the project is being built."
         ],
         "list": []
       },
@@ -30,7 +30,7 @@
       {
         "title": "Orders and payments",
         "p": [
-          "Payments are simulated. No card is charged, no money moves, and a paid order is only a record in the demo database."
+          "Payments are simulated for now. No card is charged, no money moves, and a paid order is only a record in the database."
         ],
         "list": [
           "The price shown is the price of the order. Ticketzy’s commission is taken from the organizer’s payout, it is not added to the buyer’s price.",
@@ -70,7 +70,7 @@
       {
         "title": "Acceptable use",
         "p": [
-          "Do not try to break, overload or misuse the demo, other people’s accounts or the data in it."
+          "Do not try to break, overload or misuse the service, other people’s accounts or the data in it."
         ],
         "list": [
           "No automated bulk purchases or scraping that harms the site.",
@@ -88,19 +88,19 @@
   },
   "privacy": {
     "title": "Privacy policy",
-    "lead": "Sample text about what the Ticketzy demo stores and why.",
+    "lead": "Sample text about what Ticketzy stores and why.",
     "sections": [
       {
         "title": "About this page",
         "p": [
-          "This is sample text for a demo project. It is not a real privacy policy and not legal advice. It describes what this demo stores."
+          "This is sample text while Ticketzy is under development. It is not a real privacy policy and not legal advice. It describes what the service stores."
         ],
         "list": []
       },
       {
         "title": "Data stored",
         "p": [
-          "The demo database stores the following, only to make the features work:"
+          "The database stores the following, only to make the features work:"
         ],
         "list": [
           "Account: name or nickname, email, a hashed password, role (buyer, organizer or admin) and, if you add them, a photo and organizer profile details.",
@@ -123,7 +123,7 @@
           "Ticketzy does not set cookies of its own. It uses the storage of your browser:"
         ],
         "list": [
-          "Local storage: the login token (accessToken), your language (locale), your theme (ticketzy-theme) and whether you closed the demo notice (ticketzy-demo-notice).",
+          "Local storage: the login token (accessToken), your language (locale), your theme (ticketzy-theme) and whether you closed the notice (ticketzy-demo-notice).",
           "Session storage, which is cleared when the tab closes: the assistant conversation (ticketzy-assistant), a clock offset for the seat countdown (tz:clock-skew) and unsent form drafts.",
           "You can clear all of it in your browser settings. You will then need to log in again."
         ]
@@ -145,7 +145,7 @@
       {
         "title": "Keeping and deleting",
         "p": [
-          "Demo data can be reset at any time. There is no self-service account deletion in this demo. Ask through the contact page."
+          "Data can be reset at any time while the project is under development. There is no self-service account deletion yet. Ask through the contact page."
         ],
         "list": []
       },

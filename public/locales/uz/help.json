@@ -14,7 +14,7 @@
           },
           {
             "q": "Haqiqiy pul yechiladimi?",
-            "a": "Yoʻq. Ticketzy — portfolio uchun demo loyiha, toʻlovlar taqlid qilinadi. Karta kerak emas va pul koʻchmaydi."
+            "a": "Hozircha yoʻq. Ticketzy ishlab chiqilmoqda, toʻlovlar hozircha taqlid qilinadi. Karta kerak emas va pul koʻchmaydi."
           },
           {
             "q": "Narxga yigʻimlar kiradimi?",
@@ -44,7 +44,7 @@
           },
           {
             "q": "Nega ushlab turish shunchalik qisqa?",
-            "a": "{{seconds}} soniya — bu demodagi standart qiymat, shunda ushlab turish jarayonini oson koʻrish mumkin. Bu server sozlamasi, haqiqiy xizmatda uzoqroq qoʻyilardi."
+            "a": "{{seconds}} soniya — joriy qiymat, shunda ushlab turish jarayonini oson koʻrish mumkin. Bu server sozlamasi va oʻzgarishi mumkin."
           }
         ]
       },
@@ -144,7 +144,7 @@
           },
           {
             "q": "Qanday maʼlumotlarni saqlaysiz?",
-            "a": "“Maxfiylik” sahifasiga qarang. U shu demo uchun yozilgan namunaviy matn."
+            "a": "“Maxfiylik” sahifasiga qarang. Hozircha u namunaviy matn."
           }
         ]
       }
@@ -157,10 +157,10 @@
   },
   "contact": {
     "title": "Aloqa",
-    "lead": "Ticketzy — portfolio loyiha, shuning uchun uning ortida yordam xizmati yoʻq. Bu sahifada loyiha muallifi bilan qanday bogʻlanish aytilgan.",
+    "lead": "Ticketzy hali ishlab chiqilmoqda, shuning uchun yordam xizmati hozircha yoʻq. Bu sahifada loyiha muallifi bilan qanday bogʻlanish aytilgan.",
     "note": {
-      "title": "Demo loyiha",
-      "text": "Quyidagi manzil shu demo uchun namunaviy manzil va oʻqilmasligi mumkin. Shaxsiy yoki toʻlov maʼlumotlarini yubormang."
+      "title": "Ishlab chiqilmoqda",
+      "text": "Quyidagi manzil namunaviy manzil va hozircha oʻqilmasligi mumkin. Shaxsiy yoki toʻlov maʼlumotlarini yubormang."
     },
     "email": {
       "title": "Email",
@@ -179,6 +179,6 @@
       "text": "Pulni qaytarish, oʻrindiqni ushlab turish, chiptalar va tekshiruv FAQ’da tushuntirilgan.",
       "cta": "FAQ’ni oʻqish"
     },
-    "response": "Javob kafolatlanmaydi: bu demo."
+    "response": "Loyiha ishlab chiqilayotgan paytda javob kafolatlanmaydi."
   }
 }
