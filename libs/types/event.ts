@@ -24,6 +24,8 @@ export interface Venue {
 	venueAddress: string;
 	venueTimezone: string;
 	venueCoordinates?: number[] | null;
+	/** STADIUM, THEATER, CLUB, HALL, OPEN_AIR or ONLINE; absent from older responses */
+	venueType?: string | null;
 }
 
 export interface EventOrganizer {

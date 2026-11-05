@@ -1,11 +1,14 @@
 import {
 	AmbientLight,
+	BackSide,
 	BoxGeometry,
 	BufferGeometry,
 	Color,
 	ConeGeometry,
 	DirectionalLight,
 	DoubleSide,
+	ExtrudeGeometry,
+	Float32BufferAttribute,
 	Fog,
 	HemisphereLight,
 	InstancedMesh,
@@ -16,9 +19,12 @@ import {
 	Object3D,
 	MeshLambertMaterial,
 	PerspectiveCamera,
+	Path,
 	PlaneGeometry,
+	PointLight,
 	RingGeometry,
 	Scene,
+	Shape,
 	SphereGeometry,
 	WebGLRenderer,
 } from 'three';
@@ -27,6 +33,7 @@ import { pitchSurround } from '../../seats/surround';
 import { FocalArea, LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
 import {
 	buildViewModel,
+	cornerFill,
 	chairWidth,
 	ROOF_CLEARANCE,
 	roomBox,
@@ -34,6 +41,8 @@ import {
 	seatSize,
 	SCALE as BASE_SCALE,
 	startCamera,
+	stadiumRing,
+	type TimeOfDay,
 	STAGE_DECK_HEIGHT,
 	stageDepthOf,
 	toWorld,
@@ -50,6 +59,8 @@ export interface SeatViewInput {
 	seat: SeatRef;
 	/** a venue with a stage is a closed room (walls, ceiling) unless this is false, for an open-air venue */
 	indoor?: boolean;
+	/** the light outside at the time of the event; without it the theme decides (day in light, night in dark) */
+	timeOfDay?: TimeOfDay;
 	/** accessible name of the canvas */
 	label: string;
 }
@@ -108,7 +119,10 @@ type Palette = ReturnType<typeof readPalette>;
 
 /** Builds the scene in `container`. Returns `null` when WebGL is not available or the seat is not in the layout. */
 export function createSeatView(container: HTMLElement, input: SeatViewInput): SeatViewHandle | null {
-	const model = buildViewModel(input.sections, input.focalArea);
+	// The corners of a stadium get scenery terraces, so the bowl is closed (F405); they are drawn but never selectable
+	const extra = cornerFill(input.sections, input.focalArea);
+	const scenery = new Set(extra.map((section) => section.key));
+	const model = buildViewModel([...input.sections, ...extra], input.focalArea);
 	let mine = model.bySeat.get(`${input.seat.sectionKey}:${input.seat.row}:${input.seat.number}`);
 	if (!mine) return null;
 	/** meters per canvas unit, and how much bigger than a stage venue the world is */
@@ -143,8 +157,9 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	container.appendChild(canvas);
 
 	// Sky and ground light make tops brighter than sides, so tiers, walls and roofs read as shapes
-	scene.add(new AmbientLight(0xffffff, indoor ? 0.7 : 0.9));
-	scene.add(new HemisphereLight(0xffffff, 0x8f95a3, indoor ? 0.8 : 1.0));
+	const ambient = new AmbientLight(0xffffff, indoor ? 0.7 : 0.9);
+	const hemisphere = new HemisphereLight(0xffffff, 0x8f95a3, indoor ? 0.8 : 1.0);
+	scene.add(ambient, hemisphere);
 	const sun = new DirectionalLight(0xffffff, indoor ? 0.8 : 1.4);
 	sun.position.set(20 * GROW, 50 * GROW, 30 * GROW);
 	scene.add(sun);
@@ -156,6 +171,8 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		scene.add(mesh);
 		return mesh;
 	};
+
+	const unit = track(new BoxGeometry(1, 1, 1));
 
 	/** Parts whose color depends on the theme, repainted by `paint` */
 	const paints: ((p: Palette) => void)[] = [];
@@ -177,9 +194,15 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	const cover = <T extends Object3D>(object: T): T => (covers.push(object), object);
 
 	// Ground
-	const ground = new Mesh(track(new PlaneGeometry(400 * GROW, 400 * GROW)), solid((p) => p.surface));
+	// What the light outside is like: the time of the event when it is known, else the theme (F407)
+	let skyMode: TimeOfDay = 'night';
+	const ground = new Mesh(
+		track(new PlaneGeometry(400 * GROW, 400 * GROW)),
+		solid((p) => (indoor || skyMode === 'day' ? p.surface : p.surface.clone().lerp(new Color(skyMode === 'dusk' ? '#2a2438' : '#0d131b'), skyMode === 'dusk' ? 0.7 : 0.9))),
+	);
 	ground.rotation.x = -Math.PI / 2;
-	ground.position.y = -0.02;
+	// below the room floor (top at -0.02), or the two fight over the same pixels
+	ground.position.y = -0.12;
 	scene.add(ground);
 
 	// Stage or pitch
@@ -188,6 +211,8 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	const fd = focal.height * SCALE;
 	const fc = model.focalCenter;
 	const room = indoor ? roomBox(model) : null;
+	// Around a pitch: an oval ring (facade and roof) closes the bowl (F407)
+	const bowl = focal.type === 'PITCH' ? stadiumRing(model) : null;
 	if (focal.type === 'STAGE') {
 		// The canvas stage is a thin bar, so in 3D it is deeper than drawn, growing backwards; the front edge stays where the map has it
 		const sd = stageDepthOf(fw, fd);
@@ -203,6 +228,22 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		// A video wall on the backdrop, speaker stacks, a lighting truss with lamps and beams, and the front barrier
 		const wallHeight = Math.min(3, top - STAGE_DECK_HEIGHT - 1);
 		addBox(fw * 0.7, wallHeight, 0.1, fc.x, STAGE_DECK_HEIGHT + 0.6 + wallHeight / 2, backZ + 0.05, glow((p) => p.accent.clone().lerp(white, 0.15)));
+		// the screen shows something: bars of light, like an equalizer, and a colored wash from the stage over the first rows
+		const wallW = fw * 0.7;
+		const barBright = glow((p) => p.accent.clone().lerp(white, 0.6));
+		const barDeep = glow((p) => p.accent.clone().lerp(p.bg, 0.3));
+		const bars = 11;
+		for (let i = 0; i < bars; i += 1) {
+			const bh = wallHeight * (0.3 + (((i * 37) % 10) / 10) * 0.6);
+			addBox((wallW / bars) * 0.7, bh, 0.06, fc.x - wallW / 2 + ((i + 0.5) * wallW) / bars, STAGE_DECK_HEIGHT + 0.6 + bh / 2, backZ + 0.11, i % 2 ? barBright : barDeep);
+		}
+		const wash = new PointLight(0xffffff, 0, 0, 2);
+		wash.position.set(fc.x, STAGE_DECK_HEIGHT + 2.5, frontZ + 3);
+		scene.add(wash);
+		paints.push((p) => {
+			wash.color.copy(p.accent);
+			wash.intensity = 40;
+		});
 		const speaker = solid(() => new Color('#14171d'));
 		const cone = solid(() => new Color('#2a2f3a'));
 		for (const side of [-1, 1]) {
@@ -288,11 +329,15 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		};
 		rect(0, 0, fw, fd);
 		strip(0, 0, t, fd);
+		// mowing stripes: every second band of the pitch a little lighter
+		const mow = solid(() => grass.clone().lerp(chalk, 0.05));
+		const bands = 14;
+		for (let i = 0; i < bands; i += 2) addBox(fw / bands, 0.01, fd, fc.x - fw / 2 + ((i + 0.5) * fw) / bands, 0.025, fc.z, mow);
 		addSurround(runGrass);
 		// Four floodlight masts just outside the corners of the pitch
 		const mast = solid(() => new Color('#8b919c'));
 		const lamp = glow(() => new Color('#fff6d6'));
-		for (const sx of [-1, 1]) {
+		for (const sx of bowl ? [] : [-1, 1]) {
 			for (const sz of [-1, 1]) {
 				const mx = fc.x + sx * (fw / 2 + 8);
 				const mz = fc.z + sz * (fd / 2 + 8);
@@ -314,6 +359,66 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 			addBox(0.1, 1.6, 0.1, fc.x + edge, 0.8, fc.z - gw / 2, post);
 			addBox(0.1, 1.6, 0.1, fc.x + edge, 0.8, fc.z + gw / 2, post);
 			addBox(0.1, 0.1, gw, fc.x + edge, 1.6, fc.z, post);
+			// the net: a see-through grid behind the goal line
+			const netMaterial = new MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.45 });
+			materials.push(netMaterial);
+			const net = new Mesh(track(new BoxGeometry(2.2, 1.6, gw, 4, 3, 10)), netMaterial);
+			net.position.set(fc.x + edge + side * 1.1, 0.8, fc.z);
+			scene.add(net);
+		}
+	}
+
+	// The ring around a stadium: a facade just outside the stands, a roof from the facade to the lower tiers, a lit edge under the roof, a
+	// scoreboard and the floodlights on the roof edge (F407)
+	if (bowl) {
+		const outline = <T extends Path>(minX: number, maxX: number, minZ: number, maxZ: number, radius: number, path: T): T => {
+			// the shape lies in XY and is turned to stand up: world z is -y
+			const y0 = -maxZ;
+			const y1 = -minZ;
+			path.moveTo(minX + radius, y0);
+			path.lineTo(maxX - radius, y0);
+			path.absarc(maxX - radius, y0 + radius, radius, -Math.PI / 2, 0, false);
+			path.lineTo(maxX, y1 - radius);
+			path.absarc(maxX - radius, y1 - radius, radius, 0, Math.PI / 2, false);
+			path.lineTo(minX + radius, y1);
+			path.absarc(minX + radius, y1 - radius, radius, Math.PI / 2, Math.PI, false);
+			path.lineTo(minX, y0 + radius);
+			path.absarc(minX + radius, y0 + radius, radius, Math.PI, Math.PI * 1.5, false);
+			return path;
+		};
+		type Box = { minX: number; maxX: number; minZ: number; maxZ: number; radius: number };
+		const grow = (b: Box, by: number): Box => ({ minX: b.minX - by, maxX: b.maxX + by, minZ: b.minZ - by, maxZ: b.maxZ + by, radius: Math.max(0.5, b.radius + by) });
+		const slab = (outer: Box, inner: Box, height: number, y: number, material: Material) => {
+			const shape = outline(outer.minX, outer.maxX, outer.minZ, outer.maxZ, outer.radius, new Shape());
+			shape.holes.push(outline(inner.minX, inner.maxX, inner.minZ, inner.maxZ, inner.radius, new Path()));
+			const mesh = new Mesh(track(new ExtrudeGeometry(shape, { depth: height, bevelEnabled: false, curveSegments: 10 })), material);
+			mesh.rotation.x = -Math.PI / 2;
+			mesh.position.y = y;
+			scene.add(mesh);
+			return cover(mesh);
+		};
+		const facadeBox: Box = { minX: bowl.minX, maxX: bowl.maxX, minZ: bowl.minZ, maxZ: bowl.maxZ, radius: bowl.radius };
+		const holeBox: Box = bowl.hole;
+		// the wall behind the top tier is unlit too: a plain grey at night, not black
+		slab(grow(facadeBox, 1.2), facadeBox, bowl.roofY + 1.2, 0, glow((p) => p.sunken.clone().lerp(p.ink, 0.17)));
+		// unlit, so the underside you look up at is a plain grey and not black
+		slab(grow(facadeBox, 1.2), holeBox, 0.5, bowl.roofY, glow((p) => p.sunken.clone().lerp(p.ink, 0.28)));
+		slab(grow(holeBox, 0.35), holeBox, 0.35, bowl.roofY - 0.35, glow((p) => p.ink.clone().lerp(p.bg, 0.2)));
+		// scoreboard under the north edge of the roof, facing the pitch
+		const boardZ = holeBox.minZ - 0.6;
+		cover(addBox(17, 4.6, 0.5, fc.x, bowl.roofY - 3, boardZ, solid(() => new Color('#0c0f14'))));
+		cover(addBox(15.6, 3.4, 0.1, fc.x, bowl.roofY - 3, boardZ + 0.3, glow((p) => p.accent.clone().lerp(p.bg, 0.35))));
+		// floodlight banks on the roof edge at the four corners, turned toward the middle of the pitch
+		const bank = glow(() => new Color('#fff6d6'));
+		const frame = solid(() => new Color('#2a2f3a'));
+		for (const sx of [-1, 1]) {
+			for (const sz of [-1, 1]) {
+				const bx = (sx < 0 ? holeBox.minX : holeBox.maxX) + (sx < 0 ? 1 : -1) * holeBox.radius * 0.55;
+				const bz = (sz < 0 ? holeBox.minZ : holeBox.maxZ) + (sz < 0 ? 1 : -1) * holeBox.radius * 0.55;
+				const turn = Math.atan2(fc.x - bx, fc.z - bz);
+				cover(addBox(7, 2.4, 0.5, bx, bowl.roofY + 1.5, bz, frame, turn));
+				cover(addBox(6.2, 1.8, 0.1, bx + Math.sin(turn) * 0.3, bowl.roofY + 1.5, bz + Math.cos(turn) * 0.3, bank, turn));
+			}
 		}
 	}
 
@@ -324,7 +429,7 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		const cx = (room.minX + room.maxX) / 2;
 		const cz = (room.minZ + room.maxZ) / 2;
 		const h = room.height;
-		addBox(w, 0.1, d, cx, -0.07, cz, solid((p) => p.sunken.clone().lerp(p.accent, 0.04)));
+		addBox(w, 0.1, d, cx, -0.07, cz, solid((p) => p.sunken.clone().lerp(p.ink, 0.06)));
 		const wallMaterial = solid((p) => p.raised.clone().lerp(p.bg, 0.55));
 		const band = glow((p) => p.accent.clone().lerp(p.bg, 0.55));
 		cover(addBox(w, h, 0.4, cx, h / 2, room.minZ - 0.2, wallMaterial));
@@ -335,6 +440,21 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		cover(addBox(0.05, 0.12, d, room.minX + 0.02, 2.6, cz, band));
 		cover(addBox(0.05, 0.12, d, room.maxX - 0.02, 2.6, cz, band));
 		cover(addBox(w + 0.8, 0.4, d + 0.8, cx, h + 0.2, cz, solid((p) => p.sunken.clone().lerp(p.bg, 0.3))));
+		// Pilasters every 6 m and a dark wainscot: the walls are no longer flat sheets
+		const pilasterMaterial = solid((p) => p.raised.clone().lerp(p.ink, 0.06));
+		const wainscot = solid((p) => p.sunken.clone().lerp(p.bg, 0.2));
+		const ribs: { x: number; z: number; alongX: boolean }[] = [];
+		for (let x = room.minX + 3; x < room.maxX - 1; x += 6) ribs.push({ x, z: room.minZ + 0.18, alongX: true }, { x, z: room.maxZ - 0.18, alongX: true });
+		for (let z = room.minZ + 3; z < room.maxZ - 1; z += 6) ribs.push({ x: room.minX + 0.18, z, alongX: false }, { x: room.maxX - 0.18, z, alongX: false });
+		const pilasters = cover(new InstancedMesh(unit, pilasterMaterial, ribs.length));
+		ribs.forEach((rib, i) => {
+			pilasters.setMatrixAt(i, new Matrix4().makeScale(rib.alongX ? 0.6 : 0.36, h, rib.alongX ? 0.36 : 0.6).setPosition(rib.x, h / 2, rib.z));
+		});
+		scene.add(pilasters);
+		cover(addBox(w, 1, 0.08, cx, 0.5, room.maxZ - 0.04, wainscot));
+		cover(addBox(w, 1, 0.08, cx, 0.5, room.minZ + 0.04, wainscot));
+		cover(addBox(0.08, 1, d, room.minX + 0.04, 0.5, cz, wainscot));
+		cover(addBox(0.08, 1, d, room.maxX - 0.04, 0.5, cz, wainscot));
 		const spots: { x: number; z: number }[] = [];
 		for (let x = room.minX + 3; x < room.maxX - 1; x += 6) for (let z = room.minZ + 3; z < room.maxZ - 1; z += 6) spots.push({ x, z });
 		const panels = cover(new InstancedMesh(track(new BoxGeometry(1, 0.06, 1)), glow((p) => p.ink.clone().lerp(p.bg, 0.25)), spots.length));
@@ -390,7 +510,6 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	const seats = model.seats;
 	const seatedShade: number[] = [];
 	const indexOf = new Map(seats.map((seat, i) => [seat.key, i]));
-	const unit = track(new BoxGeometry(1, 1, 1));
 	const baseMesh = new InstancedMesh(unit, lambert(), seats.length);
 	const backMesh = new InstancedMesh(unit, lambert(), seats.length);
 	const risers = seats.filter((seat) => seat.level > 0);
@@ -402,9 +521,14 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		matrix.setPosition(x, y, z);
 		mesh.setMatrixAt(i, matrix);
 	};
+	// A stadium map cell is 3 to 5 m: it holds 3 or 5 chairs in a row, the real seat in the middle, the others are scenery (F404)
+	const cellOf = (seat: (typeof seats)[number]) => seatSize(seat.section, SCALE);
+	const splitOf = (cell: number) => (cell > 1.9 ? Math.min(5, 2 * Math.round((cell / 1.1 - 1) / 2) + 1) : 1);
 	const placeChair = (i: number) => {
 		const seat = seats[i];
-		const s = chairWidth(seatSize(seat.section, SCALE), SCALE);
+		const cell = cellOf(seat);
+		const split = splitOf(cell);
+		const s = split > 1 ? (cell / split) * 0.8 : chairWidth(cell, SCALE);
 		const facing = Math.atan2(-(fc.x - seat.x), -(fc.z - seat.z));
 		place(baseMesh, i, s, 0.3, s * 0.85, seat.x, seat.y - 0.15, seat.z, facing);
 		// the back sits behind the seat, away from the stage
@@ -422,9 +546,11 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	};
 	seats.forEach((_, i) => placeChair(i));
 	hideChair(indexOf.get(mine.key) ?? 0);
+	// A tier is a solid raked terrace of concrete, row by row, like a real grandstand (F406)
 	risers.forEach((seat, i) => {
 		const p = seatSize(seat.section, SCALE);
-		place(riserMesh, i, p, Math.max(seat.y - 0.3, 0.05), p, seat.x, Math.max(seat.y - 0.3, 0.05) / 2, seat.z, -seat.section.rotation * DEG);
+		const full = Math.max(seat.y - 0.3, 0.05);
+		place(riserMesh, i, p, full, p, seat.x, full / 2, seat.z, -seat.section.rotation * DEG);
 	});
 	[baseMesh, backMesh, riserMesh].forEach((mesh) => {
 		mesh.instanceMatrix.needsUpdate = true;
@@ -433,6 +559,8 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 
 	// People in the seats that are taken (not the buyer's own): a torso and a head each, facing the stage or pitch
 	const occupied = seats.filter((seat) => {
+		// scenery terraces are about half full, the same every time
+		if (scenery.has(seat.sectionKey)) return hash(seat.key) % 100 < 55;
 		const taken = input.taken.get(seat.key);
 		return Boolean(taken && !taken.mine);
 	});
@@ -451,16 +579,119 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 	faces.instanceMatrix.needsUpdate = true;
 	if (occupied.length) scene.add(torsos, faces);
 
+	// Scenery chairs beside the real seat of a wide cell, and some people on them: never selectable, never listed
+	interface Filler {
+		x: number;
+		y: number;
+		z: number;
+		facing: number;
+		width: number;
+		tierKey: string | null;
+		person: boolean;
+		shade: number;
+	}
+	const fillers: Filler[] = [];
+	for (const seat of seats) {
+		const cell = cellOf(seat);
+		const split = splitOf(cell);
+		if (split < 2) continue;
+		const facing = Math.atan2(-(fc.x - seat.x), -(fc.z - seat.z));
+		const middle = (split - 1) / 2;
+		for (let k = 0; k < split; k += 1) {
+			if (k === middle) continue;
+			const along = ((k - middle) * cell) / split;
+			const h = hash(`${seat.key}:${k}`);
+			fillers.push({
+				x: seat.x + along * Math.cos(facing),
+				y: seat.y,
+				z: seat.z - along * Math.sin(facing),
+				facing,
+				width: (cell / split) * 0.8,
+				tierKey: seat.section.tierKey ?? null,
+				person: h % 100 < 55,
+				shade: ((h >>> 8) % 100) / 250,
+			});
+		}
+	}
+	const fillerPeople = fillers.filter((f) => f.person);
+	const fillerBase = new InstancedMesh(unit, lambert(), fillers.length);
+	const fillerBack = new InstancedMesh(unit, lambert(), fillers.length);
+	const fillerTorsos = new InstancedMesh(torsos.geometry, lambert(), fillerPeople.length);
+	const fillerFaces = new InstancedMesh(faces.geometry, lambert(), fillerPeople.length);
+	fillers.forEach((f, i) => {
+		place(fillerBase, i, f.width, 0.3, f.width * 0.85, f.x, f.y - 0.15, f.z, f.facing);
+		const back = f.width * 0.42;
+		place(fillerBack, i, f.width, 0.35, f.width * 0.14, f.x + Math.sin(f.facing) * back, f.y + 0.175, f.z + Math.cos(f.facing) * back, f.facing);
+	});
+	fillerPeople.forEach((f, i) => {
+		matrix.makeRotationY(f.facing).setPosition(f.x + Math.sin(f.facing) * 0.12, f.y + 0.55, f.z + Math.cos(f.facing) * 0.12);
+		fillerTorsos.setMatrixAt(i, matrix);
+		matrix.makeTranslation(f.x + Math.sin(f.facing) * 0.1, f.y + 0.98, f.z + Math.cos(f.facing) * 0.1);
+		fillerFaces.setMatrixAt(i, matrix);
+	});
+	for (const mesh of [fillerBase, fillerBack, fillerTorsos, fillerFaces]) {
+		mesh.instanceMatrix.needsUpdate = true;
+		if (mesh.count) scene.add(mesh);
+	}
+
 	// Rails in front of each tier, and a back wall and a roof on the top tier: they frame the view and can hide a little of it, as in the venue
 	const railMaterial = solid((p) => p.line);
+	const aisleMaterial = solid((p) => p.ink.clone().lerp(p.bg, 0.6));
+	const windowMaterial = solid((p) => p.bg.clone().lerp(p.sunken, 0.7));
+	const gateMaterial = solid(() => new Color('#0c0f14'));
+	const steps: { w: number; h: number; d: number; x: number; z: number; ry: number }[] = [];
 	const wallMaterial = solid((p) => p.sunken.clone().lerp(p.ink, 0.08));
 	const roofMaterial = solid((p) => p.raised.clone().lerp(p.bg, 0.25));
 	for (const shell of sectionShells(model)) {
 		if (shell.level < 1) continue;
+		// Stepped aisles along both ends of the tier, one concrete step per row, with a handrail (F407)
+		const rise = shell.back.y - shell.front.y;
+		if (shell.rows > 1) {
+			const width = Math.min(1.4, shell.cell * 0.6);
+			const edge = shell.rowLength / 2 - shell.cell / 2 + width * 0.8;
+			const pitchRow = shell.depth / (shell.rows - 1);
+			const axis = { x: Math.cos(shell.ry), z: -Math.sin(shell.ry) };
+			for (const side of [-1, 1]) {
+				for (let r = 0; r < shell.rows; r += 1) {
+					const t = r / (shell.rows - 1);
+					const top = Math.max(shell.front.y + rise * t - 0.28, 0.05);
+					steps.push({
+						w: width,
+						h: top,
+						d: Math.max(pitchRow, 0.3),
+						x: shell.front.x + (shell.back.x - shell.front.x) * t + axis.x * side * edge,
+						z: shell.front.z + (shell.back.z - shell.front.z) * t + axis.z * side * edge,
+						ry: shell.ry,
+					});
+				}
+				const length = Math.hypot(shell.depth, rise);
+				const outward = side * (edge + width / 2 + 0.05);
+				const handrail = addBox(
+					0.06,
+					0.06,
+					length,
+					shell.front.x + shell.out.x * (shell.depth / 2) + axis.x * outward,
+					(shell.front.y + shell.back.y) / 2 + 0.75,
+					shell.front.z + shell.out.z * (shell.depth / 2) + axis.z * outward,
+					railMaterial,
+				);
+				handrail.rotation.set(Math.atan2(rise, shell.depth), shell.ry, 0, 'YXZ');
+			}
+		}
+		if (!bowl && shell.isTop) {
+			// The outside of the top tier: rows of windows, entrance gates at the foot (seen from outside, in the whole-venue view)
+			const face = { x: shell.back.x + shell.out.x * (shell.cell * 0.5 + 0.04), z: shell.back.z + shell.out.z * (shell.cell * 0.5 + 0.04) };
+			for (let h = 3; h < shell.back.y - 1.2; h += 3) addBox(shell.rowLength * 0.94, 1.1, 0.08, face.x, h, face.z, windowMaterial, shell.ry);
+			const gates = Math.max(1, Math.floor(shell.rowLength / 16));
+			for (let g = 0; g < gates; g += 1) {
+				const along = ((g + 0.5) / gates - 0.5) * shell.rowLength * 0.9;
+				addBox(3.2, 2.6, 0.12, face.x + Math.cos(shell.ry) * along, 1.3, face.z - Math.sin(shell.ry) * along, gateMaterial, shell.ry);
+			}
+		}
 		const rail = { x: shell.front.x - shell.out.x * shell.cell * 0.5, z: shell.front.z - shell.out.z * shell.cell * 0.5 };
 		addBox(shell.rowLength, 0.07, 0.07, rail.x, shell.front.y + 0.85, rail.z, railMaterial, shell.ry);
 		addBox(shell.rowLength, 0.05, 0.05, rail.x, shell.front.y + 0.45, rail.z, railMaterial, shell.ry);
-		if (!shell.isTop || indoor) continue;
+		if (!shell.isTop || indoor || bowl) continue;
 		const wallGap = shell.cell * 0.6;
 		const wallBottom = shell.back.y - 0.3;
 		const wallHeight = ROOF_CLEARANCE + 0.3;
@@ -484,6 +715,11 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		);
 	}
 
+	const stepMesh = new InstancedMesh(unit, aisleMaterial, steps.length);
+	steps.forEach((step, i) => place(stepMesh, i, step.w, step.h, step.d, step.x, step.h / 2, step.z, step.ry));
+	stepMesh.instanceMatrix.needsUpdate = true;
+	if (steps.length) scene.add(stepMesh);
+
 	let myRow = `${mine.sectionKey}:${mine.row}:`;
 	const paintSeats = (p: Palette) => {
 		const color = new Color();
@@ -497,8 +733,17 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 			baseMesh.setColorAt(i, color);
 			backMesh.setColorAt(i, color);
 		});
-		risers.forEach((seat, i) => {
-			riserMesh.setColorAt(i, color.copy(p.sunken).lerp(resolve(tierColor(seat.section.tierKey ? tiers.get(seat.section.tierKey) : 0)), 0.3));
+		// concrete, a little lighter on every second row so the steps read
+		risers.forEach((seat, i) => riserMesh.setColorAt(i, color.copy(p.sunken).lerp(p.ink, seat.row % 2 ? 0.1 : 0.2)));
+		const tierOf = (key: string | null) => resolve(tierColor(key ? tiers.get(key) : 0));
+		fillers.forEach((f, i) => {
+			color.copy(tierOf(f.tierKey)).lerp(p.bg, 0.3);
+			fillerBase.setColorAt(i, color);
+			fillerBack.setColorAt(i, color);
+		});
+		fillerPeople.forEach((f, i) => {
+			fillerTorsos.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.45 + f.shade).lerp(p.accent, f.shade > 0.37 ? 0.45 : 0));
+			fillerFaces.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.25));
 		});
 		occupied.forEach((_, i) => {
 			torsos.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.45 + seatedShade[i]).lerp(p.accent, seatedShade[i] > 0.37 ? 0.45 : 0));
@@ -508,13 +753,54 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 			bodies.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.35 + person.shade * 0.4).lerp(p.accent, person.shade > 0.85 ? 0.5 : 0));
 			heads.setColorAt(i, color.copy(p.ink).lerp(p.bg, 0.2));
 		});
-		for (const mesh of [baseMesh, backMesh, riserMesh, bodies, heads, torsos, faces]) if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+		for (const mesh of [baseMesh, backMesh, riserMesh, bodies, heads, torsos, faces, fillerBase, fillerBack, fillerTorsos, fillerFaces]) if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+	};
+
+	// Open-air venues get a sky dome (zenith to horizon) instead of an empty black or white void; the fog fades the ground into the horizon color
+	const skyTop = new Color();
+	const skyHorizon = new Color();
+	let sky: Mesh | null = null;
+	if (!indoor) {
+		const dome = track(new SphereGeometry(380 * GROW, 24, 12));
+		dome.setAttribute('color', new Float32BufferAttribute(new Float32Array(dome.getAttribute('position').count * 3), 3));
+		const skyMaterial = new MeshBasicMaterial({ vertexColors: true, side: BackSide, fog: false, depthWrite: false });
+		materials.push(skyMaterial);
+		sky = new Mesh(dome, skyMaterial);
+		sky.renderOrder = -1;
+		scene.add(sky);
+	}
+	const paintSky = (p: Palette) => {
+		skyMode = input.timeOfDay ?? (p.bg.getHSL({ h: 0, s: 0, l: 0 }).l > 0.5 ? 'day' : 'night');
+		skyTop.set(skyMode === 'day' ? '#8fb8e8' : skyMode === 'dusk' ? '#39406f' : '#070d1c');
+		skyHorizon.set(skyMode === 'day' ? '#dfeaf5' : skyMode === 'dusk' ? '#f0a374' : '#2a3a5c');
+		if (!indoor) {
+			// the light follows the sky: warm and low at dusk, dim and blue at night (the floodlights stay lit)
+			ambient.intensity = skyMode === 'day' ? 0.9 : skyMode === 'dusk' ? 0.62 : 0.5;
+			hemisphere.intensity = skyMode === 'day' ? 1.0 : skyMode === 'dusk' ? 0.7 : 0.55;
+			hemisphere.color.set(skyMode === 'night' ? '#aab8ff' : '#ffffff');
+			sun.intensity = skyMode === 'day' ? 1.4 : skyMode === 'dusk' ? 1.0 : 0.45;
+			sun.color.set(skyMode === 'day' ? '#ffffff' : skyMode === 'dusk' ? '#ffb27a' : '#9fb4ff');
+		}
+		if (!sky) return;
+		const dome = sky.geometry as BufferGeometry;
+		const position = dome.getAttribute('position');
+		const colors = dome.getAttribute('color');
+		const mix = new Color();
+		for (let i = 0; i < position.count; i += 1) {
+			// 0 at and below the horizon, 1 at the zenith, eased so the glow hugs the horizon
+			const t = Math.max(0, position.getY(i) / (380 * GROW));
+			mix.copy(skyHorizon).lerp(skyTop, Math.pow(t, 0.55));
+			colors.setXYZ(i, mix.r, mix.g, mix.b);
+		}
+		colors.needsUpdate = true;
 	};
 
 	const paint = () => {
 		const p = readPalette();
-		scene.background = p.bg.clone();
-		scene.fog = new Fog(p.bg.clone(), 80 * GROW, 200 * GROW);
+		paintSky(p);
+		const horizon = sky ? skyHorizon.clone() : p.bg.clone();
+		scene.background = horizon;
+		scene.fog = new Fog(horizon.clone(), 80 * GROW, 200 * GROW);
 		paints.forEach((fn) => fn(p));
 		paintSeats(p);
 		schedule();
@@ -542,6 +828,22 @@ export function createSeatView(container: HTMLElement, input: SeatViewInput): Se
 		}
 		return { x: (minX + maxX) / 2, z: (minZ + maxZ) / 2, radius: Math.max(10, Math.hypot(maxX - minX, maxZ - minZ) / 2) };
 	})();
+	// Beyond an open-air venue: a ring of plain buildings fading into the haze, so the bowl stands in a place and not in a void (F405)
+	if (!indoor) {
+		const random = seeded(hash('skyline'));
+		const count = 64;
+		const blocks = new InstancedMesh(unit, solid((p) => p.bg.clone().lerp(p.ink, 0.14)), count);
+		for (let i = 0; i < count; i += 1) {
+			const angle = (i / count) * Math.PI * 2 + (random() - 0.5) * 0.05;
+			const distance = extent.radius * (1.55 + random() * 0.5);
+			const w = extent.radius * (0.07 + random() * 0.1);
+			const d = extent.radius * (0.07 + random() * 0.1);
+			const h = extent.radius * (0.1 + random() * random() * 0.45);
+			place(blocks, i, w, h, d, extent.x + Math.sin(angle) * distance, h / 2, extent.z + Math.cos(angle) * distance, -angle);
+		}
+		blocks.instanceMatrix.needsUpdate = true;
+		scene.add(blocks);
+	}
 	const orbit = { az: 0, el: 0.75, dist: extent.radius * 1.7 };
 	const marker = new Mesh(track(new SphereGeometry(Math.max(0.5, extent.radius * 0.012), 12, 8)), glow((p) => p.accent));
 	marker.visible = false;

@@ -1275,6 +1275,27 @@
 		align-items: center;
 		gap: var(--space-2);
 	}
+	// On a phone: pager and Reset (icon only, the text stays for screen readers) on one row, the view switch full width below
+	@media (max-width: 479px) {
+		&__pager {
+			order: 1;
+		}
+		&__tool--reset {
+			order: 2;
+		}
+		&__tool--text:not(&__tool--reset) {
+			order: 3;
+			flex: 1 1 100%;
+		}
+		&__tool--reset .seatview__label {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip: rect(0 0 0 0);
+			white-space: nowrap;
+		}
+	}
 	&__count {
 		min-width: 7ch;
 		text-align: center;

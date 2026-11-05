@@ -3,6 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { Dialog, useMediaQuery } from '@mui/material';
 import { ArrowCounterClockwise, CaretLeft, CaretRight, Eye, X } from 'phosphor-react';
 import { FocalArea, LayoutSection, SeatRef, TakenSeat } from '../../seats/types';
+import type { TimeOfDay } from '../../seats/view3d';
 import type { SeatViewHandle } from './seatViewScene';
 
 interface Props {
@@ -10,6 +11,10 @@ interface Props {
 	seatText: (ref: SeatRef) => string;
 	sections: LayoutSection[];
 	focalArea?: Partial<FocalArea> | null;
+	/** false for an open-air venue: no walls or ceiling around the stage */
+	indoor?: boolean;
+	/** the light outside at the time of the event */
+	timeOfDay?: TimeOfDay;
 	taken: Map<string, TakenSeat>;
 	selected: Set<string>;
 	onClose: () => void;
@@ -24,7 +29,7 @@ const parseKey = (key: string): SeatRef => {
 const sameSeat = (a: SeatRef, b: SeatRef) => a.sectionKey === b.sectionKey && a.row === b.row && a.number === b.number;
 
 /** "View from your seat" (F391): an approximate 3D view from one seat. Loaded only when opened; `three` loads inside the effect. */
-const SeatViewDialog = ({ seat, seatText, sections, focalArea, taken, selected, onClose }: Props) => {
+const SeatViewDialog = ({ seat, seatText, sections, focalArea, indoor, timeOfDay, taken, selected, onClose }: Props) => {
 	const { t } = useTranslation('checkout');
 	const full = useMediaQuery('(max-width: 599px)');
 	const [stage, setStage] = useState<HTMLDivElement | null>(null);
@@ -40,7 +45,7 @@ const SeatViewDialog = ({ seat, seatText, sections, focalArea, taken, selected, 
 	const position = Math.max(0, seats.findIndex((item) => sameSeat(item, current)));
 	const go = (step: number) => setCurrent(seats[(position + step + seats.length) % seats.length]);
 	// The scene is built once per opening; later selection changes do not rebuild it
-	const input = useRef({ sections, focalArea, taken, selected, seat, label: t('view.canvasLabel') });
+	const input = useRef({ sections, focalArea, indoor, timeOfDay, taken, selected, seat, label: t('view.canvasLabel') });
 
 	useEffect(() => {
 		if (!stage) return undefined;
@@ -117,9 +122,9 @@ const SeatViewDialog = ({ seat, seatText, sections, focalArea, taken, selected, 
 						<Eye size={18} aria-hidden="true" />
 						{mode === 'seat' ? t('view.overview') : t('view.fromSeat')}
 					</button>
-					<button type="button" className="seatview__tool seatview__tool--text" onClick={() => handleRef.current?.resetView()}>
+					<button type="button" className="seatview__tool seatview__tool--text seatview__tool--reset" onClick={() => handleRef.current?.resetView()}>
 						<ArrowCounterClockwise size={18} aria-hidden="true" />
-						{t('view.reset')}
+						<span className="seatview__label">{t('view.reset')}</span>
 					</button>
 				</div>
 			)}

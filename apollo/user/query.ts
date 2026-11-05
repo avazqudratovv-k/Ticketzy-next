@@ -76,6 +76,7 @@ export const GET_EVENT = gql`
 			venueData {
 				_id
 				venueName
+				venueType
 				venueCity
 				venueAddress
 				venueTimezone

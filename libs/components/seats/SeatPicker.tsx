@@ -28,6 +28,7 @@ import RefundPolicyNote from '../events/RefundPolicyNote';
 import RefundAck from './RefundAck';
 import SeatSummary, { SummaryLine } from './SeatSummary';
 import { SeatGrid, SectionInfo, SectionList } from './SectionList';
+import { timeOfDayAt } from '../../seats/view3d';
 import { GetMyOrdersVars, ListResult } from '../../types/queries';
 // The map (SVG, zoom and pan) is the heaviest part of the page and only needed once the seats are known
 const SeatMap = dynamic(() => import('./SeatMap'), {
@@ -45,6 +46,8 @@ interface Props {
 	refundPolicy?: Partial<RefundPolicy> | null;
 	startAt: string;
 	timeZone?: string | null;
+	/** the venue type, so the 3D view knows whether a stage venue has a roof */
+	venueType?: string | null;
 }
 
 type Notice =
@@ -62,7 +65,7 @@ interface PendingOrder {
 }
 
 /** The interactive seat map with its summary, polling and hold. */
-const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZone }: Props) => {
+const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZone, venueType }: Props) => {
 	const { t } = useTranslation('checkout');
 	const { locale, push, events: routerEvents } = useRouter();
 	const client = useApolloClient();
@@ -508,6 +511,8 @@ const SeatPicker = ({ eventId, ticketTypes, config, refundPolicy, startAt, timeZ
 					seatText={seatText}
 					sections={sections}
 					focalArea={map.venueLayout.focalArea}
+					indoor={venueType !== 'OPEN_AIR'}
+					timeOfDay={timeOfDayAt(startAt, timeZone)}
 					taken={taken}
 					selected={selectedKeys}
 					onClose={closeView}

@@ -1,5 +1,5 @@
 import { FocalArea, LayoutSection, SeatRef } from './types';
-import { pitchOf, seatCenter, seatKey } from './layout';
+import { PITCH as CELL, pitchOf, sectionBounds, seatCenter, seatKey } from './layout';
 import { FOCAL_CANVAS, readFocalArea } from './focal';
 
 /** "View from your seat" (F391): pure maths from the layout to 3D positions. No `three` here, so it stays out of every bundle until the scene loads. */
@@ -145,6 +145,8 @@ export interface SectionShell {
 	rowLength: number;
 	/** depth of the whole section from the front row to the back row */
 	depth: number;
+	/** number of rows (steps of an aisle) */
+	rows: number;
 	/** unit vector from the front row to the back row (away from the stage or pitch) */
 	out: { x: number; z: number };
 	/** Y rotation that turns a box's x axis along the rows */
@@ -192,6 +194,7 @@ export function sectionShells(model: ViewModel): SectionShell[] {
 			cell,
 			rowLength: section.seatsPerRow * cell + cell,
 			depth: Math.hypot(back.x - front.x, back.z - front.z),
+			rows: list.length,
 			out,
 			ry: Math.atan2(-out.x, -out.z),
 			front,
@@ -214,4 +217,111 @@ export function startCamera(model: ViewModel, seat: SeatPlacement) {
 		yaw: flat < 0.01 ? 0 : Math.atan2(-dx, -dz),
 		pitch: Math.atan2(targetY - eye.y, Math.max(flat, 0.01)),
 	};
+}
+
+/**
+ * Scenery terraces that close the four corners of a stadium (F405): the stands of a football venue are four separate blocks, and the
+ * corners between them were empty ground. For each level that has a stand on all four sides, a block of seats fills the gap between
+ * the ends of two neighbouring stands. Keys start with `~`; the scene draws them but they are never a real seat. Pure maths.
+ */
+export function cornerFill(sections: LayoutSection[], focalArea: Partial<FocalArea> | null | undefined): LayoutSection[] {
+	const focal = readFocalArea(focalArea);
+	if (focal.type !== 'PITCH') return [];
+	const cx = focal.x + focal.width / 2;
+	const cy = focal.y + focal.height / 2;
+	type Side = 'N' | 'S' | 'E' | 'W';
+	const filled: LayoutSection[] = [];
+	for (const level of [1, 2]) {
+		const sides: Partial<Record<Side, { x0: number; y0: number; x1: number; y1: number; tierKey: string | null }>> = {};
+		for (const section of sections) {
+			if (section.kind !== 'SEATED' || levelOf(section) !== level) continue;
+			const box = sectionBounds(section);
+			const dx = (section.x - cx) / focal.width;
+			const dy = (section.y - cy) / focal.height;
+			const side: Side = Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 'W' : 'E') : dy < 0 ? 'N' : 'S';
+			const known = sides[side];
+			sides[side] = {
+				x0: Math.min(known?.x0 ?? Infinity, box.x),
+				y0: Math.min(known?.y0 ?? Infinity, box.y),
+				x1: Math.max(known?.x1 ?? -Infinity, box.x + box.w),
+				y1: Math.max(known?.y1 ?? -Infinity, box.y + box.h),
+				tierKey: known?.tierKey ?? section.tierKey ?? null,
+			};
+		}
+		const { N, S, E, W } = sides;
+		if (!N || !S || !E || !W) continue;
+		const cell = CELL.COMPACT;
+		const add = (name: string, x0: number, x1: number, y0: number, y1: number, tierKey: string | null) => {
+			const seatsPerRow = Math.floor((x1 - x0) / cell);
+			const rows = Math.floor((y1 - y0) / cell);
+			if (seatsPerRow < 2 || rows < 2) return;
+			filled.push({ key: `~${level}${name}`, name: '', kind: 'SEATED', rows, seatsPerRow, x: (x0 + x1) / 2, y: (y0 + y1) / 2, rotation: 0, spacing: 'COMPACT', tierKey, level });
+		};
+		add('NW', W.x0, N.x0, N.y0, W.y0, N.tierKey);
+		add('NE', N.x1, E.x1, N.y0, E.y0, N.tierKey);
+		add('SW', W.x0, S.x0, W.y1, S.y1, S.tierKey);
+		add('SE', S.x1, E.x1, E.y1, S.y1, S.tierKey);
+	}
+	return filled;
+}
+
+export type TimeOfDay = 'day' | 'dusk' | 'night';
+
+/** The light outside at the time of the event, in the venue's time zone: day from 07:00, dusk from 17:00, night from 20:00 (F407) */
+export function timeOfDayAt(startAt: string | null | undefined, timeZone: string | null | undefined): TimeOfDay | undefined {
+	if (!startAt) return undefined;
+	const date = new Date(startAt);
+	if (Number.isNaN(date.getTime())) return undefined;
+	let hour: number;
+	try {
+		hour = Number(new Intl.DateTimeFormat('en-GB', { hour: '2-digit', hour12: false, timeZone: timeZone || undefined }).format(date)) % 24;
+	} catch {
+		hour = date.getHours();
+	}
+	if (!Number.isFinite(hour)) return undefined;
+	return hour >= 7 && hour < 17 ? 'day' : hour >= 17 && hour < 20 ? 'dusk' : 'night';
+}
+
+export interface StadiumRing {
+	minX: number;
+	maxX: number;
+	minZ: number;
+	maxZ: number;
+	/** corner radius of the facade ring */
+	radius: number;
+	/** the opening of the roof: the lower tiers and the pitch stay under the sky */
+	hole: { minX: number; maxX: number; minZ: number; maxZ: number; radius: number };
+	/** height of the roof ring */
+	roofY: number;
+}
+
+/**
+ * The oval ring around a stadium (F407): a facade just outside every seat (corner terraces included) with rounded corners, and a roof
+ * ring between the facade and the lower tiers. Pure maths; `null` when there are no seats.
+ */
+export function stadiumRing(model: ViewModel): StadiumRing | null {
+	if (!model.seats.length) return null;
+	let minX = Infinity;
+	let maxX = -Infinity;
+	let minZ = Infinity;
+	let maxZ = -Infinity;
+	let top = 0;
+	let low = { minX: Infinity, maxX: -Infinity, minZ: Infinity, maxZ: -Infinity };
+	for (const seat of model.seats) {
+		minX = Math.min(minX, seat.x);
+		maxX = Math.max(maxX, seat.x);
+		minZ = Math.min(minZ, seat.z);
+		maxZ = Math.max(maxZ, seat.z);
+		top = Math.max(top, seat.y);
+		if (seat.level === 1) low = { minX: Math.min(low.minX, seat.x), maxX: Math.max(low.maxX, seat.x), minZ: Math.min(low.minZ, seat.z), maxZ: Math.max(low.maxZ, seat.z) };
+	}
+	const radius = Math.min(26, 0.12 * Math.min(maxX - minX, maxZ - minZ));
+	// at 45 degrees the arc is 0.29 r inside the corner of its box: keep the outermost seat clear of it
+	const margin = radius * 0.3 + 2;
+	const hasLow = Number.isFinite(low.minX);
+	const inset = 18;
+	const hole = hasLow
+		? { minX: low.minX - 2, maxX: low.maxX + 2, minZ: low.minZ - 2, maxZ: low.maxZ + 2, radius: Math.min(radius, 18) }
+		: { minX: minX + inset, maxX: maxX - inset, minZ: minZ + inset, maxZ: maxZ - inset, radius: Math.min(radius, 12) };
+	return { minX: minX - margin, maxX: maxX + margin, minZ: minZ - margin, maxZ: maxZ + margin, radius: radius + margin * 0.6, hole, roofY: top + ROOF_CLEARANCE };
 }
