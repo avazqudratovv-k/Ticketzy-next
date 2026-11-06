@@ -9,16 +9,6 @@ Ticketzy is the web client of an event ticketing site for concerts, football mat
 
 The backend (NestJS, GraphQL, MongoDB) lives in a separate repository, `ticketzy`. This repository is only the frontend.
 
-## Screenshots
-
-Placeholders: add real images to `docs/screenshots/` and link them here.
-
-| | |
-|---|---|
-| ![Home](docs/screenshots/home.png) <br> Home (placeholder) | ![Event detail](docs/screenshots/event.png) <br> Event detail (placeholder) |
-| ![Seat picker](docs/screenshots/seats.png) <br> Seat picker (placeholder) | ![Checkout](docs/screenshots/checkout.png) <br> Checkout (placeholder) |
-| ![Organizer dashboard](docs/screenshots/organizer.png) <br> Organizer dashboard (placeholder) | ![Venue editor](docs/screenshots/venue-editor.png) <br> Venue layout editor (placeholder) |
-
 ## Features
 
 ### Buyer
